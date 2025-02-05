@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship Page</title>
+    <link rel="stylesheet" href="mentorship.css">
+    <script src="mentorship.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="mentorship-page">
+    <!-- mentorship Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="home.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body>    
+
+
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <h1>Unlock Your Potential with CareerNexus Mentorship</h1>
+            <p>Connect with industry leaders, gain valuable insights, and accelerate your career growth.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Become a Mentor</a>
+                <a href="#" class="btn btn-outline-light">Find a Mentor</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <h2>Why Join CareerNexus Mentorship?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Accelerate Your Career</h3>
+                    <p>Gain insights and guidance from experienced professionals to fast-track your career growth.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Build Meaningful Connections</h3>
+                    <p>Network with industry leaders and peers to expand your professional circle.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Learn from the Best</h3>
+                    <p>Access exclusive knowledge and expertise from top professionals in your field.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <span class="step-number">1</span>
+                    <h3>Sign Up</h3>
+                    <p>Create your profile and specify your goals as a mentor or mentee.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-number">2</span>
+                    <h3>Get Matched</h3>
+                    <p>Our AI-powered system matches you with the perfect mentor or mentee.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-number">3</span>
+                    <h3>Start Mentoring</h3>
+                    <p>Begin your mentorship journey with personalized guidance and support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <h2>What Our Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"CareerNexus helped me connect with a mentor who guided me through a career transition. I couldn't be happier!"</p>
+                    <div class="user-info">
+                        <img src="assets/images/user1.jpg" alt="User 1">
+                        <h4>John Doe</h4>
+                        <p>Software Engineer</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"As a mentor, I find it incredibly rewarding to help others achieve their career goals."</p>
+                    <div class="user-info">
+                        <img src="assets/images/user2.jpg" alt="User 2">
+                        <h4>Jane Smith</h4>
+                        <p>Marketing Director</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Career?</h2>
+            <p>Join CareerNexus Mentorship today and take the first step toward achieving your goals.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Become a Mentor</a>
+                <a href="#" class="btn btn-outline-light">Find a Mentor</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <p>&copy; 2024 CareerNexus. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Page</title>
+    <link rel="stylesheet" href="Notification.css">
+    <script src="Notification.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="Notification-page">
+    <!-- Notification Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="home.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body> 
+<body>
+  <!-- Notification Page Layout -->
+  <div class="notification-page">
+    <!-- Navigation Tabs -->
+    <nav class="notification-nav">
+      <ul>
+        <li class="tab active" data-tab="all-tab">All Notifications</li>
+        <li class="tab" data-tab="mentions-tab">Mentions</li>
+        <li class="tab" data-tab="messages-tab">Messages</li>
+        <li class="tab" data-tab="updates-tab">Updates</li>
+      </ul>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="notification-search-bar">
+      <input type="text" placeholder="Search notifications" class="notification-search-input" />
+      <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Notification Content -->
+    <div class="notification-content">
+      <!-- Placeholder for Notifications -->
+      <div class="notification-item unread">
+        <div class="notification-info">
+          <h4 class="notification-title">New Message from John Doe</h4>
+          <p class="notification-message">"Hi! I just wanted to follow up on the project discussion."</p>
+          <span class="notification-time">5 mins ago</span>
+        </div>
+        <div class="notification-actions">
+          <button class="btn mark-read-btn"><i class="fas fa-check"></i> Mark as Read</button>
+          <button class="btn delete-btn"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+      <!-- Additional Notifications -->
+    </div>
+  </div>
+
+  <!-- Notification Settings Section -->
+<div class="notification-settings">
+    <h2>Notification Settings</h2>
+    <form id="notification-settings-form">
+      <div class="setting-item">
+        <label>
+          <input type="checkbox" id="mentions-toggle" checked>
+          Enable Mentions Notifications
+        </label>
+      </div>
+      <div class="setting-item">
+        <label>
+          <input type="checkbox" id="updates-toggle" checked>
+          Enable Updates Notifications
+        </label>
+      </div>
+      <div class="setting-item">
+        <label>
+          <input type="checkbox" id="priority-alerts-toggle" checked>
+          Enable High-Priority Alerts
+        </label>
+      </div>
+      <div class="setting-item">
+        <label>
+          <input type="checkbox" id="follow-up-alerts-toggle" checked>
+          Enable Follow-Up Alerts
+        </label>
+      </div>
+      <div class="setting-item">
+        <label>
+          Notification Refresh Frequency:
+          <select id="refresh-frequency">
+            <option value="realtime">Real-Time</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily Summary</option>
+          </select>
+        </label>
+      </div>
+      <button type="submit" class="btn save-settings-btn">Save Settings</button>
+    </form>
+  </div>
+  
+
+</body>
+</html>

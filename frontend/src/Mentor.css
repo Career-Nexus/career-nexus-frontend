@@ -1,0 +1,165 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1, h2, h3 {
+    color: #2c3e50;
+  }
+  
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Header Section */
+  header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    margin: 10px 0 20px;
+  }
+  
+  .cta-buttons button {
+    margin: 0 10px;
+  }
+  
+  /* Featured Mentors Section */
+  #featured-mentors {
+    padding: 50px 0;
+  }
+  
+  .mentor-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+  }
+  
+  .mentor-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
+    width: 250px;
+  }
+  
+  .mentor-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  /* Upcoming Workshops Section */
+  #upcoming-workshops {
+    padding: 50px 0;
+  }
+  
+  .workshop-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .workshop-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1 1 300px;
+  }
+  
+  /* Success Stories Section */
+  #success-stories {
+    padding: 50px 0;
+  }
+  
+  .story-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+  }
+  
+  .story-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
+    width: 250px;
+  }
+  
+  .story-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  /* Resource Center Section */
+  #resource-center {
+    padding: 50px 0;
+  }
+  
+  #search-resources {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .resource-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .resource-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1 1 300px;
+  }
+  
+  /* Footer Section */
+  footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+  }

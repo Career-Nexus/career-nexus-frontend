@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="Dashboard.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="dashboard-page">
+    <!-- dashboard Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="dashboard.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body>    
+<body>
+    <div class="account-section">
+        <div class="profile-details">
+            <label for="profile-pic-upload">
+                <img src="samuel (2).jpg" alt="Profile Picture" id="profile-picture">
+            </label>
+            <input type="file" id="profile-pic-upload" accept="image/*" style="display: none;">
+            <div class="info">
+                <h2 class="user-name">Samuel Oluwatosin</h2>
+                <p class="user-job"><i class="fas fa-briefcase"></i> Software Engineer at TechCorp</p>
+                <p class="user-education"><i class="fas fa-graduation-cap"></i> B.Sc in Computer Science</p>
+                <p class="user-location"><i class="fas fa-map-marker-alt"></i> New York, USA</p>
+            </div>
+        </div>
+        <div class="profile-completion">
+            <div class="progress-bar">
+                <div class="progress" style="width: 90%;"></div>
+            </div>
+            <span>90%</span>
+        </div>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn follow-btn">Follow</button>
+            <button class="btn call-btn"><i class="fas fa-phone"></i></button>
+            <button class="btn video-call-btn"><i class="fas fa-video"></i></button>
+            <button class="btn message-btn"><i class="fas fa-envelope"></i></button>
+        </div>
+        <button class="add-account-btn">
+            <i class="fas fa-plus"></i> Add option account
+        </button>
+</div>
+
+    <!-- Sidebar Menu Section -->
+<div class="followed-hashtags">
+    <div class="sidebar-menu">
+        <ul>
+            <li><i class="fas fa-play-circle"></i> Learning</li>
+            <li><i class="fas fa-chart-line"></i> Insights</li>
+            <li><i class="fas fa-bookmark"></i> Bookmarks</li>
+            <li><i class="fas fa-folder-open"></i> Library</li>
+            <li><i class="fas fa-newspaper"></i> News</li>
+            <li><i class="fas fa-cog"></i> Settings</li>
+        </ul>
+    </div>
+</div>
+
+<div class="people-section">
+    <h4>People you may know:</h4>
+    <div class="person">
+        <img src="sam (3).jpg" alt="Samuel Oluwatosin">
+        <div class="person-info">
+            <p>Samuel Oluwatosin</p>
+            <span>Career-Nexus CEO</span>
+        </div>
+        <button class="connect-btn">Connect</button>
+    </div>
+    
+    <div class="person">
+        <img src="se.jpg" alt="Esosa Omozuyi">
+        <div class="person-info">
+            <p>Esosa Omozuyi</p>
+            <span>BCG Project Leader</span>
+        </div>
+        <button class="connect-btn">Connect</button>
+    </div>
+    
+    <div class="person">
+        <img src="nosike.jpg" alt="Nosike Agokei">
+        <div class="person-info">
+            <p>Nosike Agokei</p>
+            <span>Career-Nexus Chairman</span>
+        </div>
+        <button class="connect-btn">Connect</button>
+    </div>
+    
+    <a href="#" class="see-all">See All</a>
+</div>
+
+
+<div class="followed-hashtags">
+    <div class="hashtags-header">
+        <span>FOLLOWED HASHTAGS</span>
+        <i class="fas fa-plus"></i>
+    </div>
+    <div class="hashtags-list">
+        <span class="hashtag">#work</span>
+        <span class="hashtag">#business</span>
+        <span class="hashtag">#hr</span>
+        <span class="hashtag">#userinterface</span>
+        <span class="hashtag">#digital</span>
+        <span class="hashtag">#userexperience</span>
+        <span class="hashtag">#ux</span>
+        <span class="hashtag">#ui</span>
+        <span class="hashtag">#freelance</span>
+    </div>
+</div>
+
+<div class="premium-section">
+    <div class="premium-content">
+        <h3>Try Premium <br>for free</h3>
+        <p>– One month free–</p>
+        <button class="try-free-btn">Try free</button>
+    </div>
+    <img src="premium-image.png" alt="Premium Illustration" class="premium-image">
+</div>
+
+    <!-- Developer Pages Section -->
+    <div class="pages-section">
+        <div class="page">
+            <span class="icon">🎨</span> UX Developer
+        </div>
+        <div class="page">
+            <span class="icon">🖌️</span> UI Developer <span class="badge">+99</span>
+        </div>
+        <div class="page add-page">
+            <span class="icon">➕</span> Add new page
+        </div>
+    </div>
+
+    <div class="messages-section">
+        <div class="message-header">
+            <span class="icon">💬</span> Messages
+            <span class="badge">6</span>
+            <span class="dropdown-icon">▴</span>
+        </div>
+    </div>
+</div>
+
+<div class="post-box">
+    <div class="post-input">
+        <img src="sam (3).jpg" alt="Profile Picture" class="profile-pic">
+        <input type="text" placeholder="Write something ..." class="text-input">
+        <span class="edit-icon">✏️</span>
+    </div>
+    <div class="post-options">
+        <div class="option">
+            <span class="icon">📷</span> Photo
+        </div>
+        <div class="option">
+            <span class="icon">📹</span> Video
+        </div>
+        <div class="option">
+            <span class="icon">📅</span> Event
+        </div>
+        <div class="option">
+            <span class="icon">📄</span> Article
+        </div>
+        <div class="send-icon">
+            <span class="icon">📤</span>
+        </div>
+    </div>
+</div>
+<div class="post">
+    <div class="post-header">
+        <img src="sam (3).jpg" alt="Profile Picture" class="profile-pic">
+        <div class="user-info">
+            <span class="username">Oluwatosin Samuel</span>
+            <span class="title">Full Stack Developer</span>
+        </div>
+        <span class="post-options">⋮</span>
+    </div>
+
+    <div class="post-content">
+        <p>-Master Program Completed...</p>
+        <img src="mate.jpg" alt="Post Image" class="post-image">
+    </div>
+
+    <div class="post-interactions">
+        <div class="interaction">
+            <span class="icon">👍</span> <span class="count">+99</span>
+        </div>
+        <div class="interaction">
+            <span class="icon">💬</span> <span class="count">8</span>
+        </div>
+        <div class="interaction">
+            <span class="icon">🔄</span>
+        </div>
+        <div class="interaction bookmark">
+            <span class="icon">🔖</span>
+        </div>
+    </div>
+
+    <div class="comment-section">
+         <img src="sam (3).jpg" alt="Profile Picture" class="profile-pic">
+        <input type="text" placeholder="Write a comment" class="comment-input">
+        <span class="icon">📎</span>
+        <span class="icon">🎤</span>
+        <span class="icon">📷</span>
+    </div>
+</div>
+
+
+
+<div class="video-post"></div>
+<div class="post">
+    <div class="post-header">
+        <img src="se.jpg" alt="Profile Picture" class="profile-pic">
+        <div class="user-info">
+            <span class="username">Esosa Omozuyi</span>
+            <span class="title">BCG Project Lead</span>
+        </div>
+        <span class="post-options">⋮</span>
+    </div>
+    <div class="post-content">
+        <p>-Healthy Tracking App</p>
+        <video class="post-video" controls autoplay loop muted>
+            <source src="see.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+    </div>
+
+    <div class="post-interactions">
+        <div class="interaction">
+            <span class="icon">👍</span> <span class="count">+99</span>
+        </div>
+        <div class="interaction">
+            <span class="icon">💬</span> <span class="count">8</span>
+        </div>
+        <div class="interaction">
+            <span class="icon">🔄</span>
+        </div>
+        <div class="interaction bookmark">
+            <span class="icon">🔖</span>
+        </div>
+    </div>
+
+    <div class="comment-section">
+        <input type="text" placeholder="Write a comment" class="comment-input">
+        <span class="icon">📎</span>
+        <span class="icon">🎤</span>
+        <span class="icon">📷</span>
+    </div>
+    
+</div>
+
+</body>
+</html>    
+    
+
+
+
+
+
+

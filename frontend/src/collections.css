@@ -1,0 +1,138 @@
+/* Navbar (Responsive) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #000;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo a {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #d4af37;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #000;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-toggle .bar {
+    background-color: #fff;
+    height: 3px;
+    width: 25px;
+    margin: 4px 0;
+  }
+}
+
+/* Product Details Section */
+.product-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-gallery {
+  flex: 1;
+}
+
+.product-info {
+  flex: 1;
+}
+
+/* Zoom Effect for Main Product Image */
+.main-image-container {
+  position: relative;
+  overflow: hidden; /* Ensures the image doesn't overflow the container */
+  width: 100%;
+  height: auto;
+}
+
+.main-image {
+  width: 100%; /* Ensures the image fits the container */
+  transition: transform 0.3s ease; /* Smooth effect on hover */
+  transform-origin: center; /* Controls the rotation's center point */
+}
+
+.main-image-container:hover .main-image {
+  transform: scale(1.2) rotate(5deg) translate(5px, -5px); /* Scales, rotates, and shifts the image */
+}
+
+
+/* Thumbnail Styles */
+.thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.thumbnail {
+  width: 100px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1); /* Adds a hover effect for the thumbnails */
+}
+
+/* Responsive Product Details */
+@media (max-width: 768px) {
+  .product-details {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Related Products Section */
+.related-products .related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}

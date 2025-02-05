@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Page</title>
+    <link rel="stylesheet" href="network.css">
+    <script src="network.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="network-page">
+    <!-- network Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="home.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body>    
+<body>
+  <!-- Networking Page Layout -->
+  <div class="networking-page">
+    <!-- Navigation Tabs -->
+    <nav class="networking-nav">
+      <ul>
+        <li class="tab active" data-tab="connections-tab">Connections</li>
+        <li class="tab" data-tab="recommendations-tab">Recommendations</li>
+        <li class="tab" data-tab="invitations-tab">Invitations</li>
+        <li class="tab" data-tab="manage-connections-tab">Manage Connections</li>
+      </ul>
+    </nav>
+
+        <div class="tools">
+            <input type="text" id="search-bar" placeholder="Search connections..." />
+            <select id="sort-dropdown">
+                <option value="region">by region</option>
+                <option value="location">by location</option>
+                <option value="Workplace">by workplace</option>
+                <option value="school">by school</option>
+                <option value="skills">by skills</option>
+                <option value="groups/Societies">by groups/societies</option>
+            </select>
+        </div>
+        <div class="network-container">
+            <div class="network-header">
+              My network
+            </div>
+            <ul class="network-list">
+              <li class="network-item">
+                <i class="fas fa-user-friends"></i>
+                <span>Connections</span>
+                <a href="#connections" class="network-count">790</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-address-book"></i>
+                <span>Contacts</span>
+                <a href="#contacts" class="network-count">385</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Following & followers</span>
+                <a href="#following" class="network-count"></a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-users"></i>
+                <span>Groups</span>
+                <a href="#groups" class="network-count">46</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Events</span>
+                <a href="#events" class="network-count">5</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-columns"></i>
+                <span>Pages</span>
+                <a href="#pages" class="network-count">180</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Newsletters</span>
+                <a href="#newsletters" class="network-count">49</a>
+              </li>
+              <li class="network-item">
+                <i class="fas fa-hashtag"></i>
+                <span>Hashtags</span>
+                <a href="#hashtags" class="network-count">9</a>
+              </li>
+            </ul>
+          </div>
+          
+      <!-- Connections Content -->
+      <section class="networking-content" id="connections-tab">
+        <h2>Your Connections</h2>
+        <div class="connection-list">
+          <!-- Placeholder for connections -->
+          <div class="connection-item">
+            <img src="user-placeholder.jpg" alt="User" class="connection-photo">
+            <div class="connection-info">
+              <h4>John Doe</h4>
+              <p>Software Engineer at TechCorp</p>
+              <p><i class="fas fa-map-marker-alt"></i> San Francisco, USA</p>
+              <button class="btn view-profile-btn">View Profile</button>
+            </div>
+          </div>
+          <!-- More connections will dynamically populate here -->
+        </div>
+      </section>
+
+      <!-- Recommendation Section -->
+      <section class="networking-content hidden" id="recommendations-tab">
+        <h2>Recommendations</h2>
+        <div class="recommendation-list">
+          <!-- Placeholder for recommendations -->
+          <div class="recommendation-item">
+            <img src="user-placeholder.jpg" alt="User" class="recommendation-photo">
+            <div class="recommendation-info">
+              <h4>Jane Smith</h4>
+              <p>Data Analyst at DataTech</p>
+              <p><i class="fas fa-map-marker-alt"></i> New York, USA</p>
+              <button class="btn send-invite-btn">Send Invitation</button>
+            </div>
+          </div>
+          <!-- More recommendations dynamically populated here -->
+        </div>
+      </section>
+
+      <!-- Invitations Section -->
+      <section class="networking-content hidden" id="invitations-tab">
+        <h2>Pending Invitations</h2>
+        <div class="invitations-list">
+          <!-- Placeholder for invitations -->
+          <div class="invitation-item">
+            <img src="user-placeholder.jpg" alt="User" class="invitation-photo">
+            <div class="invitation-info">
+              <h4>Emily Johnson</h4>
+              <p>Product Manager at Innovate Inc</p>
+              <button class="btn accept-invite-btn">Accept</button>
+              <button class="btn reject-invite-btn">Reject</button>
+            </div>
+          </div>
+          <!-- More invitations dynamically populated here -->
+        </div>
+      </section>
+
+      <!-- Manage Connections Section -->
+      <section class="networking-content hidden" id="manage-connections-tab">
+        <h2>Manage Connections</h2>
+        <p>Here you can delete or block connections and organize them into segments.</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal for Connection Journey -->
+  <div id="connection-journey-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Connection Journey</h3>
+      <p>Details about how this connection aligns with your profile and interests.</p>
+      <button class="btn close-modal-btn">Close</button>
+    </div>
+  </div>
+
+  <!-- Link to JavaScript -->
+  <script src="network.js"></script>
+</body>
+</html>

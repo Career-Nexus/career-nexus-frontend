@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="cart.css">
+  <script src="cart.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo"><a href="business.html">JewelryHub</a></div>
+      <ul class="nav-links">
+        <li><a href="business.html">Home</a></li>
+        <li><a href="arrivals.html">New Arrivals</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Cart Section -->
+  <main class="cart-container">
+    <h1>Your Cart</h1>
+    <div class="cart-items">
+      <div class="cart-item">
+        <img src="https://via.placeholder.com/100" alt="Product Image">
+        <div class="item-details">
+          <h3>Elegant Gold Ring</h3>
+          <p class="price">₦50,000</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" value="1" min="1">
+          <button class="remove-item">Remove</button>
+        </div>
+      </div>
+      <div class="cart-item">
+        <img src="https://via.placeholder.com/100" alt="Product Image">
+        <div class="item-details">
+          <h3>Silver Pendant Necklace</h3>
+          <p class="price">₦35,000</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" value="2" min="1">
+          <button class="remove-item">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h2>Order Summary</h2>
+      <p>Subtotal: ₦120,000</p>
+      <p>Shipping: ₦2,500</p>
+      <h3>Total: ₦122,500</h3>
+      <button class="checkout-button">Proceed to Checkout</button>
+    </div>
+  </main>
+
+  
+</body>
+</html>

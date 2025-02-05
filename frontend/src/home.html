@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="home.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="home-page">
+    <!-- home Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="home.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body>    
+
+<body>
+  <div class="left-sidebar">
+      <!-- Profile Summary Container -->
+      <div class="container profile-summary">
+          <img src="sam (3).jpg" alt="Profile Image" class="profile-image">
+          <div class="profile-details">
+              <h3 class="user-fullname">Samuel Oluwatosin</h3>
+              <p class="job-title"><i class="fas fa-briefcase"></i>Software Engineer at TechCorp</p>
+              <p class="qualification"><i class="fas fa-graduation-cap"></i>M.Sc in Computer Science</p>
+              <p class="location"><i class="fas fa-map-marker-alt"></i> London, UK</p>
+              <!-- Profile Completion Bar -->
+              <div class="profile-completion-bar">
+                  <div class="progress" style="width: 70%;"></div>
+              </div>
+              <p class="completion-text">Profile Completion: 70%</p>
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                  <button class="btn follow-btn"><i class="fas fa-user-plus"></i> Follow</button>
+                  <button class="btn phone-btn"><i class="fas fa-phone"></i></button>
+                  <button class="btn video-btn"><i class="fas fa-video"></i></button>
+                  <button class="btn mail-btn"><i class="fas fa-envelope"></i></button>
+              </div>
+          </div>
+      </div>
+
+      <!-- Menu Listing Container -->
+      <div class="container menu-list">
+          <ul>
+              <li><i class="fas fa-video"></i> Learning</li>
+              <li><i class="fas fa-lightbulb"></i> Insights</li>
+              <li><i class="fas fa-bookmark"></i> Bookmarks</li>
+              <li><i class="fas fa-book"></i> Library</li>
+              <li><i class="fas fa-newspaper"></i> Newsletter</li>
+              <li><i class="fas fa-cog"></i> Settings</li>
+          </ul>
+      </div>
+
+      <!-- People You May Know Container -->
+      <div class="container people-you-may-know">
+          <h4>People You May Know</h4>
+          <div class="suggestion">
+              <img src="nosike.jpg" alt="User 1" class="suggestion-image">
+              <div class="suggestion-info">
+                  <p class="suggestion-name">Jane Smith</p>
+                  <p class="suggestion-job">Data Scientist at DataCorp</p>
+              </div>
+              <button class="btn connect-btn">Connect</button>
+          </div>
+          <div class="suggestion">
+              <img src="se.jpg" alt="User 2" class="suggestion-image">
+              <div class="suggestion-info">
+                  <p class="suggestion-name">Michael Brown</p>
+                  <p class="suggestion-job">Product Manager at BuildTech</p>
+              </div>
+              <button class="btn connect-btn">Connect</button>
+          </div>
+          <a href="#" class="see-all">See All</a>
+      </div>
+
+      <!-- Follow Hashtags Container -->
+      <div class="container follow-hashtags">
+          <h4>Follow Hashtags</h4>
+          <div class="hashtags-row">
+              <span class="hashtag">#Technology</span>
+              <span class="hashtag">#Leadership</span>
+              <span class="hashtag">#Innovation</span>
+          </div>
+          <button class="btn add-hashtag"><i class="fas fa-plus"></i> Add Hashtag</button>
+        </div>
+      </div>
+<div class="right-sidebar">
+<!-- Try Premium Container -->
+  <div class="container try-premium">
+    <div class="premium-section">
+      <div class="premium-content">
+        <h3>Try Premium <br>for free</h3>
+        <p>– One month free–</p>
+        <button class="try-free-btn" id="tryNowButton">Try Free</button>
+    </div>
+  </div>
+</div>  
+    <img src="premium-image.png" alt="Premium Illustration" class="premium-image">
+</div>
+
+        <!-- Ad Display Section -->
+        <div class="ad-container">
+          <h3>Advertisement</h3>
+          <img src="https://via.placeholder.com/300x150" alt="Ad Image">
+          <p>Discover amazing opportunities with our premium partners!</p>
+          <a href="#" target="_blank">Learn More</a>
+        </div>
+        
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h4>Premium Benefits</h4>
+          <ul class="premium-benefits">
+              <li>Access to exclusive content and training</li>
+              <li>Enhanced profile visibility</li>
+              <li>Priority support</li>
+              <li>Unlimited networking opportunities</li>
+          </ul>
+          <h4>Premium Plan</h4>
+          <p class="premium-price">£29.98/month or $300/year</p>
+          <h4>Choose Payment Option</h4>
+          <form id="paymentForm">
+              <div class="form-group">
+                  <label for="payment-country">Select Payment Region</label>
+                  <select id="payment-country" required>
+                      <option value="usa">USA - Credit/Debit Card</option>
+                      <option value="uk">UK - Bank Transfer</option>
+                      <option value="international">International - PayPal</option>
+                  </select>
+              </div>
+              <div id="usa-payment" class="payment-details">
+                  <label for="usa-card-number">Card Number</label>
+                  <input type="text" id="usa-card-number" placeholder="1234 5678 9012 3456" required>
+                  <label for="usa-expiry">Expiry Date</label>
+                  <input type="text" id="usa-expiry" placeholder="MM/YY" required>
+                  <label for="usa-cvc">CVC</label>
+                  <input type="text" id="usa-cvc" placeholder="123" required>
+              </div>
+              <div id="uk-payment" class="payment-details hidden">
+                  <p>Bank Account Number: 12345678</p>
+                  <p>Sort Code: 12-34-56</p>
+              </div>
+              <div id="international-payment" class="payment-details hidden">
+                  <p>PayPal Email: payments@career-nexus.com</p>
+              </div>
+              <button type="submit" class="btn payment-btn">Proceed to Checkout</button>
+          </form>
+      </div>
+  </div>
+
+          <!-- Message Section -->
+  <div class="message-section">
+    <div class="message-header">
+        <div class="header-left">
+            <i class="fas fa-comment-alt"></i>
+            <span>Messages</span>
+            <span class="notification-badge">6</span>
+        </div>
+        <button class="btn minimize-btn"><i class="fas fa-chevron-up"></i></button>
+    </div>
+    <div class="message-container">
+        <!-- Sample Chat Item -->
+        <div class="chat-item">
+            <img src="se.jpg" alt="User Image" class="chat-user-img">
+            <div class="chat-info">
+                <h5>John Doe</h5>
+                <p>Let's catch up later!</p>
+            </div>
+        </div>
+        <div class="chat-item">
+            <img src="nosike.jpg" alt="User Image" class="chat-user-img">
+            <div class="chat-info">
+                <h5>Jane Smith</h5>
+                <p>Check out this link!</p>
+            </div>
+        </div>
+    </div>
+    <div class="message-footer">
+        <input type="text" placeholder="Type your message..." class="message-input">
+        <button class="btn send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<div class="post-section">
+    <!-- Post Bar Container -->
+    <div class="post-bar-container">
+        <div class="post-bar">
+            <img src="sam (3).jpg" alt="Profile Image" class="post-profile-img">
+            <textarea class="post-input" placeholder="Write something ..."></textarea>
+        </div>
+        <div class="post-bar-actions">
+            <button class="btn media-upload"><i class="fas fa-upload"></i> Upload Media</button>
+            <button class="btn live-video"><i class="fas fa-video"></i> Start Live Video</button>
+            <button class="btn add-event"><i class="fas fa-calendar-plus"></i> Add Event</button>
+            <button class="btn add-article"><i class="fas fa-file-alt"></i> Add Article</button>
+            <button class="btn send-post"><i class="fas fa-paper-plane"></i> Post</button>
+        </div>
+    </div>
+
+    <!-- Post Holder Container -->
+    <div class="post-holder-container">
+        <!-- Posts will be dynamically added here -->
+    </div>
+</div>
+
+
+    <!-- Direct Messaging Modal -->
+    <div id="direct-messaging-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h4>Direct Messaging Options</h4>
+            <ul class="direct-messaging-options">
+                <li><i class="fas fa-envelope"></i> Send Email</li>
+                <li><i class="fas fa-phone"></i> Call</li>
+                <li><i class="fas fa-video"></i> Video Chat</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </body>
+  </html>      

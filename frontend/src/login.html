@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career-Nexus - Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="login-page">
+    <!-- Login Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="#home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="#network" class="menu-item"><i class="fas fa-users"></i> Networking</a></li>
+            <li><a href="#jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs & Biz</a></li>
+            <li><a href="#about" class="menu-item"><i class="fas fa-user"></i> About</a></li>
+            <li><a href="#contact" class="menu-item"><i class="fas fa-phone"></i> Help & Support</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+    
+<!-- Main Content Section -->
+    <section class="home-section" id="home">
+    <div class="content">
+        <header class="header">
+            <h1> <div class="blinking-marquee">
+                <span class="message-1">Bridging Dreams to Reality,</span>
+                <span class="message-2">One Connection at a Time...</span>
+            </div></h1>
+            <h1>Welcome to Your Professional</h1><span class="highlight"><h2>Pratical Training Workshop, Career Contents and Global Networking Community!</h2></span>
+            <p><h4>Your gateway to skill enhancement and collaborative solutions to workforce applications...</h4></p>
+            <!-- "Let’s Get Started" Button with glowing effect -->
+            <button id="getStartedBtn" class="start-btn">Get Started <span class="arrow">➔</span></button>
+        </header>
+        <!-- Login Form Section -->
+        <section class="login-section">
+            <form action="/login" method="post">
+            <div class="login-box">
+                <div class="login-header">Login Here</div>
+                <form action="#" method="post">
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" required placeholder="Enter Email Here">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" required placeholder="Enter Password Here">
+                    </div>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <p class="forgot-password">
+                    <a href="#" class="forgot-password-link" onclick="openPasswordResetModal()">Forgot your password?</a>
+                </p>                
+                <p class="signup-text">Don't have an account? <a href="#" onclick="openModal()">Sign up here</a></p>
+                <div class="social-icons">
+                    <p>Log in with</p>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Registration Form Modal -->
+    <form action="/register" method="post">
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Register</h2>
+            <form action="#" method="post">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" required placeholder="Enter Username">
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" name="email" required placeholder="Enter Email">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" required placeholder="Enter Password">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm Password">
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+                <p class="terms">
+                    By registering, you agree to our <a href="#" class="terms-link">Policy, Terms and Conditions</a>.
+                </p>
+            </form>
+        </div>
+    </div>
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePasswordResetModal()">&times;</span>
+        <h2>Reset Password</h2>
+        <form action="#" method="post">
+            <div class="input-group">
+                <input type="email" id="resetEmail" name="resetEmail" required placeholder="Enter Your Email">
+            </div>
+            <button type="submit" class="reset-btn">Send Reset Link</button>
+        </form>
+    </div>
+</div>
+
+<!-- mentorship section -->
+<section id="mentorship" class="mentorship-section">
+    <h2 class="mentorship-title">Empower Your Career</h2>
+    <p class="mentorship-subtitle">Discover your Career potentials with a cutting-edge mentoring platform designed to empower the dynamic Millennials and Generation Z!</p>
+    <div class="programs-container">
+        <div class="program-container">
+            <img src="professional-networking.jpg" alt="Professional Networking" class="program-image">
+            <div class="program-text">
+                <h3 class="program-title">Professional Mentoring</h3>
+                <p class="program-description">
+                    Engage with industry leaders, professionals, and peers to stay informed, grow your network, and elevate your career trajectory.
+                </p>
+                <a href="#" class="program-link">Learn More &rarr;</a>
+            </div>
+        </div>
+
+        <div class="program-container">
+            <img src="skill-development.jpg" alt="Skill Development Workshops" class="program-image">
+            <div class="program-text">
+                <h3 class="program-title">Skill Development Workshops</h3>
+                <p class="program-description">
+                    Enhance your skills with targeted hand-on experience learning contents.
+                </p>
+                <a href="#home" class="program-link">Learn More &rarr;</a>
+            </div>
+        </div>
+
+        <div class="program-container">
+            <img src="career.jpg" alt="Career" class="program-image">
+            <div class="program-text">
+                <h3 class="program-title">Career Content Creation</h3>
+                <p class="program-description">
+                    Receive personalized career contents to navigate your career path successfully.
+                </p>
+                <a href="#" class="program-link">Learn More &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- network section -->
+<section id="network" class="network-section">
+    <div class="network-container">
+        <div class="network-text">
+            <h5>PROFESSIONAL GLOBAL NETWORKING</h5>
+            <h2>Connecting professionals for success</h2>
+            <p>
+                At Career-Nexus, we empower professionals accross the globe, by providing essential career event and networking 
+                opportunities tailored to diverse career paths. This is to enhance your employability 
+                and connect individual with key industry players, ensuring you stay competitive in today’s job market. 
+                Join us to unlock your potential and take your career to the next level for success ! 
+            </p>
+            <p>
+                We thrive to create a dynamic platform where talent meets opportunity, ensuring a seamless transition into the workforce for graduates and professionals alike. 
+                With industry-specific training content and certifications, we aim to revolutionize professional development globally.
+            </p>
+            <a href="#contact" class="get-in-touch">Get in touch</a>
+        </div>
+        <div class="network-image">
+            <img src="network.jpg" alt="Networking Illustration">
+        </div>
+    </div>
+</section>
+
+<!-- jobs Section -->
+<section class="jobs-section" id="jobs">
+    <div class="container">
+        <h2 class="job-title">Unlock Your Career Opportunities</h2>
+        <p class="job-subtitle">Discover jobs tailored to your skills and aspirations or find the perfect candidates for your company.</p>
+        <div class="job-categories">
+            <div class="job-card">
+                <div class="job-image-container">
+                    <img src="job-hirer.jpg" alt="Hirer Opportunities" class="job-image">
+                </div>
+                <h3 class="job-card-title">For Hirers</h3>
+                <p class="job-card-description">Access a diverse pool of talented professionals to build your dream team.</p>
+                <a href="#" class="job-card-btn">Explore Now</a>
+            </div>
+            <div class="job-card">
+                <div class="job-image-container">
+                    <img src="job-seeker.jpg" alt="Job Seeker Opportunities" class="job-image">
+                </div>
+                <h3 class="job-card-title">For Job Seekers</h3>
+                <p class="job-card-description">Stuck landing a dream job? find jobs that match your skills and grow your career with confidence.</p>
+                <a href="#" class="job-card-btn">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Business Section -->
+<section id="business-section" class="business-section">
+    <div class="business-container">
+        <h2 class="business-title">Empowering Businesses to Thrive</h2>
+        <p class="business-description">
+            At Career-Nexus, we help businesses connect with top-tier talent, enhance workforce capabilities, and drive innovation. 
+            Partner with us to create tailored recruitment solutions, foster team development, and ensure long-term growth.
+        </p>
+        <div class="business-highlights">
+            <div class="highlight">
+                <img src="business-talent.jpg" alt="Top Talent Recruitment" class="highlight-img">
+                <h3 class="highlight-title">Top Talent Recruitment</h3>
+                <p class="highlight-description">
+                    Access a global pool of skilled professionals ready to transform your business.
+                </p>
+            </div>
+            <div class="highlight">
+                <img src="workforce-development.jpg" alt="Workforce Development" class="highlight-img">
+                <h3 class="highlight-title">Workforce Development</h3>
+                <p class="highlight-description">
+                    Empower your team with cutting-edge content and mentorship programs.
+                </p>
+            </div>
+            <div class="highlight">
+                <img src="business-growth.jpg" alt="Business Growth Strategies" class="highlight-img">
+                <h3 class="highlight-title">Business Growth Strategies</h3>
+                <p class="highlight-description">
+                    Leverage our expertise to streamline operations and achieve your goals.
+                </p>
+            </div>
+        </div>
+        <button class="learn-more-btn">Learn More</button>
+    </div>
+</section>
+</body>
+</html>
+
+
+<!-- About Us Section -->
+<section class="about-us-section" id="about">
+    <div class="about-wrapper">
+        <div class="about-text">
+            <h2>About Career-Nexus</h2>
+            <p>
+                At Career-Nexus, we are dedicated to empowering professionals and bridging the gap between education and industry. 
+                With a focus on mentoring, skill development, and global networking, we provide tools and resources to help individuals achieve their career aspirations.
+            </p>
+            <p>
+                By unlocks new career possibilities and transformative power of targeted training content for your professional growth. This delves into the myriad benefits that tailored training content and mentoring programs offer for career advancement, showcasing how investing in your skill set not only enhances your employability but also positions you as a standout candidate in a competitive job market. We will explore critical areas where specialized training content can elevate your career prospects, empowering you to achieve your professional goals and thrive in today’s ever-evolving workplace.
+            </p>
+            <a href="#services" class="btn-learn-more">Learn More</a>
+        </div>
+        <div class="about-image">
+            <img src="about.jpg" alt="Career Nexus Team">
+        </div>
+    </div>
+</section>
+
+
+
+<!-- contact section -->
+<main>
+    <section id="contact" class="contact-section">
+        <div class="form-container">
+            <h2>Get in Touch</h2>
+            <form action="#" method="POST" class="contact-form">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" placeholder="Jane Esosa" required>
+
+                <label for="email">Email address *</label>
+                <input type="email" id="email" name="email" placeholder="email@website.com" required>
+
+                <label for="phone">Phone number *</label>
+                <input type="tel" id="phone" name="phone" placeholder="555-555-5555" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Your message here..."></textarea>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" name="consent" required>
+                    <label for="consent">I allow this website to store my submission so they can respond to my inquiry.</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+
+        <div class="map-container">
+            <h3>Our Location</h3>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2428.9746320311915!2d-0.08557298422891815!3d51.5252417796375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761cab8762d7c7%3A0x60e27e0767a4cb51!2s86-90%20Paul%20St%2C%20London%20EC2A%204NE%2C%20UK!5e0!3m2!1sen!2sng!4v1693612766876!5m2!1sen!2sng" 
+                width="100%" 
+                height="400" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
+</main>
+
+
+
+
+<!-- JavaScript for Modal -->
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('menu-active');
+        }
+
+        function openModal() {
+            document.getElementById("registrationModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("registrationModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("registrationModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+     <footer class="footer">
+        <p>&copy; 2024 Career-Nexus. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

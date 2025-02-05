@@ -1,0 +1,176 @@
+/* Global Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #202124;
+}
+
+h1, h2, h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+/* Hero Banner Section */
+.hero-banner {
+    background: url('job-seeker.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.signup-form input {
+    padding: 10px;
+    margin: 10px 5px;
+    width: calc(33% - 20px);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Hero Section */
+
+
+.cta-buttons .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+/* Problem Statement Section */
+.problem-section {
+    padding: 80px 0;
+}
+
+.problem-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.problem-section p {
+    font-size: 18px;
+}
+
+/* Features Section */
+.features-section {
+    padding: 80px 0;
+    background: #F1F3F4;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-card i {
+    font-size: 48px;
+    color: #1A73E8;
+    margin-bottom: 20px;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 80px 0;
+}
+
+.benefits-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.benefits-section i {
+    font-size: 48px;
+    color: #34A853;
+    margin-bottom: 20px;
+}
+
+.benefits-section p {
+    font-size: 18px;
+}
+
+/* CTA Section */
+.cta-section {
+    background: #bfdebf;
+    color: #202124;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.cta-buttons .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+/* Countdown Timer Section */
+.countdown {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #5da05d;
+    color: white;
+}
+
+.countdown h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#countdown-timer span {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+/* Footer */
+.footer-section {
+    background: #202124;
+    color: white;
+    padding: 50px 0;
+}
+
+.footer-section h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-section .social-icons a {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+}

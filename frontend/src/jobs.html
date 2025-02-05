@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Page</title>
+    <link rel="stylesheet" href="jobs.css">
+    <script src="job.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+<body> <body class="job-page">
+    <!-- job Page Content -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-globe-americas logo-icon"></i>
+            <span class="brand-name">Career-Nexus.Com</span>
+        </div>
+        <div class="burger-menu" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="menu">
+            <li><a href="home.html" id="home" class="menu-item"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="mentorship.html" id="mentorship" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Mentorship</a></li>
+            <li><a href="network.html" id="network" class="menu-item"><i class="fas fa-users"></i> Network</a></li>
+            <li><a href="jobs.html" id="jobs" class="menu-item"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="mailbox.html" id="mailbox" class="menu-item"><i class="fas fa-envelope"></i> Mail Box</a></li>
+            <li><a href="notification.html" id="contact" class="menu-item"><i class="fas fa-bell"></i> Notification</a></li>
+        </ul>
+        
+        <div class="navbar-divider"></div>
+        <!-- Account Image Section -->
+        <div class="account-container">
+        <img src="sam (3).jpg" alt="Profile" class="account-img" />
+        <div class="account-dropdown">
+        <ul>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#sign-in">Sign In</a></li>
+        </ul>
+    </div>
+</div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for anything..." class="search-input">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+</body> 
+   
+<body>
+  <!-- Job Page Layout -->
+  <div class="job-page">
+    <!-- Navigation Tabs -->
+    <nav class="job-nav">
+      <ul>
+        <!-- Search Bar -->
+        <div class="search-bar">
+        <input type="text" placeholder="Job title, skills, or company" class="search-input" />
+        <input type="text" placeholder="Location, state, or zip code" class="search-input" />
+        <button class="btn search-btn">Search</button>
+      </div>
+        <li class="tab active" data-tab="job-seeker-tab">Jobs for You</li>
+        <li class="tab" data-tab="hirer-tab">Post a Job</li>
+        <li class="tab" data-tab="manage-jobs-tab">Manage Jobs</li>
+      </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Sidebar -->
+      <aside class="job-sidebar">
+        <h3>Filters</h3>
+        <ul>
+          <li><a href="#" data-filter="category">By Job Category</a></li>
+          <li><a href="#" data-filter="experience">By Experience Level</a></li>
+          <li><a href="#" data-filter="location">By Location</a></li>
+          <li><a href="#" data-filter="type">By Job Type</a></li>
+        </ul>
+      </aside>
+
+      <!-- Job Seeker Content -->
+      <section class="job-content" id="job-seeker-tab">
+        <h2>Recommended Jobs for You</h2>
+        <div class="job-list">
+          <!-- Placeholder for jobs -->
+          <div class="job-item">
+            <div class="job-info">
+              <h4>Frontend Developer</h4>
+              <p>TechCorp</p>
+              <p><i class="fas fa-map-marker-alt"></i> San Francisco, USA</p>
+              <button class="btn apply-job-btn">Apply Now</button>
+            </div>
+          </div>
+          <!-- More jobs will dynamically populate here -->
+        </div>
+      </section>
+
+      <!-- Hirer Content -->
+      <section class="job-content hidden" id="hirer-tab">
+        <h2>Post a New Job</h2>
+        <button class="btn post-job-btn">Post a Job</button>
+        <!-- Placeholder for posted jobs -->
+        <div class="posted-job-list">
+          <div class="posted-job-item">
+            <div class="posted-job-info">
+              <h4>Backend Developer</h4>
+              <p>DataTech</p>
+              <p><i class="fas fa-map-marker-alt"></i> Remote</p>
+              <button class="btn edit-job-btn">Edit</button>
+              <button class="btn delete-job-btn">Delete</button>
+            </div>
+          </div>
+          <!-- More posted jobs will dynamically populate here -->
+        </div>
+      </section>
+
+      <!-- Manage Jobs Content -->
+      <section class="job-content hidden" id="manage-jobs-tab">
+        <h2>Manage Your Jobs</h2>
+        <p>Track your posted jobs and applications here.</p>
+        <!-- Placeholder for management tools -->
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal for Job Application -->
+  <div id="job-application-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Apply for Job</h3>
+      <form id="job-application-form">
+        <div class="form-step">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-step">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required />
+        </div>
+        <div class="form-step hidden">
+          <label for="resume">Upload Resume:</label>
+          <input type="file" id="resume" required />
+        </div>
+        <button type="button" class="btn next-step-btn">Next</button>
+        <button type="submit" class="btn submit-btn hidden">Submit</button>
+      </form>
+      <button class="btn close-modal-btn">Close</button>
+    </div>
+  </div>
+
+  <!-- Link to JavaScript -->
+  <script src="job.js"></script>
+</body>
+</html>
