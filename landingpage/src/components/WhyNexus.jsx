@@ -15,19 +15,19 @@ const WhyNexus = () => {
             <div className='p-10'>
                 <h1 className='text-3xl text-center'>Why Choose Career Nexus?</h1>
                 <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
-                    <div className='col-span-3 p-4'  data-aos="fade-right">
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4'  data-aos="fade-right">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Affordable, accessible, and high-quality professional development.
                     </div>
-                    <div className='col-span-3 p-4'  data-aos="fade-left">
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4'  data-aos="fade-left">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Seamless transition from education to employment.
                     </div>
-                    <div className='col-span-3 p-4'  data-aos="fade-down">
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4'  data-aos="fade-down">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Real-world skills and expert mentorship.
                     </div>
-                    <div className='col-span-3 p-4'  data-aos="fade-right">
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4'  data-aos="fade-right">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Trusted by leading universities and corporations.
                     </div>
