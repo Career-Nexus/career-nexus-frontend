@@ -5,21 +5,21 @@ const Footer = () => {
         <div className='bg-black text-white p-10'>
             <footer className="footer text-base-content p-10 ">
                 <div className="grid grid-cols-12 gap-4 mb-5">
-                    <div className='col-span-3 '>
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Services</h6>
                         <a className="link link-hover">Branding</a><br />
                         <a className="link link-hover">Design</a><br />
                         <a className="link link-hover">Marketing</a><br />
                         <a className="link link-hover">Advertisement</a>
                     </div>
-                    <div className='col-span-3'>
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Company</h6>
                         <a className="link link-hover">About us</a><br />
                         <a className="link link-hover">Contact</a><br />
                         <a className="link link-hover">Jobs</a><br />
                         <a className="link link-hover">Press kit</a>
                     </div>
-                    <div className='col-span-3'>
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Social</h6>
                         <div className="flex gap-4">
                             <a>
@@ -57,20 +57,20 @@ const Footer = () => {
                             </a>
                         </div>
                     </div>
-                    <form className='col-span-3'>
+                    <form className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Newsletter</h6>
-                        <fieldset className="form-control w-80">
+                        <div className="form-control">
                             <label className="label my-5">
                                 <span className="label-text">Enter your email address</span>
                             </label>
-                            <div className="join mt-4">
+                            <div className="mt-4 flex w-2/5">
                                 <input
                                     type="text"
                                     placeholder="username@site.com"
-                                    className="input input-bordered join-item py-3 rounded-tl rounded-bl" />
-                                <button className="bg-green-800 text-white join-item p-3 rounded-tr rounded-br">Subscribe</button>
+                                    className="input input-bordered py-3 rounded-tl rounded-bl w-36" />
+                                <button className="bg-green-800 text-white p-3 rounded-tr rounded-br">Subscribe</button>
                             </div>
-                        </fieldset>
+                        </div>
                     </form>
                 </div>
                 <hr />

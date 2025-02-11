@@ -14,28 +14,28 @@ const Card = () => {
         <div className='bg-zinc-50 p-10'>
             <h1 className='text-3xl text-center'>CareerNexus: The Ultimate Solution for Career Success.</h1>
             <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
-                <div className='bg-white shadow-lg p-6 rounded-md col-span-3' data-aos="zoom-in">
+                <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Brain className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>AI-Powered Learning Paths</h1>
                     <p>Personalized recommendations tailored to your career goals.</p>
                 </div>
-                <div className='bg-white shadow-lg p-6 rounded-md col-span-3' data-aos="zoom-in">
+                <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Shield className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>Blockchain-Backed Certifications</h1>
                     <p>Secure, verifiable credentials trusted by employers.</p>
                 </div>
-                <div className='bg-white shadow-lg p-6 rounded-md col-span-3' data-aos="zoom-in">
+                <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Cardboard className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>Immersive VR Job Simulations</h1>
                     <p>Gain real-world experience in a risk-free environment.</p>
                 </div>
-                <div className='bg-white shadow-lg p-6 rounded-md col-span-3' data-aos="zoom-in">
+                <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Globe className="mx-auto" />
                     </div>
