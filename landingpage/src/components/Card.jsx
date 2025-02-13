@@ -21,7 +21,6 @@ const Card = () => {
             <h1 className='text-2xl text-center my-3'>Professional Live Streaming and Career upscaling</h1>
                     <p>Master in-demand skills from industry experts and stay competitive.</p>
                 </div>
-            <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Brain className="mx-auto" />
