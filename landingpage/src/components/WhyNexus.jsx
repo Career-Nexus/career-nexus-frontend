@@ -17,6 +17,10 @@ const WhyNexus = () => {
                 <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
                     <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4' data-aos="fade-right">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
+                        Live sessions for upskilling professional.
+                    </div>
+                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4'  data-aos="fade-right">
+                        <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Affordable, accessible, and high-quality professional development.
                     </div>
                     <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4' data-aos="fade-left">
