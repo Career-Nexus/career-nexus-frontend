@@ -31,10 +31,10 @@ const WhyNexus = () => {
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Real-world skills and expert mentorship.
                     </div>
-                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4' data-aos="fade-right">
+                    {/* <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-4' data-aos="fade-right">
                         <div className='flex justify-center items-center'><Check className='mx-auto' /></div>
                         Trusted by leading universities and corporations.
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className='px-10 py-20' style={{ backgroundColor: '#bfdebf' }}>
