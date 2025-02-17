@@ -8,10 +8,10 @@ const Footer = () => {
                 <div className="grid grid-cols-12 gap-4 mb-5">
                     <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Services</h6>
-                        <a className="link link-hover">Branding</a><br />
-                        <a className="link link-hover">Design</a><br />
-                        <a className="link link-hover">Marketing</a><br />
-                        <a className="link link-hover">Advertisement</a>
+                        <a className="link link-hover">Learning & Skill Development</a><br />
+                        <a className="link link-hover">Career Growth & Professional Networking</a><br />
+                        <a className="link link-hover">Employment & Gig Economy Support</a><br />
+                        <a className="link link-hover">Business & Consulting Services</a>
                     </div>
                     <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Company</h6>
@@ -32,7 +32,7 @@ const Footer = () => {
                             <a href='https://www.instagram.com/careernexus.ltd/'>
                                <Instagram />
                             </a>
-                            <a href='#'>
+                            <a href='https://web.facebook.com/profile.php?id=61573074954161'>
                                <Facebook/>
                             </a>
                         </div>
@@ -56,14 +56,14 @@ const Footer = () => {
                 <hr />
                 <div>
                     <p className="text-center text-sm mt-4">
-                        Copyright &copy; {new Date().getFullYear()} Career Nexus. All rights reserved.
+                        Copyright &copy; {new Date().getFullYear()} Career-Nexus Ltd. All rights reserved.
                     </p>
                     <div className='flex justify-center my-5'>
                         <div className=" flex gap-4">
                             <a href='#' className="link link-hover">Terms & Conditions</a><br />
                             <a href='#' className="link link-hover">Privacy Policy</a><br />
-                            <a href='#' className="link link-hover">Help</a><br />
-                            <a href='#' className="link link-hover">Contact Us</a>
+                            <a href='#' className="link link-hover">Need Help?</a><br />
+                            {/* <a href='#' className="link link-hover">Contact Us</a> */}
                         </div>
                     </div>
                 </div>
