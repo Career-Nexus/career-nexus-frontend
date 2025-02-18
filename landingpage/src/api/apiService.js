@@ -12,12 +12,23 @@ const apiService = axios.create({
     },
 });
 
-export const joinWaitList = async(name,email,industry)=>{
+export const JoinWaitList = async(name,email,industry)=>{
     try {
         const response = await apiService.post('user/join/', {
             name,
             email,
             industry
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const Subscribe = async(email)=>{
+    try {
+        const response = await apiService.post('user/subscribe/', {
+            email
         });
         return response.data;
     } catch (error) {

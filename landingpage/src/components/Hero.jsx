@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Heroimage from '/images/job-seeker.jpg'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
-import { joinWaitList } from '../api/apiService';
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { JoinWaitList } from '../api/apiService';
+import { Button, Modal } from "flowbite-react";
 
 const Hero = () => {
     const [name, setName] = useState('');
@@ -23,7 +23,7 @@ const Hero = () => {
         e.preventDefault();
         //const form = e.target.value;
         try {
-            const data = await joinWaitList(name, email, industry);
+            const data = await JoinWaitList(name, email, industry);
             // Handle success (e.g., save token, redirect)
             if (data) {
                 alert('You have successfully joined the waitlist');
@@ -58,15 +58,15 @@ const Hero = () => {
                         <h2 className='text-center text-white text-lg font-bold my-5 invisible md:visible'>Bridging Education with Real-World Expertise</h2>
                         <p className='text-white font-bold text-wrap'>CareerNexus empowers individuals to transition seamlessly from education to employment with real-world skills, expert mentorship, and a global network.</p>
                     </div>
-                    <form onSubmit={handleSubmit} className="w-full max-w-lg mt-[-10rem] md:mt-8 p-1 rounded-lg bg-white md:bg-inherit">
+                    <form onSubmit={handleSubmit} className="w-full max-w-lg mt-[-10rem] md:mt-2 p-1 rounded-lg bg-white md:bg-inherit">
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         <div className="flex flex-wrap -mx-3 mb-4 md:mb-6">
                             <div className="w-full md:w-1/2 px-10 md:px-3">
-                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 my-3 leading-tight focus:outline-none focus:bg-white" placeholder="Name" />
+                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-3 leading-tight focus:outline-none focus:bg-white" placeholder="Name" />
                                 {/* <p class="text-red-500 text-xs italic">Please fill out this field.</p> */}
                             </div>
                             <div className="w-full md:w-1/2 px-10 md:px-3">
-                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" placeholder="Email" />
+                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-3 leading-tight focus:outline-none focus:bg-white" placeholder="Email" />
                                 {/* <p class="text-red-500 text-xs italic">Please fill out this field.</p> */}
                             </div>
                         </div>
