@@ -67,7 +67,7 @@ const Footer = () => {
                             <label className="label my-5">
                                 <span className="label-text">Enter your email address</span>
                             </label>
-                            <div className="mt-4 flex w-2/5">
+                            <div className="mt-4 flex w-2/5 -ml-10">
                                 <input
                                     type="email"
                                     value={email} onChange={(e) => setEmail(e.target.value)}
