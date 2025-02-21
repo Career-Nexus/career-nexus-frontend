@@ -88,7 +88,6 @@ const Footer = () => {
                             <a href='#' className="link link-hover">Terms & Conditions</a><br />
                             <a href='#' className="link link-hover">Privacy Policy</a><br />
                             <a href='#' className="link link-hover">Need Help?</a><br />
-                            {/* <a href='#' className="link link-hover">Contact Us</a> */}
                         </div>
                     </div>
                 </div>

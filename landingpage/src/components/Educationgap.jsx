@@ -8,7 +8,6 @@ const Educationgap = () => {
         dots: true,
         fade: true,
         infinite: true,
-        //speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
         waitForAnimate: false,
@@ -18,7 +17,7 @@ const Educationgap = () => {
         cssEase: "linear"
     };
     return (
-        <div className='md:py-10 mx-5 md:mx-5'>
+        <div className='md:py-10 mx-5'>
             <div className=''>
                 <Slider {...settings} >
                     <div className='p-4'>
