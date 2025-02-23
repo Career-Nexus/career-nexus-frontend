@@ -41,7 +41,7 @@ const HeroTwo = () => {
                 // alert(`User with this ${email} has already joined the waitlist`);
                 Swal.fire({
                     icon: "info",
-                    text:`User with this ${email} has already joined the waitlist`
+                    text:`User with this email ${email} has already joined the waitlist`
                 });
                 console.log('User with this email already exists');
             }

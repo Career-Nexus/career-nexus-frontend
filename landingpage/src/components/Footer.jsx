@@ -1,30 +1,39 @@
 import React, { useState } from 'react'
 import { Facebook, Instagram, Linkedin, X } from '../icon/icon'
 import { Subscribe } from '../api/apiService';
+import Swal from 'sweetalert2'
 
 const Footer = () => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
-            e.preventDefault();
-            //const form = e.target.value;
-            try {
-                const data = await Subscribe(email);
-                // Handle success (e.g., save token, redirect)
-                if (data) {
-                    alert('You have successfully Subscribed to our Newsletter');
-                    console.log('Subscription successful', data);
-                    //form.reset();
-                }
-                else {
-                    alert(`User with this ${email} have already subscribed to our news latter`);
-                    console.log('User with this email already exist');
-                }
-            } catch (err) {
-                setError(err.message,"Subscription failed");
+        e.preventDefault();
+        //const form = e.target.value;
+        try {
+            const data = await Subscribe(email);
+            // Handle success (e.g., save token, redirect)
+            if (data) {
+                //alert('You have successfully Subscribed to our Newsletter');
+                Swal.fire({
+                    icon: "success",
+                    text: "You have successfully Subscribed to our Newsletter!",
+                });
+                console.log('Subscription successful', data);
+                //form.reset();
             }
+            else {
+                //alert(`User with this ${email} have already subscribed to our news latter`);
+                Swal.fire({
+                    icon: "info",
+                    text: `User with this email ${email} has already subscribed to our news latter`
+                });
+                console.log('User with this email already exist');
+            }
+        } catch (err) {
+            setError(err.message, "Subscription failed");
         }
+    }
     return (
         <div className='bg-black text-white p-10'>
             <footer className="footer text-base-content p-10 ">
@@ -53,10 +62,10 @@ const Footer = () => {
                                 <Linkedin />
                             </a>
                             <a href='https://www.instagram.com/careernexus.ltd/'>
-                               <Instagram />
+                                <Instagram />
                             </a>
                             <a href='https://web.facebook.com/profile.php?id=61573074954161'>
-                               <Facebook/>
+                                <Facebook />
                             </a>
                         </div>
                     </div>
