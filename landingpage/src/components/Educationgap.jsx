@@ -29,7 +29,7 @@ const Educationgap = () => {
                                 <p className='text-xl'>83% of professionals feel their education didn't prepare them for their careers.</p>
                             </div>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0 mb-5'>
-                                <img src="/images/statistic.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                                <img src="/images/statistic.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ const Educationgap = () => {
                                 <h1 className='font-semibold text-9xl'> ?</h1>
                             </div>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/viewroom.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                                <img src="/images/viewroom.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ const Educationgap = () => {
                                 <p className='text-xl'>An indispensable solution platform for career success!</p>
                             </div>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/globe.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                                <img src="/images/globe.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
                             </div>
                         </div>
                     </div>

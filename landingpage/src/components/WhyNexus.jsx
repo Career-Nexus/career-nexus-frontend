@@ -5,7 +5,7 @@ import Aos from 'aos'
 import { Button, Modal } from "flowbite-react";
 
 const WhyNexus = () => {
-    const [openModal, setOpenModal] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
     useEffect(() => {
         Aos.init({
             duration: 1000,

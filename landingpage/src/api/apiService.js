@@ -12,6 +12,15 @@ const apiService = axios.create({
     },
 });
 
+// export const registerUser = async (userData) => {
+//   try {
+//     const response = await apiService.post('user/join/', userData);
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error.response?.data || "An error occurred";
+//   }
+// };
 export const JoinWaitList = async(name,email,industry)=>{
     try {
         const response = await apiService.post('user/join/', {
