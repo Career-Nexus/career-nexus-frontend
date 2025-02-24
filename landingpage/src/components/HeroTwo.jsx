@@ -56,8 +56,8 @@ const HeroTwo = () => {
         }
     };
     return (
-        <div>
-            <div className=''>
+        <div className='mb-10'>
+            <div>
                 <img src='images/Career-nexus-logo.jpg' alt='Career-nexus-logo' className='opacity-80 h-16 md:w-24 md:h-24 rounded-full p-3' />
                 <video autoPlay loop muted className='-mt-24  invisible md:visible w-full col-span-11 h-full' >
                     <source src="/images/herovideo4.mp4" type="video/mp4" className='' />
@@ -70,7 +70,7 @@ const HeroTwo = () => {
                 </video>
             </div> */}
             <div className='md:absolute left-0 top-5 md:-top-24 lg:top-0 w-full flex flex-col justify-center items-center'>
-                <div className='pt-4 mt-[-12rem] md:mt-[-10px] -mr-12 bg-green-900 md:bg-inherit px-3'>
+                <div className='pt-4 mt-[-12rem] md:mt-[-10px] bg-green-900 md:bg-inherit px-3'>
                     <div className=''>
                         <h1 className='mt-10 ml-10 font-bold text-white text-center text-xl visible md:invisible'>Welcome to Career-nexus Limited</h1>
                         <h1 className='md:text-2xl lg:text-4xl text-center font-bold text-white md:py-2 md:mt-14'>Bringing Dreams to Reality,
@@ -85,8 +85,8 @@ const HeroTwo = () => {
                     <h2 className='text-center text-white text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
                     <p className='text-white text-center font-bold text-wrap invisible lg:visible'>Career-Nexus empowers individuals to transition seamlessly from education to employment with real-world skills, expert mentorship, and a global network.</p>
                 </div>
-                <div className="bg-green-900 md:bg-inherit md:p-0 -mr-12">
-                    <form onSubmit={handleSubmit} className='rounded-lg bg-white md:bg-inherit mx-2 -mt-20 md:-mt-5 lg:mt-0' >
+                <div className="bg-green-900 md:bg-inherit md:p-0 px-8">
+                    <form onSubmit={handleSubmit} className='rounded-lg bg-white md:bg-inherit mx-2 -mt-20 md:-mt-5 lg:mt-0 pb-1'>
                         {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                         <div className="flex flex-wrap -mx-3 mb-4 md:mb-6">
                             <div className="w-full md:w-1/2 px-10 md:px-3">
