@@ -3,8 +3,10 @@ import { Cursor, useTypewriter } from 'react-simple-typewriter'
 import { JoinWaitList } from '../api/apiService';
 import { Button, Modal } from 'flowbite-react';
 import Swal from 'sweetalert2'
+import CounterTop from './CounterTop';
 
 const HeroTwo = () => {
+    const launchDate = new Date("2025-04-24T00:00:00").getTime();
     const [error, setError] = useState(null);
 
     const [openModal, setOpenModal] = useState(false);
@@ -32,7 +34,7 @@ const HeroTwo = () => {
                     title: "Happy to have you on board!",
                     text: "You have successfully joined the waitlist!",
                     icon: "success"
-                  });
+                });
                 console.log('Registration successful', data);
 
                 //Clear form after successful submission
@@ -41,7 +43,7 @@ const HeroTwo = () => {
                 // alert(`User with this ${email} has already joined the waitlist`);
                 Swal.fire({
                     icon: "info",
-                    text:`User with this email ${email} has already joined the waitlist`
+                    text: `User with this email ${email} has already joined the waitlist`
                 });
                 console.log('User with this email already exists');
             }
@@ -50,30 +52,29 @@ const HeroTwo = () => {
                 icon: "error",
                 title: "Oops...",
                 text: "Something went wrong!",
-              });
+            });
             console.log(err.message);
             setError(err.message);
         }
     };
     return (
-        <div className='mb-10'>
+        <div className='mb-10' id='waitlist'>
             <div>
-                <img src='images/Career-nexus-logo.jpg' alt='Career-nexus-logo' className='opacity-80 h-16 md:w-24 md:h-24 rounded-full p-3' />
-                <video autoPlay loop muted className='-mt-24  invisible md:visible w-full col-span-11 h-full' >
+                <div className='grid grid-cols-12 h-10 md:h-auto opacity-90'>
+                    <img src='images/Career-nexus-logo.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
+                    <div className='col-span-8 ml-auto mr-4 invisible md:visible'>
+                        <CounterTop targetDate={launchDate} />
+                    </div>
+                </div>
+                <video autoPlay loop muted className='-mt-28 w-full col-span-11 h-full ' >
                     <source src="/images/herovideo4.mp4" type="video/mp4" className='' />
                 </video>
             </div>
-            {/* <div className='pl-5 bg-yellow-50 grid grid-cols-12 h-10 md:h-auto'>
-                <img src='images/Career-nexus-logo.jpg' alt='Career-nexus-logo' className='md:h-16 w-full rounded-full col-span-1' />
-                <video autoPlay loop muted className=' invisible md:visible w-full col-span-11 h-full' >
-                    <source src="/images/herovideo4.mp4" type="video/mp4" className='' />
-                </video>
-            </div> */}
             <div className='md:absolute left-0 top-5 md:-top-24 lg:top-0 w-full flex flex-col justify-center items-center'>
-                <div className='pt-4 mt-[-12rem] md:mt-[-10px] bg-green-900 md:bg-inherit px-3'>
+                <div className='pt-4 mt-[-12rem] md:mt-[-10px] md:bg-inherit px-3'>
                     <div className=''>
-                        <h1 className='mt-10 ml-10 font-bold text-white text-center text-xl visible md:invisible'>Welcome to Career-nexus Limited</h1>
-                        <h1 className='md:text-2xl lg:text-4xl text-center font-bold text-white md:py-2 md:mt-14'>Bringing Dreams to Reality,
+                        <h1 className='mt-20 ml-10 font-bold text-white text-center text-lg visible md:invisible'>Welcome to Career-nexus Ltd</h1>
+                        <h1 className='md:text-2xl lg:text-4xl text-center font-bold text-blue-950 md:py-2 md:mt-14'>Bringing Dreams to Reality,
                             <span style={{ fontWeight: "bold" }} className='md:text-lime-600'>
                                 {text}
                             </span>
@@ -82,11 +83,11 @@ const HeroTwo = () => {
                             </span>
                         </h1>
                     </div>
-                    <h2 className='text-center text-white text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
-                    <p className='text-white text-center font-bold text-wrap invisible lg:visible'>Career-Nexus empowers individuals to transition seamlessly from education to employment with real-world skills, expert mentorship, and a global network.</p>
+                    <h2 className='text-center text-blue-950 text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
+                    <p className='text-white text-center font-bold text-wrap invisible lg:visible'>Career-Nexus empowers individuals to transition seamlessly from education to <br/> employment with real-world skills.</p>
                 </div>
-                <div className="bg-green-900 md:bg-inherit md:p-0 px-8">
-                    <form onSubmit={handleSubmit} className='rounded-lg bg-white md:bg-inherit mx-2 -mt-20 md:-mt-5 lg:mt-0 pb-1'>
+                <div className=" md:bg-inherit md:p-0 px-2">
+                    <form onSubmit={handleSubmit} className='rounded-lg mx-2 -mt-20 md:-mt-5 lg:mt-0 pb-1'>
                         {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                         <div className="flex flex-wrap -mx-3 mb-4 md:mb-6">
                             <div className="w-full md:w-1/2 px-10 md:px-3">

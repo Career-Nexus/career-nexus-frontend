@@ -18,7 +18,7 @@ const Card = () => {
                     <div className='flex justify-center items-center'>
                         <Brain className="mx-auto" />
                     </div>
-                    <h1 className='text-2xl text-center my-3'>AI-Powered Learning Paths</h1>
+                    <h1 className='text-2xl text-center my-3'>AI-Powered Learning on Career Advancement</h1>
                     <p>Personalized recommendations based on industry demand and tailored to your career goals.</p>
                 </div>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
@@ -39,7 +39,7 @@ const Card = () => {
                     <div className='flex justify-center items-center'>
                         <Globe className="mx-auto" />
                     </div>
-                    <h1 className='text-2xl text-center my-3'>Global Networking and Mentorship</h1>
+                    <h1 className='text-2xl text-center my-3'>Global Networking and Workforce Upskilling</h1>
                     <p>Connect with industry leaders and peers worldwide.</p>
                 </div>
             </div>

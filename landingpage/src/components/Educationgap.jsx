@@ -22,46 +22,22 @@ const Educationgap = () => {
                 <Slider {...settings} >
                     <div className='p-4'>
                         <div className='grid grid-cols-12'>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0 mb-5'>
-                                <h1 className='font-semibold'>1. The Problem:</h1>
-                                <h1 className='font-semibold text-2xl'>The Gap Between Education and Employment is Wider Than Ever.</h1>
-                                <p className='text-xl my-5 text-black-50'>67% of employers say graduates lack the skills needed for entry-level roles.</p>
-                                <p className='text-xl'>83% of professionals feel their education didn't prepare them for their careers.</p>
-                            </div>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0 mb-5'>
-                                <img src="/images/statistic.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='p-4'>
-                        <div className='grid grid-cols-12 '>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <h1>2. ------This is a hug problem------</h1>
-                                <h1 className='font-semibold text-2xl'>Employment Readiness:</h1>
-                                <p className='text-xl my-5 text-black-50'>65% of children in primary school today will work in a new job type - World Economic Forum; </p>
-                                <p className='text-xl'>Underemployment, Employer Expectations, Workforce Evolution, High Cost of Education-what we bring solution to in career-nexus</p>
-                            </div>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/job-seeker.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='p-4'>
-                        <div className='grid grid-cols-12'>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <h1 className='font-semibold'></h1>3. -------Guess what we found-----
-                                <h1 className='font-semibold text-9xl'> ?</h1>
-                            </div>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/viewroom.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='p-4'>
-                        <div className='grid grid-cols-12'>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <h1 className='font-semibold'>4. ----The solution:</h1>
                                 <h1 className='font-semibold text-2xl'>CAREER-NEXUS.COM</h1>
+                                <p className='text-xl my-5 text-black-50'>Is a professional networking and career development platform designed to bridge the gap between academic learning and practicals, real-world skills.
+                                    It aim to empower individuals, particularly recent graduates, yound professionals, and freelancers, by providing them with the tools, resourses, and connections needed to suceed in their careers.
+                                    The platform leverages cutting-edge technologies like AI, blockchain, and virtual reality (VR) to offer a comprehensive suite of services that cater to both individual and organizations.
+                                </p>
+                            </div>
+                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
+                                <img src="/images/edu.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='p-4'>
+                        <div className='grid grid-cols-12'>
+                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
+                                <h1 className='font-semibold text-2xl'>The solution</h1>
                                 <p className='text-xl my-5 text-black-50'>Revolutionizing the world of skill acquisition and career development;</p>
                                 <p className='text-xl'>An indispensable solution platform for career success!</p>
                             </div>
@@ -73,7 +49,7 @@ const Educationgap = () => {
                     <div className='p-4'>
                         <div className='grid grid-cols-12'>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <h1 className='font-semibold'>5. ----At the heat of career-nexus.com---</h1>
+                                <h1 className='font-semibold'>At the heat of career-nexus.com</h1>
                                 <h1 className='font-semibold text-2xl'>The Gap Between Education and Employment is Wider Than Ever.</h1>
                                 <p className='text-xl my-5 text-black-50'>Discover your potential with a cutting-edge platform.</p>
                                 <p className='text-xl'>Designed to empower dynamic millennials and generation Z!!</p>

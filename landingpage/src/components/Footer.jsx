@@ -38,21 +38,22 @@ const Footer = () => {
         <div className='bg-black text-white p-10'>
             <footer className="footer text-base-content p-10 ">
                 <div className="grid grid-cols-12 gap-4 mb-5">
-                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
+                    <div className='lg:col-span-3 md:col-span-6 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Services</h6>
-                        <a className="link link-hover">Learning & Skill Development</a><br />
-                        <a className="link link-hover">Career Growth & Professional Networking</a><br />
-                        <a className="link link-hover">Employment & Gig Economy Support</a><br />
-                        <a className="link link-hover">Business & Consulting Services</a>
+                        <a className="link link-hover">Workforce Upskilling</a><br />
+                        <a className="link link-hover">Career Advancement</a><br />
+                        <a className="link link-hover">Talent Acquisition & Freelancing</a><br />
+                        <a className="link link-hover">Enterprise Consulting</a>
+                        <a className="link link-hover">Professional Networking</a>
                     </div>
-                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
+                    <div className='lg:col-span-2 md:col-span-6 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Company</h6>
                         <a className="link link-hover">About us</a><br />
                         <a className="link link-hover">Contact</a><br />
                         <a className="link link-hover">Jobs</a><br />
                         {/* <a className="link link-hover">Press kit</a> */}
                     </div>
-                    <div className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
+                    <div className='lg:col-span-3 md:col-span-6 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Social</h6>
                         <div className="flex gap-4">
                             <a href='https://x.com/CareerNexusLtd'>
@@ -69,14 +70,14 @@ const Footer = () => {
                             </a>
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit} className='lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12'>
+                    <form onSubmit={handleSubmit} className='lg:col-span-4 md:col-span-6 col-span-12'>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         <h6 className="footer-title font-bold mb-5">Newsletter</h6>
                         <div className="form-control">
                             <label className="label my-5">
                                 <span className="label-text">Enter your email address</span>
                             </label>
-                            <div className="mt-4 flex w-2/5 -ml-10">
+                            <div className="mt-4 flex w-2/5">
                                 <input
                                     type="email"
                                     value={email} onChange={(e) => setEmail(e.target.value)}
