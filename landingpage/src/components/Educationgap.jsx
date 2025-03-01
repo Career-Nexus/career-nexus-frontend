@@ -23,20 +23,6 @@ const Educationgap = () => {
                     <div className='p-4'>
                         <div className='grid grid-cols-12'>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <h1 className='font-semibold text-2xl'>CAREER-NEXUS.COM</h1>
-                                <p className='text-xl my-5 text-black-50'>Is a professional networking and career development platform designed to bridge the gap between academic learning and practicals, real-world skills.
-                                    It aim to empower individuals, particularly recent graduates, yound professionals, and freelancers, by providing them with the tools, resourses, and connections needed to suceed in their careers.
-                                    The platform leverages cutting-edge technologies like AI, blockchain, and virtual reality (VR) to offer a comprehensive suite of services that cater to both individual and organizations.
-                                </p>
-                            </div>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/edu.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='p-4'>
-                        <div className='grid grid-cols-12'>
-                            <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
                                 <h1 className='font-semibold text-2xl'>The solution</h1>
                                 <p className='text-xl my-5 text-black-50'>Revolutionizing the world of skill acquisition and career development;</p>
                                 <p className='text-xl'>An indispensable solution platform for career success!</p>
@@ -55,7 +41,7 @@ const Educationgap = () => {
                                 <p className='text-xl'>Designed to empower dynamic millennials and generation Z!!</p>
                             </div>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/Banner.png" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                                <img src="/images/viewroom.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
                             </div>
                         </div>
                     </div>

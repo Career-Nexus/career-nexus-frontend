@@ -42,7 +42,7 @@ const WhyNexus = () => {
                         <p className='my-8'>Join the waitlist today and be the first to experience Career-Nexus.</p>
                     </div>
                     <div className='flex justify-center items-center gap-5 mt-5 flex-col md:flex-row'>
-                        <a href="#waitlist"><button className='bg-green-900 text-white px-12 py-3 rounded-md hover:bg-green-800'>Join Waitlist</button></a>
+                        <a href="#waitlist"><button className='bg-green-900 scroll-smooth text-white px-12 py-3 rounded-md hover:bg-green-800'>Join Waitlist</button></a>
                         <button onClick={(e) => {e.preventDefault(); setOpenModal(true);}} className='border-2 border-white px-12 py-3 rounded-md hover:bg-white hover:text-black'>Contact Us</button>
                     </div>
                 </div>

@@ -35,11 +35,11 @@ const CounterTop = ({ targetDate }) => {
   return (
     <section className="py-2">
         {/* <p className="mb-5">Our full platform launches in:</p> */}
-        <div id="countdown-timer" className="flex justify-center flex-wrap text-blue-900" >
-          <span className="bg-white p-2 rounded" id="days">{timeLeft.days}Days</span> 
-          <span className="bg-white p-2 rounded" id="hours">{timeLeft.hours}Hrs</span>
-          <span className="bg-white p-2 rounded" id="minutes">{timeLeft.minutes}Mins</span> 
-          <span className="bg-white p-2 rounded" id="seconds">{timeLeft.seconds}Secs</span> 
+        <div id="countdown-timer" className="flex justify-center flex-wrap text-green-900" >
+          <span className="bg-gray-300 p-2 rounded" id="days">{timeLeft.days}Days</span> 
+          <span className="bg-gray-300 p-2 rounded" id="hours">{timeLeft.hours}Hrs</span>
+          <span className="bg-gray-300 p-2 rounded" id="minutes">{timeLeft.minutes}Mins</span> 
+          <span className="bg-gray-300 p-2 rounded" id="seconds">{timeLeft.seconds}Secs</span> 
         </div>
     </section>
   );

@@ -43,7 +43,7 @@ const Footer = () => {
                         <a className="link link-hover">Workforce Upskilling</a><br />
                         <a className="link link-hover">Career Advancement</a><br />
                         <a className="link link-hover">Talent Acquisition & Freelancing</a><br />
-                        <a className="link link-hover">Enterprise Consulting</a>
+                        <a className="link link-hover">Enterprise Consulting</a><br />
                         <a className="link link-hover">Professional Networking</a>
                     </div>
                     <div className='lg:col-span-2 md:col-span-6 col-span-12'>

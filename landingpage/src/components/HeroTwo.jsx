@@ -61,7 +61,7 @@ const HeroTwo = () => {
         <div className='mb-10' id='waitlist'>
             <div>
                 <div className='grid grid-cols-12 h-10 md:h-auto opacity-90'>
-                    <img src='images/Career-nexus-logo.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
+                    <img src='images/c-n.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
                     <div className='col-span-8 ml-auto mr-4 invisible md:visible'>
                         <CounterTop targetDate={launchDate} />
                     </div>
@@ -74,7 +74,7 @@ const HeroTwo = () => {
                 <div className='pt-4 mt-[-12rem] md:mt-[-10px] md:bg-inherit px-3'>
                     <div className=''>
                         <h1 className='mt-20 ml-10 font-bold text-white text-center text-lg visible md:invisible'>Welcome to Career-nexus Ltd</h1>
-                        <h1 className='md:text-2xl lg:text-4xl text-center font-bold text-blue-950 md:py-2 md:mt-14'>Bringing Dreams to Reality,
+                        <h1 className='md:text-2xl lg:text-4xl text-center font-bold text-white md:py-2 md:mt-14'>Bringing Dreams to Reality,
                             <span style={{ fontWeight: "bold" }} className='md:text-lime-600'>
                                 {text}
                             </span>
@@ -83,8 +83,8 @@ const HeroTwo = () => {
                             </span>
                         </h1>
                     </div>
-                    <h2 className='text-center text-blue-950 text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
-                    <p className='text-white text-center font-bold text-wrap invisible lg:visible'>Career-Nexus empowers individuals to transition seamlessly from education to <br/> employment with real-world skills.</p>
+                    <h2 className='text-center text-white text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
+                    <p className='text-white text-center font-bold text-wrap invisible lg:visible'>Career-Nexus empowers individuals to transition seamlessly from education to <br /> employment with real-world skills.</p>
                 </div>
                 <div className=" md:bg-inherit md:p-0 px-2">
                     <form onSubmit={handleSubmit} className='rounded-lg mx-2 -mt-20 md:-mt-5 lg:mt-0 pb-1'>
@@ -134,17 +134,39 @@ const HeroTwo = () => {
             </div>
             {/* Modal */}
             <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header>Here Is More About Us</Modal.Header>
+                <Modal.Header className='font-bold'>Welcome to Career-Nexus—we're thrilled to have you here!</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            CareerNexus empowers individuals to transition seamlessly from education to employment with real-world skills, expert mentorship, and a global network.
+                            At Career-Nexus, our core goal is to bridge the gap between education and employment, empowering you
+                            to take charge of your career journey. Whether you're a recent graduate, young professional, freelancer,
+                            or an employer building a skilled workforce, we provide tools, resources, and connections to help you
+                            succeed. We enhance employability by linking individuals with key industry players, ensuring you stay
+                            competitive in today's job market.
                         </p>
-                        <div>
-                            <h1 className='text-3xl'>Ready to Transform Your Career?</h1>
-                            <p className='my-8'>Join the waitlist today and be the first to experience Career-Nexus.</p>
-                        </div>
-
+                        <ul className='list-disc list-inside text-gray-500 dark:text-gray-400'>
+                            <h1 className='text-xl font-bold'>What do we offer:</h1>
+                            <li><span className='font-bold'>Personalized career coaching and mentorship </span>from industry experts.</li>
+                            <li><span className='font-bold'>Live career sessions </span>and advancement-focused content creation.</li>
+                            <li><span className='font-bold'>Cutting-edge training resources, </span>including VR simulations and blockchain-backed certifications.</li>
+                            <li><span className='font-bold'>Global networking opportunities </span>to connect, collaborate, and grow with professionals 
+                            worldwide. </li>
+                            <li><span className='font-bold'>AI-powered job matching  </span>to find the perfect role or talent.</li>
+                        </ul>
+                        <p className='text-gray-500 dark:text-gray-400'>
+                            We thrive to create a dynamic platform where talent meets opportunity, ensuring seamless workforce
+                            transitions. Through industry-specific training and certifications, we aim to revolutionize professional
+                            development globally.
+                        </p>
+                        <p className='text-gray-500 dark:text-gray-400'>
+                            Join our community of lifelong learners and career enthusiasts as we navigate the evolving world of work
+                            together. Let's unlock your potential and turn ambitions into achievements! Explore, engage, and share
+                            your thoughts, we're here to support you every step of the way. Welcome to the future of career
+                            development!
+                        </p>
+                        <h1 className='text-3xl'>
+                            WE LAUNCH OFFICIALLY 23rd APRIL!
+                        </h1>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
