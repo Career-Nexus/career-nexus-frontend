@@ -4,6 +4,7 @@ import { JoinWaitList } from '../api/apiService';
 import { Button, Modal } from 'flowbite-react';
 import Swal from 'sweetalert2'
 import CounterTop from './CounterTop';
+import { LearnMore } from './Privacy';
 
 const HeroTwo = () => {
     const launchDate = new Date("2025-04-24T00:00:00").getTime();
@@ -57,12 +58,14 @@ const HeroTwo = () => {
             setError(err.message);
         }
     };
+
     return (
         <div className='mb-10' id='waitlist'>
             <div>
                 <div className='grid grid-cols-12 h-10 md:h-auto opacity-90'>
-                    <img src='images/c-n.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
+                    <img src='images/c-n2.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
                     <div className='col-span-8 ml-auto mr-4 invisible md:visible'>
+                        <h1 className='font-bold text-xl invisible md:visible'>Countdown to launch</h1>
                         <CounterTop targetDate={launchDate} />
                     </div>
                 </div>
@@ -120,13 +123,14 @@ const HeroTwo = () => {
                                 </select>
                             </div>
                         </div>
+
                         <div className="flex flex-wrap -mx-3 mb-2 md:mb-6 mt-2 md:mt-5">
                             <div className="w-full md:w-1/2 px-10 md:px-3 mb-2 md:mb-0">
                                 {/* <button type='submit' className='bg-green-900 hover:bg-green-700 w-full px-3 py-3 rounded-md text-white' disabled={loading}>{loading ? "Joining the waitlist..." : "Join the Waitlist"}</button> */}
                                 <button type='submit' className='bg-green-900 hover:bg-green-700 w-full px-3 py-3 rounded-md text-white'>Join the Waitlist</button>
                             </div>
                             <div className="w-full md:w-1/2 px-10 md:px-3">
-                                <button onClick={(e) => { e.preventDefault(); setOpenModal(true); }} className='border-2 border-white w-full text-white bg-green-900 md:bg-inherit px-12 py-3 rounded-md md:hover:bg-white md:hover:text-black'>Learn More</button>
+                                <button onClick={() => setOpenModal(true)} className='border-2 border-white w-full text-white bg-green-900 md:bg-inherit px-12 py-3 rounded-md md:hover:bg-white md:hover:text-black'>Learn More</button>
                             </div>
                         </div>
                     </form>
@@ -137,36 +141,7 @@ const HeroTwo = () => {
                 <Modal.Header className='font-bold'>Welcome to Career-Nexus—we're thrilled to have you here!</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            At Career-Nexus, our core goal is to bridge the gap between education and employment, empowering you
-                            to take charge of your career journey. Whether you're a recent graduate, young professional, freelancer,
-                            or an employer building a skilled workforce, we provide tools, resources, and connections to help you
-                            succeed. We enhance employability by linking individuals with key industry players, ensuring you stay
-                            competitive in today's job market.
-                        </p>
-                        <ul className='list-disc list-inside text-gray-500 dark:text-gray-400'>
-                            <h1 className='text-xl font-bold'>What do we offer:</h1>
-                            <li><span className='font-bold'>Personalized career coaching and mentorship </span>from industry experts.</li>
-                            <li><span className='font-bold'>Live career sessions </span>and advancement-focused content creation.</li>
-                            <li><span className='font-bold'>Cutting-edge training resources, </span>including VR simulations and blockchain-backed certifications.</li>
-                            <li><span className='font-bold'>Global networking opportunities </span>to connect, collaborate, and grow with professionals 
-                            worldwide. </li>
-                            <li><span className='font-bold'>AI-powered job matching  </span>to find the perfect role or talent.</li>
-                        </ul>
-                        <p className='text-gray-500 dark:text-gray-400'>
-                            We thrive to create a dynamic platform where talent meets opportunity, ensuring seamless workforce
-                            transitions. Through industry-specific training and certifications, we aim to revolutionize professional
-                            development globally.
-                        </p>
-                        <p className='text-gray-500 dark:text-gray-400'>
-                            Join our community of lifelong learners and career enthusiasts as we navigate the evolving world of work
-                            together. Let's unlock your potential and turn ambitions into achievements! Explore, engage, and share
-                            your thoughts, we're here to support you every step of the way. Welcome to the future of career
-                            development!
-                        </p>
-                        <h1 className='text-3xl'>
-                            WE LAUNCH OFFICIALLY 23rd APRIL!
-                        </h1>
+                        <LearnMore/>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

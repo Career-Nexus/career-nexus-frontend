@@ -2,10 +2,44 @@ import React, { useState } from 'react'
 import { Facebook, Instagram, Linkedin, X } from '../icon/icon'
 import { Subscribe } from '../api/apiService';
 import Swal from 'sweetalert2'
+import ReusableModal from './Modal';
+import { PrivatePolicy, TermsOfService } from './Privacy';
+
+
 
 const Footer = () => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalt, setOpenModalt] = useState(false);
+    const [openModalp, setOpenModalp] = useState(false);
+
+    const ChildComponent = ({ ModalComponent, isOpen, onClose }) => {
+        return (
+            <ModalComponent isOpen={isOpen} onClose={onClose} title="Contact us here for help">
+                <div className='font-semibold'>Contact number:   +447990209405</div>
+                <div className='font-semibold'>WhatsApp: +1 (312) 539-4512</div>
+                <div className='font-semibold'>Email: info@career-nexus.com</div>
+                <div className='font-semibold'>Help: support@career-nexus.com </div>
+            </ModalComponent>
+        );
+    };
+
+    const TermsAndCondition = ({ ModalComponent, isOpen, onClose }) => {
+        return (
+            <ModalComponent isOpen={isOpen} onClose={onClose} title="Career-Nexus Terms and Conditions">
+                <TermsOfService/>
+            </ModalComponent>
+        );
+    };
+
+    const PrivacyPolicy = ({ ModalComponent, isOpen, onClose }) => {
+        return (
+            <ModalComponent isOpen={isOpen} onClose={onClose} title="Career-Nexus Privacy Policy">
+                <PrivatePolicy/>
+            </ModalComponent>
+        );
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,6 +70,7 @@ const Footer = () => {
     }
     return (
         <div className='bg-black text-white p-10'>
+
             <footer className="footer text-base-content p-10 ">
                 <div className="grid grid-cols-12 gap-4 mb-5">
                     <div className='lg:col-span-3 md:col-span-6 col-span-12'>
@@ -51,7 +86,6 @@ const Footer = () => {
                         <a className="link link-hover">About us</a><br />
                         <a className="link link-hover">Contact</a><br />
                         <a className="link link-hover">Jobs</a><br />
-                        {/* <a className="link link-hover">Press kit</a> */}
                     </div>
                     <div className='lg:col-span-3 md:col-span-6 col-span-12'>
                         <h6 className="footer-title font-bold mb-5">Social</h6>
@@ -95,9 +129,12 @@ const Footer = () => {
                     </p>
                     <div className='flex justify-center my-5'>
                         <div className=" flex gap-4">
-                            <a href='#' className="link link-hover">Terms & Conditions</a><br />
-                            <a href='#' className="link link-hover">Privacy Policy</a><br />
-                            <a href='#' className="link link-hover">Need Help?</a><br />
+                            <TermsAndCondition ModalComponent={ReusableModal} isOpen={openModalt} onClose={() => setOpenModalt(false)} />
+                            <button className="link link-hover" onClick={() => setOpenModalt(true)}>Terms & Conditions</button>
+                            <PrivacyPolicy ModalComponent={ReusableModal} isOpen={openModalp} onClose={() => setOpenModalp(false)} />
+                            <button className="link link-hover" onClick={() => setOpenModalp(true)}>Privacy Policy</button>
+                            <ChildComponent ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
+                            <button className="link link-hover" onClick={() => setOpenModal(true)}>Need Help?</button>
                         </div>
                     </div>
                 </div>

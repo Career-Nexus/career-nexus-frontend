@@ -3,6 +3,7 @@ import { Check, Education, HighQuality, Live, Mentorship, } from '../icon/icon'
 import 'aos/dist/aos.css'
 import Aos from 'aos'
 import { Button, Modal } from "flowbite-react";
+import ReusableModal from './Modal';
 
 const WhyNexus = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -12,6 +13,19 @@ const WhyNexus = () => {
             delay: 50
         });
     }, [])
+
+    const ChildComponent = ({ ModalComponent, isOpen, onClose }) => {
+        return (
+            <ModalComponent isOpen={isOpen} onClose={onClose} title="Career-Nexus Contact means">
+                <div className="space-y-6">
+                    <div className='font-semibold'>Contact number:   +447990209405</div>
+                    <div className='font-semibold'>WhatsApp: +1 (312) 539-4512</div>
+                    <div className='font-semibold'>Email: info@career-nexus.com</div>
+                    <div className='font-semibold'>Help: support@career-nexus.com </div>
+                </div>
+            </ModalComponent>
+        );
+    };
     return (
         <div>
             <div className='p-10'>
@@ -43,28 +57,12 @@ const WhyNexus = () => {
                     </div>
                     <div className='flex justify-center items-center gap-5 mt-5 flex-col md:flex-row'>
                         <a href="#waitlist"><button className='bg-green-900 scroll-smooth text-white px-12 py-3 rounded-md hover:bg-green-800'>Join Waitlist</button></a>
-                        <button onClick={(e) => {e.preventDefault(); setOpenModal(true);}} className='border-2 border-white px-12 py-3 rounded-md hover:bg-white hover:text-black'>Contact Us</button>
+                        {/* <button onClick={(e) =>  setOpenModal(true)} className='border-2 border-white px-12 py-3 rounded-md hover:bg-white hover:text-black'>Contact Us</button> */}
+                        <button className="border-2 border-white px-12 py-3 rounded-md hover:bg-white hover:text-black" onClick={() => setOpenModal(true)}>Contact Us</button>
+                        <ChildComponent ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
                     </div>
                 </div>
             </div>
-            {/* Modal */}
-            <Modal dismissible show={openModal} onClose={(e) => 
-                {
-                    e.preventDefault();
-                    setOpenModal(false)}}>
-                <Modal.Header>Career-Nexus Contact means</Modal.Header>
-                <Modal.Body>
-                    <div className="space-y-6">
-                        <div className='font-semibold'>Contact number:   +447990209405</div>
-                        <div className='font-semibold'>WhatsApp: +1 (312) 539-4512</div>
-                        <div className='font-semibold'>Email: info@career-nexus.com</div>
-                        <div className='font-semibold'>Help: support@career-nexus.com </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => setOpenModal(false)}>Close</Button>
-                </Modal.Footer>
-            </Modal>
         </div>
     )
 }
