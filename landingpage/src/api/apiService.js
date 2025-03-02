@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 
-const BaseUrl = 'https://careernexus.pythonanywhere.com/';
+//const BaseUrl = 'https://careernexus.pythonanywhere.com/';
+const BaseUrl = 'http://16.16.24.199:8000/'
 
 const apiService = axios.create({
     baseURL: BaseUrl,
@@ -12,15 +13,6 @@ const apiService = axios.create({
     },
 });
 
-// export const registerUser = async (userData) => {
-//   try {
-//     const response = await apiService.post('user/join/', userData);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     throw error.response?.data || "An error occurred";
-//   }
-// };
 export const JoinWaitList = async(name,email,industry)=>{
     try {
         const response = await apiService.post('user/join/', {
