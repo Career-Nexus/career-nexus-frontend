@@ -65,7 +65,7 @@ const HeroTwo = () => {
                 <div className='grid grid-cols-12 h-10 md:h-auto opacity-90'>
                     <img src='images/c-n2.jpg' alt='Career-nexus-logo' className='col-span-4 h-16 md:w-28 md:h-28 rounded-full p-3' />
                     <div className='col-span-8 ml-auto mr-4 invisible md:visible'>
-                        <h1 className='font-bold text-xl invisible md:visible'>Countdown to launch</h1>
+                        <h1 className='font-bold text-xl text-green-950 invisible md:visible'>Countdown to launch</h1>
                         <CounterTop targetDate={launchDate} />
                     </div>
                 </div>
