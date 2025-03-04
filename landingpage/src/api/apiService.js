@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 
-//const BaseUrl = 'https://careernexus.pythonanywhere.com/';
-const BaseUrl = 'http://16.16.24.199:8000/'
+
+const BaseUrl = 'https://ec2.career-nexus.com/'
 
 const apiService = axios.create({
     baseURL: BaseUrl,

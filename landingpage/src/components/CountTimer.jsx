@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./countdown.css";
 
 const CountTimer = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState({
@@ -34,15 +33,15 @@ const CountTimer = ({ targetDate }) => {
   }, [targetDate]);
 
   return (
-    <section className="countdown">
-      <div className="container">
-        <h2>Countdown to Launch</h2>
-        <p className="mb-5">Our full platform launches in:</p>
-        <div id="countdown-timer" className="flex justify-center gap-5 flex-wrap">
-          <span className="bg-green-900 py-2 px-3 rounded-md" id="days">{timeLeft.days} Days</span> 
-          <span className="bg-green-900 py-2 px-3 rounded-md" id="hours">{timeLeft.hours}  Hours</span>
-          <span className="bg-green-900 py-2 px-3 rounded-md" id="minutes">{timeLeft.minutes} Minutes</span> 
-          <span className="bg-green-900 py-2 px-3 rounded-md" id="seconds">{timeLeft.seconds} Seconds</span> 
+    <section className="bg-[#5da05d] text-center text-white py-16">
+      <div className="">
+        <h2 className="font-semibold text-3xl mb-8">Countdown to Launch</h2>
+        <p className="mb-8 font-bold">Our full platform launches in:</p>
+        <div className="flex justify-center gap-5 flex-wrap">
+          <span className="bg-green-900 py-2 px-3 rounded-md font-bold text-4xl" id="days">{timeLeft.days} Days</span> 
+          <span className="bg-green-900 py-2 px-3 rounded-md font-bold text-4xl" id="hours">{timeLeft.hours}  Hours</span>
+          <span className="bg-green-900 py-2 px-3 rounded-md font-bold text-4xl" id="minutes">{timeLeft.minutes} Minutes</span> 
+          <span className="bg-green-900 py-2 px-3 rounded-md font-bold text-4xl" id="seconds">{timeLeft.seconds} Seconds</span> 
         </div>
       </div>
     </section>

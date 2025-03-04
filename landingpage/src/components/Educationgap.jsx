@@ -41,7 +41,36 @@ const Educationgap = () => {
                                 <p className='text-xl'>Designed to empower dynamic millennials and generation Z!!</p>
                             </div>
                             <div className='col-span-12 lg:col-span-6 md:p-4 p-0  mb-5'>
-                                <img src="/images/viewroom.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' />
+                                {/* <img src="/images/viewroom.jpg" alt="Education gap" className='w-full h-[300px] rounded-lg' /> */}
+                                <div className='bg-gray-50 p-3 rounded'>
+                                    <h1 className='text-green-400 text-wrap'>The gap between education and employment is wider than ever and Career-Nexus was built to healp address this gap</h1>
+                                    <div className='flex gap-4 '>
+                                        <div className='text-center'>
+                                            <div className='flex justify-center'>
+                                                <h1 className='border-2 border-green-400 rounded-full w-16 py-4 my-6'>10%</h1>
+                                            </div>
+                                            <p>of working age population in Western world are unemployed or underemployed</p>
+                                        </div>
+                                        <div className='text-center'>
+                                            <div className='flex justify-center'>
+                                                <h1 className='border-2 border-green-400 rounded-full w-16 py-4 my-6'>87%</h1>
+                                            </div>
+                                            <p>of companies report a skills gap, with a lack of qualified candidates for available roles</p>
+                                        </div>
+                                        <div className='text-center'>
+                                            <div className='flex justify-center'>
+                                                <h1 className='border-2 border-green-400 rounded-full w-16 py-4 my-6'>40%</h1>
+                                            </div>
+                                            <p>of workers will requie reskilling within 5 years, yet many lack access to affordable and flexible learning solutions</p>
+                                        </div>
+                                        <div className='text-center'>
+                                            <div className='flex justify-center'>
+                                                <h1 className='border-2 border-green-400 rounded-full w-16 py-4 my-6'>83%</h1>
+                                            </div>
+                                            <p>of professionals feel their education did not adequately prepare them for their carrers</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
