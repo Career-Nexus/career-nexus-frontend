@@ -89,7 +89,7 @@ const HeroTwo = () => {
 
                 </div>
                 <h2 className='text-center text-white text-lg font-bold my-5 invisible md:visible'> Bridging Education with Real-World Expertise</h2>
-                <p className='text-center font-bold text-wrap invisible lg:visible text-green-900 bg-gray-300 p-2 rounded'>Career-Nexus empowers individuals to transition seamlessly from education to <br /> employment with real-world skills.</p>
+                <p className='text-center font-bold text-wrap invisible lg:visible text-green-900 bg-gray-300 p-2 rounded'>Career-Nexus empowers individuals to transition seamlessly <br />from education to  employment with real-world skills.</p>
 
                 <div className=" md:bg-inherit md:p-0 px-2">
                     <form onSubmit={handleSubmit} className='rounded-lg mx-2 -mt-20 md:-mt-5 lg:mt-0 pb-1'>
