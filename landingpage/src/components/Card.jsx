@@ -19,28 +19,28 @@ const Card = () => {
                         <Brain className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>AI-Powered Learning on Career Advancement</h1>
-                    <p>Personalized recommendations based on industry demand and tailored to your career goals.</p>
+                    <p className='text-center'>Personalized recommendations based on industry demand and tailored to your career goals.</p>
                 </div>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Shield className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>Blockchain-Backed Certifications</h1>
-                    <p>Secure, verifiable credentials trusted by employers.</p>
+                    <p className='text-center'>Secure, verifiable credentials trusted by employers.</p>
                 </div>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Cardboard className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>Immersive VR Job Simulations</h1>
-                    <p>Gain real-world experience in a risk-free environment.</p>
+                    <p className='text-center'>Gain real-world experience in a risk-free environment.</p>
                 </div>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">
                     <div className='flex justify-center items-center'>
                         <Globe className="mx-auto" />
                     </div>
                     <h1 className='text-2xl text-center my-3'>Global Networking and Workforce Upskilling</h1>
-                    <p>Connect with industry leaders and peers worldwide.</p>
+                    <p className='text-center'>Connect with industry leaders and peers worldwide.</p>
                 </div>
             </div>
         </div>
