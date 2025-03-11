@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Cursor, useTypewriter } from 'react-simple-typewriter'
 import { JoinWaitList } from '../api/apiService';
 import { Button, Modal } from 'flowbite-react';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import CounterTop from './CounterTop';
 import { LearnMore } from './Privacy';
 
@@ -69,8 +69,8 @@ const HeroTwo = () => {
                         <CounterTop targetDate={launchDate} />
                     </div>
                 </div>
-                <video autoPlay loop muted className='-mt-28 w-full col-span-11 h-full ' >
-                    <source src="/images/herovideo4.mp4" type="video/mp4" className='' />
+                <video autoPlay loop playsInline muted className='-mt-28 w-full col-span-11 h-full' >
+                    <source src="/images/herovideo4.mp4" type="video/mp4" className='py-5 md:p-0' />
                 </video>
             </div>
             <div className='md:absolute left-0 top-5 md:-top-24 lg:top-0 w-full flex flex-col justify-center items-center'>
@@ -126,7 +126,7 @@ const HeroTwo = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap -mx-3 mb-2 md:mb-6 mt-2 md:mt-5">
+                        <div className="flex flex-wrap -mx-3 my-2 md:my-5">
                             <div className="w-full md:w-1/2 px-10 md:px-3 mb-2 md:mb-0">
                                 {/* <button type='submit' className='bg-green-900 hover:bg-green-700 w-full px-3 py-3 rounded-md text-white' disabled={loading}>{loading ? "Joining the waitlist..." : "Join the Waitlist"}</button> */}
                                 <button type='submit' className='bg-green-900 hover:bg-green-700 w-full px-3 py-3 rounded-md text-white'>Join the Waitlist</button>
