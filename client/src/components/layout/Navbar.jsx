@@ -95,23 +95,23 @@ const Navigate = () => {
                 </div>
                 <div className='flex gap-10 ml-auto invisible md:visible'>
                     <div>
-                        <div><Home /></div>
+                        <div className='ml-2'><Home /></div>
                         <h1>Home</h1>
                     </div>
-                    <div>
-                        <div><Mentorship /></div>
+                    <div >
+                        <div className='ml-5'><Mentorship /></div>
                         <h1>Mentorship</h1>
                     </div>
                     <div>
-                        <div><Jobs /></div>
+                        <div className='ml-5'><Jobs /></div>
                         <h1>Jobs & Biz</h1>
                     </div>
                     <div>
-                        <div><User /></div>
+                        <div className='ml-2'><User /></div>
                         <h1>About</h1>
                     </div>
                     <div>
-                        <div><Help /></div>
+                        <div className='ml-8'><Help /></div>
                         <h1>Help & Support</h1>
                     </div>
                 </div>

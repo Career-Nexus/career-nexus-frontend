@@ -8,8 +8,8 @@ export default function Signup() {
         <div className=''>
             <div className='grid grid-cols-12'>
                 <div className='col-span-12 lg:col-span-7'>
-                    <div className=''>
-                        <img src="/images/auth-img.png" alt="Auth image" />
+                    <div className='w-full'>
+                        <img src="/images/auth-img.png" alt="Auth image" className='w-full'/>
                     </div>
                     <div className='mt-[-16rem] h-96 w-full'>
                         <img src="/images/gradient.png" alt="gradient" className='h-3/4 w-full' />
