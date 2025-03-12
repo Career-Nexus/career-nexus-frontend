@@ -11,9 +11,6 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.10.6",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@material-ui/icons": "^4.11.3",
     "flowbite-react": "^0.10.2",
     "framer-motion": "^12.4.10",
     "react": "^19.0.0",
@@ -26,7 +23,6 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "daisyui": "^5.0.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
