@@ -36,14 +36,14 @@ const CounterTop = ({ targetDate }) => {
         <section className="py-2">
             {/* <p className="mb-5">Our full platform launches in:</p> */}
             <div id="countdown-timer" className="flex justify-center flex-wrap text-green-900" >
-                <span className="bg-gray-300 p-2 rounded-tl rounded-bl font-bold text-4xl" id="days">{timeLeft.days}</span>
-                <span className="bg-gray-300 rounded-tr rounded-br mr-2 pr-1 font-bold pt-4">Days</span>
-                <span className="bg-gray-300 p-2 rounded-tl rounded-bl font-bold text-4xl" id="hours">{timeLeft.hours}</span>
-                <span className="bg-gray-300 rounded-tr rounded-br mr-2 pr-1 font-bold pt-4">Hrs</span>
-                <span className="bg-gray-300 p-2 rounded-tl rounded-bl font-bold text-4xl" id="minutes">{timeLeft.minutes}</span>
-                <span className="bg-gray-300 rounded-tr rounded-br mr-2 pr-1 font-bold pt-4">Mins</span>
-                <span className="bg-gray-300 p-2 rounded-tl rounded-bl font-bold text-4xl" id="seconds">{timeLeft.seconds}</span>
-                <span className="bg-gray-300 rounded-tr rounded-br mr-2 pr-1 font-bold pt-4">Secs</span>
+                <span className="bg-gray-300 md:p-2 rounded-tl rounded-bl md:font-bold md:text-4xl" id="days">{timeLeft.days}</span>
+                <span className="bg-gray-300 rounded-tr rounded-br mr-1 md:mr-2 md:pr-1 md:font-bold md:pt-4">Days</span>
+                <span className="bg-gray-300 md:p-2 rounded-tl rounded-bl md:font-bold md:text-4xl" id="hours">{timeLeft.hours}</span>
+                <span className="bg-gray-300 rounded-tr rounded-br mr-1 md:mr-2 md:pr-1 md:font-bold md:pt-4">Hrs</span>
+                <span className="bg-gray-300 md:p-2 rounded-tl rounded-bl md:font-bold md:text-4xl" id="minutes">{timeLeft.minutes}</span>
+                <span className="bg-gray-300 rounded-tr rounded-br mr-1 md:mr-2 md:pr-1 md:font-bold md:pt-4">Mins</span>
+                <span className="bg-gray-300 md:p-2 rounded-tl rounded-bl md:font-bold md:text-4xl" id="seconds">{timeLeft.seconds}</span>
+                <span className="bg-gray-300 rounded-tr rounded-br mr-1 md:mr-2 md:pr-1 md:font-bold md:pt-4">Secs</span>
             </div>
         </section>
     );
