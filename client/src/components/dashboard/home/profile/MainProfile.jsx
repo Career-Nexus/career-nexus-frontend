@@ -6,11 +6,11 @@ const MainProfile = () => {
     return (
         <div>
             <div>
-                <div>
+                <div className='flex justify-between'>
                     <div>
                         <img src="/images/bg-profile.png" alt="cover photo" className='w-full h-auto' />
                     </div>
-                    <div>
+                    <div className='mx-auto'>
                         <Edit />
                     </div>
                 </div>
