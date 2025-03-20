@@ -3,6 +3,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Signup from '../pages/auth/Signup'
 import Login from '../pages/auth/Login'
 import Navigate from '../components/layout/Navbar'
+import Home from '../pages/dashboard/Home'
+import NavbarMain from '../components/layout/Navbarmain'
+import NoPage from '../components/Nopage'
+import ProfilePage from '../pages/dashboard/ProfilePage'
 const Router = () => {
   return (
     <BrowserRouter>
@@ -11,6 +15,11 @@ const Router = () => {
                 <Route index element={<Signup/>}/>
                 <Route path='login' element={<Login/>}/>
             </Route>
+            <Route path='/dashboard' element={<NavbarMain/>}>
+                <Route index element={<Home/>}/>
+                <Route path='profilepage' element={<ProfilePage/>}/>
+            </Route>
+            <Route path='*' element={<NoPage/>}/>
         </Routes>
     </BrowserRouter>
   )
