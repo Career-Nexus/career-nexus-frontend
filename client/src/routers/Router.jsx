@@ -4,9 +4,10 @@ import Signup from '../pages/auth/Signup'
 import Login from '../pages/auth/Login'
 import Navigate from '../components/layout/Navbar'
 import Home from '../pages/dashboard/Home'
-import NavbarMain from '../components/layout/Navbarmain'
+
 import NoPage from '../components/Nopage'
 import ProfilePage from '../pages/dashboard/ProfilePage'
+import MainNavbar from '../components/layout/MainNavbar'
 const Router = () => {
   return (
     <BrowserRouter>
@@ -15,7 +16,7 @@ const Router = () => {
                 <Route index element={<Signup/>}/>
                 <Route path='login' element={<Login/>}/>
             </Route>
-            <Route path='/dashboard' element={<NavbarMain/>}>
+            <Route path='/dashboard' element={<MainNavbar/>}>
                 <Route index element={<Home/>}/>
                 <Route path='profilepage' element={<ProfilePage/>}/>
             </Route>
