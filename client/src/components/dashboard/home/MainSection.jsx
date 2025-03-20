@@ -5,54 +5,54 @@ import { Article, Clock, Event, Upload, Video } from '../../../icons/icon'
 
 const MainSection = () => {
 
- const SocialMediaToolbar=()=> {
-  return (
-    <div className="flex items-center gap-2 w-full max-w-3xl">
-      <button
-        variant="ghost"
-        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-      >
-        <Upload className="h-4 w-4" />
-        <span className="text-xs font-thin">Upload Media</span>
-      </button>
+    const SocialMediaToolbar = () => {
+        return (
+            <div className="flex items-center gap-2 w-full max-w-3xl">
+                <button
+                    variant="ghost"
+                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
+                >
+                    <Upload className="h-4 w-4" />
+                    <span className="text-xs font-thin">Upload Media</span>
+                </button>
 
-      <button
-        variant="ghost"
-        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-      >
-        <Video className="h-4 w-4" />
-        <span className="text-xs font-thin">Start Live Video</span>
-      </button>
+                <button
+                    variant="ghost"
+                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
+                >
+                    <Video className="h-4 w-4" />
+                    <span className="text-xs font-thin">Start Live Video</span>
+                </button>
 
-      <button
-        variant="ghost"
-        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-      >
-        <Event className="h-4 w-4" />
-        <span className="text-xs font-thin">Add Event</span>
-      </button>
+                <button
+                    variant="ghost"
+                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
+                >
+                    <Event className="h-4 w-4" />
+                    <span className="text-xs font-thin">Add Event</span>
+                </button>
 
-      <button
-        variant="ghost"
-        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-      >
-        <Article className="h-4 w-4" />
-        <span className="text-xs font-thin">Add Article</span>
-      </button>
+                <button
+                    variant="ghost"
+                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
+                >
+                    <Article className="h-4 w-4" />
+                    <span className="text-xs font-thin">Add Article</span>
+                </button>
 
-      <div className="ml-auto">
-        <button className="bg-green-500 hover:bg-green-600 text-white rounded-md px-6">Post</button>
-      </div>
-    </div>
-  )
+                <div className="ml-auto">
+                    <button className="bg-green-500 hover:bg-green-600 text-white rounded-md px-6">Post</button>
+                </div>
+            </div>
+        )
 
-    // const FileUpload = () => {
-    //     const file = [
-    //         { id: 1, icon: <Upload/>, desc: "Upload Media" },
-    //         { id: 2, icon: <Video/>, desc: "Live Video" },
-    //         { id: 3, icon: <Event/>, desc: "Schedule Event" },
-    //         { id: 4, icon: <Article/>, desc: "Write Article" },
-    //     ]
+        // const FileUpload = () => {
+        //     const file = [
+        //         { id: 1, icon: <Upload/>, desc: "Upload Media" },
+        //         { id: 2, icon: <Video/>, desc: "Live Video" },
+        //         { id: 3, icon: <Event/>, desc: "Schedule Event" },
+        //         { id: 4, icon: <Article/>, desc: "Write Article" },
+        //     ]
         return (
             <label className="file-upload relative flex gap-2 cursor-pointer">
                 {
@@ -67,7 +67,7 @@ const MainSection = () => {
                     <Upload/>
                     <span className="text-xs">Upload Media</span>
                 </div>*/}
-                <input type="file" className="hidden" /> 
+                <input type="file" className="hidden" />
             </label>
         );
     };
@@ -100,7 +100,9 @@ const MainSection = () => {
                     <button className='text-white col-span-2 ml-auto bg-[#5DA05D] px-5 rounded-lg'>Post</button> */}
                 </div>
             </div>
-            <input type='text' name="update" id="update" placeholder='Share an update' className='block md:hidden w-full rounded-lg border-gray-300 bg-gray-50' />
+            <div className=''>
+                <input type='text' name="update" id="update" placeholder='Share an update' className='block md:hidden w-full rounded-lg border-gray-300 bg-gray-50' />
+            </div>
             <div className='my-3 gap-3 flex'>
                 <button className='bg-[#5DA05D] text-white px-4 py-2 rounded-lg text-xs'>All</button>
                 <button className='border border-gray-300 px-4 py-2 rounded-lg text-xs'>Following</button>

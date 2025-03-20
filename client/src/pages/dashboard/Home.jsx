@@ -5,7 +5,7 @@ import EventsHome from '../../components/dashboard/home/EventsHome'
 
 const Home = () => {
     return (
-        <div className='grid grid-cols-12 gap-8 px-20 py-8'>
+        <div className='grid grid-cols-12 md:gap-8 p-4  md:px-20 md:py-8'>
             <div className='md:col-span-3'>
                 <Profile />
             </div>
