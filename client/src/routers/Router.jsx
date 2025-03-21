@@ -13,11 +13,11 @@ const Router = () => {
         <Routes>
             <Route path='/' element={<Navigate/>}>
                 <Route index element={<Signup/>}/>
-                <Route path='login' element={<Login/>}/>
+                <Route path='/login' element={<Login/>}/>
             </Route>
-            <Route path='/dashboard' element={<MainNavbar/>}>
-                <Route index element={<Home/>}/>
-                <Route path='profilepage' element={<ProfilePage/>}/>
+            <Route path='/' element={<MainNavbar/>}>
+                <Route path='/home' element={<Home/>}/>
+                <Route path='/profilepage' element={<ProfilePage/>}/>
             </Route>
             <Route path='*' element={<ErrorPage/>}/>
         </Routes>
