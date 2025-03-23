@@ -149,7 +149,7 @@ export const Message = () => (
     </svg>
 )
 export const Edit = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M14.3632 5.65156L15.8431 4.17157C16.6242 3.39052 17.8905 3.39052 18.6716 4.17157L20.0858 5.58579C20.8668 6.36683 20.8668 7.63316 20.0858 8.41421L18.6058 9.8942M14.3632 5.65156L4.74749 15.2672C4.41542 15.5993 4.21079 16.0376 4.16947 16.5054L3.92738 19.2459C3.87261 19.8659 4.39148 20.3848 5.0115 20.33L7.75191 20.0879C8.21972 20.0466 8.65806 19.8419 8.99013 19.5099L18.6058 9.8942M14.3632 5.65156L18.6058 9.8942" stroke="#5DA05D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 )
@@ -158,4 +158,39 @@ export const VideoIcon = () => (
         <rect width="68" height="68" rx="34" fill="white" />
         <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8236 24.0283C27.4013 24.0279 26.9859 24.1351 26.6165 24.3398C26.2376 24.5328 25.9185 24.8254 25.6933 25.186C25.468 25.5466 25.3452 25.9618 25.3379 26.3869V41.6398C25.3452 42.0649 25.468 42.48 25.6933 42.8406C25.9185 43.2013 26.2376 43.4938 26.6165 43.6869C26.9926 43.8958 27.4164 44.0035 27.8466 43.9995C28.2768 43.9955 28.6986 43.8799 29.0707 43.664L41.3993 36.0383C41.7798 35.8466 42.0995 35.553 42.3229 35.1901C42.5462 34.8273 42.6644 34.4096 42.6642 33.9836C42.6641 33.5576 42.5456 33.1399 42.322 32.7773C42.0984 32.4146 41.7785 32.1212 41.3979 31.9298L29.0693 24.3612C28.6906 24.1426 28.2609 24.0278 27.8236 24.0283Z" fill="black" />
     </svg>
+)
+export const Camera = () => (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_587_3971)">
+            <path d="M4 12C4 5.37258 9.37258 0 16 0H32C38.6274 0 44 5.37258 44 12V28C44 34.6274 38.6274 40 32 40H16C9.37258 40 4 34.6274 4 28V12Z" fill="#5DA05D" />
+            <path d="M14 27V17C14 15.8954 14.8954 15 16 15H16.5C17.1295 15 17.7223 14.7036 18.1 14.2L20.32 11.24C20.4333 11.0889 20.6111 11 20.8 11H27.2C27.3889 11 27.5667 11.0889 27.68 11.24L29.9 14.2C30.2777 14.7036 30.8705 15 31.5 15H32C33.1046 15 34 15.8954 34 17V27C34 28.1046 33.1046 29 32 29H16C14.8954 29 14 28.1046 14 27Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M24 25C26.2091 25 28 23.2091 28 21C28 18.7909 26.2091 17 24 17C21.7909 17 20 18.7909 20 21C20 23.2091 21.7909 25 24 25Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <defs>
+            <filter id="filter0_d_587_3971" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                <feOffset dy="4" />
+                <feGaussianBlur stdDeviation="2" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_587_3971" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_587_3971" result="shape" />
+            </filter>
+        </defs>
+    </svg>
+)
+
+export const Info = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 11.5V16.5" stroke="#5DA05D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 7.51L12.01 7.49889" stroke="#5DA05D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#5DA05D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+)
+export const Videow=()=>(
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 12V16.4C15 16.7314 14.7314 17 14.4 17H3.6C3.26863 17 3 16.7314 3 16.4V7.6C3 7.26863 3.26863 7 3.6 7H14.4C14.7314 7 15 7.26863 15 7.6V12ZM15 12L20.0159 7.82009C20.4067 7.49443 21 7.77232 21 8.28103V15.719C21 16.2277 20.4067 16.5056 20.0159 16.1799L15 12Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
 )

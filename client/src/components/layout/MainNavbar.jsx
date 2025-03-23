@@ -5,7 +5,7 @@ import {Help, Home, Jobs, Mentorship, RightArrow, Search, Toggle, User } from '.
 
 const MainNavbar = () => {
     return (
-        <nav>
+        <nav className='sticky top-0 z-50'>
             <div className='bg-white shadow w-full'>
                 <div className='flex items-center justify-between md:mx-20 p-1 md:p-0'>
                     {/* Logo for small and medium screens */}
@@ -23,7 +23,7 @@ const MainNavbar = () => {
                         </div>
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search for Jobs, Skills, people....."
                             className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
                         />
                     </div>

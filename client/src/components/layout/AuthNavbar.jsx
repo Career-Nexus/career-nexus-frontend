@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { Help, Home, Jobs, Mentorship, RightArrow, Toggle, User } from '../../icons/icon';
 import {
     Drawer,
@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useRef } from 'react';
 
-const Navigate = () => {
+const AuthNavbar = () => {
     const Toggler = () => {
         const { isOpen, onOpen, onClose } = useDisclosure()
         const btnRef = useRef()
@@ -35,7 +35,7 @@ const Navigate = () => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            <img src="/images/c-nicon2.png" alt="career-nexus logo" className='h-16 w-auto'/>
+                            <img src="/images/c-nicon2.png" alt="career-nexus logo" className='h-12 w-auto'/>
                         </DrawerHeader>
                         <hr />
                         <DrawerBody>
@@ -77,58 +77,56 @@ const Navigate = () => {
                             </div>
                         </DrawerBody>
 
-                        <DrawerFooter>
+                        {/* <DrawerFooter>
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                        </DrawerFooter>
+                        </DrawerFooter> */}
                     </DrawerContent>
                 </Drawer>
             </div>
         )
     }
     return (
-        <nav>
+        <nav className='sticky top-0 z-50 bg-white shadow'>
             <div className='bg-white shadow flex items-center justify-between'>
                 {/* <div className='flex items-center justify-between sticky top-0 z-50 bg-white shadow'> */}
                 <div className='ml-10 md:ml-20 pb-2 items-center hidden md:block '>
                     <img src="images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                 </div>
                 <div className='ml-10 md:ml-20 pb-2 items-center block md:hidden'>
-                    <img src="images/c-nicon2.png" alt="Career-Nexus logo" className="h-16 w-auto" />
+                    <img src="images/c-nicon2.png" alt="Career-Nexus logo" className="h-12 w-auto" />
                 </div>
                 <div className='visible md:invisible ml-auto'>
                     <Toggler />
                 </div>
                 <div className='gap-10 ml-auto hidden md:flex space-x-4 mr-10'>
                     {/* <div className='flex gap-10 ml-auto invisible md:visible'> */}
-                    <div>
-                        <div className='ml-2'><Home /></div>
+                    <Link to={'/home'} className='flex flex-col items-center'>
+                        <div className=''><Home /></div>
                         <h1>Home</h1>
-                    </div>
-                    <div >
-                        <div className='ml-5'><Mentorship /></div>
+                    </Link>
+                    <div className='flex flex-col items-center'>
+                        <div className=''><Mentorship /></div>
                         <h1>Mentorship</h1>
                     </div>
-                    <div>
-                        <div className='ml-5'><Jobs /></div>
+                    <div className='flex flex-col items-center'>
+                        <div className=''><Jobs /></div>
                         <h1>Jobs & Biz</h1>
                     </div>
-                    <div>
-                        <div className='ml-2'><User /></div>
+                    <div className='flex flex-col items-center'>
+                        <div className=''><User /></div>
                         <h1>About</h1>
                     </div>
-                    <div>
-                        <div className='ml-8'><Help /></div>
+                    <div className='flex flex-col items-center'>
+                        <div className=''><Help /></div>
                         <h1>Help & Support</h1>
                     </div>
-
                 </div>
-
             </div>
             <Outlet />
         </nav>
     )
 }
 
-export default Navigate
+export default AuthNavbar
