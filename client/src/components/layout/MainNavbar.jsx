@@ -1,6 +1,6 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
-import {Help, Home, Jobs, Mentorship, RightArrow, Search, Toggle, User } from '../../icons/icon';
+import { Link, Outlet } from 'react-router-dom'
+import {Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, RightArrow, Search, Toggle, User } from '../../icons/icon';
 
 
 const MainNavbar = () => {
@@ -13,7 +13,7 @@ const MainNavbar = () => {
                         <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-12 w-auto' />
                     </div>
                     <div className='hidden md:block'>
-                        <img src="/images/c-nlogo.png" alt="Career-Nexus logo" className="h-16 w-auto" />
+                        <img src="images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                     </div>
 
                     {/* Search Box */}
@@ -28,30 +28,38 @@ const MainNavbar = () => {
                         />
                     </div>
                     {/* Navigation Links for Medium Screens and Up */}
-                    <div className='hidden md:flex items-center justify-center space-x-4 mx-4 md:mx-20'>
-                        <div className='flex flex-col items-center'>
+                    <div className='hidden md:flex items-center justify-center space-x-6'>
+                        <Link to={'/home'} className='flex flex-col items-center'>
                             <Home className='mx-auto' />
                             <h1 className='text-xs'>Home</h1>
-                        </div>
+                        </Link>
                         <div className='flex flex-col items-center'>
                             <Mentorship className='mx-auto' />
                             <h1 className='text-xs'>Mentorship</h1>
                         </div>
                         <div className='flex flex-col items-center'>
+                            <Network className='mx-auto' />
+                            <h1 className='text-xs'>Network</h1>
+                        </div>
+                        <div className='flex flex-col items-center'>
                             <Jobs className='mx-auto' />
-                            <h1 className='text-xs'>Jobs & Biz</h1>
+                            <h1 className='text-xs'>Jobs</h1>
                         </div>
                         <div className='flex flex-col items-center'>
-                            <User className='mx-auto' />
-                            <h1 className='text-xs'>About</h1>
+                            <Email className='mx-auto' />
+                            <h1 className='text-xs'>Mail</h1>
                         </div>
                         <div className='flex flex-col items-center'>
-                            <Help className='mx-auto' />
-                            <h1 className='text-xs'>Help & Support</h1>
+                            <Notification className='mx-auto' />
+                            <h1 className='text-xs'>Notification</h1>
+                        </div>
+                        <div className='flex flex-col items-center'>
+                            <Business className='mx-auto' />
+                            <h1 className='text-xs'>Business</h1>
                         </div>
                     </div>
                     {/* Profile Picture */}
-                    <div className='flex items-center px-4'>
+                    <div className='flex items-center ml-10'>
                         <img src="/images/profile.png" alt="Profile picture" className="h-10 w-auto rounded-full" />
                     </div>
                 </div>

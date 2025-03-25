@@ -1,76 +1,9 @@
 import React from 'react'
-import { Article, Clock, Event, Upload, Video } from '../../../icons/icon'
-// import { Upload, Video, Calendar, FileText } from "lucide-react"
-// import { Button } from "@/components/ui/button"
+import { Article, Chat, Clock, EventIcon, Like, Repost, Save, Upload, Video } from '../../../icons/icon'
+import SocialMediaToolbar from './LiveStream'
+
 
 const MainSection = () => {
-
-    const SocialMediaToolbar = () => {
-        return (
-            <div className="flex items-center gap-2 w-full max-w-3xl">
-                <button
-                    variant="ghost"
-                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-                >
-                    <Upload className="h-4 w-4" />
-                    <span className="text-xs font-thin">Upload Media</span>
-                </button>
-
-                <button
-                    variant="ghost"
-                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-                >
-                    <Video className="h-4 w-4" />
-                    <span className="text-xs font-thin">Start Live Video</span>
-                </button>
-
-                <button
-                    variant="ghost"
-                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-                >
-                    <Event className="h-4 w-4" />
-                    <span className="text-xs font-thin">Add Event</span>
-                </button>
-
-                <button
-                    variant="ghost"
-                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-4 h-auto"
-                >
-                    <Article className="h-4 w-4" />
-                    <span className="text-xs font-thin">Add Article</span>
-                </button>
-
-                <div className="ml-auto">
-                    <button className="bg-green-500 hover:bg-green-600 text-white rounded-md px-6">Post</button>
-                </div>
-            </div>
-        )
-
-        // const FileUpload = () => {
-        //     const file = [
-        //         { id: 1, icon: <Upload/>, desc: "Upload Media" },
-        //         { id: 2, icon: <Video/>, desc: "Live Video" },
-        //         { id: 3, icon: <Event/>, desc: "Schedule Event" },
-        //         { id: 4, icon: <Article/>, desc: "Write Article" },
-        //     ]
-        return (
-            <label className="file-upload relative flex gap-2 cursor-pointer">
-                {
-                    file.map(item => (
-                        <div key={item.id} className='flex items-center px-12 border-2 border-gray-300 rounded-lg bg-gray-100'>
-                            <div className='ml-[-40px]'>{item.icon}</div>
-                            <div className='text-xs font-thin'>{item.desc}</div>
-                        </div>
-                    ))
-                }
-                {/* <div className="flex items-center px-4 py-2 border-2 border-gray-300 rounded-lg bg-gray-100 transition">
-                    <Upload/>
-                    <span className="text-xs">Upload Media</span>
-                </div>*/}
-                <input type="file" className="hidden" />
-            </label>
-        );
-    };
     const profile = [
         {
             id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
@@ -94,10 +27,6 @@ const MainSection = () => {
                 </div>
                 <div className='gap-2 mt-3 w-full'>
                     <SocialMediaToolbar />
-                    {/* <div className='col-span-10'>
-                        <FileUpload />
-                    </div>
-                    <button className='text-white col-span-2 ml-auto bg-[#5DA05D] px-5 rounded-lg'>Post</button> */}
                 </div>
             </div>
             <div className=''>
@@ -127,8 +56,27 @@ const MainSection = () => {
                         <div>
                             <img src={p.image2} alt="profile" className='w-full h-[348px]' />
                         </div>
+                        <div className='flex justify-center mt-3'>
+                            <div className='flex gap-2 justify-around items-center mr-10'>
+                                <Like /> 125 likes
+                            </div>
+                            <div className='flex gap-2 justify-around items-center mr-10'>
+                                <Chat /> 25 comments
+                            </div>
+                            <div className='flex gap-2 justify-around items-center mr-10'>
+                                <Upload /> 2 shares
+                            </div>
+                            <div className='flex gap-2 justify-around items-center mr-10'>
+                                <Save /> Save
+                            </div>
+                            <div className='flex gap-2 justify-around items-center'>
+                                <Repost /> Repost
+                            </div>
+                        </div>
                     </div>
+
                 ))}
+
             </div>
         </div>
     )
