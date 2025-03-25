@@ -1,7 +1,8 @@
 import React from 'react'
 import { Camera, Clock, Edit, Info, Video, VideoIcon, Videow } from '../../../../icons/icon'
 //import SocialMediaToolbar from '../LiveStream'
-import TabInterface from './TabInterface'
+import ProfileTabs from './ProfileTab'
+import { Edit2 } from 'lucide-react'
 
 const MainProfile = () => {
     return (
@@ -11,7 +12,7 @@ const MainProfile = () => {
                     <div className='absolute top-2 right-2'>
                         <Camera />
                     </div>
-                    <img src="/images/bg-profile.png" alt="cover photo" className='w-full h-[220px]' />
+                    <img src="/images/bg-profile.png" alt="cover photo" className='w-full md:h-[220px]' />
                 </div>
                 <div className='flex justify-between'>
                     <div className='z-10'>
@@ -19,15 +20,15 @@ const MainProfile = () => {
                             className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
                         <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                     </div>
-                    <div className='rounded-lg border border-[#5DA05D] px-4 mt-2 flex items-center gap-1'>
-                        <Edit /> <p className='text-[#5DA05D] text-sm'>Edit Profile</p>
+                    <div className='rounded-lg border border-[#5DA05D] md:px-4 px-2 mt-2 flex items-center gap-1 md:h-10 h-7'>
+                        <Edit className='text-[#5DA05D] h-4 w-4' /> <p className='text-[#5DA05D] md:text-sm text-xs'>Edit Profile</p>
                     </div>
                 </div>
                 <div className='mt-6'>
                     <h1 className='text-xl font-bold'>
                         John Smith
                     </h1>
-                    <p>
+                    <p className='text-xs md:text-lg'>
                         BSc, MSc(UK), MSc(USA), PSM I (in view) | Full Stack Development | Scrum Master | Product Management | Agile Methodology Implementation | Process Improvement | Business Analysis | Project Management | Database Administration | Data Analysis
                     </p>
                     <p className='text-slate-500 font-thin'>
@@ -52,7 +53,7 @@ const MainProfile = () => {
                     </button>
                 </div>
             </div>
-            <TabInterface/>
+            <ProfileTabs />
         </div>
     )
 }

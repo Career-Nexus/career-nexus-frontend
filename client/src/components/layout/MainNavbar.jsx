@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import {Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, RightArrow, Search, Toggle, User } from '../../icons/icon';
+import MobileFooterNav from './FooterNavbar';
 
 
 const MainNavbar = () => {
@@ -59,11 +60,13 @@ const MainNavbar = () => {
                         </div>
                     </div>
                     {/* Profile Picture */}
-                    <div className='flex items-center ml-10'>
+                    <div className='flex items-center md:ml-10 ml-0'>
                         <img src="/images/profile.png" alt="Profile picture" className="h-10 w-auto rounded-full" />
                     </div>
                 </div>
             </div>
+            {/* Sidebar for small screens */}
+            <MobileFooterNav />
             <Outlet />
         </nav>
     )

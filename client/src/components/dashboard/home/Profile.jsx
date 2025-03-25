@@ -35,14 +35,14 @@ const Profile = () => {
                 <h1 className='p-3 font-semibold'>Who to Follow</h1>
                 <div>
                     {items.map(item => (
-                        <div key={item.id} className='flex items-center gap-4 p-3'>
-                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full' />
-                            <div>
+                        <div key={item.id} className='grid grid-cols-12 items-center p-3'>
+                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3' />
+                            <div className='lg:col-span-6 md:col-span-12'>
                                 <h3 className='font-bold'>{item.name}</h3>
                                 <p className='text-xs font-thin'>{item.desc}</p>
                                 <p className='text-xs font-thin'>{item.follow}</p>
                             </div>
-                            <div>
+                            <div className='lg:col-span-3 md:col-span-12'>
                                 <button className='border border-[#5DA05D] rounded-lg text-[#5DA05D] text-sm px-2'>Follow</button>
                             </div>
                         </div>
