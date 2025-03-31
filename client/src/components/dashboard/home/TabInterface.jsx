@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { SocialInteractionBar } from "./SocialInteractionBar"
-import { Plus } from "lucide-react"
+import { ChevronDown, ChevronUp, Plus } from "lucide-react"
 import { Clock } from "../../../icons/icon"
 
 export default function TabInterface() {
     const [activeTab, setActiveTab] = useState("all")
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4">
+        <div className="w-full max-w-4xl mx-auto pt-4">
             <div className="my-3 gap-3 flex">
                 <button
                     className={`px-4 py-2 rounded-lg text-xs transition-colors ${activeTab === "all" ? "bg-[#5DA05D] text-white" : "border border-gray-300 hover:bg-gray-100"
@@ -42,6 +42,17 @@ export default function TabInterface() {
 }
 
 function AllTemplate() {
+    const [expandedItems, setExpandedItems] = useState({
+        walmart: false,
+        apple: false
+    });
+
+    const toggleExpand = (key) => {
+        setExpandedItems(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
     const profile = [
         {
             id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
@@ -72,7 +83,50 @@ function AllTemplate() {
                         </div>
                         <button className='text-[#5DA05D] flex  justify-center border border-[#5DA05D] ml-auto px-3 py-1 rounded-lg text-xs'><Plus className='w-4 h-4' /> Follow</button>
                     </div>
-                    <p className='mb-3'>{p.disc2} <a href="#" className='text-[#5DA05D]'>More</a></p>
+                    {/* <p className='mb-3'>{p.disc2} <a href="#" className='text-[#5DA05D]'>More</a></p> */}
+                    <ul className="list-disc ml-5 mt-3 text-sm">
+
+                        <span className=" ">
+
+                            <span className='mb-3'>{p.disc2}</span>
+                            {!expandedItems.walmart && "..."}
+                            <button
+                                onClick={() => toggleExpand("walmart")}
+                                className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
+                            >
+                                {expandedItems.walmart ? (
+                                    <>
+                                        <span className='text-[#5DA05D]'>Hide</span>
+                                        <ChevronUp className="h-3 w-3 ml-0.5" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className='text-[#5DA05D]'>More</span>
+                                        <ChevronDown className="h-3 w-3 ml-0.5" />
+                                    </>
+                                )}
+                            </button>
+                        </span>
+                        {expandedItems.walmart && (
+                            <div className="list-none">
+                                <li className="mt-2">
+                                    Collaborated with cross-functional teams to deliver high-quality software solutions on time and
+                                    within budget.
+                                </li>
+                                <li className="mt-2">
+                                    Implemented responsive design principles to ensure optimal user experience across various devices
+                                    and screen sizes.
+                                </li>
+                                <li className="mt-2">
+                                    Participated in code reviews and provided constructive feedback to improve code quality and
+                                    maintainability.
+                                </li>
+                                <li className="mt-2">
+                                    Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
+                                </li>
+                            </div>
+                        )}
+                    </ul>
                     <div>
                         <img src={p.image2} alt="profile" className='w-full h-[348px]' />
                     </div>

@@ -19,14 +19,14 @@ export default function Login() {
   }
 
   return (
-    <div className='' style={{ height: '100vh', overflow: 'hidden' }}>
+    <div className='md:h-[87vh] overflow-hidden'>
       <div className='grid grid-cols-12 pb-8 md:pb-0'>
         {/* left */}
         <div className='col-span-12 lg:col-span-7 hidden md:block'>
-          <div className="relative h-[80%] w-full overflow-hidden">
+          <div className="relative h-[85%] w-full overflow-hidden">
             {/* Background Image */}
             <div
-              className="absolute inset-0 bg-cover bg-center z-0"
+              className="absolute inset-0 bg-cover bg-center z-0 aspect-[7.8/6] -mt-16 ml-[-16%]"
               style={{
                 backgroundImage:
                   "url('/images/auth-img.png')",
@@ -43,9 +43,9 @@ export default function Login() {
             />
 
             {/* Content Container */}
-            <div className="relative z-20 h-full flex flex-col justify-end pb-10 px-8">
+            <div className="relative z-20 h-full flex flex-col justify-end pb-12 px-16">
               {/* Connection Status */}
-              <div className="mb-2">
+              <div className="mb-1">
                 <div className="inline-flex items-center bg-opacity-20 bg-gray-800 rounded-lg px-3 py-2 border border-white">
                   <div className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"} mr-2`}></div>
                   <span className="text-white text-sm">One connection at a time</span>
@@ -53,12 +53,12 @@ export default function Login() {
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-white text-lg md:text-xl lg:text-2xl font-bold mb-4 leading-tight">
+              <h1 className="text-white text-lg md:text-lg lg:text-xl font-bold mb-2 leading-tight">
                 Welcome to your Professional Practical Training Workshop, Career Contents and Global Networking Community!
               </h1>
 
               {/* Subheading */}
-              <p className="text-white text-xs md:text-lg opacity-90 max-w-3xl" style={{fontSize: '0.9rem'}}>
+              <p className="text-white text-xs md:text-sm opacity-90 max-w-3xl" style={{fontSize: '0.9rem'}}>
                 Your gateway to skill enhancement and collaborative solutions to workforce applications...
               </p>
             </div>

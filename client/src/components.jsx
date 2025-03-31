@@ -1,182 +1,244 @@
-import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { AuthProvider } from "./context/auth-context"
+import { ThemeProvider } from "./components/ThemeProvider"
+import ProtectedRoute from "./components/ProtectedRoute"
+import PublicRoute from "./components/PublicRoute"
+import LoginPage from "./pages/LoginPage"
+import SignupPage from "./pages/SignupPage"
+import DashboardPage from "./pages/DashboardPage"
+import "./index.css"
 
-const CreateAccountForm = () => {
-  const [employer, setEmployer] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('mentor'); // Default role
+function App() {
+  return (
+    <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+      <AuthProvider>
+        <Router>
+          <Routes>
+            {/* Redirect root to dashboard or login */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-  const handleSignup = (event) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    console.log({ employer, fullName, emailAddress, password, confirmPassword, role });
-    alert('Account created successfully!');
-  };
+            {/* Public routes - accessible only when not logged in */}
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/forgot-password" element={<div>Forgot Password Page</div>} />
+            </Route>
+
+            {/* Protected routes - accessible only when logged in */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/profile" element={<div>Profile Page</div>} />
+            </Route>
+
+            {/* 404 page */}
+            <Route path="*" element={<div>Page Not Found</div>} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
+  )
+}
+
+
+
+import { useAuth } from "../context/auth-context"
+import { Button } from "../components/ui/button"
+
+function DashboardPage() {
+  const { user, logout } = useAuth()
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create Account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSignup}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="role" className="sr-only">Select your role</label>
-              <select
-                id="role"
-                name="role"
-                required
-                className="appearance-none rounded-md w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option value="mentor">Mentor</option>
-                <option value="employer">Employer</option>
-                <option value="learner">Learner</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="employer" className="sr-only">Employer</label>
-              <input
-                id="employer"
-                name="employer"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Employer"
-                value={employer}
-                onChange={(e) => setEmployer(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="full-name" className="sr-only">Full Name</label>
-              <input
-                id="full-name"
-                name="full-name"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email Address</label>
-              <input
-                id="email-address"
-                name="email-address"
-                type="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email Address"
-                value={emailAddress}
-                onChange={(e) => setEmailAddress(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
-              <input
-                id="confirm-password"
-                name="confirm-password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-
-        <div className="flex items-center justify-center space-x-4">
-          <button className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            <img src="https://www.google.com/favicon.ico" alt="Google" className="h-5 w-5 mr-2" />
-            Sign up with Google
-          </button>
-          <button className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            <img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn" className="h-5 w-5 mr-2" />
-            Sign up with LinkedIn
-          </button>
-        </div>
-
-        <div className="text-center">
-          <a href="/login" className="text-sm text-indigo-600 hover:text-indigo-500">
-            Already have an account? Log in
-          </a>
-        </div>
+    <div className="container mx-auto py-10">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <Button onClick={logout} variant="outline">
+          Logout
+        </Button>
       </div>
-      {/* <form className="bg-white px-16 space-y-4">
-                        <h1 className='font-bold text-center mt-5'>Create Account</h1>
-                        <div className="max-w-md">
-                            <Select id="countries" required className='border border-green-300 rounded-lg'>
-                                <option>Select your type</option>
-                                <option>Learner</option>
-                                <option>Employer</option>
-                                <option>Mentor</option>
-                            </Select>
-                        </div>
-                        <div className="max-w-md">
-                            <TextInput id="email4" type="text" icon={User} placeholder=" Full Name" required />
-                        </div>
-                        <div className="max-w-md">
-                            <TextInput id="email4" type="email" icon={Email} placeholder=" Email Address" required />
-                        </div>
-                        <div className='flex gap-3'>
-                            <div className="max-w-md">
-                                <TextInput id="email4" type="password" icon={Password} placeholder=" Password" required />
-                            </div>
-                            <div className="max-w-md">
-                                <TextInput id="email4" type="password" icon={Password} placeholder=" Confirm Password" required />
-                            </div>
-                        </div>
 
-                        <button type="submit" color="gray" className='bg-[#5DA05D] w-full py-2 rounded-lg text-white'>Sign up</button>
-                        <p className='text-gray-500 font-thin text-center'>Or continue with</p>
-
-                        <button type="submit"
-                            class="w-full flex items-center border justify-center py-2 gap-1 rounded-lg transition">
-                            <Google />
-                            Google
-                        </button>
-                        <button type="submit"
-                            class="w-full flex items-center border justify-center py-2 gap-1 rounded-lg transition">
-                            <Linkedin />
-                            Linkedin
-                        </button>
-                        <p>Aleady have an account? <Link to={'/login'} className='text-[#5DA05D]'>Login</Link></p>
-                        
-                     </form> */}
+      <div className="bg-card p-6 rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-4">Welcome, {user?.name}!</h2>
+        <p className="text-muted-foreground">You are now logged in to your account.</p>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateAccountForm;
+
+
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
+import { authService } from "../services/api-services"
+import { Button } from "./ui/button"
+import { Input } from "./ui/input"
+import { Label } from "./ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
+import { AlertCircle } from "lucide-react"
+import { Alert, AlertDescription } from "./ui/alert"
+import { Checkbox } from "./ui/checkbox"
+
+function LoginForm() {
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  })
+  const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [apiError, setApiError] = useState("")
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }))
+    }
+  }
+
+  const handleCheckboxChange = (checked) => {
+    setFormData((prev) => ({ ...prev, rememberMe: checked }))
+  }
+
+  const validateForm = () => {
+    const newErrors = {}
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid"
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setApiError("")
+
+    if (!validateForm()) return
+
+    setIsLoading(true)
+    try {
+      await authService.login(formData.email, formData.password)
+      navigate("/dashboard") // Redirect to dashboard after successful login
+    } catch (error) {
+      console.error("Login error:", error)
+      setApiError(error.response?.data?.message || "Invalid email or password. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl">Log in</CardTitle>
+        <CardDescription>Enter your credentials to access your account</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {apiError && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{apiError}</AlertDescription>
+            </Alert>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="john@example.com"
+            />
+            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <Link to="/forgot-password" className="text-sm text-primary underline underline-offset-4">
+                Forgot password?
+              </Link>
+            </div>
+            <Input id="password" name="password" type="password" value={formData.password} onChange={handleChange} />
+            {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox id="rememberMe" checked={formData.rememberMe} onCheckedChange={handleCheckboxChange} />
+            <Label htmlFor="rememberMe" className="text-sm font-normal">
+              Remember me for 30 days
+            </Label>
+          </div>
+
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Log in"}
+          </Button>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <p className="text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-primary underline underline-offset-4">
+            Sign up
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
+  )
+}
+
+
+import { Navigate, Outlet } from "react-router-dom"
+import { useAuth } from "../context/auth-context"
+
+function PublicRoute({ redirectPath = "/dashboard" }) {
+  const { isAuthenticated, isLoading } = useAuth()
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>
+  }
+
+  // Redirect if authenticated
+  if (isAuthenticated) {
+    return <Navigate to={redirectPath} replace />
+  }
+
+  // Render children if not authenticated
+  return <Outlet />
+}
+
+
+
+import { Navigate, Outlet } from "react-router-dom"
+import { useAuth } from "../context/auth-context"
+
+function ProtectedRoute({ redirectPath = "/login" }) {
+  const { isAuthenticated, isLoading } = useAuth()
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>
+  }
+
+  // Redirect if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to={redirectPath} replace />
+  }
+
+  // Render children if authenticated
+  return <Outlet />
+}

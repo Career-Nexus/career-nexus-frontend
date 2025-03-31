@@ -21,15 +21,7 @@ const MainSection = () => {
             <div className=''>
                 <input type='text' name="update" id="update" placeholder='Share an update' className='block md:hidden w-full rounded-lg border-gray-300 bg-gray-50' />
             </div>
-            <TabInterface />
-            {/* <div className='my-3 gap-3 flex'>
-                <button className='bg-[#5DA05D] text-white px-4 py-2 rounded-lg text-xs'>posts</button>
-                <button className='border border-gray-300 px-4 py-2 rounded-lg text-xs'>Professional Summary</button>
-                <button className='border border-gray-300 px-4 py-2 rounded-lg text-xs'>Portfolio Virtual Gallery</button>
-                <button className='border border-gray-300 px-4 py-2 rounded-lg text-xs'>Project Catalog</button>
-                <button className='border border-gray-300 px-4 py-2 rounded-lg text-xs'>Analytics Dashboard</button>
-            </div> */}
-            
+            <TabInterface /> 
         </div>
     )
 }
