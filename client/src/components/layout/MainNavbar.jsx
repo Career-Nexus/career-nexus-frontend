@@ -8,7 +8,7 @@ const MainNavbar = () => {
     return (
         <nav className='sticky top-0 z-50'>
             <div className='bg-white shadow w-full'>
-                <div className='flex items-center justify-between md:mx-20 p-1 md:p-0'>
+                <div className='flex items-center justify-between md:mx-5 lg:mx-20 p-1 md:p-0'>
                     {/* Logo for small and medium screens */}
                     <div className='block md:hidden'>
                         <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-12 w-auto' />
@@ -18,7 +18,7 @@ const MainNavbar = () => {
                     </div>
 
                     {/* Search Box */}
-                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden flex-grow mx-4 md:mx-10">
+                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden flex-grow mx-4 lg:mx-10">
                         <div className="flex items-center pl-3">
                             <Search />
                         </div>
@@ -29,7 +29,7 @@ const MainNavbar = () => {
                         />
                     </div>
                     {/* Navigation Links for Medium Screens and Up */}
-                    <div className='hidden md:flex items-center justify-center space-x-6'>
+                    <div className='hidden md:flex items-center justify-center lg:space-x-6 md:space-x-3'>
                         <Link to={'/home'} className='flex flex-col items-center'>
                             <Home className='mx-auto' />
                             <h1 className='text-xs'>Home</h1>
@@ -59,8 +59,9 @@ const MainNavbar = () => {
                             <h1 className='text-xs'>Business</h1>
                         </div>
                     </div>
+                    <p className='md:ml-5 ml-0 mr-2 md:mr-0'>|</p>
                     {/* Profile Picture */}
-                    <div className='flex items-center md:ml-10 ml-0'>
+                    <div className='flex items-center md:ml-4 lg:ml-10 ml-0'>
                         <img src="/images/profile.png" alt="Profile picture" className="h-10 w-auto rounded-full" />
                     </div>
                 </div>

@@ -127,7 +127,8 @@ export default function ChatModal({ isOpen, onClose, onReadMessages }) {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
               className="mr-2 border-gray-300 focus:border-green-500 focus:ring-green-500"
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
+            //   onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   handleSendMessage()
                 }

@@ -37,7 +37,7 @@ export default function MobileFooterNav() {
 
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full border-t border-gray-200 bg-white md:hidden">
-      <div className="mx-auto flex h-12 max-w-lg items-center justify-center px-4">
+      <div className="mx-auto flex h-12 max-w-lg items-center justify-between">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (

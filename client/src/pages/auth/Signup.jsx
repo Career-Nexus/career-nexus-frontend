@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Mail, Lock, User, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from '@chakra-ui/react';
 import { authService } from '../../api/ApiService';
+import OtpModalDemo from './OtpModal';
+import { registerUser } from '../../api/ApiServiceTwo';
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -64,7 +66,8 @@ export default function Signup() {
 
         setIsLoading(true)
         try {
-            await authService.signup(formData.name, formData.email, formData.password)
+            //await authService.signup(formData.name, formData.email, formData.password)
+           await registerUser(formData.name, formData.email, formData.password, formData.confirmPassword)
             console.log("Signup successful")
             setIsConnected(true) // Set connection status to online after successful signup
             navigate("/login") // Redirect to home dashboard after successful signup
@@ -209,7 +212,9 @@ export default function Signup() {
                                 <button type='submit' disabled={isLoading} className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors">
                                     {/* Sign up */}
                                     {isLoading ? "Signing up..." : "Sign up"}
+                                   
                                 </button>
+                                <OtpModalDemo/>
 
                                 {/* Or continue with */}
                                 <div className="flex items-center justify-center mt-6 mb-4">
@@ -235,7 +240,7 @@ export default function Signup() {
                             </form>
 
                             {/* Login Link */}
-                            <div className="text-center mt-6">
+                            <div className="text-center mt-2">
                                 <p className="text-sm text-gray-500">
                                     Already have an account?
                                     <Link to={'/login'} className="text-[#5b9a68] ml-1 hover:underline">

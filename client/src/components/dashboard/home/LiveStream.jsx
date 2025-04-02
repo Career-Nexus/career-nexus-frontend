@@ -103,7 +103,7 @@ export default function SocialMediaToolbar() {
             onVideoUploadOpen()
           }}
         >
-          <Text fontSize="xs" fontWeight="normal">
+          <Text fontSize="xs" fontWeight="normal" className="md:hidden lg:block">
             Upload Media
           </Text>
           <Input type="file" ref={fileInputRef} display="none" accept="video/*,image/*" onChange={handleFileChange} />
@@ -121,7 +121,7 @@ export default function SocialMediaToolbar() {
           height="auto"
           onClick={onLiveStreamOpen}
         >
-          <Text fontSize="xs" fontWeight="normal">
+          <Text fontSize="xs" fontWeight="normal" className="md:hidden lg:block">
             Start Live Video
           </Text>
         </Button>
@@ -138,7 +138,7 @@ export default function SocialMediaToolbar() {
           height="auto"
           onClick={onCalendarOpen}
         >
-          <Text fontSize="xs" fontWeight="normal">
+          <Text fontSize="xs" fontWeight="normal" className="md:hidden lg:block">
             Add Event
           </Text>
         </Button>
@@ -155,7 +155,7 @@ export default function SocialMediaToolbar() {
           height="auto"
           onClick={onArticleOpen}
         >
-          <Text fontSize="xs" fontWeight="normal">
+          <Text fontSize="xs" fontWeight="normal" className="md:hidden lg:block">
             Add Article
           </Text>
         </Button>
@@ -168,7 +168,7 @@ export default function SocialMediaToolbar() {
             borderRadius="lg"
             px={6}
             onClick={handlePost}
-            fontSize="sm"
+            fontSize="xs"
             fontWeight="normal"
           >
             Post

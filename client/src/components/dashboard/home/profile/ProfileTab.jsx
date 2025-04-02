@@ -12,6 +12,8 @@ import {
     Badge,
     ChevronUp,
     ChevronDown,
+    Search,
+    Plus,
 } from "lucide-react"
 // import { Card, CardBody } from "@/components/ui/card"
 // import { Progress } from "@/components/ui/progress"
@@ -63,7 +65,7 @@ export default function ProfileTabs() {
                         onClick={() => setActiveTab("professional")}
                     >
                         <User className="h-3.5 w-3.5" />
-                        Professional Summary
+                        Professional Portfolio
                     </button>
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "gallery" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
@@ -71,7 +73,7 @@ export default function ProfileTabs() {
                         onClick={() => setActiveTab("gallery")}
                     >
                         <Image className="h-3.5 w-3.5" />
-                        Portfolio Virtual Gallery
+                        Virtual Gallery
                     </button>
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
@@ -154,10 +156,10 @@ function PostsTemplate() {
                         <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
                     </div>
                     <ul className="list-disc ml-5 mt-3 text-sm">
-                        
+
                         <span className=" ">
-                        
-                        <span className='mb-3'>{p.disc2}</span>
+
+                            <span className='mb-3'>{p.disc2}</span>
                             {!expandedItems.walmart && "..."}
                             <button
                                 onClick={() => toggleExpand("walmart")}
@@ -278,14 +280,32 @@ function PortfolioGalleryTemplate() {
                 Portfolio Virtual Gallery
             </h2>
 
-            <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
+            {/* <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
                 <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-lg text-xs whitespace-nowrap">All Works</button>
                 <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Web Design</button>
                 <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Mobile Apps</button>
                 <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">UI/UX Design</button>
                 <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Branding</button>
+            </div> */}
+            <div className="flex gap-4">
+                <label htmlFor="search" className="flex items-center border border-gray-300 rounded-lg w-full">
+                    <Search className="ml-2" />
+                    <input type="text" id="search" className="w-full py-2 border-0 focus:outline-none focus:ring-0 rounded-lg outline-none" placeholder="Search Projects....." />
+                </label>
+                <div className="border border-gray-300 rounded-lg w-full">
+                    <select name="date" id="date" className="w-full border-0 border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-0">
+                        <option value="">Sort By Date</option>
+                        <option value="latest">Latest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="popular">Popular</option>
+                        <option value="recentlyUpdated">Recently Updated</option>
+                    </select>
+                </div>
+                <button className="h-10 w-[50%] bg-[#5DA05D] text-white rounded-lg flex items-center px-2">
+                    <Plus className="h-5 w-5 mr-2" />
+                    Add project
+                </button>
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3, 4, 5, 6].map((item) => (
                     <div key={item} className="group relative overflow-hidden rounded-lg">

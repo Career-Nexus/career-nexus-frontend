@@ -36,8 +36,8 @@ const Profile = () => {
                 <div>
                     {items.map(item => (
                         <div key={item.id} className='grid grid-cols-12 items-center p-3'>
-                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3' />
-                            <div className='lg:col-span-6 md:col-span-12'>
+                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
+                            <div className='lg:col-span-6 md:col-span-12 md:mb-2'>
                                 <h3 className='font-bold'>{item.name}</h3>
                                 <p className='text-xs font-thin'>{item.desc}</p>
                                 <p className='text-xs font-thin'>{item.follow}</p>

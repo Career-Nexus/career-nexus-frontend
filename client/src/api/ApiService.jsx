@@ -3,14 +3,11 @@ import axios from "axios"
 
 const api = axios.create({
   //baseURL: "https://16.16.24.199",
-  baseURL: "http://16.16.24.199:80",
+  baseURL: "http://16.16.24.199:8000",
   headers: {
     'Content-Type': 'application/json',
     //allow cors
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
-    'Access-Control-Allow-Credentials': true,
   },
 });
 axios.defaults.withCredentials = true;

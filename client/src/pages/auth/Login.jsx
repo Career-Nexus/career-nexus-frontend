@@ -134,7 +134,7 @@ export default function Login() {
               </form>
 
               {/* Login Link */}
-              <div className="text-center mt-6">
+              <div className="text-center mt-2">
                 <p className="text-sm text-gray-500">
                   Don't have an account?
                   <Link to={"/"} className="text-[#5b9a68] ml-1 hover:underline">

@@ -1,10 +1,10 @@
 import { Button } from "@chakra-ui/react"
-import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus } from "lucide-react"
+import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus, ComputerIcon, Computer } from "lucide-react"
 // import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Company1, Company2, Edit, Like } from "../../../../icons/icon";
 
-export default function ExperienceSection({}) {
+export default function ExperienceSection({ }) {
     const [expandedItems, setExpandedItems] = useState({
         walmart: false,
         apple: false
@@ -16,9 +16,12 @@ export default function ExperienceSection({}) {
             [key]: !prev[key]
         }));
     };
-const Experience =({edit,logo,title,status,company,duration,address,desc})=>{
-    return(
-        <div className="border rounded-lg mb-4 p-4 relative">
+    const Experience = ({ edit, status1, logo, title, company, duration, address, desc }) => {
+        // const edit = edit ? "Edit" : "Request Recommendation";
+        // const statu = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
+        // const logo = logo ? <Company1 /> : <Company2 />;
+        return (
+            <div className="border rounded-lg mb-4 p-4 relative">
                 <div className="absolute right-4 top-4">
                     <button size="icon" className="h-8 w-8 border border-[#5DA05D] rounded-lg flex items-center justify-center">
                         <Edit className="h-4 w-4" />
@@ -37,7 +40,8 @@ const Experience =({edit,logo,title,status,company,duration,address,desc})=>{
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                             <h3 className="font-semibold text-base">{title}</h3>
                             <div className="inline-flex items-center px-2 py-0.5 rounded-lg text-xs border-2 border-dashed">
-                                <span className="text-xs"><Like /> </span> {status}
+                                <span className="text-xs"><Like /> </span>
+                                <span className="text-xs">{status1}</span>
                             </div>
                         </div>
 
@@ -101,8 +105,11 @@ const Experience =({edit,logo,title,status,company,duration,address,desc})=>{
                     </div>
                 </div>
             </div>
-    )
-}
+        )
+    }
+    const status = true;
+    const status2 = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
+    const status3 = status ? "REQUEST RECOMMENDATION" : "RECOMMENDED";
     return (
         <div className="w-full max-w-3xl mx-auto mt-5">
             <div className="flex items-center justify-between mb-4">
@@ -116,26 +123,27 @@ const Experience =({edit,logo,title,status,company,duration,address,desc})=>{
             {/* Walmart Experience */}
             <Experience
                 edit={true}
-                logo={<Company1/>}
+                logo={<Company1 />}
                 title={"Software Engineer"}
-                status={"RECOMMENDED"}
+                status1={status2}
+                // status={"RECOMMENDED"}
                 company={"Walmart"}
                 duration={"Aug 2018 - Dec 2019"}
                 address={"Dallas, Texas, United States - On-site"}
                 desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
             />
             {/* Apple Experience */}
-            {/* <Experience
+            <Experience
                 edit={true}
-                logo={<Company2/>}
+                logo={<Company2 />}
                 title={"Software Engineer"}
-                status={"REQUEST RECOMMENDATION"}
+                status1={status3}
                 company={"Apple"}
                 duration={"Aug 2018 - Dec 2019"}
                 address={"Dallas, Texas, United States - On-site"}
                 desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-            /> */}
-            
+            />
+
             <div className="border rounded-lg mb-4 p-4 relative">
                 <div className="absolute right-4 top-4">
                     <button size="icon" className="h-8 w-8 border border-[#5DA05D] rounded-lg flex items-center justify-center">
@@ -216,6 +224,54 @@ const Experience =({edit,logo,title,status,company,duration,address,desc})=>{
                         </ul>
                     </div>
                 </div>
+            </div>
+            <div>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold">Education</h2>
+                    <button className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                        <Plus className="h-3 w-3 mr-1" />
+                        <span className="text-xs">Add Education</span>
+                    </button>
+                </div>
+                <Experience
+                    edit={true}
+                    logo={<Company2 />}
+                    title={"Computer Science"}
+                    status1={status3}
+                    company={"Apple"}
+                    duration={"Aug 2018 - Dec 2019"}
+                    address={"Dallas, Texas, United States - On-site"}
+                    desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
+                />
+            </div>
+            <div>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold">Licenses & Certifications</h2>
+                    <button className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                        <Plus className="h-3 w-3 mr-1" />
+                        <span className="text-xs">Add Certifications</span>
+                    </button>
+                </div>
+                <Experience
+                    edit={true}
+                    logo={<Company2 />}
+                    title={"Beginner Python"}
+                    status1={status2}
+                    company={"Apple"}
+                    duration={"Aug 2018 - Dec 2019"}
+                    address={"Dallas, Texas, United States - On-site"}
+                    desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
+                />
+                <Experience
+                    edit={true}
+                    logo={<Company2 />}
+                    title={"Python Intermediate"}
+                    status1={status3}
+                    company={"Apple"}
+                    duration={"Aug 2018 - Dec 2019"}
+                    address={"Dallas, Texas, United States - On-site"}
+                    desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
+                />
             </div>
         </div>
     )
