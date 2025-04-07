@@ -1,21 +1,69 @@
 import React, { useState } from 'react'
 import { Select, TextInput } from "flowbite-react";
-import { Email, Google, Linkedin, Password } from '../../icons/icon';
+import { Email, Google, Linkedin, LoadingIcon, Password } from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, User, Mail, Lock } from "lucide-react"
+import { authService } from '../../api/ApiServiceThree';
 
 export default function Login() {
   const [isConnected, setIsConnected] = useState(true)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
+  const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Login attempt with:", { email, password })
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
 
-    // For testing, just navigate to home page
-    navigate("/home")
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" })
+    }
+  }
+
+  const validateForm = () => {
+    const newErrors = {}
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid"
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!validateForm()) return
+
+    setLoading(true)
+    try {
+      await authService.login({
+        email: formData.email,
+        password: formData.password,
+      })
+
+      // Redirect to dashboard on successful login
+      window.location.href = "/home"
+    } catch (error) {
+      if (error.errors) {
+        setErrors(error.errors)
+      } else {
+        setErrors({ general: error.message || "Invalid email or password" })
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -58,7 +106,7 @@ export default function Login() {
               </h1>
 
               {/* Subheading */}
-              <p className="text-white text-xs md:text-sm opacity-90 max-w-3xl" style={{fontSize: '0.9rem'}}>
+              <p className="text-white text-xs md:text-sm opacity-90 max-w-3xl" style={{ fontSize: '0.9rem' }}>
                 Your gateway to skill enhancement and collaborative solutions to workforce applications...
               </p>
             </div>
@@ -70,6 +118,11 @@ export default function Login() {
             <div className="w-full max-w-md">
               <h1 className="md:text-2xl font-bold text-center mb-8 text-[#3a1c64] mt-0 md:-mt-28">Welcome Back</h1>
 
+              {errors.general && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                  <span className="block sm:inline">{errors.general}</span>
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-4">
 
                 {/* Email Input */}
@@ -78,12 +131,16 @@ export default function Login() {
                     <Mail className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
+                    id="email"
                     type="email"
                     placeholder="Email Address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    autoComplete="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-white"
                   />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
 
                 {/* Password Input */}
@@ -92,23 +149,64 @@ export default function Login() {
                     <Lock className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
+                    id="password"
+                    name="password"
                     type="password"
+                    autoComplete="current-password"
                     placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formData.password}
+                    onChange={handleChange}
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-white"
                   />
+                  {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                 </div>
 
                 <div className='flex gap-2 items-center'>
-                  <input type="checkbox" className='rounded border border-green-300' />
+                  <input id='remember-me' name='remember-me' type="checkbox" className='rounded border border-green-300' />
                   <label className='text-sm font-thin'> Remember me</label>
-                  <Link to={'#'} className='ml-auto text-sm font-thin text-[#5b9a68]'> Forgot Password</Link>
+                  <Link to={'/forgot-password'} className='ml-auto text-sm font-thin text-[#5b9a68]'> Forgot Password</Link>
                 </div>
                 {/* Sign Up Button */}
-                <button type='submit' className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors">
+                {/* <button type='submit' className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors">
                   Login
-                </button>
+                </button> */}
+                <div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#5b9a68] hover:bg-[#4e8559] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    {loading ? (
+                      <span className="flex items-center">
+                        <LoadingIcon/>
+                        {/* <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg> */}
+                        Signing in...
+                      </span>
+                    ) : (
+                      "Login"
+                    )}
+                  </button>
+                </div>
 
                 {/* Or continue with */}
                 <div className="flex items-center justify-center mt-6 mb-4">

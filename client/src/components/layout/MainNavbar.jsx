@@ -61,9 +61,9 @@ const MainNavbar = () => {
                     </div>
                     <p className='md:ml-5 ml-0 mr-2 md:mr-0'>|</p>
                     {/* Profile Picture */}
-                    <div className='flex items-center md:ml-4 lg:ml-10 ml-0'>
+                    <Link to={'/profilepage'} className='flex items-center md:ml-4 lg:ml-10 ml-0'>
                         <img src="/images/profile.png" alt="Profile picture" className="h-10 w-auto rounded-full" />
-                    </div>
+                    </Link>
                 </div>
             </div>
             {/* Sidebar for small screens */}

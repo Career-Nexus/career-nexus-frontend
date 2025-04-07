@@ -4,22 +4,27 @@ import { Email, Google, Linkedin, Password } from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Mail, Lock, User, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from '@chakra-ui/react';
-import { authService } from '../../api/ApiService';
+// import { authService } from '../../api/ApiService';
 import OtpModalDemo from './OtpModal';
-import { registerUser } from '../../api/ApiServiceTwo';
+import OtpVerification from './OtpTwo';
+import { authService } from '../../api/ApiServiceThree';
+//import { registerUser } from '../../api/ApiServiceTwo';
 
 export default function Signup() {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        password: "",
-        confirmPassword: "",
+        password1: "",
+        password2: "",
     })
     const [errors, setErrors] = useState({})
-    const [isLoading, setIsLoading] = useState(false)
+    //const [isLoading, setIsLoading] = useState(false)
     const [apiError, setApiError] = useState("")
     const [isConnected, setIsConnected] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [showOtpModal, setShowOtpModal] = useState(false)
+    const [userData, setUserData] = useState(null)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -34,7 +39,7 @@ export default function Signup() {
         const newErrors = {}
 
         if (!formData.name.trim()) {
-            newErrors.name = "Name is required"
+            newErrors.name = "Full Name is required"
         }
 
         if (!formData.email.trim()) {
@@ -43,40 +48,61 @@ export default function Signup() {
             newErrors.email = "Email is invalid"
         }
 
-        if (!formData.password) {
-            newErrors.password = "Password is required"
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters"
+        if (!formData.password1) {
+            newErrors.password1 = "Password is required"
+        } else if (formData.password1.length < 6) {
+            newErrors.password1 = "Password must be at least 6 characters"
         }
 
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = "Passwords do not match"
+        if (formData.password1 !== formData.password2) {
+            newErrors.password2 = "Passwords do not match"
         }
 
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
 
-  
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setApiError("")
 
         if (!validateForm()) return
-
-        setIsLoading(true)
+        // Create user data object for API request
+        const userDataToSend = {
+            name: formData.name,
+            email: formData.email,
+            password1: formData.password1,
+            password2: formData.password2
+        }
+        setLoading(true)
         try {
-            //await authService.signup(formData.name, formData.email, formData.password)
-           await registerUser(formData.name, formData.email, formData.password, formData.confirmPassword)
+
+            // Send signup request to initiate registration and get OTP
+            await authService.signup(userDataToSend)
+
+            // Store complete user data for OTP verification
+            setUserData(userDataToSend)
+            // Show OTP modal
+            setShowOtpModal(true)
+            //await registerUser(formData.name, formData.email, formData.password1, formData.password2)
             console.log("Signup successful")
             setIsConnected(true) // Set connection status to online after successful signup
-            navigate("/login") // Redirect to home dashboard after successful signup
+            // navigate("/login") // Redirect to home dashboard after successful signup
         } catch (error) {
             console.error("Signup error:", error)
             setApiError(error.response?.data?.message || "An error occurred during signup. Please try again.")
         } finally {
-            setIsLoading(false)
+            setLoading(false)
         }
+    }
+    const handleOtpSuccess = () => {
+        // Redirect to login or dashboard after successful verification
+        window.location.href = "/login"
+    }
+
+    const handleCloseOtpModal = () => {
+        setShowOtpModal(false)
     }
     {/* Signup Form */ }
     return (
@@ -182,12 +208,12 @@ export default function Signup() {
                                         <input
                                             type="password"
                                             placeholder="Password"
-                                            id="password" name="password"
-                                            value={formData.password}
+                                            id="password1" name="password1"
+                                            value={formData.password1}
                                             onChange={handleChange}
                                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-white"
                                         />
-                                        {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                                        {errors.password1 && <p className="text-xs text-red-500">{errors.password1}</p>}
                                     </div>
 
                                     {/* Confirm Password Input */}
@@ -198,23 +224,67 @@ export default function Signup() {
                                         <input
                                             type="password"
                                             placeholder="Confirm Password"
-                                            id="confirmPassword"
-                                            name="confirmPassword"
-                                            value={formData.confirmPassword}
+                                            id="password2"
+                                            name="password2"
+                                            value={formData.password2}
                                             onChange={handleChange}
                                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-white"
                                         />
-                                        {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword}</p>}
+                                        {errors.password2 && <p className="text-xs text-red-500">{errors.password2}</p>}
                                     </div>
                                 </div>
 
                                 {/* Sign Up Button */}
-                                <button type='submit' disabled={isLoading} className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors">
-                                    {/* Sign up */}
-                                    {isLoading ? "Signing up..." : "Sign up"}
-                                   
-                                </button>
-                                <OtpModalDemo/>
+                                {/* <button type='submit' disabled={isLoading} className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors"> */}
+                                {/* Sign up */}
+                                {/* {isLoading ? "Signing up..." : "Sign up"} */}
+
+                                {/* </button> */}
+                                <div>
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#5b9a68] hover:bg-[#4e8559] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? "opacity-70 cursor-not-allowed" : ""
+                                            }`}
+                                    >
+                                        {loading ? (
+                                            <span className="flex items-center">
+                                                <svg
+                                                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                    ></path>
+                                                </svg>
+                                                Processing...
+                                            </span>
+                                        ) : (
+                                            "Sign up"
+                                        )}
+                                    </button>
+                                </div>
+                                {showOtpModal && (
+                                    <OtpVerification 
+                                    email={userData.email}
+                                    userData={userData}
+                                    onSuccess={handleOtpSuccess} 
+                                    onClose={handleCloseOtpModal} 
+                                    />
+                                )}
+                                {/* <OtpModalDemo/> */}
 
                                 {/* Or continue with */}
                                 <div className="flex items-center justify-center mt-6 mb-4">

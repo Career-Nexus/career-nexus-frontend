@@ -4,24 +4,26 @@ import { Link } from 'react-router-dom'
 
 const Profile = () => {
     const items = [
-        { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow:'121,344 Followers'},
-        { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow:'121,344 Followers'},
-        { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow:'121,344 Followers'},
+        { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+        { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+        { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
     ]
-    const data =[
-        { id: 1, icon: <a href='#'><Video/></a>, name: 'Learning'},
-        { id: 2, icon: <a href='#'><Bulb/></a>, name: 'Insights'},
-        { id: 3, icon: <a href='#'><Bookmark/></a>, name: 'Bookmarks'},
-        { id: 4, icon: <a href='#'><Library/></a>, name: 'Library'},
-        { id: 5, icon: <a href='#'><Newsletter/></a>, name: 'Newsletter'},
-        { id: 6, icon: <a href='#'><Setting/></a>, name: 'Settings'},
+    const data = [
+        { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
+        { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
+        { id: 3, icon: <a href='#'><Bookmark /></a>, name: 'Bookmarks' },
+        { id: 4, icon: <a href='#'><Library /></a>, name: 'Library' },
+        { id: 5, icon: <a href='#'><Newsletter /></a>, name: 'Newsletter' },
+        { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
     ]
     return (
         <div className='hidden md:block'>
             <div className='border border-gray rounded-lg'>
-                <img src="/images/bg-profile.png" alt="background profile" className='w-full h-auto'/>
-                <img src="/images/profile.png" alt="profile picture"
-                    className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
+                <img src="/images/bg-profile.png" alt="background profile" className='w-full h-auto' />
+                <Link to={'/profilepage'}>
+                    <img src="/images/profile.png" alt="profile picture"
+                        className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
+                </Link>
                 <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                 <div className='p-3 flex flex-col gap-3'>
                     <h1 className='font-bold text-2xl mt-4'>John Smith</h1>

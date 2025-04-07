@@ -240,10 +240,11 @@ function ProfessionalSummaryTemplate() {
             <div className="relative">
                 {isEditing ? (
                     <Textarea
+                        rows={2}
                         value={summary}
                         onChange={(e) => setSummary(e.target.value)}
                         placeholder="Write a brief summary about your skills, experience, and career goals..."
-                        className="min-h-[40px] w-full rounded-lg border-gray-300 resize-none p-4"
+                        className="w-full rounded-lg border-gray-300 resize-none p-4"
                     />
                 ) : (
                     <div className="min-h-[60px] w-full rounded-lg border border-gray-300 p-4">

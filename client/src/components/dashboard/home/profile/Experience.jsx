@@ -3,6 +3,8 @@ import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus, ComputerIcon,
 // import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Company1, Company2, Edit, Like } from "../../../../icons/icon";
+import ProjectFormModal from "./FormModal";
+import ReusableModal from "./ModalDesign";
 
 export default function ExperienceSection({ }) {
     const [expandedItems, setExpandedItems] = useState({
@@ -17,9 +19,6 @@ export default function ExperienceSection({ }) {
         }));
     };
     const Experience = ({ edit, status1, logo, title, company, duration, address, desc }) => {
-        // const edit = edit ? "Edit" : "Request Recommendation";
-        // const statu = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
-        // const logo = logo ? <Company1 /> : <Company2 />;
         return (
             <div className="border rounded-lg mb-4 p-4 relative">
                 <div className="absolute right-4 top-4">
@@ -110,13 +109,126 @@ export default function ExperienceSection({ }) {
     const status = true;
     const status2 = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
     const status3 = status ? "REQUEST RECOMMENDATION" : "RECOMMENDED";
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false)
+    }
+
+
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        image: null,
+    })
+
+    const [errors, setErrors] = useState({
+        title: false,
+    })
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData({
+            ...formData,
+            [name]: value,
+        })
+
+        // Clear error when user types in required field
+        if (name === "title" && value.trim() !== "") {
+            setErrors({
+                ...errors,
+                title: false,
+            })
+        }
+    }
+
+    const handleFileChange = (e) => {
+        setFormData({
+            ...formData,
+            image: e.target.files[0],
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        // Validate required fields
+        if (formData.title.trim() === "") {
+            setErrors({
+                ...errors,
+                title: true,
+            })
+            return
+        }
+
+    }
+    const ExperienceModal = ({ ModalComponent, isOpen, onClose }) => {
+        return (
+            <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Experience">
+                <form onSubmit={handleSubmit} className="p-5 space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-sm font-medium">
+                            Title<span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            placeholder="Enter project title"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                        />
+                        {errors.title && <p className="text-red-500 text-xs">This field is required</p>}
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="block text-sm font-medium">
+                            Description<span className="text-red-500">*</span>
+                        </label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            placeholder="Enter project Description"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                            rows={1}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="block text-sm font-medium">Upload Image</label>
+                        <div className="flex items-center space-x-2 border rounded-md p-2">
+                            <label className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm cursor-pointer hover:bg-green-200">
+                                Choose File
+                                <input type="file" name="image" onChange={handleFileChange} className="hidden" accept="image/*" />
+                            </label>
+                            <span className="text-gray-500 text-sm">{formData.image ? formData.image.name : "No file chosen"}</span>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full py-2 px-4 bg-[#5b9a68] hover:bg-green-700 text-white font-medium rounded-md transition duration-200 mt-4"
+                    >
+                        Save
+                    </button>
+                </form>
+            </ModalComponent>
+        )
+    }
     return (
         <div className="w-full max-w-3xl mx-auto mt-5">
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Experience</h2>
-                <button className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                <button onClick={() => setOpenModal(true)} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
                     <Plus className="h-3 w-3 mr-1" />
                     <span className="text-xs">Add Experience</span>
+                    {/* <ProjectFormModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleSubmit} /> */}
+                    <ExperienceModal ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
                 </button>
             </div>
 
@@ -228,7 +340,7 @@ export default function ExperienceSection({ }) {
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold">Education</h2>
-                    <button className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                    <button onClick={handleOpenModal} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
                         <Plus className="h-3 w-3 mr-1" />
                         <span className="text-xs">Add Education</span>
                     </button>
@@ -247,7 +359,7 @@ export default function ExperienceSection({ }) {
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold">Licenses & Certifications</h2>
-                    <button className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                    <button onClick={handleOpenModal} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
                         <Plus className="h-3 w-3 mr-1" />
                         <span className="text-xs">Add Certifications</span>
                     </button>
