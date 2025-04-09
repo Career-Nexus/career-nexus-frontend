@@ -3,8 +3,8 @@ import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus, ComputerIcon,
 // import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Company1, Company2, Edit, Like } from "../../../../icons/icon";
-import ProjectFormModal from "./FormModal";
 import ReusableModal from "./ModalDesign";
+import { useForm } from 'react-hook-form';
 
 export default function ExperienceSection({ }) {
     const [expandedItems, setExpandedItems] = useState({
@@ -121,102 +121,101 @@ export default function ExperienceSection({ }) {
     }
 
 
-    const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        image: null,
-    })
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const [errors, setErrors] = useState({
-        title: false,
-    })
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-
-        // Clear error when user types in required field
-        if (name === "title" && value.trim() !== "") {
-            setErrors({
-                ...errors,
-                title: false,
-            })
-        }
-    }
-
-    const handleFileChange = (e) => {
-        setFormData({
-            ...formData,
-            image: e.target.files[0],
-        })
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        // Validate required fields
-        if (formData.title.trim() === "") {
-            setErrors({
-                ...errors,
-                title: true,
-            })
-            return
-        }
-
-    }
+    const onSubmit = (data) => {
+        console.log(data);
+        // Handle form submission logic
+    };
     const ExperienceModal = ({ ModalComponent, isOpen, onClose }) => {
         return (
             <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Experience">
-                <form onSubmit={handleSubmit} className="p-5 space-y-4">
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium">
-                            Title<span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            placeholder="Enter project title"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                        />
-                        {errors.title && <p className="text-red-500 text-xs">This field is required</p>}
-                    </div>
-
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium">
-                            Description<span className="text-red-500">*</span>
-                        </label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            placeholder="Enter project Description"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                            rows={1}
-                        />
-                    </div>
-
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium">Upload Image</label>
-                        <div className="flex items-center space-x-2 border rounded-md p-2">
-                            <label className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm cursor-pointer hover:bg-green-200">
-                                Choose File
-                                <input type="file" name="image" onChange={handleFileChange} className="hidden" accept="image/*" />
+                <div className="max-w-xl mx-auto bg-white">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                        {/* Job Title */}
+                        <div>
+                            <label className="block font-medium mb-1">
+                                Job Title<span className="text-red-500">*</span>
                             </label>
-                            <span className="text-gray-500 text-sm">{formData.image ? formData.image.name : "No file chosen"}</span>
+                            <input
+                                type="text"
+                                {...register("jobTitle", { required: "This field is required" })}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Enter project title"
+                            />
+                            {errors.jobTitle && (
+                                <p className="text-red-500 text-sm mt-1">{errors.jobTitle.message}</p>
+                            )}
                         </div>
-                    </div>
 
-                    <button
-                        type="submit"
-                        className="w-full py-2 px-4 bg-[#5b9a68] hover:bg-green-700 text-white font-medium rounded-md transition duration-200 mt-4"
-                    >
-                        Save
-                    </button>
-                </form>
+                        {/* Company Name */}
+                        <div>
+                            <label className="block font-medium mb-1">Company Name</label>
+                            <input
+                                type="text"
+                                {...register("companyName")}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Enter company’s name e.g Walmart"
+                            />
+                        </div>
+
+                        {/* Start Date */}
+                        <div>
+                            <label className="block font-medium mb-1">Start Date</label>
+                            <input
+                                type="month"
+                                {...register("startDate")}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="e.g Aug 2018"
+                            />
+                        </div>
+
+                        {/* End Date */}
+                        <div>
+                            <label className="block font-medium mb-1">End Date</label>
+                            <input
+                                type="month"
+                                {...register("endDate")}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="e.g Aug 2018"
+                            />
+                        </div>
+
+                        {/* Location */}
+                        <div>
+                            <label className="block font-medium mb-1">Location</label>
+                            <input
+                                type="text"
+                                {...register("location")}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="e.g Texas"
+                            />
+                        </div>
+
+                        {/* Description */}
+                        <div>
+                            <label className="block font-medium mb-1">Description</label>
+                            <textarea
+                                {...register("description")}
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                                placeholder="Describe your role and achievements"
+                                rows={1}
+                            />
+                        </div>
+
+                        {/* Save Button */}
+                        <button
+                            type="submit"
+                            className="w-full bg-[#5DA05D] text-white py-2 rounded hover:bg-[#5DA05D] transition"
+                        >
+                            Save
+                        </button>
+                    </form>
+                </div>
             </ModalComponent>
         )
     }

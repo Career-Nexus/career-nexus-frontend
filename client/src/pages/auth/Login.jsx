@@ -1,19 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, TextInput } from "flowbite-react";
 import { Email, Google, Linkedin, LoadingIcon, Password } from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, User, Mail, Lock } from "lucide-react"
 import { authService } from '../../api/ApiServiceThree';
+import { checkCookiePermissions, debugCookies } from '../../utils/CookieUtils';
 
 export default function Login() {
   const [isConnected, setIsConnected] = useState(true)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [cookiesEnabled, setCookiesEnabled] = useState(true)
   const navigate = useNavigate()
+
+  // Check if cookies are enabled on component mount
+  useEffect(() => {
+    const cookiePermissions = checkCookiePermissions()
+    setCookiesEnabled(cookiePermissions)
+
+    if (!cookiePermissions) {
+      setErrors({
+        general: "Cookies are disabled in your browser. Please enable cookies to use this application.",
+      })
+    }
+
+    // Debug existing cookies
+    debugCookies()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -24,7 +42,9 @@ export default function Login() {
       setErrors({ ...errors, [name]: "" })
     }
   }
-
+  const handleCheckboxChange = (checked) => {
+    setFormData((prev) => ({ ...prev, rememberMe: checked }))
+  }
   const validateForm = () => {
     const newErrors = {}
 
@@ -46,15 +66,49 @@ export default function Login() {
 
     if (!validateForm()) return
 
+    if (!cookiesEnabled) {
+      setErrors({
+        general: "Cookies are disabled in your browser. Please enable cookies to use this application.",
+      })
+      return
+    }
     setLoading(true)
     try {
-      await authService.login({
+      const response = await authService.login({
         email: formData.email,
         password: formData.password,
       })
+      setIsConnected(true)
+      console.log("Login successful:", response.access)
 
-      // Redirect to dashboard on successful login
-      window.location.href = "/home"
+      // Debug cookies after login
+      const cookies = debugCookies()
+
+      // Manually verify that cookies are set
+      setTimeout(() => {
+        const authToken = authService.getAuthToken()
+        console.log("Auth token from cookie:", authToken)
+
+        if (authToken) {
+          // Redirect to dashboard on successful login
+          navigate("/home")
+        } else {
+          console.error("Token not found in cookies after login")
+
+          // Check if we're in a local development environment
+          if (window.location.hostname === "localhost") {
+            console.warn("Running on localhost - some browsers restrict cookies in local environments")
+
+            // For development purposes, we can still redirect
+            if (response.access) {
+              navigate("/home")
+            }
+          } else {
+            setErrors({ general: "Authentication failed. Please try again." })
+          }
+        }
+      }, 500)
+      //window.location.href = "/home"
     } catch (error) {
       if (error.errors) {
         setErrors(error.errors)
@@ -162,8 +216,8 @@ export default function Login() {
                 </div>
 
                 <div className='flex gap-2 items-center'>
-                  <input id='remember-me' name='remember-me' type="checkbox" className='rounded border border-green-300' />
-                  <label className='text-sm font-thin'> Remember me</label>
+                  <input id='rememberMe' name='rememberMe' type="checkbox" className='rounded border border-green-300' />
+                  <label htmlFor='rememberMe' checked={formData.rememberMe} onChange={handleCheckboxChange} className='text-sm font-thin'> Remember me</label>
                   <Link to={'/forgot-password'} className='ml-auto text-sm font-thin text-[#5b9a68]'> Forgot Password</Link>
                 </div>
                 {/* Sign Up Button */}
@@ -179,27 +233,7 @@ export default function Login() {
                   >
                     {loading ? (
                       <span className="flex items-center">
-                        <LoadingIcon/>
-                        {/* <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg> */}
+                        <LoadingIcon />
                         Signing in...
                       </span>
                     ) : (
@@ -235,7 +269,7 @@ export default function Login() {
               <div className="text-center mt-2">
                 <p className="text-sm text-gray-500">
                   Don't have an account?
-                  <Link to={"/"} className="text-[#5b9a68] ml-1 hover:underline">
+                  <Link to={"/signup"} className="text-[#5b9a68] ml-1 hover:underline">
                     Signup
                   </Link>
                 </p>

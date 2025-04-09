@@ -2,53 +2,155 @@ import React, { useState } from 'react'
 import { Camera, Clock, Edit, Info, Video, VideoIcon, Videow } from '../../../../icons/icon'
 //import SocialMediaToolbar from '../LiveStream'
 import ProfileTabs from './ProfileTab'
-import { Edit2 } from 'lucide-react'
-import ProjectFormModal from './FormModal'
 import { Button } from '@chakra-ui/react'
 import ReusableModal from './ModalDesign'
+import { useForm } from 'react-hook-form';
+import { BriefcaseBusiness, GraduationCap, MapPin } from 'lucide-react'
 
 const MainProfile = () => {
     const [openModal, setOpenModal] = useState(false);
-    const[error, setError] = useState(null)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    // const [isModalOpen, setIsModalOpen] = useState(false)
-
-    // const handleOpenModal = () => {
-    //     setIsModalOpen(true)
-    // }
-
-    // const handleCloseModal = () => {
-    //     setIsModalOpen(false)
-    // }
-
-    const handleSubmit = (data) => {
-        console.log("Form submitted with data:", data)
-        // Process the form data here
-    }
+    const onSubmit = (data) => {
+        console.log('Form submitted:', data);
+    };
 
 
 
     const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
+
         return (
             <ModalComponent isOpen={isOpen} onClose={onClose} title="Edit Profile Details">
-                <form>
-                    <label htmlFor="fname" className='block text-sm font-medium text-gray-700'>First name:</label>
-                    <input type="text" id="fname" name="fname" placeholder='First Name' className='block w-full px-3 py-2 mt-1 text-sm text-gray-700 border border-gray-300 rounded-md' />
-                    {/* error */}
-                    {error && <p className='text-red-500 text-sm'>{error}</p>}
-                    <label htmlFor="lname" className='block mt-4 text-sm font-medium text-gray-700'>Last name:</label>
-                    <input type="text" id="lname" name="lname" placeholder='Last Name' className='block w-full px-3 py-2 mt-1 text-sm text-gray-700 border border-gray-300 rounded-md' />
-                    {/* error */}
-                    {error && <p className='text-red-500 text-sm'>{error}</p>}
-                    <label htmlFor="middlename" className='block mt-4 text-sm font-medium text-gray-700'>Middle name:</label>
-                    <input type="text" id="middlename" name="middlename" placeholder='Middle Name' className='block w-full px-3 py-2 mt-1 text-sm text-gray-700 border border-gray-300 rounded-md' />
-                    {/* error */}
-                    {error && <p className='text-red-500 text-sm'>{error}</p>}
-                    {/* summary */}
-                    <label htmlFor="summary" className='block mt-4 text-sm font-medium text-gray-700'>Summary:</label>
-                    <textarea id="summary" name="summary" placeholder='Summary' className='block w-full px-3 py-2 mt-1 text-sm text-gray-700 border border-gray-300 rounded-md' rows="1"></textarea>
-                    <button type="submit" className="w-full text-white bg-[#5b9a68] p-2 rounded-lg mt-5">Save</button>
-                </form>
+
+                <div className="max-w-4xl mx-auto bg-white rounded-lg">
+
+                    {/* Video Intro */}
+                    <div className="mb-6">
+                        <label className="block text-gray-700 font-medium mb-2">Video Intro</label>
+                        <div className="flex items-center gap-4">
+                            <div className="w-48 h-32 bg-gray-200 flex items-center justify-center rounded-md">
+                                <button className="text-gray-600 text-2xl">&#9658;</button>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <button className="bg-green-100 text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
+                                    📹 Record
+                                </button>
+                                <button className="bg-red-100 text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200">
+                                    🗑️ Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Form */}
+                    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        {/* First Name */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                First name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Enter full name"
+                                {...register("firstName", { required: "First name is required" })}
+                                className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-green-200"
+                            />
+                            {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>}
+                        </div>
+
+                        {/* Location */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Location <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                defaultValue="Lagos"
+                                {...register("location", { required: "Location is required" })}
+                                className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-green-200"
+                            />
+                            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>}
+                        </div>
+
+                        {/* Last Name */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Last name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                defaultValue="Smith"
+                                {...register("lastName", { required: "Last name is required" })}
+                                className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-green-200"
+                            />
+                            {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>}
+                        </div>
+
+                        {/* Education */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Education</label>
+                            <input
+                                type="text"
+                                defaultValue="Bsc in computer science"
+                                className="w-full border bg-gray-100 rounded-md px-4 py-2"
+                            />
+                        </div>
+
+                        {/* Middle Name */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Middle name <span className="text-gray-400">(optional)</span>
+                            </label>
+                            <input
+                                type="text"
+                                {...register("middleName")}
+                                className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-green-200"
+                            />
+                        </div>
+
+                        {/* Current Position */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Current Position</label>
+                            <input
+                                type="text"
+                                defaultValue="Manager"
+                                className="w-full border bg-gray-100 rounded-md px-4 py-2"
+                            />
+                        </div>
+
+                        {/* Bio */}
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                            <textarea
+                                defaultValue={`Experienced in Full Stack Development, Product & Project Management, and Agile Implementation, with strong expertise in Scrum, Business Analysis, Process Improvement, Database Administration, and Data Analysis.`}
+                                {...register("bio")}
+                                className="w-full border rounded-md px-4 py-2 min-h-[100px] resize-none"
+                            />
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="md:col-span-2 flex justify-end gap-4">
+                            <button
+                                onClick={onClose}
+                                type="button"
+                                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 bg-[#5DA05D] text-white rounded-md hover:bg-[#5DA05D]"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </ModalComponent>
         );
     };
@@ -74,34 +176,45 @@ const MainProfile = () => {
                     </Button>
                     {/* <ProjectFormModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleSubmit} /> */}
                 </div>
-                <div className='mt-6'>
-                    <h1 className='text-xl font-bold'>
-                        John Smith
-                    </h1>
-                    <p className='text-xs md:text-lg'>
-                        BSc, MSc(UK), MSc(USA), PSM I (in view) | Full Stack Development | Scrum Master | Product Management | Agile Methodology Implementation | Process Improvement | Business Analysis | Project Management | Database Administration | Data Analysis
-                    </p>
-                    <p className='text-slate-500 font-thin'>
-                        New York, USA
-                    </p>
-                </div>
                 <hr className='my-3' />
-                <div>
-                    <div className='flex justify-between'>
-                        <p className='text-lg font-semibold'>
-                            Video Intro
+                <div className='mt-6 flex items-center gap-32'>
+                    <div>
+                        <h1 className='text-xl font-bold'>
+                            John Smith
+                        </h1>
+                        <p className='text-xs md:text-sm my-3'>
+                            Skilled in Full Stack Development, Agile Project Management, and Data Analysis.
                         </p>
-                        <div className='flex items-center gap-2'>
-                            <Info /><span className='text-[#5DA05D]'>See Guide</span>
-                        </div>
+                        <p className='text-slate-500 font-thin flex items-center gap-2'>
+                            <MapPin className='w-4 h-4'/> USA <BriefcaseBusiness className='w-4 h-4'/> Software Engineer at TechCorp
+                        </p>
+                        <p className='text-slate-500 font-thin flex items-center gap-2'>
+                            <GraduationCap className='w-4 h-4'/> B.Sc in Computer Science
+                        </p>
+                        <p className='my-3'>
+                            <span className='text-[#5DA05D] mr-2'>500</span> Following
+                            <span className='text-[#5DA05D] mx-2'>6,476</span> Followers
+                        </p>
                     </div>
-                    <img src="/images/video1.png" alt="video stream" />
-                    {/* <VideoIcon /> */}
-                    <button className='flex items-center gap-2 text-white bg-[#5DA05D] p-2 rounded-lg mt-2'>
-                        <div className='text-white bg-[#5DA05D]'> <Videow /></div>
-                        <p>Start Recording</p>
-                    </button>
+                    <div>
+                        {/* <div className='flex justify-between'>
+                            <p className='text-lg font-semibold'>
+                                Video Intro
+                            </p>
+                            <div className='flex items-center gap-2'>
+                                <Info /><span className='text-[#5DA05D]'>See Guide</span>
+                            </div>
+                        </div> */}
+                        <img src="/images/video1.png" alt="video stream" />
+                        {/* <VideoIcon /> */}
+                        {/* <button className='flex items-center gap-2 text-white bg-[#5DA05D] p-2 rounded-lg mt-2'>
+                            <div className='text-white bg-[#5DA05D]'> <Videow /></div>
+                            <p>Start Recording</p>
+                        </button> */}
+                    </div>
                 </div>
+
+
             </div>
             <ProfileTabs />
         </div>

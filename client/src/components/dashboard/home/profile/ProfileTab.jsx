@@ -51,14 +51,7 @@ export default function ProfileTabs() {
                 </button>
 
                 <div ref={tabsRef} className="my-3 gap-3 flex overflow-x-auto scrollbar-hide px-6 md:px-0 md:overflow-visible">
-                    <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("posts")}
-                    >
-                        <FileText className="h-3.5 w-3.5" />
-                        Posts
-                    </button>
+                    
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "professional" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -91,6 +84,14 @@ export default function ProfileTabs() {
                         <PieChart className="h-3.5 w-3.5" />
                         Analytics Dashboard
                     </button>
+                    <button
+                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                            }`}
+                        onClick={() => setActiveTab("posts")}
+                    >
+                        <FileText className="h-3.5 w-3.5" />
+                        Posts
+                    </button>
                 </div>
 
                 <button
@@ -102,12 +103,12 @@ export default function ProfileTabs() {
             </div>
 
             {/* Tab content */}
-            <div className="mt-6">
-                {activeTab === "posts" && <PostsTemplate />}
+            <div className="mt-6"> 
                 {activeTab === "professional" && <ProfessionalSummaryTemplate />}
                 {activeTab === "gallery" && <PortfolioGalleryTemplate />}
                 {activeTab === "projects" && <ProjectCatalogTemplate />}
                 {activeTab === "analytics" && <AnalyticsDashboardTemplate />}
+                {activeTab === "posts" && <PostsTemplate />}
             </div>
         </div>
     )
