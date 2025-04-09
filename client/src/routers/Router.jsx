@@ -7,7 +7,6 @@ import ProfilePage from '../pages/dashboard/ProfilePage'
 import MainNavbar from '../components/layout/MainNavbar'
 import ErrorPage from '../components/ErrorPage'
 import AuthNavbar from '../components/layout/AuthNavbar'
-import SignupTwo from '../pages/auth/SignupTwo'
 import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
 
@@ -72,7 +71,14 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
-
+        <Route
+          path='/select-type'
+          element={
+            <RedirectIfAuthenticated>
+              <UserTypeSelection />
+            </RedirectIfAuthenticated>
+          }
+        />
         {/* Protected Routes */}
         <Route
           path="/home"

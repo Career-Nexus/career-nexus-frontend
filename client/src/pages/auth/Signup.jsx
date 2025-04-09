@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import { Select, TextInput } from "flowbite-react";
-import { Email, Google, Linkedin, LoadingIcon, Password } from '../../icons/icon';
+import {  Google, Linkedin, LoadingIcon} from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Mail, Lock, User, AlertCircle } from "lucide-react"
+import { Mail, Lock, User, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from '@chakra-ui/react';
-// import { authService } from '../../api/ApiService';
-import OtpModalDemo from './OtpModal';
 import OtpVerification from './OtpTwo';
 import { authService } from '../../api/ApiServiceThree';
-//import { registerUser } from '../../api/ApiServiceTwo';
+
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -19,7 +16,6 @@ export default function Signup() {
         password2: "",
     })
     const [errors, setErrors] = useState({})
-    //const [isLoading, setIsLoading] = useState(false)
     const [apiError, setApiError] = useState("")
     const [isConnected, setIsConnected] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -85,10 +81,8 @@ export default function Signup() {
             setUserData(userDataToSend)
             // Show OTP modal
             setShowOtpModal(true)
-            //await registerUser(formData.name, formData.email, formData.password1, formData.password2)
             console.log("Signup successful")
             setIsConnected(true) // Set connection status to online after successful signup
-            // navigate("/login") // Redirect to home dashboard after successful signup
         } catch (error) {
             console.error("Signup error:", error)
             setApiError(error.response?.data?.message || "An error occurred during signup. Please try again.")
@@ -235,11 +229,6 @@ export default function Signup() {
                                 </div>
 
                                 {/* Sign Up Button */}
-                                {/* <button type='submit' disabled={isLoading} className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors"> */}
-                                {/* Sign up */}
-                                {/* {isLoading ? "Signing up..." : "Sign up"} */}
-
-                                {/* </button> */}
                                 <div>
                                     <button
                                         type="submit"
@@ -304,7 +293,6 @@ export default function Signup() {
 
                 </div>
             </div>
-            {/* <button className='w-full bg-gray-50 dark:bg-gray-700 py-2 rounded-lg border'>hi</button> */}
         </div>
     )
 }

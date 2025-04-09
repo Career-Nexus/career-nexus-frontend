@@ -12,7 +12,7 @@ export const debugCookies = () => {
       return acc
     }, {})
   
-    console.log("Parsed cookies:", cookies)
+    //console.log("Parsed cookies:", cookies)
   
     // Check for potential issues
     if (document.cookie === "") {

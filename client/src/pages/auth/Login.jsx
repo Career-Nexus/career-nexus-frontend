@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Select, TextInput } from "flowbite-react";
-import { Email, Google, Linkedin, LoadingIcon, Password } from '../../icons/icon';
+import { Google, Linkedin, LoadingIcon} from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, User, Mail, Lock } from "lucide-react"
+import { Mail, Lock } from "lucide-react"
 import { authService } from '../../api/ApiServiceThree';
 import { checkCookiePermissions, debugCookies } from '../../utils/CookieUtils';
 
@@ -79,36 +78,14 @@ export default function Login() {
         password: formData.password,
       })
       setIsConnected(true)
-      console.log("Login successful:", response.access)
+      console.log("Login successful:", response)
 
       // Debug cookies after login
       const cookies = debugCookies()
+      if(response.access) {
+        navigate("/home")
+      }
 
-      // Manually verify that cookies are set
-      setTimeout(() => {
-        const authToken = authService.getAuthToken()
-        console.log("Auth token from cookie:", authToken)
-
-        if (authToken) {
-          // Redirect to dashboard on successful login
-          navigate("/home")
-        } else {
-          console.error("Token not found in cookies after login")
-
-          // Check if we're in a local development environment
-          if (window.location.hostname === "localhost") {
-            console.warn("Running on localhost - some browsers restrict cookies in local environments")
-
-            // For development purposes, we can still redirect
-            if (response.access) {
-              navigate("/home")
-            }
-          } else {
-            setErrors({ general: "Authentication failed. Please try again." })
-          }
-        }
-      }, 500)
-      //window.location.href = "/home"
     } catch (error) {
       if (error.errors) {
         setErrors(error.errors)
@@ -220,10 +197,6 @@ export default function Login() {
                   <label htmlFor='rememberMe' checked={formData.rememberMe} onChange={handleCheckboxChange} className='text-sm font-thin'> Remember me</label>
                   <Link to={'/forgot-password'} className='ml-auto text-sm font-thin text-[#5b9a68]'> Forgot Password</Link>
                 </div>
-                {/* Sign Up Button */}
-                {/* <button type='submit' className="w-full bg-[#5b9a68] hover:bg-[#4e8559] text-white font-medium py-2 px-4 rounded-md transition-colors">
-                  Login
-                </button> */}
                 <div>
                   <button
                     type="submit"

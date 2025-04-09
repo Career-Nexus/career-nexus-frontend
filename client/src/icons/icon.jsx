@@ -169,7 +169,7 @@ export const Article = () => (
 )
 export const Clock = () => (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_134_1009)">
+        <g clipPath="url(#clip0_134_1009)">
             <path d="M7.5 3.75L7.5 7.5L11.25 7.5" stroke="#2A0D47" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M7.5 13.75C10.9518 13.75 13.75 10.9518 13.75 7.5C13.75 4.04822 10.9518 1.25 7.5 1.25C4.04822 1.25 1.25 4.04822 1.25 7.5C1.25 10.9518 4.04822 13.75 7.5 13.75Z" stroke="#2A0D47" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
@@ -245,7 +245,7 @@ export const Like = () => (
 )
 export const Chat = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_747_3151)">
+        <g clipPath="url(#clip0_747_3151)">
             <path d="M8.00065 14.6663C11.6825 14.6663 14.6673 11.6816 14.6673 7.99967C14.6673 4.31778 11.6825 1.33301 8.00065 1.33301C4.31875 1.33301 1.33398 4.31778 1.33398 7.99967C1.33398 9.21396 1.65863 10.3524 2.22587 11.333L1.66732 14.333L4.66732 13.7745C5.6479 14.3417 6.78636 14.6663 8.00065 14.6663Z" stroke="#131927" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
         <defs>
