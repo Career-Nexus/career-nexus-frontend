@@ -4,7 +4,8 @@ import { ChevronDown } from "lucide-react"
 
 export default function UserTypeSelection() {
   const [selectedUserType, setSelectedUserType] = useState("")
-  const [selectedIndustries, setSelectedIndustries] = useState(["Technology", "Finance & Banking"])
+  // const [selectedIndustries, setSelectedIndustries] = useState(["Technology", "Finance & Banking"])
+  const [selectedIndustries, setSelectedIndustries] = useState(["Technology"])
 
   const industries = [
     "Technology",

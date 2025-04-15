@@ -20,8 +20,11 @@ import {
 // import { Badge } from "@/components/ui/badge"
 import { Card, CardBody, Progress, Textarea, Button } from "@chakra-ui/react"
 import { SocialInteractionBar } from "../SocialInteractionBar"
-import { Clock } from "../../../../icons/icon"
+import { Clock, Delete, Download, Edit, Editall, View } from "../../../../icons/icon"
 import ExperienceSection from "./Experience"
+import { ProductGalery } from "./ProductVirtualGalary"
+import { AddProjectModal } from "./AllModal"
+import ReusableModal from "./ModalDesign"
 
 export default function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
@@ -51,7 +54,7 @@ export default function ProfileTabs() {
                 </button>
 
                 <div ref={tabsRef} className="my-3 gap-3 flex overflow-x-auto scrollbar-hide px-6 md:px-0 md:overflow-visible">
-                    
+
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "professional" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -103,7 +106,7 @@ export default function ProfileTabs() {
             </div>
 
             {/* Tab content */}
-            <div className="mt-6"> 
+            <div className="mt-6">
                 {activeTab === "professional" && <ProfessionalSummaryTemplate />}
                 {activeTab === "gallery" && <PortfolioGalleryTemplate />}
                 {activeTab === "projects" && <ProjectCatalogTemplate />}
@@ -276,18 +279,34 @@ function ProfessionalSummaryTemplate() {
 
 function PortfolioGalleryTemplate() {
     return (
+        <div>
+            <ProductGalery />
+        </div>
+    )
+}
+
+function ProjectCatalogTemplate() {
+    const [openModal, setOpenModal]=useState()
+    return (
         <div className="space-y-6">
             <h2 className="text-xl font-semibold flex items-center gap-2">
-                <Image className="h-5 w-5 text-[#5DA05D]" />
-                Portfolio Virtual Gallery
+                <Briefcase className="h-5 w-5 text-[#5DA05D]" />
+                Project Catalog
             </h2>
 
-            {/* <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
-                <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-lg text-xs whitespace-nowrap">All Works</button>
-                <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Web Design</button>
-                <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Mobile Apps</button>
-                <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">UI/UX Design</button>
-                <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs whitespace-nowrap">Branding</button>
+            {/* <div className="flex justify-between items-center mb-6">
+                <div className="flex gap-3">
+                    <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-lg text-xs">All Projects</button>
+                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">In Progress</button>
+                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">Completed</button>
+                </div>
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Search projects..."
+                        className="border border-gray-300 rounded-lg px-3 py-1 text-xs w-32 sm:w-auto"
+                    />
+                </div>
             </div> */}
             <div className="flex gap-4">
                 <label htmlFor="search" className="flex items-center border border-gray-300 rounded-lg w-full">
@@ -303,58 +322,11 @@ function PortfolioGalleryTemplate() {
                         <option value="recentlyUpdated">Recently Updated</option>
                     </select>
                 </div>
-                <button className="h-10 w-[50%] bg-[#5DA05D] text-white rounded-lg flex items-center px-2">
+                <button onClick={() => setOpenModal(true)} className="h-10 w-[50%] bg-[#5DA05D] text-white rounded-lg flex items-center px-2">
                     <Plus className="h-5 w-5 mr-2" />
                     Add project
+                    <AddProjectModal ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
                 </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5, 6].map((item) => (
-                    <div key={item} className="group relative overflow-hidden rounded-lg">
-                        <div className="aspect-square bg-gray-200 w-full"></div>
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <div className="text-center p-4">
-                                <h3 className="text-white font-medium mb-1">Project Title {item}</h3>
-                                <p className="text-gray-300 text-sm mb-3">Web Design</p>
-                                <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs flex items-center gap-1 mx-auto">
-                                    View Details <ExternalLink className="h-3 w-3" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            <div className="flex justify-center mt-8">
-                <button className="border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white px-4 py-2 rounded-lg text-sm transition-colors">
-                    Load More Works
-                </button>
-            </div>
-        </div>
-    )
-}
-
-function ProjectCatalogTemplate() {
-    return (
-        <div className="space-y-6">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-                <Briefcase className="h-5 w-5 text-[#5DA05D]" />
-                Project Catalog
-            </h2>
-
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex gap-3">
-                    <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-lg text-xs">All Projects</button>
-                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">In Progress</button>
-                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">Completed</button>
-                </div>
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search projects..."
-                        className="border border-gray-300 rounded-lg px-3 py-1 text-xs w-32 sm:w-auto"
-                    />
-                </div>
             </div>
 
             <div className="grid gap-6">
@@ -363,20 +335,13 @@ function ProjectCatalogTemplate() {
                         <CardBody className="p-0">
                             <div className="md:flex">
                                 <div className="md:w-1/4 bg-gray-100 md:h-auto h-40 relative">
-                                    <div className="absolute inset-0 flex items-center justify-center text-gray-500">Project Image</div>
+                                    <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                                        <img src="/images/gallery.png" alt="Gallery" />
+                                    </div>
                                 </div>
                                 <div className="p-5 md:w-3/4">
                                     <div className="flex justify-between items-start mb-2">
                                         <h3 className="font-semibold">E-Commerce Platform Redesign</h3>
-                                        <Badge
-                                            className={
-                                                item === 1
-                                                    ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                                    : "bg-green-100 text-green-800 hover:bg-green-100"
-                                            }
-                                        >
-                                            {item === 1 ? "In Progress" : "Completed"}
-                                        </Badge>
                                     </div>
 
                                     <p className="text-sm text-gray-700 mb-4">
@@ -385,35 +350,19 @@ function ProjectCatalogTemplate() {
                                     </p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
-                                        <Badge variant="outline" className="text-xs">
-                                            React
-                                        </Badge>
-                                        <Badge variant="outline" className="text-xs">
-                                            Next.js
-                                        </Badge>
-                                        <Badge variant="outline" className="text-xs">
-                                            Tailwind CSS
-                                        </Badge>
-                                        <Badge variant="outline" className="text-xs">
-                                            E-Commerce
-                                        </Badge>
                                     </div>
 
                                     <div className="flex justify-between items-center">
-                                        <div className="flex -space-x-2">
-                                            {[1, 2, 3].map((avatar) => (
-                                                <div key={avatar} className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white"></div>
-                                            ))}
-                                            <div className="w-6 h-6 rounded-full bg-[#5DA05D] border-2 border-white flex items-center justify-center text-white text-xs">
-                                                +2
-                                            </div>
-                                        </div>
-
                                         <div className="text-xs text-gray-500">
                                             {item === 1 ? "Due in 2 weeks" : "Completed on May 15, 2023"}
                                         </div>
-
-                                        <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">View Details</button>
+                                        <div className="flex items-center gap-2">
+                                            <View/>
+                                            <Download/>
+                                            <Editall/>
+                                            <Delete/>
+                                        </div>
+                                        {/* <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">View Details</button> */}
                                     </div>
                                 </div>
                             </div>

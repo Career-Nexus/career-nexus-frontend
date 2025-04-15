@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import {  Google, Linkedin, LoadingIcon} from '../../icons/icon';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,6 +16,7 @@ export default function Signup() {
         password1: "",
         password2: "",
     })
+    
     const [errors, setErrors] = useState({})
     const [apiError, setApiError] = useState("")
     const [isConnected, setIsConnected] = useState(true)
@@ -296,3 +298,139 @@ export default function Signup() {
         </div>
     )
 }
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { useForm } from 'react-hook-form';
+
+// export default function CreateAccountForm() {
+//   const [showPassword, setShowPassword] = useState(false);
+//   const {
+//     register,
+//     handleSubmit,
+//     watch,
+//     formState: { errors },
+//   } = useForm();
+
+//   const onSubmit = (data) => {
+//     console.log('Form Data:', data);
+//   };
+
+//   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+//       <form
+//         onSubmit={handleSubmit(onSubmit)}
+//         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm"
+//       >
+//         <h2 className="text-2xl font-bold mb-6 text-center text-purple-900">Create Account</h2>
+
+//         {/* Full Name */}
+//         <div className="mb-4 relative">
+//           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+//             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+//             </svg>
+//           </span>
+//           <input
+//             type="text"
+//             {...register('fullName', { required: 'Full Name is required' })}
+//             placeholder="Full Name"
+//             className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+//           />
+//           {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>}
+//         </div>
+
+//         {/* Email Address */}
+//         <div className="mb-4 relative">
+//           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+//             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" d="M16 12l-4-4-4 4m0 0l4 4 4-4m-4-4v8" />
+//             </svg>
+//           </span>
+//           <input
+//             type="email"
+//             {...register('email', { required: 'Email is required' })}
+//             placeholder="Email Address"
+//             className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+//           />
+//           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+//         </div>
+
+//         {/* Password */}
+//         <div className="mb-4 relative">
+//           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+//             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c0-.5.5-1 1-1s1 .5 1 1-.5 1-1 1-1-.5-1-1zM4 11c1.5-4 6.5-7 8-7s6.5 3 8 7c-1.5 4-6.5 7-8 7s-6.5-3-8-7z" />
+//             </svg>
+//           </span>
+//           <input
+//             type={showPassword ? 'text' : 'password'}
+//             {...register('password', {
+//               required: 'Password is required',
+//               pattern: {
+//                 value: passwordRegex,
+//                 message:
+//                   'Password must be at least 8 characters and include uppercase, lowercase, number, and special character',
+//               },
+//             })}
+//             placeholder="Password"
+//             className="w-full pl-10 pr-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+//           />
+//           <button
+//             type="button"
+//             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
+//             onClick={() => setShowPassword((prev) => !prev)}
+//           >
+//             {showPassword ? (
+//               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-3.866 0-7.209-2.204-9-5.5a9.959 9.959 0 012.98-3.36m1.443-1.443A9.955 9.955 0 0112 5c3.866 0 7.209 2.204 9 5.5a9.978 9.978 0 01-4.197 4.197m-1.446 1.446A4 4 0 0112 15a4 4 0 01-4-4 4 4 0 013.356-3.953" />
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3l18 18" />
+//               </svg>
+//             ) : (
+//               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+//               </svg>
+//             )}
+//           </button>
+//           {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+//         </div>
+
+//         {/* Confirm Password */}
+//         <div className="mb-6 relative">
+//           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+//             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c0-.5.5-1 1-1s1 .5 1 1-.5 1-1 1-1-.5-1-1zM4 11c1.5-4 6.5-7 8-7s6.5 3 8 7c-1.5 4-6.5 7-8 7s-6.5-3-8-7z" />
+//             </svg>
+//           </span>
+//           <input
+//             type={showPassword ? 'text' : 'password'}
+//             {...register('confirmPassword', {
+//               required: 'Please confirm your password',
+//               validate: (value) =>
+//                 value === watch('password') || 'Passwords do not match',
+//             })}
+//             placeholder="Confirm Password"
+//             className="w-full pl-10 pr-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+//           />
+//           {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>}
+//         </div>
+
+//         {/* Submit Button */}
+//         <button
+//           type="submit"
+//           className="w-full bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition-colors"
+//         >
+//           Sign up
+//         </button>
+
+//         <p className="text-center text-sm text-gray-500 mt-4">Or continue with</p>
+//       </form>
+//     </div>
+//   );
+// }

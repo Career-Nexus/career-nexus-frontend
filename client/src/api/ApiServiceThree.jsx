@@ -2,7 +2,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const baseUrl= 'https://16.16.24.199'
+// const baseUrl= 'https://16.16.24.199'
+const baseUrl= 'https://btest.career-nexus.com/'
 const api = axios.create({
   // baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/api",
   baseURL: baseUrl,

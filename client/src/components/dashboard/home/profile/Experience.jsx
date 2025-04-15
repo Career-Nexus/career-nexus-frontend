@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Company1, Company2, Edit, Like } from "../../../../icons/icon";
 import ReusableModal from "./ModalDesign";
 import { useForm } from 'react-hook-form';
+import { CertificationModal, EducationModal, ExperienceModal } from "./AllModal";
 
 export default function ExperienceSection({ }) {
     const [expandedItems, setExpandedItems] = useState({
@@ -109,116 +110,10 @@ export default function ExperienceSection({ }) {
     const status = true;
     const status2 = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
     const status3 = status ? "REQUEST RECOMMENDATION" : "RECOMMENDED";
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const [openModal, setOpenModal] = useState(false);
+    const [openModaledu, setOpenModaledu] = useState(false);
+    const [openModalcert, setOpenModalcert] = useState(false);
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true)
-    }
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false)
-    }
-
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-
-    const onSubmit = (data) => {
-        console.log(data);
-        // Handle form submission logic
-    };
-    const ExperienceModal = ({ ModalComponent, isOpen, onClose }) => {
-        return (
-            <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Experience">
-                <div className="max-w-xl mx-auto bg-white">
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        {/* Job Title */}
-                        <div>
-                            <label className="block font-medium mb-1">
-                                Job Title<span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                {...register("jobTitle", { required: "This field is required" })}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter project title"
-                            />
-                            {errors.jobTitle && (
-                                <p className="text-red-500 text-sm mt-1">{errors.jobTitle.message}</p>
-                            )}
-                        </div>
-
-                        {/* Company Name */}
-                        <div>
-                            <label className="block font-medium mb-1">Company Name</label>
-                            <input
-                                type="text"
-                                {...register("companyName")}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter company’s name e.g Walmart"
-                            />
-                        </div>
-
-                        {/* Start Date */}
-                        <div>
-                            <label className="block font-medium mb-1">Start Date</label>
-                            <input
-                                type="month"
-                                {...register("startDate")}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="e.g Aug 2018"
-                            />
-                        </div>
-
-                        {/* End Date */}
-                        <div>
-                            <label className="block font-medium mb-1">End Date</label>
-                            <input
-                                type="month"
-                                {...register("endDate")}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="e.g Aug 2018"
-                            />
-                        </div>
-
-                        {/* Location */}
-                        <div>
-                            <label className="block font-medium mb-1">Location</label>
-                            <input
-                                type="text"
-                                {...register("location")}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="e.g Texas"
-                            />
-                        </div>
-
-                        {/* Description */}
-                        <div>
-                            <label className="block font-medium mb-1">Description</label>
-                            <textarea
-                                {...register("description")}
-                                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                                placeholder="Describe your role and achievements"
-                                rows={1}
-                            />
-                        </div>
-
-                        {/* Save Button */}
-                        <button
-                            type="submit"
-                            className="w-full bg-[#5DA05D] text-white py-2 rounded hover:bg-[#5DA05D] transition"
-                        >
-                            Save
-                        </button>
-                    </form>
-                </div>
-            </ModalComponent>
-        )
-    }
     return (
         <div className="w-full max-w-3xl mx-auto mt-5">
             <div className="flex items-center justify-between mb-4">
@@ -336,12 +231,14 @@ export default function ExperienceSection({ }) {
                     </div>
                 </div>
             </div>
+            {/* education modal */}
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold">Education</h2>
-                    <button onClick={handleOpenModal} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                    <button onClick={() => setOpenModaledu(true)} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
                         <Plus className="h-3 w-3 mr-1" />
                         <span className="text-xs">Add Education</span>
+                        <EducationModal ModalComponent={ReusableModal} isOpen={openModaledu} onClose={() => setOpenModaledu(false)} />
                     </button>
                 </div>
                 <Experience
@@ -358,9 +255,10 @@ export default function ExperienceSection({ }) {
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold">Licenses & Certifications</h2>
-                    <button onClick={handleOpenModal} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
+                    <button onClick={() => setOpenModalcert(true)} className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center">
                         <Plus className="h-3 w-3 mr-1" />
                         <span className="text-xs">Add Certifications</span>
+                        <CertificationModal ModalComponent={ReusableModal} isOpen={openModalcert} onClose={() => setOpenModalcert(false)} />
                     </button>
                 </div>
                 <Experience
