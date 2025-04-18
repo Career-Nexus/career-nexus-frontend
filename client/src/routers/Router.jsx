@@ -9,6 +9,7 @@ import ErrorPage from '../components/ErrorPage'
 import AuthNavbar from '../components/layout/AuthNavbar'
 import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
+import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -96,7 +97,14 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path='/person-profile'
+          element={
+            <ProtectedRoute>
+              <ViewPersonProfile/>
+            </ProtectedRoute>
+          }
+        />
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
 

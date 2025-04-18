@@ -80,7 +80,7 @@ const EventsHome = () => {
 
             </div>
             <FloatingMessageIcon/>
-            <OtpModalDemo/>
+            {/* <OtpModalDemo/> */}
         </div>
     )
 }

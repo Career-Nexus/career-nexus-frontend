@@ -15,9 +15,6 @@ import {
     Search,
     Plus,
 } from "lucide-react"
-// import { Card, CardBody } from "@/components/ui/card"
-// import { Progress } from "@/components/ui/progress"
-// import { Badge } from "@/components/ui/badge"
 import { Card, CardBody, Progress, Textarea, Button } from "@chakra-ui/react"
 import { SocialInteractionBar } from "../SocialInteractionBar"
 import { Clock, Delete, Download, Edit, Editall, View } from "../../../../icons/icon"
