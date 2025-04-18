@@ -1,0 +1,88 @@
+import React from 'react'
+import { Avatar } from "flowbite-react";
+import { Message } from '../../../icons/icon';
+import OtpModalDemo from '../../../pages/auth/OtpModal';
+import FloatingMessageIcon from './FloatingMessage';
+
+const EventsHome = () => {
+    const items1 = [
+        { title: 'Upcoming Sessions', event1: 'Resume Review', date1: 'Today, 2:00PM', event2: 'Portfolio Feedback', date2: 'Tomorrow, 10:00AM' }
+    ]
+    const items2 = [
+        {
+            title: 'Recommended Jobs', header1: 'Ux Designer', comp1: 'TechCorp Inc.', skill1: 'Matching skill: 4/5',
+            header2: "Product Manager", comp2: "Innovate Solutions", skip2: "Matching skill: 3/5"
+        }
+    ]
+    const items3 = [
+        { title: 'Discover New Career Opportunities', desc: 'Explore premium services tailored to your career growth.', img1: <Message /> }
+    ]
+    return (
+        <div className='hidden md:block'>
+            <div className="w-full max-w-md overflow-hidden border-gray-300 p-2 rounded border shadow-sm">
+                <div className="relative">
+                    {/* Background image */}
+                    <div className="relative aspect-[4/5.5] w-full">
+                        <img
+                            src="/images/image3.png" alt="Events" className="rounded object-cover w-full h-full" 
+                           //className="w-full h-full object-cover"
+                        />
+
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-purple-900/90" />
+
+                        {/* Content */}
+                        <div className="absolute bottom-0 left-0 p-2 text-white">
+                            <h2 className="text-xs leading-tight">
+                                Unlock Exclusive Access - Subscribe to Premium Now!
+                            </h2>
+
+                            <button className='text-white bg-[#1F1AB0] p-1 rounded-lg' style={{ fontSize: "10px", position: "relative" }}>Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='border border-gray-300 rounded-lg p-2 my-2'>
+                {/* background: linear-gradient(357.2deg, #280B45 19.9%, rgba(72, 58, 86, 0.481928) 72.17%, rgba(102, 102, 102, 0) 101%); */}
+                {items1.map(item => (
+                    <div key={item.title} className='p-2'>
+                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
+                        <p className='text-xs font-semibold mb-1'>{item.event1}</p>
+                        <p className='text-xs'>{item.date1}</p>
+                        <p className='text-xs font-semibold my-1'>{item.event2}</p>
+                        <p className='text-xs'>{item.date2}</p>
+                    </div>
+                ))}
+            </div>
+            <div className='border border-gray-300 rounded-lg p-2 my-2'>
+                {items2.map(item => (
+                    <div key={item.title} className='p-2'>
+                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
+                        <p className='text-xs font-semibold mb-1'>{item.header1}</p>
+                        <p className='text-xs'>{item.comp1}</p>
+                        <p className='text-xs mb-1'>{item.skill1}</p>
+                        <p className='text-xs font-semibold mb-1'>{item.header2}</p>
+                        <p className='text-xs'>{item.comp2}</p>
+                        <p className='text-xs mb-1'>{item.skip2}</p>
+                        <a href="#" className='text-[#5DA05D] text-xs font-semibold'>View all Jobs</a>
+                    </div>
+                ))}
+            </div>
+            <div className='border border-gray-300 rounded-lg p-2 my-2'>
+                {items3.map(item => (
+                    <div key={item.title} className='p-2'>
+                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
+                        <p className='text-xs'>{item.desc}</p>
+                        <a href="#" className='text-[#5DA05D] text-xs font-semibold'>Learn more</a>
+                    </div>
+                ))}
+
+            </div>
+            <FloatingMessageIcon/>
+            {/* <OtpModalDemo/> */}
+        </div>
+    )
+}
+
+export default EventsHome
