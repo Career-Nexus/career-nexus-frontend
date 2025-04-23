@@ -11,8 +11,8 @@ const Educationgap = () => {
     }, [])
     return (
         <div>
-            <div className='bg-zinc-50 p-10'>
-                <h1 className='text-wrap text-3xl text-center'>The gap between education and employment is wider than ever,<br /> Career
+            <div className='bg-zinc-50 p-10 mt-[-5rem]'>
+                <h1 className='text-wrap text-3xl text-center mt-8'>The gap between education and employment is wider than ever,<br /> Career
                     Nexus was built to help address this gap</h1>
                 <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
                     <div className='bg-white text-center shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">

@@ -289,8 +289,8 @@ export const LearnMore = () => {
         your thoughts, we're here to support you every step of the way. Welcome to the future of career
         development!
       </p>
-      <h1 className='text-3xl'>
-        WE LAUNCH OFFICIALLY 23rd APRIL!
+      <h1 className='text-2xl'>
+        WE LAUNCH OFFICIALLY SOON, STAY TUNED!
       </h1>
     </>
   )

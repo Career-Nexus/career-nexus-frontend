@@ -11,7 +11,7 @@ const Card = () => {
         });
     },[])
     return (
-        <div className='bg-zinc-50 p-10'>
+        <div className='bg-zinc-50 pb-10 px-10'>
             <h1 className='text-3xl text-center'>Career-Nexus: The Ultimate Solution for Career Success.</h1>
              <div className='grid grid-cols-12 gap-5 mx-5 my-16'>
                 <div className='bg-white shadow-lg p-6 rounded-md lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12' data-aos="zoom-in">

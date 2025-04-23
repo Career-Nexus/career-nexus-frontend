@@ -17,7 +17,7 @@ const Footer = () => {
     const ChildComponent = ({ ModalComponent, isOpen, onClose }) => {
         return (
             <ModalComponent isOpen={isOpen} onClose={onClose} title="Contact us here for help">
-                <div className='font-semibold'>Contact number:   +447990209405</div>
+                <div className='font-semibold'>Address:  Paul Street, London, England, EC2A 4NE </div>
                 <div className='font-semibold'>WhatsApp: +1 (312) 539-4512</div>
                 <div className='font-semibold'>Email: info@career-nexus.com</div>
                 <div className='font-semibold'>Help: support@career-nexus.com </div>
