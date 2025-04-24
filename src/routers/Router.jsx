@@ -10,6 +10,7 @@ import AuthNavbar from '../components/layout/AuthNavbar'
 import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
 import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
+import MentorshipHome from '../pages/mentorship/MentorshipHome'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -105,6 +106,14 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/mentorship'
+          element={
+            <ProtectedRoute>
+              <MentorshipHome/>
+            </ProtectedRoute>
+          }
+        />
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
 
@@ -119,61 +128,3 @@ const Router = () => {
 }
 
 export default Router
-
-{/* <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AuthNavbar />}>
-          <Route index element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="select" element={<UserTypeSelection />} />
-        </Route>
-
-        <Route element={
-            <MainNavbar />
-          }>
-            <Route path="home" element={<Home />} />
-            <Route path="profilepage" element={<ProfilePage />} />
-        </Route>
-
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter> */}
-// import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-// import Signup from "./components/Signup"
-// import Login from "./components/Login"
-// import { authService } from "./services/apiServices"
-
-// Protected route component
-// const ProtectedRoute = ({ children }) => {
-//   const isAuthenticated = authService.isAuthenticated()
-
-//   if (!isAuthenticated) {
-//     return <Navigate to="/login" />
-//   }
-
-//   return children
-// }
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route
-//           path="/dashboard"
-//           element={
-//             <ProtectedRoute>
-//               <div className="p-8">
-//                 <h1 className="text-2xl font-bold">Dashboard</h1>
-//                 <p>Welcome to your dashboard!</p>
-//               </div>
-//             </ProtectedRoute>
-//           }
-//         />
-//         <Route path="/" element={<Navigate to="/login" />} />
-//       </Routes>
-//     </Router>
-//   )
-// }
-

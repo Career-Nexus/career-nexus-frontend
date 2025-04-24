@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, RightArrow, Search, Toggle, User } from '../../icons/icon';
@@ -16,6 +17,17 @@ const MainNavbar = () => {
         authService.logout()
         navigate("/login")
     }
+
+    // Function to check if a path is active
+    const isActive = (path) => {
+        return location.pathname === path;
+    }
+
+    // Common class for nav items
+    const navItemClass = "flex flex-col items-center";
+    // Active class with green underline
+    const activeClass = "border-b-2 border-green-500";
+
     return (
         <nav className='sticky top-0 z-50'>
             <div className='bg-white shadow w-full'>
@@ -41,34 +53,55 @@ const MainNavbar = () => {
                     </div>
                     {/* Navigation Links for Medium Screens and Up */}
                     <div className='hidden md:flex items-center justify-center lg:space-x-6 md:space-x-3'>
-                        <Link to={'/home'} className='flex flex-col items-center'>
+                        <Link 
+                            to='/home' 
+                            className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
+                        >
                             <Home className='mx-auto' />
                             <h1 className='text-xs'>Home</h1>
                         </Link>
-                        <div className='flex flex-col items-center'>
+                        <Link 
+                            to='/mentorship' 
+                            className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
+                        >
                             <Mentorship className='mx-auto' />
                             <h1 className='text-xs'>Mentorship</h1>
-                        </div>
-                        <div className='flex flex-col items-center'>
+                        </Link>
+                        <Link 
+                            to='/network' 
+                            className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
+                        >
                             <Network className='mx-auto' />
                             <h1 className='text-xs'>Network</h1>
-                        </div>
-                        <div className='flex flex-col items-center'>
+                        </Link>
+                        <Link 
+                            to='/jobs' 
+                            className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
+                        >
                             <Jobs className='mx-auto' />
                             <h1 className='text-xs'>Jobs</h1>
-                        </div>
-                        <div className='flex flex-col items-center'>
+                        </Link>
+                        <Link 
+                            to='/mail' 
+                            className={`${navItemClass} ${isActive('/mail') ? activeClass : ''}`}
+                        >
                             <Email className='mx-auto' />
                             <h1 className='text-xs'>Mail</h1>
-                        </div>
-                        <div className='flex flex-col items-center'>
+                        </Link>
+                        <Link 
+                            to='/notifications' 
+                            className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
+                        >
                             <Notification className='mx-auto' />
                             <h1 className='text-xs'>Notification</h1>
-                        </div>
-                        <div className='flex flex-col items-center'>
+                        </Link>
+                        <Link 
+                            to='/business' 
+                            className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
+                        >
                             <Business className='mx-auto' />
                             <h1 className='text-xs'>Business</h1>
-                        </div>
+                        </Link>
                     </div>
                     <p className='md:ml-5 ml-0 mr-2 md:mr-0'>|</p>
                     {/* Profile Picture */}
@@ -79,7 +112,7 @@ const MainNavbar = () => {
                     {/* User Name and Dropdown Menu */}
 
 
-                    <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                    <div className=" sm:ml-6 sm:flex sm:items-center">
                         <div className="ml-3 relative">
                             <div>
                                 <button
@@ -140,3 +173,4 @@ const MainNavbar = () => {
 }
 
 export default MainNavbar
+

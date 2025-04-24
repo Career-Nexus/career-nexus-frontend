@@ -22,7 +22,7 @@ const Profile = () => {
                 <img src="/images/bg-profile.png" alt="background profile" className='w-full h-auto' />
                 <Link to={'/profilepage'}>
                     <img src="/images/profile.png" alt="profile picture"
-                        className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
+                        className='rounded-full w-32 h-auto md:mt-[-3.7rem] md:ml-3' />
                 </Link>
                 <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                 <div className='p-3 flex flex-col gap-3'>

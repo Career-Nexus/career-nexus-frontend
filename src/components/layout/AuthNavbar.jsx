@@ -92,10 +92,10 @@ const AuthNavbar = () => {
             <div className='bg-white shadow flex items-center justify-between'>
                 {/* <div className='flex items-center justify-between sticky top-0 z-50 bg-white shadow'> */}
                 <div className='ml-10 md:ml-20 pb-2 items-center hidden md:block '>
-                    <img src="images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
+                    <img src="/images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                 </div>
                 <div className='ml-10 md:ml-20 pb-2 items-center block md:hidden'>
-                    <img src="images/c-nicon2.png" alt="Career-Nexus logo" className="h-12 w-auto" />
+                    <img src="/images/c-nicon2.png" alt="Career-Nexus logo" className="h-12 w-auto" />
                 </div>
                 <div className='visible md:invisible ml-auto'>
                     <Toggler />
