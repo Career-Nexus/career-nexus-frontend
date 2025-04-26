@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Edit} from '../../../../icons/icon'
 //import SocialMediaToolbar from '../LiveStream'
 import ProfileTabs from './ProfileTab'
@@ -7,15 +7,25 @@ import ReusableModal from './ModalDesign'
 import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Video } from 'lucide-react'
 import { EditComponent } from './AllModal'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../../../context/UserContext'
 
 const MainProfile = () => {
     const [openModal, setOpenModal] = useState(false);
     const [isHovered, setIsHovered] = useState(false)
     const [hovered, setHovered] = useState(false)
+    // get the user data from the context
+    const {user, loading, error} = useContext(UserContext);
+    if(loading){
+        return <div className='flex items-center justify-center h-screen'>Loading...</div>
+    }
+    if(error){
+        return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
+    }
+    if(!user.name){
+        return <div className='flex items-center justify-center h-screen'>No user found</div>
+    }
 
     function ProfilePicture() {
-        
-
         return (
             <div className="flex items-center justify-center">
                 <div
@@ -38,15 +48,19 @@ const MainProfile = () => {
 
     return (
         <div>
+           
             <div className='bg-white  p-1 border border-gray-300 rounded-lg'>
+                
                 <div className='relative'>
                     <ProfilePicture />
                 </div>
+                
                 <div className='flex justify-between'>
                     <div className='relative w-32 h-auto'
                         onMouseEnter={() => setHovered(true)}
                         onMouseLeave={() => setHovered(false)}
                     >
+                        {/* <img src={profile.profile_photo} alt="profile picture" */}
                         <img src="/images/profile.png" alt="profile picture"
                             className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
                         {hovered && (
@@ -66,13 +80,13 @@ const MainProfile = () => {
                 <div className='mt-6 flex items-center gap-32'>
                     <div>
                         <h1 className='text-xl font-bold'>
-                            John Smith
+                            {user.name}
                         </h1>
                         <p className='text-xs md:text-sm my-3'>
-                            Skilled in Full Stack Development, Agile Project Management, and Data Analysis.
+                            {user.bio}
                         </p>
                         <p className='text-slate-500 font-thin flex items-center gap-2'>
-                            <MapPin className='w-4 h-4' /> USA <BriefcaseBusiness className='w-4 h-4' /> Software Engineer at TechCorp
+                            <MapPin className='w-4 h-4' />{user.location} <BriefcaseBusiness className='w-4 h-4' /> Software Engineer at TechCorp
                         </p>
                         <p className='text-slate-500 font-thin flex items-center gap-2'>
                             <GraduationCap className='w-4 h-4' /> B.Sc in Computer Science
@@ -86,8 +100,6 @@ const MainProfile = () => {
                         <img src="/images/video1.png" alt="video stream" />
                     </div>
                 </div>
-
-
             </div>
             <Link to={'/person-profile'}>Person Profile</Link>
             <ProfileTabs />

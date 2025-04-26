@@ -1,20 +1,65 @@
 import { useForm } from "react-hook-form";
 import { Camera } from "../../../../icons/icon";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { UserContext } from "../../../../context/UserContext";
+import { Trash2, Video } from "lucide-react";
 
 export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
+    const { user, updateUser, loading, error } = useContext(UserContext)
+    const [formData, setFormData] = useState({
+        firstName: user.name || "",
+        lastName: user.last_name || "",
+        middleName: user.middle_name || "",
+        location: user.location || "",
+        bio: user.bio || "",
+        education: user.education || "",
+        currentPosition: user.current_position || "",
+    });
+    const [file, setFile] = useState(null)
+    const [success, setSuccess] = useState(false)
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0])
+    }
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log('Form submitted:', data);
+    const onSubmit = async (data, e) => {
+        e.preventDefault()
+        try {
+            const updatedData = {}
+            if (data.name != user.name) updatedData.name = data.name
+            if (data.lastName) updatedData.last_name = data.lastName
+            if (data.middleName) updatedData.middle_name = data.middleName
+            if (data.location) updatedData.location = data.location
+            if (data.bio) updatedData.bio = data.bio
+            if (data.education) updatedData.education = data.education
+            if (data.currentPosition) updatedData.current_position = data.currentPosition
+            if (file) updatedData.profile_photo = file
+
+            await updateUser(updatedData, file);
+            setSuccess("Profile updated successfully")
+            setTimeout(() => { window.location.href = "/profilepage" }, 2000)
+            console.log('Form submitted:', data);
+        } catch (error) {
+            setSuccess("Error updating profile")
+            console.error('Error submitting form:', error);
+        }
     };
+
 
     return (
         <ModalComponent isOpen={isOpen} onClose={onClose} title="Edit Profile Details">
+            
+            {loading && <div>Loading...</div>}
+            {error && <div style={{ color: "red" }}>Error: {error}</div>}
+            {success && <div style={{ color: "green" }}>{success}</div>}
 
             <div className="max-w-4xl mx-auto bg-white rounded-lg">
 
@@ -26,11 +71,11 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                             <img src="/images/video1.png" alt="video stream" className="w-60" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <button className="bg-green-100 text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
-                                📹 Record
+                            <button className="bg-green-100 flex text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
+                                <Video/>Record
                             </button>
-                            <button className="bg-red-100 text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200">
-                                🗑️ Remove
+                            <button className="bg-red-100 flex text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200">
+                                <Trash2/> Remove
                             </button>
                         </div>
                     </div>
@@ -46,6 +91,8 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                         </label>
                         <input
                             type="text"
+                            value={formData.name}
+                            onChange={handleChange}
                             placeholder="Enter full name"
                             {...register("firstName", { required: "First name is required" })}
                             className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
@@ -60,8 +107,10 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                         </label>
                         <input
                             type="text"
-                            defaultValue="Lagos"
-                            {...register("location", { required: "Location is required" })}
+                            {...register("location")}
+                            value={formData.location}
+                            onChange={handleChange}
+                            defaultValue="lagos"
                             className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
                         />
                         {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>}
@@ -86,6 +135,9 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Education</label>
                         <input
                             type="text"
+                            {...register("education")}
+                            value={formData.education}
+                            onChange={handleChange}
                             defaultValue="Bsc in computer science"
                             className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
                         />
@@ -109,6 +161,9 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                         <input
                             type="text"
                             defaultValue="Manager"
+                            {...register("currentPosition")}
+                            value={formData.currentPosition}
+                            onChange={handleChange}
                             className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
                         />
                     </div>
@@ -120,6 +175,8 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                             rows={3}
                             defaultValue={`Experienced in Full Stack Development, Product & Project Management, and Agile Implementation, with strong expertise in Scrum, Business Analysis, Process Improvement, Database Administration, and Data Analysis.`}
                             {...register("bio")}
+                            value={formData.bio}
+                            onChange={handleChange}
                             className="w-full resize-none px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
                         />
                     </div>
@@ -135,9 +192,11 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                         </button>
                         <button
                             type="submit"
+                            disabled={loading}
                             className="px-6 py-2 bg-[#5DA05D] text-white rounded-md hover:bg-[#5DA05D]"
                         >
-                            Save
+                            {/* Save */}
+                            {loading ? "Saving..." : "Save"}
                         </button>
                     </div>
                 </form>

@@ -11,6 +11,7 @@ import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
 import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
 import MentorshipHome from '../pages/mentorship/MentorshipHome'
+import { UserProvider } from '../context/UserContext'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -19,12 +20,19 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />
   }
 
+  // return (
+  //   <>
+  //     <MainNavbar />
+  //     {children}
+  //   </>
+  // )
   return (
-    <>
+    <UserProvider>
       <MainNavbar />
       {children}
-    </>
+    </UserProvider>
   )
+
 }
 
 // Auth layout component

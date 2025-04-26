@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Bookmark, Bulb, Library, Newsletter, Setting, Video } from '../../../icons/icon'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../../context/UserContext'
 
 const Profile = () => {
+    const {user, loading, error, logout} = useContext(UserContext)
+    console.log(user)
+    
+    if(loading){
+        return <div className='flex items-center justify-center h-screen'>Loading...</div>
+    }
+    if(error){
+        return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
+    }
+    if(!user.name){
+        return <div className='flex items-center justify-center h-screen'>No user found</div>
+    }
     const items = [
         { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
         { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
@@ -26,7 +39,7 @@ const Profile = () => {
                 </Link>
                 <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                 <div className='p-3 flex flex-col gap-3'>
-                    <h1 className='font-bold text-2xl mt-4'>John Smith</h1>
+                    <h1 className='font-bold text-2xl mt-4'>{user.name}</h1>
                     <p className='text-sm'>Ui/Ux Designer | Seeking mentorship</p>
                     <hr />
                     <p className='font-semibold'>Profile Views:24</p>

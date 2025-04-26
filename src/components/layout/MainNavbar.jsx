@@ -1,17 +1,19 @@
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, RightArrow, Search, Toggle, User } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { authService } from '../../api/ApiServiceThree';
+import { UserContext } from '../../context/UserContext';
 
 
 const MainNavbar = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-    //const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const user = authService.getCurrentUser()
+
+    const { user, loading } = useContext(UserContext);
+    //const cuser = authService.getCurrentUser()
 
     const handleLogout = () => {
         authService.logout()
