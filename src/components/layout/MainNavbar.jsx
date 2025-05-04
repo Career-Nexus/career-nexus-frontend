@@ -5,6 +5,7 @@ import { Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, R
 import MobileFooterNav from './FooterNavbar';
 import { authService } from '../../api/ApiServiceThree';
 import { UserContext } from '../../context/UserContext';
+import { ChevronDown, HelpCircle, LogOut, Settings, UserCircle } from 'lucide-react';
 
 
 const MainNavbar = () => {
@@ -12,11 +13,12 @@ const MainNavbar = () => {
     const navigate = useNavigate()
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
-    const { user, loading } = useContext(UserContext);
+    const { user, loading, logout } = useContext(UserContext);
     //const cuser = authService.getCurrentUser()
 
     const handleLogout = () => {
-        authService.logout()
+        // authService.logout()
+        logout();
         navigate("/login")
     }
 
@@ -55,50 +57,50 @@ const MainNavbar = () => {
                     </div>
                     {/* Navigation Links for Medium Screens and Up */}
                     <div className='hidden md:flex items-center justify-center lg:space-x-6 md:space-x-3'>
-                        <Link 
-                            to='/home' 
+                        <Link
+                            to='/home'
                             className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
                         >
                             <Home className='mx-auto' />
                             <h1 className='text-xs'>Home</h1>
                         </Link>
-                        <Link 
-                            to='/mentorship' 
+                        <Link
+                            to='/mentorship'
                             className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
                         >
                             <Mentorship className='mx-auto' />
                             <h1 className='text-xs'>Mentorship</h1>
                         </Link>
-                        <Link 
-                            to='/network' 
+                        <Link
+                            to='/network'
                             className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
                         >
                             <Network className='mx-auto' />
                             <h1 className='text-xs'>Network</h1>
                         </Link>
-                        <Link 
-                            to='/jobs' 
+                        <Link
+                            to='/jobs'
                             className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
                         >
                             <Jobs className='mx-auto' />
                             <h1 className='text-xs'>Jobs</h1>
                         </Link>
-                        <Link 
-                            to='/mail' 
+                        <Link
+                            to='/mail'
                             className={`${navItemClass} ${isActive('/mail') ? activeClass : ''}`}
                         >
                             <Email className='mx-auto' />
                             <h1 className='text-xs'>Mail</h1>
                         </Link>
-                        <Link 
-                            to='/notifications' 
+                        <Link
+                            to='/notifications'
                             className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
                         >
                             <Notification className='mx-auto' />
                             <h1 className='text-xs'>Notification</h1>
                         </Link>
-                        <Link 
-                            to='/business' 
+                        <Link
+                            to='/business'
                             className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
                         >
                             <Business className='mx-auto' />
@@ -106,16 +108,12 @@ const MainNavbar = () => {
                         </Link>
                     </div>
                     <p className='md:ml-5 ml-0 mr-2 md:mr-0'>|</p>
-                    {/* Profile Picture */}
-                    {/* <Link to={'/profilepage'} className='flex items-center md:ml-4 lg:ml-10 ml-0'>
-                        <img src="/images/profile.png" alt="Profile picture" className="h-10 w-auto rounded-full" />
-                    </Link> */}
-
                     {/* User Name and Dropdown Menu */}
-
-
                     <div className=" sm:ml-6 sm:flex sm:items-center">
-                        <div className="ml-3 relative">
+                        <div className="h-10 w-10 mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
+                            {user?.name?.charAt(0) || 'U'}
+                        </div>
+                        <div className="relative">
                             <div>
                                 <button
                                     type="button"
@@ -126,9 +124,7 @@ const MainNavbar = () => {
                                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                                 >
                                     <span className="sr-only">Open user menu</span>
-                                    <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
-                                        {user?.name?.charAt(0) || "U"}
-                                    </div>
+                                    <ChevronDown />
                                 </button>
                             </div>
 
@@ -140,24 +136,43 @@ const MainNavbar = () => {
                                     aria-labelledby="user-menu-button"
                                     tabIndex="-1"
                                 >
+                                    <Link 
+                                        to={'/help'}
+                                        className="flex gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="user-menu-item-0"
+                                    >
+                                        <span><HelpCircle/></span>Help
+                                    </Link>
                                     <Link
                                         to="/profilepage"
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        className="flex gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                         tabIndex="-1"
                                         id="user-menu-item-0"
                                         onClick={() => setIsProfileMenuOpen(false)}
                                     >
-                                        Your Profile
+                                        <span><UserCircle/></span>Your Profile
+                                    </Link>
+                                    <Link
+                                        to="/profilepage"
+                                        className="flex gap-4 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="user-menu-item-0"
+                                        onClick={() => setIsProfileMenuOpen(false)}
+                                    >
+                                        <span><Settings/></span>Setting
                                     </Link>
                                     <button
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        className="flex gap-4 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                         tabIndex="-1"
                                         id="user-menu-item-2"
                                         onClick={handleLogout}
                                     >
-                                        Sign out
+                                        <span><LogOut/></span>Sign out
                                     </button>
                                 </div>
                             )}

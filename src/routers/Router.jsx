@@ -12,6 +12,7 @@ import { authService } from '../api/ApiServiceThree'
 import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
 import MentorshipHome from '../pages/mentorship/MentorshipHome'
 import { UserProvider } from '../context/UserContext'
+import VirtualGalleryDetail from '../components/dashboard/home/profile/VirtualGalleryDetail'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -111,6 +112,22 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <ViewPersonProfile/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/person-profile/:id'
+          element={
+            <ProtectedRoute>
+              <ViewPersonProfile/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/gallerydetail/:item'
+          element={
+            <ProtectedRoute>
+              <VirtualGalleryDetail/>
             </ProtectedRoute>
           }
         />

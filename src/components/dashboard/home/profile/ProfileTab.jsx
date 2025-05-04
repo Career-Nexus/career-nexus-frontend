@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import {
     BarChart3,
     ChevronLeft,
@@ -22,6 +22,7 @@ import ExperienceSection from "./Experience"
 import { ProductGalery } from "./ProductVirtualGalary"
 import { AddProjectModal } from "./AllModal"
 import ReusableModal from "./ModalDesign"
+import { UserContext } from "../../../../context/UserContext"
 
 export default function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
@@ -104,26 +105,23 @@ export default function ProfileTabs() {
 
             {/* Tab content */}
             <div className="mt-6">
-                {activeTab === "professional" && <ProfessionalSummaryTemplate />}
-                {activeTab === "gallery" && <PortfolioGalleryTemplate />}
-                {activeTab === "projects" && <ProjectCatalogTemplate />}
-                {activeTab === "analytics" && <AnalyticsDashboardTemplate />}
-                {activeTab === "posts" && <PostsTemplate />}
+                <span>{activeTab === "professional" && <ProfessionalSummaryTemplate />}</span>
+                <span>{activeTab === "gallery" && <PortfolioGalleryTemplate />}</span>
+                <span>{activeTab === "projects" && <ProjectCatalogTemplate />}</span>
+                <span>{activeTab === "analytics" && <AnalyticsDashboardTemplate />}</span>
+                <span>{activeTab === "posts" && <PostsTemplate />}</span>
             </div>
         </div>
     )
 }
 
 function PostsTemplate() {
-    const [expandedItems, setExpandedItems] = useState({
-        walmart: false,
-        apple: false
-    });
+    const [expandedItems, setExpandedItems] = useState({});
 
-    const toggleExpand = (key) => {
+    const toggleExpand = (id) => {
         setExpandedItems(prev => ({
             ...prev,
-            [key]: !prev[key]
+            [id]: !prev[id] // Toggle only the clicked item's state
         }));
     };
     const profile = [
@@ -156,49 +154,35 @@ function PostsTemplate() {
                         </div>
                         <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
                     </div>
-                    <ul className="list-disc ml-5 mt-3 text-sm">
-
-                        <span className=" ">
-
-                            <span className='mb-3'>{p.disc2}</span>
-                            {!expandedItems.walmart && "..."}
-                            <button
-                                onClick={() => toggleExpand("walmart")}
-                                className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-                            >
-                                {expandedItems.walmart ? (
-                                    <>
-                                        <span className='text-[#5DA05D]'>Hide</span>
-                                        <ChevronUp className="h-3 w-3 ml-0.5" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <span className='text-[#5DA05D]'>More</span>
-                                        <ChevronDown className="h-3 w-3 ml-0.5" />
-                                    </>
-                                )}
-                            </button>
-                        </span>
-                        {expandedItems.walmart && (
+                    <span className='mb-3'>{p.disc2}</span>
+                    <button
+                        onClick={() => toggleExpand(p.id)}
+                        className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
+                    >
+                        {expandedItems[p.id] ? (
                             <>
-                                <li className="mt-2">
-                                    Collaborated with cross-functional teams to deliver high-quality software solutions on time and
-                                    within budget.
-                                </li>
-                                <li className="mt-2">
-                                    Implemented responsive design principles to ensure optimal user experience across various devices
-                                    and screen sizes.
-                                </li>
-                                <li className="mt-2">
-                                    Participated in code reviews and provided constructive feedback to improve code quality and
-                                    maintainability.
-                                </li>
-                                <li className="mt-2">
-                                    Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
-                                </li>
+                                <span className='text-[#5DA05D]'>Hide</span>
+                                <ChevronUp className="h-3 w-3 ml-0.5" />
+                            </>
+                        ) : (
+                            <>
+                                <span className='text-[#5DA05D]'>More</span>
+                                <ChevronDown className="h-3 w-3 ml-0.5" />
                             </>
                         )}
-                    </ul>
+                    </button>
+
+                    {expandedItems[p.id] && (
+                        <div className="mt-2">
+                            <ul className="list-disc ml-5 text-sm">
+                                <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
+                                <li>Implemented responsive design principles to ensure optimal user experience.</li>
+                                <li>Participated in code reviews and provided constructive feedback.</li>
+                                <li>Utilized agile methodologies to manage workflows efficiently.</li>
+                            </ul>
+                        </div>
+                    )}
+
                     <div>
                         <img src={p.image2} alt="profile" className='w-full h-[348px]' />
                     </div>
@@ -220,10 +204,20 @@ function PostsTemplate() {
 function ProfessionalSummaryTemplate() {
     const [summary, setSummary] = useState("")
     const [isEditing, setIsEditing] = useState(true)
+    // get word count from db
+    const { user, updateUser } = useContext(UserContext)
+
 
     const wordCount = summary.trim() === "" ? 0 : summary.trim().split(/\s+/).length
 
-    const handleSave = () => {
+    const handleSave = (e) => {
+        //update the summary in the database
+        e.preventDefault()
+        try {
+            updateUser({ summary })
+        } catch (error) {
+            console.error("Error updating summary:", error)
+        }
         setIsEditing(false)
     }
 
@@ -263,13 +257,15 @@ function ProfessionalSummaryTemplate() {
                         </button>
                     )}
                     {isEditing && (
-                        <button type="button" onClick={handleSave} className="bg-[#5DA05D] hover:bg-green-700 text-white rounded-lg px-4 py-1 text-sm">
+                        <button type="submit" onClick={handleSave} className="bg-[#5DA05D] hover:bg-green-700 text-white rounded-lg px-4 py-1 text-sm">
                             Save
                         </button>
                     )}
                 </div>
             </div>
+            <p>{user.summary}</p>
             <ExperienceSection />
+            add experience section here
         </div>
     )
 }
@@ -283,28 +279,13 @@ function PortfolioGalleryTemplate() {
 }
 
 function ProjectCatalogTemplate() {
-    const [openModal, setOpenModal]=useState()
+    const [openModal, setOpenModal] = useState()
     return (
         <div className="space-y-6">
             <h2 className="text-xl font-semibold flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-[#5DA05D]" />
                 Project Catalog
             </h2>
-
-            {/* <div className="flex justify-between items-center mb-6">
-                <div className="flex gap-3">
-                    <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-lg text-xs">All Projects</button>
-                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">In Progress</button>
-                    <button className="border border-gray-300 px-3 py-1 rounded-lg text-xs hidden sm:block">Completed</button>
-                </div>
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search projects..."
-                        className="border border-gray-300 rounded-lg px-3 py-1 text-xs w-32 sm:w-auto"
-                    />
-                </div>
-            </div> */}
             <div className="flex gap-4">
                 <label htmlFor="search" className="flex items-center border border-gray-300 rounded-lg w-full">
                     <Search className="ml-2" />
@@ -354,10 +335,10 @@ function ProjectCatalogTemplate() {
                                             {item === 1 ? "Due in 2 weeks" : "Completed on May 15, 2023"}
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <View/>
-                                            <Download/>
-                                            <Editall/>
-                                            <Delete/>
+                                            <View />
+                                            <Download />
+                                            <Editall />
+                                            <Delete />
                                         </div>
                                         {/* <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">View Details</button> */}
                                     </div>
@@ -372,164 +353,327 @@ function ProjectCatalogTemplate() {
 }
 
 function AnalyticsDashboardTemplate() {
+    const data = [
+        {
+            icon: (
+                <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+            ),
+            value: 12,
+            label: 'Total Posts'
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            ),
+            value: 180,
+            label: 'Connections'
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            ),
+            value: 10,
+            label: 'Completed Projects'
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+            ),
+            value: 18,
+            label: 'Completed Tasks'
+        },
+    ];
+    const analyticsData = [
+        {
+            icon: (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+            ),
+            value: "11",
+            label: "profile views",
+            subText: "Discover who's viewed your profile."
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            ),
+            value: "0",
+            label: "post impressions (Past 7 days)",
+            subText: "Boost engagement"
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            ),
+            value: "14",
+            label: "search appearances",
+            subText: "See how often you appear in search results"
+        }
+    ];
+
     return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5 text-[#5DA05D]" />
-                    Analytics Dashboard
-                </h2>
-
-                <div className="flex gap-2">
-                    <select className="border border-gray-300 rounded px-2 py-1 text-xs">
-                        <option>Last 7 days</option>
-                        <option>Last 30 days</option>
-                        <option>Last 90 days</option>
-                        <option>This year</option>
-                    </select>
-                    <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">Export</button>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                    { title: "Total Views", value: "24,532", change: "+12.5%" },
-                    { title: "Unique Visitors", value: "8,491", change: "+7.2%" },
-                    { title: "Engagement Rate", value: "64.8%", change: "+3.1%" },
-                    { title: "Avg. Session", value: "3m 42s", change: "-0.8%" },
-                ].map((stat, index) => (
-                    <Card key={index}>
-                        <CardBody className="p-4">
-                            <p className="text-sm text-gray-500">{stat.title}</p>
-                            <div className="flex justify-between items-end">
-                                <p className="text-2xl font-semibold">{stat.value}</p>
-                                <p className={`text-xs ${stat.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>
-                                    {stat.change}
-                                </p>
-                            </div>
-                        </CardBody>
-                    </Card>
+        <div className="">
+            <h2 className="text-lg font-semibold mb-4">Dashboard</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {data.map((item, index) => (
+                    <div
+                        key={index}
+                        className="bg-white p-4 flex flex-col rounded-lg shadow-md space-x-4"
+                    >
+                        <div className="flex ml-auto mb-5">{item.icon}</div>
+                        <div className="flex gap-3 items-center">
+                            <p className="text-2xl font-bold">{item.value}</p>
+                            <p className="text-sm text-gray-600">{item.label}</p>
+                        </div>
+                    </div>
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="lg:col-span-2">
-                    <CardBody className="p-4">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium">Traffic Overview</h3>
-                            <div className="flex gap-2">
-                                <Badge variant="outline" className="text-xs">
-                                    Views
-                                </Badge>
-                                <Badge variant="outline" className="text-xs">
-                                    Visitors
-                                </Badge>
-                            </div>
-                        </div>
-                        <div className="h-64 w-full bg-gray-100 rounded flex items-center justify-center">
-                            <div className="text-center text-gray-500">
-                                <BarChart3 className="h-10 w-10 mx-auto mb-2 opacity-50" />
-                                <p>Traffic Chart Visualization</p>
-                            </div>
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardBody className="p-4">
-                        <h3 className="font-medium mb-4">Traffic Sources</h3>
-                        <div className="space-y-4">
-                            {[
-                                { source: "Direct", percentage: 35 },
-                                { source: "Organic Search", percentage: 28 },
-                                { source: "Social Media", percentage: 22 },
-                                { source: "Referrals", percentage: 15 },
-                            ].map((source, index) => (
-                                <div key={index}>
-                                    <div className="flex justify-between text-sm mb-1">
-                                        <span>{source.source}</span>
-                                        <span>{source.percentage}%</span>
-                                    </div>
-                                    <Progress value={source.percentage} className="h-1.5" />
-                                </div>
-                            ))}
-                        </div>
-                    </CardBody>
-                </Card>
+            <div className="mt-5">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Analytics (Private to you)</h2>
+                {analyticsData.map((item, index) => (
+                    <AnalyticsCard
+                        key={index}
+                        icon={item.icon}
+                        value={item.value}
+                        label={item.label}
+                        subText={item.subText}
+                    />
+                ))}
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
-                    <CardBody className="p-4">
-                        <h3 className="font-medium mb-4">Popular Content</h3>
-                        <div className="space-y-3">
-                            {[1, 2, 3, 4].map((item) => (
-                                <div key={item} className="flex gap-3 items-center">
-                                    <div className="bg-gray-100 w-12 h-12 rounded flex-shrink-0"></div>
-                                    <div className="flex-grow">
-                                        <p className="text-sm font-medium truncate">How to Optimize Your React Application</p>
-                                        <div className="flex gap-3 text-xs text-gray-500">
-                                            <span>3.2k views</span>
-                                            <span>124 shares</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardBody className="p-4">
-                        <h3 className="font-medium mb-4">Audience Demographics</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <h4 className="text-xs text-gray-500 mb-2">Age Groups</h4>
-                                <div className="space-y-2">
-                                    {[
-                                        { group: "18-24", percentage: 15 },
-                                        { group: "25-34", percentage: 42 },
-                                        { group: "35-44", percentage: 28 },
-                                        { group: "45+", percentage: 15 },
-                                    ].map((age, index) => (
-                                        <div key={index} className="flex items-center gap-2">
-                                            <div className="w-full max-w-[100px]">
-                                                <div className="flex justify-between text-xs mb-1">
-                                                    <span>{age.group}</span>
-                                                    <span>{age.percentage}%</span>
-                                                </div>
-                                                <Progress value={age.percentage} className="h-1.5" />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 className="text-xs text-gray-500 mb-2">Devices</h4>
-                                <div className="space-y-2">
-                                    {[
-                                        { device: "Mobile", percentage: 58 },
-                                        { device: "Desktop", percentage: 32 },
-                                        { device: "Tablet", percentage: 10 },
-                                    ].map((device, index) => (
-                                        <div key={index} className="flex items-center gap-2">
-                                            <div className="w-full max-w-[100px]">
-                                                <div className="flex justify-between text-xs mb-1">
-                                                    <span>{device.device}</span>
-                                                    <span>{device.percentage}%</span>
-                                                </div>
-                                                <Progress value={device.percentage} className="h-1.5" />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </CardBody>
-                </Card>
+            <div>
+                <RecentActivities />
             </div>
         </div>
+        // <div className="space-y-6">
+        //     <div className="flex justify-between items-center">
+        //         <h2 className="text-xl font-semibold flex items-center gap-2">
+        //             <BarChart3 className="h-5 w-5 text-[#5DA05D]" />
+        //             Analytics Dashboard
+        //         </h2>
+
+        //         <div className="flex gap-2">
+        //             <select className="border border-gray-300 rounded px-2 py-1 text-xs">
+        //                 <option>Last 7 days</option>
+        //                 <option>Last 30 days</option>
+        //                 <option>Last 90 days</option>
+        //                 <option>This year</option>
+        //             </select>
+        //             <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">Export</button>
+        //         </div>
+        //     </div>
+
+        //     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        //         {[
+        //             { title: "Total Views", value: "24,532", change: "+12.5%" },
+        //             { title: "Unique Visitors", value: "8,491", change: "+7.2%" },
+        //             { title: "Engagement Rate", value: "64.8%", change: "+3.1%" },
+        //             { title: "Avg. Session", value: "3m 42s", change: "-0.8%" },
+        //         ].map((stat, index) => (
+        //             <Card key={index}>
+        //                 <CardBody className="p-4">
+        //                     <p className="text-sm text-gray-500">{stat.title}</p>
+        //                     <div className="flex justify-between items-end">
+        //                         <p className="text-2xl font-semibold">{stat.value}</p>
+        //                         <p className={`text-xs ${stat.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>
+        //                             {stat.change}
+        //                         </p>
+        //                     </div>
+        //                 </CardBody>
+        //             </Card>
+        //         ))}
+        //     </div>
+
+        //     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        //         <Card className="lg:col-span-2">
+        //             <CardBody className="p-4">
+        //                 <div className="flex justify-between items-center mb-4">
+        //                     <h3 className="font-medium">Traffic Overview</h3>
+        //                     <div className="flex gap-2">
+        //                         <Badge variant="outline" className="text-xs">
+        //                             Views
+        //                         </Badge>
+        //                         <Badge variant="outline" className="text-xs">
+        //                             Visitors
+        //                         </Badge>
+        //                     </div>
+        //                 </div>
+        //                 <div className="h-64 w-full bg-gray-100 rounded flex items-center justify-center">
+        //                     <div className="text-center text-gray-500">
+        //                         <BarChart3 className="h-10 w-10 mx-auto mb-2 opacity-50" />
+        //                         <p>Traffic Chart Visualization</p>
+        //                     </div>
+        //                 </div>
+        //             </CardBody>
+        //         </Card>
+
+        //         <Card>
+        //             <CardBody className="p-4">
+        //                 <h3 className="font-medium mb-4">Traffic Sources</h3>
+        //                 <div className="space-y-4">
+        //                     {[
+        //                         { source: "Direct", percentage: 35 },
+        //                         { source: "Organic Search", percentage: 28 },
+        //                         { source: "Social Media", percentage: 22 },
+        //                         { source: "Referrals", percentage: 15 },
+        //                     ].map((source, index) => (
+        //                         <div key={index}>
+        //                             <div className="flex justify-between text-sm mb-1">
+        //                                 <span>{source.source}</span>
+        //                                 <span>{source.percentage}%</span>
+        //                             </div>
+        //                             <Progress value={source.percentage} className="h-1.5" />
+        //                         </div>
+        //                     ))}
+        //                 </div>
+        //             </CardBody>
+        //         </Card>
+        //     </div>
+
+        //     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        //         <Card>
+        //             <CardBody className="p-4">
+        //                 <h3 className="font-medium mb-4">Popular Content</h3>
+        //                 <div className="space-y-3">
+        //                     {[1, 2, 3, 4].map((item) => (
+        //                         <div key={item} className="flex gap-3 items-center">
+        //                             <div className="bg-gray-100 w-12 h-12 rounded flex-shrink-0"></div>
+        //                             <div className="flex-grow">
+        //                                 <p className="text-sm font-medium truncate">How to Optimize Your React Application</p>
+        //                                 <div className="flex gap-3 text-xs text-gray-500">
+        //                                     <span>3.2k views</span>
+        //                                     <span>124 shares</span>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+        //                     ))}
+        //                 </div>
+        //             </CardBody>
+        //         </Card>
+
+        //         <Card>
+        //             <CardBody className="p-4">
+        //                 <h3 className="font-medium mb-4">Audience Demographics</h3>
+        //                 <div className="grid grid-cols-2 gap-4">
+        //                     <div>
+        //                         <h4 className="text-xs text-gray-500 mb-2">Age Groups</h4>
+        //                         <div className="space-y-2">
+        //                             {[
+        //                                 { group: "18-24", percentage: 15 },
+        //                                 { group: "25-34", percentage: 42 },
+        //                                 { group: "35-44", percentage: 28 },
+        //                                 { group: "45+", percentage: 15 },
+        //                             ].map((age, index) => (
+        //                                 <div key={index} className="flex items-center gap-2">
+        //                                     <div className="w-full max-w-[100px]">
+        //                                         <div className="flex justify-between text-xs mb-1">
+        //                                             <span>{age.group}</span>
+        //                                             <span>{age.percentage}%</span>
+        //                                         </div>
+        //                                         <Progress value={age.percentage} className="h-1.5" />
+        //                                     </div>
+        //                                 </div>
+        //                             ))}
+        //                         </div>
+        //                     </div>
+
+        //                     <div>
+        //                         <h4 className="text-xs text-gray-500 mb-2">Devices</h4>
+        //                         <div className="space-y-2">
+        //                             {[
+        //                                 { device: "Mobile", percentage: 58 },
+        //                                 { device: "Desktop", percentage: 32 },
+        //                                 { device: "Tablet", percentage: 10 },
+        //                             ].map((device, index) => (
+        //                                 <div key={index} className="flex items-center gap-2">
+        //                                     <div className="w-full max-w-[100px]">
+        //                                         <div className="flex justify-between text-xs mb-1">
+        //                                             <span>{device.device}</span>
+        //                                             <span>{device.percentage}%</span>
+        //                                         </div>
+        //                                         <Progress value={device.percentage} className="h-1.5" />
+        //                                     </div>
+        //                                 </div>
+        //                             ))}
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             </CardBody>
+        //         </Card>
+        //     </div>
+        // </div>
     )
 }
+const AnalyticsCard = ({ icon, value, label, subText }) => {
+    return (
+        <div className="bg-white rounded-lg p-2 mb-4 border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                    <div className="text-green-500">{icon}</div>
+                    <div className="flex gap-3 items-center">
+                        <p className="text-lg font-medium">{value}</p>
+                        <p className="text-sm text-gray-600">{label}</p>
+                    </div>
+                </div>
+                <button className="text-green-500 hover:text-green-700 mt-5">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <p className="text-sm text-gray-500">{subText}</p>
+        </div>
+    );
+};
 
+const RecentActivities = () => {
+    return (
+        <div className="">
+            <div className="mb-4">
+                <button className="text-green-500 ml-auto mr-4 hover:text-green-700 flex items-center text-sm font-medium">
+                    Show all analytics
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                <div className="flex items-center justify-between mt-8">
+                    <h2 className="text-xl font-semibold text-gray-800">Recent Activities</h2>
+                    <button className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-1 hover:bg-green-50 transition-colors duration-200">
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Create New post
+                    </button>
+                </div>
+            </div>
+            <div className="bg-white rounded-lg">
+                <div className="py-4 border-b border-gray-200">
+                    <p className="text-sm text-gray-700">You posted "Dashboard Tips" on Dec 2, 2024</p>
+                </div>
+                <div className="py-4 border-b border-gray-200">
+                    <p className="text-sm text-gray-700">You posted "How to build a great portfolio" on Dec 1, 2024</p>
+                </div>
+                <div className="py-4 border-b border-gray-200">
+                    <p className="text-sm text-gray-700">You Completed the project "Career Nexus UI Redesign" on Nov 30, 2024</p>
+                </div>
+                <div className="py-4">
+                    <p className="text-sm text-gray-700">You added a new connection: John Doe</p>
+                </div>
+            </div>
+        </div>
+    );
+};

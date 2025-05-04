@@ -1,12 +1,12 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import api, { authService } from "../api/ApiServiceThree";
 
-
 // Define the shape of the user data
 const defaultUser = {
   id: null,
   name: "",
-  profile_photo: "",
+  profile_photo: null,
+  cover_photo: null,
   location: "",
   position: "",
   bio: "",
@@ -34,7 +34,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data on mount
+  // Fetch user data
   const fetchUser = async () => {
     if (!authService.isAuthenticated()) {
       setLoading(false);
@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await api.get("/user/retrieve-profile/");
-      setUser(response.data); 
+      setUser(response.data);
       setError(null);
     } catch (err) {
       setError(err.response ? err.response.data.message : "Failed to fetch user data");
@@ -53,50 +53,49 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-    // Update user data
-    const updateUser = async (updatedData, file) => {
-        try{
-            setLoading(true);
-            let response;
-            if(file){
-                const formData = new FormData();
-                formData.append("profile_photo", file);
-                //Append other fields if provided
-                Object.keys(updatedData).forEach((key) => {
-                    formData.append(key, updatedData[key]);
-                })
-                response = await api.put("/user/profile-update/",
-                    formData,{
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }
-                );
-            }else{
-                //haldle regular fields 
-                response = await api.put("/user/profile-update/", updatedData);
-            }
-            // Check if the response is successful
-            if (response.status === 200) {
-                setUser((prevUser) => ({ ...prevUser, ...response.data })); // Update user state with new data
-                setError(null);
-            } else {
-                setError("Failed to update user data");
-            }
-            //setUser(response.data); // Update user state with new data
-            setUser((prevUser) => ({ ...prevUser, ...response.data })); // Update user state with new data
-            setError(null);
-            console.log("User data updated successfully:", response.data);
-            return response.data;
-        }catch (err) {
-            const errorMessage = err.response ? err.response.data.message : "Failed to update user data";
-            setError(errorMessage);
-            //console.error("Error updating user data:", errorMessage);
-            throw new Error(errorMessage);
-        }finally{
-            setLoading(false);
-        }
-    };
+  // Update user data
+  const updateUser = async (updatedData, formData) => {
+    try {
+      setLoading(true);
+      let response;
+      if (formData instanceof FormData) {
+        // Append non-file fields to FormData
+        Object.keys(updatedData).forEach((key) => {
+          formData.append(key, updatedData[key]);
+        });
+        response = await api.put("/user/profile-update/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        // Handle regular fields without files
+        response = await api.put("/user/profile-update/", updatedData);
+      }
+
+      // Log response for debugging
+      console.log("Update response:", { status: response.status, data: response.data });
+
+      // Check if the response is successful (200, 201, or 204)
+      if ([200, 201, 204].includes(response.status)) {
+        // Fetch updated user data to ensure consistency
+        await fetchUser();
+        setError(null);
+        return response.data;
+      } else {
+        throw new Error("Unexpected response status: " + response.status);
+      }
+    } catch (err) {
+      const errorMessage = err.response
+        ? err.response.data.message || JSON.stringify(err.response.data)
+        : err.message || "Failed to update user data";
+      setError(errorMessage);
+      console.error("Error updating user data:", errorMessage, err);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Fetch user data when the component mounts
   useEffect(() => {

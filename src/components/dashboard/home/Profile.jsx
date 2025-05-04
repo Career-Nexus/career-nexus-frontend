@@ -32,15 +32,17 @@ const Profile = () => {
     return (
         <div className='hidden md:block'>
             <div className='border border-gray rounded-lg'>
-                <img src="/images/bg-profile.png" alt="background profile" className='w-full h-auto' />
+                <img src={user.cover_photo} alt="background profile" className='w-full h-auto' />
                 <Link to={'/profilepage'}>
-                    <img src="/images/profile.png" alt="profile picture"
+                    <img src={user.profile_photo} alt="profile picture"
+                    // <img src="/images/profile.png" alt="profile picture"
                         className='rounded-full w-32 h-auto md:mt-[-3.7rem] md:ml-3' />
                 </Link>
                 <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                 <div className='p-3 flex flex-col gap-3'>
                     <h1 className='font-bold text-2xl mt-4'>{user.name}</h1>
-                    <p className='text-sm'>Ui/Ux Designer | Seeking mentorship</p>
+                    <p className='text-sm'>{user?.bio?.slice(0,60)}...</p>
+                    {/* <p className='text-sm'>Ui/Ux Designer | Seeking mentorship</p> */}
                     <hr />
                     <p className='font-semibold'>Profile Views:24</p>
                     <Link to={'/profilepage'} className='text-[#5DA05D] font-semibold'>View full profile</Link>
