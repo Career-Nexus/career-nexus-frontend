@@ -1,77 +1,189 @@
-import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import { Company1, Company2, Edit, Like } from "../../../../icons/icon";
-import ReusableModal from "./ModalDesign";
-import { CertificationModal, EducationModal, ExperienceModal } from "./AllModal";
-import { UserContext } from "../../../../context/UserContext";
-import { ExperienceService } from "../../../../api/ExperienceService";
-import Cookies from 'js-cookie';
+"use client"
+
+import { MapPin, Building, Calendar, ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react"
+import { useContext, useEffect, useState } from "react"
+import { Company1, Company2, Edit, Like } from "../../../../icons/icon"
+import ReusableModal from "./ModalDesign"
+import { CertificationModal, EducationModal, ExperienceModal } from "./AllModal"
+import { UserContext } from "../../../../context/UserContext"
+import { ExperienceService } from "../../../../api/ExperienceService"
+
+const StatusToggle = ({ initialStatus = true, onChange }) => {
+  const [status, setStatus] = useState(initialStatus)
+
+  const toggleStatus = () => {
+    const newStatus = !status
+    setStatus(newStatus)
+    if (onChange) onChange(newStatus)
+  }
+
+  return (
+    <div
+      onClick={toggleStatus}
+      className="inline-flex items-center px-2 py-0.5 rounded-lg text-xs border-2 border-dashed cursor-pointer hover:bg-gray-50"
+    >
+      <span className="text-xs mr-1">
+        <Like />
+      </span>
+      <span className="text-xs">{status ? "RECOMMENDED" : "REQUEST RECOMMENDATION"}</span>
+    </div>
+  )
+}
+
+// Section header component
+const SectionHeader = ({ title, onAddClick }) => {
+  return (
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-xl font-bold">{title}</h2>
+      <button
+        onClick={onAddClick}
+        className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center"
+      >
+        <Plus className="h-3 w-3 mr-1" />
+        <span className="text-xs">Add {title}</span>
+      </button>
+    </div>
+  )
+}
 
 export default function ExperienceSection() {
-//   const { user } = useContext(UserContext);
-  const [expandedItems, setExpandedItems] = useState({});
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [openModal, setOpenModal] = useState(false);
-  const [openModaledu, setOpenModaledu] = useState(false);
-  const [openModalcert, setOpenModalcert] = useState(false);
+  // Add these state variables at the top of the ExperienceSection component
+  const [currentEditItem, setCurrentEditItem] = useState(null)
+  const [currentEditEducation, setCurrentEditEducation] = useState(null)
+  const [currentEditCertification, setCurrentEditCertification] = useState(null)
+
+  const [expandedItems, setExpandedItems] = useState({})
+  const [openModal, setOpenModal] = useState(false)
+  const [openModaledu, setOpenModaledu] = useState(false)
+  const [openModalcert, setOpenModalcert] = useState(false)
+  const { user, fetchUser } = useContext(UserContext)
+
+  // Add a new state variable for the delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState({ type: null, id: null })
+
+  // Only fetch user data once when component mounts
+  // useEffect(() => {
+  //   fetchUser()
+  // }, [fetchUser])
 
   const toggleExpand = (id) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  useEffect(() => {
-    const fetchExperiences = async () => {
-      try {
-        const data = await ExperienceService.getExperiences();
-        setExperiences(Array.isArray(data) ? data : []);
-      } catch (err) {
-        if (err.message === 'No authorization token found' || err.response?.status === 401) {
-          Cookies.remove('authToken');
-          window.location.href = '/login';
-          setError('Please log in to view experiences.');
-        } else {
-          setError(err.message || 'Failed to load experiences.');
+    setExpandedItems((prev) => {
+      // If the item is already expanded, collapse it
+      if (prev[id]) {
+        return {
+          ...prev,
+          [id]: false,
         }
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchExperiences();
-  }, []);
 
-  const Experience = ({ status1, logo, title, company, duration, address, desc, id }) => {
+      // Otherwise, collapse all items and expand only the clicked one
+      const resetExpanded = {}
+      Object.keys(prev).forEach((key) => {
+        resetExpanded[key] = false
+      })
+
+      return {
+        ...resetExpanded,
+        [id]: true,
+      }
+    })
+  }
+
+  const handleEdit = (itemType, itemId) => {
+    console.log(`Editing ${itemType} with ID:`, itemId)
+
+    // Open the appropriate modal based on item type
+    if (itemType === "experience") {
+      setCurrentEditItem(itemId)
+      setOpenModal(true)
+    } else if (itemType === "education") {
+      setCurrentEditEducation(itemId)
+      setOpenModaledu(true)
+    } else if (itemType === "certification") {
+      setCurrentEditCertification(itemId)
+      setOpenModalcert(true)
+    }
+  }
+
+  // Modify the handleDelete function to show the delete confirmation modal instead of deleting directly
+  const handleDelete = (itemType, itemId) => {
+    console.log(`Preparing to delete ${itemType} with ID:`, itemId)
+    setItemToDelete({ type: itemType, id: itemId })
+    setShowDeleteModal(true)
+  }
+
+  // Add a new function to handle the actual deletion after confirmation
+  const confirmDelete = async () => {
+    const { type, id } = itemToDelete
+    console.log(`Confirming delete ${type} with ID:`, id)
+
+    try {
+      if (type === "experience") {
+        await ExperienceService.deleteExperience(id)
+        alert("Experience deleted successfully")
+      } else if (type === "education") {
+        await ExperienceService.deleteEducation(id)
+        alert("Education deleted successfully")
+      } else if (type === "certification") {
+        await ExperienceService.deleteCertification(id)
+        alert("Certification deleted successfully")
+      }
+
+      // Fetch user data once after deletion
+      fetchUser()
+      setShowDeleteModal(false)
+    } catch (error) {
+      console.error(`Delete ${type} Error:`, error)
+      alert(error.message || `Failed to delete ${type}`)
+      setShowDeleteModal(false)
+    }
+  }
+
+  const ItemCard = ({ itemType, id, logo, title, company, duration, address, desc, initialStatus = true }) => {
+    const uniqueId = `${itemType}-${id}`
+
     return (
       <div className="border rounded-lg mb-4 p-4 relative">
-        <div className="absolute right-4 top-4">
-          <button
-            size="icon"
-            className="h-8 w-8 border border-[#5DA05D] rounded-lg flex items-center justify-center"
-          >
-            <Edit className="h-4 w-4" />
-          </button>
+        <div className="absolute right-4 top-4 flex space-x-2">
+          {itemType === "certification" ? (
+            <button
+              onClick={() => handleDelete(itemType, id)}
+              className="h-8 w-8 border border-red-500 rounded-lg flex items-center justify-center hover:bg-red-50"
+              title="Delete"
+            >
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </button>
+          ) : (
+            // For other items, show both edit and delete icons
+            <>
+              <button
+                onClick={() => handleEdit(itemType, id)}
+                className="h-8 w-8 border border-[#5DA05D] rounded-lg flex items-center justify-center hover:bg-gray-50"
+                title="Edit"
+              >
+                <Edit className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => handleDelete(itemType, id)}
+                className="h-8 w-8 border border-red-500 rounded-lg flex items-center justify-center hover:bg-red-50"
+                title="Delete"
+              >
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </button>
+            </>
+          )}
         </div>
 
         <div className="flex gap-4">
           <div className="flex-shrink-0">
-            <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
-              {logo}
-            </div>
+            <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">{logo}</div>
           </div>
 
           <div className="flex-grow">
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
               <h3 className="font-semibold text-base">{title}</h3>
-              <div className="inline-flex items-center px-2 py-0.5 rounded-lg text-xs border-2 border-dashed">
-                <span className="text-xs">
-                  <Like />
-                </span>
-                <span className="text-xs">{status1}</span>
-              </div>
+              <StatusToggle initialStatus={initialStatus} />
             </div>
 
             <div className="flex items-center text-sm text-gray-600 mt-1">
@@ -79,21 +191,25 @@ export default function ExperienceSection() {
               <span>{company}</span>
             </div>
 
-            <div className="flex items-center text-sm text-gray-600 mt-1">
-              <Calendar className="h-4 w-4 mr-1 text-[#5DA05D]" />
-              <span>{duration}</span>
-            </div>
+            {duration && (
+              <div className="flex items-center text-sm text-gray-600 mt-1">
+                <Calendar className="h-4 w-4 mr-1 text-[#5DA05D]" />
+                <span>{duration}</span>
+              </div>
+            )}
 
-            <div className="flex items-center text-sm text-gray-600 mt-1">
-              <MapPin className="h-4 w-4 mr-1 text-[#5DA05D]" />
-              <span>{address}</span>
-            </div>
+            {address && (
+              <div className="flex items-center text-sm text-gray-600 mt-1">
+                <MapPin className="h-4 w-4 mr-1 text-[#5DA05D]" />
+                <span>{address}</span>
+              </div>
+            )}
 
             <button
-              onClick={() => toggleExpand(id)}
+              onClick={() => toggleExpand(uniqueId)}
               className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
             >
-              {expandedItems[id] ? (
+              {expandedItems[uniqueId] ? (
                 <>
                   <span className="text-[#5DA05D]">Hide</span>
                   <ChevronUp className="h-3 w-3 ml-0.5" />
@@ -106,130 +222,163 @@ export default function ExperienceSection() {
               )}
             </button>
 
-            {expandedItems[id] && (
+            {expandedItems[uniqueId] && (
               <div className="mt-2">
-                <ul className="list-disc ml-5 text-sm">
-                  <li>{desc}</li>
-                  <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
-                  <li>Implemented responsive design principles to ensure optimal user experience.</li>
-                  <li>Participated in code reviews and provided constructive feedback.</li>
-                  <li>Utilized agile methodologies to manage workflows efficiently.</li>
-                </ul>
+                {typeof desc === "string" ? (
+                  <p className="text-sm">{desc}</p>
+                ) : (
+                  <ul className="list-disc ml-5 text-sm">
+                    {desc ? <li>{desc}</li> : null}
+                    <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
+                    <li>Implemented responsive design principles to ensure optimal user experience.</li>
+                    <li>Participated in code reviews and provided constructive feedback.</li>
+                    <li>Utilized agile methodologies to manage workflows efficiently.</li>
+                  </ul>
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
-    );
-  };
-
-  const status = true;
-  const status2 = status ? "RECOMMENDED" : "REQUEST RECOMMENDATION";
-  const status3 = status ? "REQUEST RECOMMENDATION" : "RECOMMENDED";
-
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>{error}</p>;
+    )
+  }
 
   return (
     <div className="w-full max-w-3xl mx-auto mt-5">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">Experience</h2>
-        <button
-          onClick={() => setOpenModal(true)}
-          className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center"
+      {/* Experience Section */}
+      <SectionHeader
+        title="Experience"
+        onAddClick={() => {
+          setCurrentEditItem(null)
+          setOpenModal(true)
+        }}
+      />
+      <div>
+        {user.experience &&
+          user.experience.map((item, index) => (
+            <ItemCard
+              key={item.id || index}
+              itemType="experience"
+              id={item.id || `experience-${index}`}
+              logo={<Company1 />}
+              title={item.title || "Unknown Title"}
+              initialStatus={index % 2 === 0} // Alternating for demo purposes
+              company={item.organization || "Unknown Company"}
+              duration={`${item.start_date || "Unknown"} - ${item.end_date || "Present"}`}
+              address={item.location || "Unknown Location"}
+              desc={item.detail || "No description provided."}
+            />
+          ))}
+      </div>
+      <ExperienceModal
+        ModalComponent={ReusableModal}
+        isOpen={openModal}
+        onClose={() => {
+          setOpenModal(false)
+          setCurrentEditItem(null)
+          // Fetch user data once after modal closes
+          fetchUser()
+        }}
+        itemToEdit={currentEditItem}
+      />
+
+      {/* Education Section */}
+      <SectionHeader
+        title="Education"
+        onAddClick={() => {
+          setCurrentEditEducation(null)
+          setOpenModaledu(true)
+        }}
+      />
+      <div>
+        {user.education &&
+          user.education.map((item, index) => (
+            <ItemCard
+              key={item.id || index}
+              itemType="education"
+              id={item.id || `education-${index}`}
+              logo={<Company2 />}
+              title={item.course}
+              initialStatus={index % 2 === 1} // Alternating for demo purposes
+              company={item.school}
+              duration={`${item.start_date || "Unknown"} - ${item.end_date || "Present"}`}
+              address={item.location}
+              desc={item.detail}
+            />
+          ))}
+      </div>
+      <EducationModal
+        ModalComponent={ReusableModal}
+        isOpen={openModaledu}
+        onClose={() => {
+          setOpenModaledu(false)
+          setCurrentEditEducation(null)
+          // Fetch user data once after modal closes
+          fetchUser()
+        }}
+        itemToEdit={currentEditEducation}
+      />
+
+      {/* Certifications Section */}
+      <SectionHeader
+        title="Licenses & Certifications"
+        onAddClick={() => {
+          setCurrentEditCertification(null)
+          setOpenModalcert(true)
+        }}
+      />
+      <div>
+        {user.certification &&
+          user.certification.map((item, index) => (
+            <ItemCard
+              key={item.id || index}
+              itemType="certification"
+              id={item.id || `certification-${index}`}
+              logo={<Company2 />}
+              title={item.title}
+              initialStatus={index % 2 === 0} // Alternating for demo purposes
+              company={item.school}
+              duration={item.issue_date}
+              desc={item.skills}
+            />
+          ))}
+      </div>
+      <CertificationModal
+        ModalComponent={ReusableModal}
+        isOpen={openModalcert}
+        onClose={() => {
+          setOpenModalcert(false)
+          setCurrentEditCertification(null)
+          // Fetch user data once after modal closes
+          fetchUser()
+        }}
+        itemToEdit={currentEditCertification}
+      />
+
+      {showDeleteModal && (
+        <ReusableModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          title={`Delete ${itemToDelete.type}`}
         >
-          <Plus className="h-3 w-3 mr-1" />
-          <span className="text-xs">Add Experience</span>
-        </button>
-        <ExperienceModal
-          ModalComponent={ReusableModal}
-          isOpen={openModal}
-          onClose={() => setOpenModal(false)}
-        />
-      </div>
-
-      <div>
-        {experiences.map((item, index) => (
-          <Experience
-            key={item.id || index}
-            id={item.id || `experience-${index}`}
-            logo={<Company1 />}
-            title={item.title || 'Unknown Title'}
-            status1={status2}
-            company={item.organization || 'Unknown Company'}
-            duration={`${item.start_date || 'Unknown'} - ${item.end_date || 'Present'}`}
-            address={item.location || 'Unknown Location'}
-            employmentType={item.employment_type || 'Unknown Employment Type'}
-            desc={item.detail || 'No description provided.'}
-          />
-        ))}
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Education</h2>
-          <button
-            onClick={() => setOpenModaledu(true)}
-            className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center"
-          >
-            <Plus className="h-3 w-3 mr-1" />
-            <span className="text-xs">Add Education</span>
-            <EducationModal
-              ModalComponent={ReusableModal}
-              isOpen={openModaledu}
-              onClose={() => setOpenModaledu(false)}
-            />
-          </button>
-        </div>
-        <Experience
-          id="education"
-          logo={<Company2 />}
-          title="Computer Science"
-          status1={status3}
-          company="Apple"
-          duration="Aug 2018 - Dec 2019"
-          address="Dallas, Texas, United States - On-site"
-          desc="Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."
-        />
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Licenses & Certifications</h2>
-          <button
-            onClick={() => setOpenModalcert(true)}
-            className="bg-[#5DA05D] hover:bg-green-600 text-white rounded-lg px-2 py-1 flex items-center"
-          >
-            <Plus className="h-3 w-3 mr-1" />
-            <span className="text-xs">Add Certifications</span>
-            <CertificationModal
-              ModalComponent={ReusableModal}
-              isOpen={openModalcert}
-              onClose={() => setOpenModalcert(false)}
-            />
-          </button>
-        </div>
-        <Experience
-          id="cert1"
-          logo={<Company2 />}
-          title="Beginner Python"
-          status1={status2}
-          company="Apple"
-          duration="Aug 2018 - Dec 2019"
-          address="Dallas, Texas, United States - On-site"
-          desc="Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."
-        />
-        <Experience
-          id="cert2"
-          logo={<Company2 />}
-          title="Python Intermediate"
-          status1={status3}
-          company="Apple"
-          duration="Aug 2018 - Dec 2019"
-          address="Dallas, Texas, United States - On-site"
-          desc="Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."
-        />
-      </div>
+          <div className="max-w-xl mx-auto bg-white p-4">
+            <p className="mb-4">
+              Are you sure you want to delete this {itemToDelete.type.toLowerCase()}? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button onClick={confirmDelete} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                Delete
+              </button>
+            </div>
+          </div>
+        </ReusableModal>
+      )}
     </div>
-  );
+  )
 }

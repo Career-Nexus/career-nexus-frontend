@@ -109,30 +109,3 @@ export const ProductGalery = () => {
         </div>
     )
 }
-
-    // const projects = [
-    //     "Ecommerce",
-    //     "Staff management system",
-    //     "Portfolio",
-    //     "Real Estate",
-    //     "Sales",
-    //     "Tutorial Guide"
-    // ];
-{/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {["Ecommerce", "Staff management system", "Portfolio", "Real Estate", "Sales", "Tutorial Guide"].map((item) => (
-                    <div key={item} className="group relative overflow-hidden rounded-lg">
-                        <div className="aspect-square bg-gray-200 w-full">
-                            <img src="/images/gallery.png" alt="Gallery" />
-                        </div>
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <div className="text-center p-4">
-                                <h3 className="text-white font-medium mb-1">{item}</h3>
-                                <p className="text-gray-300 text-sm mb-3">Web Design</p>
-                                <Link to={`/galerydetail/${item}`} className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs flex items-center gap-1 mx-auto">
-                                    View Details <ExternalLink className="h-3 w-3" />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div> */}

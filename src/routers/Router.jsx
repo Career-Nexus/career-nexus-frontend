@@ -13,6 +13,7 @@ import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonPr
 import MentorshipHome from '../pages/mentorship/MentorshipHome'
 import { UserProvider } from '../context/UserContext'
 import VirtualGalleryDetail from '../components/dashboard/home/profile/VirtualGalleryDetail'
+import MentorDetails from '../pages/mentorship/MentorDetails'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -136,6 +137,14 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <MentorshipHome/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/mentordetails/:id'
+          element={
+            <ProtectedRoute>
+              <MentorDetails/>
             </ProtectedRoute>
           }
         />

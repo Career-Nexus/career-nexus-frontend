@@ -3,7 +3,6 @@ import React, { useContext, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Help, Home, Jobs, Mentorship, Network, Notification, RightArrow, Search, Toggle, User } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
-import { authService } from '../../api/ApiServiceThree';
 import { UserContext } from '../../context/UserContext';
 import { ChevronDown, HelpCircle, LogOut, Settings, UserCircle } from 'lucide-react';
 
@@ -13,11 +12,9 @@ const MainNavbar = () => {
     const navigate = useNavigate()
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
-    const { user, loading, logout } = useContext(UserContext);
-    //const cuser = authService.getCurrentUser()
+    const { user,logout } = useContext(UserContext);
 
     const handleLogout = () => {
-        // authService.logout()
         logout();
         navigate("/login")
     }
@@ -30,7 +27,7 @@ const MainNavbar = () => {
     // Common class for nav items
     const navItemClass = "flex flex-col items-center";
     // Active class with green underline
-    const activeClass = "border-b-2 border-green-500";
+    const activeClass = "border-b-2 border-green-500 text-green-800";
 
     return (
         <nav className='sticky top-0 z-50'>
@@ -111,7 +108,8 @@ const MainNavbar = () => {
                     {/* User Name and Dropdown Menu */}
                     <div className=" sm:ml-6 sm:flex sm:items-center">
                         <div className="h-10 w-10 mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
-                            {user?.name?.charAt(0) || 'U'}
+                            {/* {user?.name?.charAt(0) || 'U'} */}
+                            <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='rounded-full'/>
                         </div>
                         <div className="relative">
                             <div>
