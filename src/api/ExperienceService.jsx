@@ -48,7 +48,7 @@ export const ExperienceService = {
       throw new Error(error.response?.data?.message || "Failed to update education")
     }
   },
-  
+
   async addCertification(certification) {
     try {
       const response = await api.post("user/certification/", certification)
@@ -62,18 +62,13 @@ export const ExperienceService = {
 
   async deleteExperience(id) {
     try {
-      console.log("Deleting experience with ID:", id)
-      const response = await api.delete(`user/experience/`,{
-        data: {id}
-      })
-      // const response = await api.delete(`user/delete-experience/`,{
-      //   data: {id}
-      // })
-      console.log("Deleted Experience response:", response.status)
-      return true
+      console.log("Deleting experience with ID:", id);
+      const response = await api.delete(`user/experience/?experience_id=${id}`);
+      console.log("Deleted Experience response:", response.status);
+      return true;
     } catch (error) {
-      console.error("Delete Experience Error:", error)
-      throw new Error(error.response?.data?.message || "Failed to delete experience")
+      console.error("Delete Experience Error:", error);
+      throw new Error(error.response?.data?.message || "Failed to delete experience");
     }
   },
 

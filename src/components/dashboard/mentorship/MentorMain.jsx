@@ -48,15 +48,17 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img1.png",
-    cover:"/images/mentor-cover1.png",
+    cover: "/images/mentor-cover1.png",
     location: "USA",
-        job: "Software Engineer at TechCorp",
-        degree: "BSc in Computer Science",
-        stats: {
-            following: "500+",
-            followers: "6,476",
-            sessions: "3"
-        }
+    job: "Software Engineer at Career Nexus",
+    degree: "BSc in Computer Engineering",
+    stats: {
+      following: "500+",
+      followers: "6,176",
+    },
+    time:"2d",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    
   },
   {
     id: 2,
@@ -67,15 +69,17 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img2.png",
-    cover:"/images/mentor-cover1.png",
-    location: "USA",
-        job: "Software Engineer at TechCorp",
-        degree: "BSc in Computer Science",
-        stats: {
-            following: "500+",
-            followers: "6,476",
-            sessions: "3"
-        }
+    cover: "/images/mentor-cover1.png",
+    location: "Uk",
+    job: "Software Engineer at Google",
+    degree: "BSc in Computer Science",
+    stats: {
+      following: "400+",
+      followers: "6,470",
+    },
+    time:"12h",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+
   },
   {
     id: 3,
@@ -86,14 +90,17 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img3.png",
-    cover:"/images/mentor-cover1.png",location: "USA",
-    job: "Software Engineer at TechCorp",
+    cover: "/images/mentor-cover1.png",
+    location: "USA",
+    job: "Software Engineer at Microsoft",
     degree: "BSc in Computer Science",
     stats: {
-        following: "500+",
-        followers: "6,476",
-        sessions: "3"
-    }
+      following: "500+",
+      followers: "6,471",
+    },
+    time: "1h",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+
   },
   {
     id: 4,
@@ -104,14 +111,16 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img4.png",
-    cover:"/images/mentor-cover1.png",location: "USA",
+    cover: "/images/mentor-cover1.png", location: "USA",
     job: "Software Engineer at TechCorp",
     degree: "BSc in Computer Science",
     stats: {
-        following: "500+",
-        followers: "6,476",
-        sessions: "3"
-    }
+      following: "500+",
+      followers: "6,476",
+    },
+    time: "2d",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+
   },
   {
     id: 5,
@@ -122,14 +131,17 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img5.png",
-    cover:"/images/mentor-cover1.png",location: "USA",
-    job: "Software Engineer at TechCorp",
+    cover: "/images/mentor-cover1.png",
+    location: "Nigeria",
+    job: "Software Engineer at First Bank",
     degree: "BSc in Computer Science",
     stats: {
-        following: "500+",
-        followers: "6,476",
-        sessions: "3"
-    }
+      following: "500+",
+      followers: "6,446",
+    },
+    time: "2d",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+
   },
   {
     id: 6,
@@ -140,14 +152,17 @@ export const mentors = [
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
     tags: ["Tech", "America", "Available Now", "Senior"],
     image: "/images/mentor-img4.png",
-    cover:"/images/mentor-cover1.png",location: "USA",
+    cover: "/images/mentor-cover1.png",
+    location: "USA",
     job: "Software Engineer at TechCorp",
     degree: "BSc in Computer Science",
     stats: {
-        following: "500+",
-        followers: "6,476",
-        sessions: "3"
-    }
+      following: "300+",
+      followers: "6,476",
+    },
+    time: "now",
+    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+
   },
 ];
 

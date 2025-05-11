@@ -8,6 +8,7 @@ import { EditComponent } from './AllModal'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../../context/UserContext'
 import { useForm } from 'react-hook-form'
+// import { HiCamera } from "react-icons/hi"
 const ProfileCover = () => {
     const { user, updateUser, loading } = useContext(UserContext);
     const navigate = useNavigate();
@@ -76,6 +77,15 @@ const ProfileCover = () => {
                 {isCoverHovered && (
                     <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
                         <Camera className="text-white w-10 h-10 mb-2" />
+                        {/* <FileUpload.Root capture="environment">
+                            <FileUpload.HiddenInput />
+                            <FileUpload.Trigger asChild>
+                                <Button variant="outline" size="sm">
+                                    <HiCamera /> Open Camera
+                                </Button>
+                            </FileUpload.Trigger>
+                            <FileUpload.List />
+                        </FileUpload.Root> */}
                         <input
                             type="file"
                             accept="image/jpeg,image/png,image/jpg"
@@ -83,7 +93,7 @@ const ProfileCover = () => {
                                 validate: {
                                     validType: (files) =>
                                         !files[0] ||
-                                        ["image/jpeg", "image/png", "image/jpg"].includes(files[0].type)
+                                            ["image/jpeg", "image/png", "image/jpg"].includes(files[0].type)
                                             ? true
                                             : "Please select a valid image file (jpeg, png, jpg)",
                                     validSize: (files) =>
@@ -101,11 +111,10 @@ const ProfileCover = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className={`px-3 py-1 rounded-md text-white font-normal transition-colors duration-200 ${
-                                    loading
+                                className={`px-3 py-1 rounded-md text-white font-normal transition-colors duration-200 ${loading
                                         ? "bg-gray-400 cursor-not-allowed"
                                         : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
-                                }`}
+                                    }`}
                             >
                                 {loading ? "Uploading..." : "Submit"}
                             </button>
@@ -133,7 +142,7 @@ const ProfileCover = () => {
                                     validate: {
                                         validType: (files) =>
                                             !files[0] ||
-                                            ["image/jpeg", "image/png", "image/jpg"].includes(files[0].type)
+                                                ["image/jpeg", "image/png", "image/jpg"].includes(files[0].type)
                                                 ? true
                                                 : "Please select a valid image file (jpeg, png, jpg)",
                                         validSize: (files) =>
@@ -151,11 +160,10 @@ const ProfileCover = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className={`px-2 py-1 rounded-md text-white text-xs transition-colors duration-200 ${
-                                        loading
+                                    className={`px-2 py-1 rounded-md text-white text-xs transition-colors duration-200 ${loading
                                             ? "bg-gray-400 cursor-not-allowed"
                                             : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
-                                    }`}
+                                        }`}
                                 >
                                     {loading ? "Uploading..." : "Submit"}
                                 </button>

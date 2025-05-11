@@ -200,30 +200,29 @@ function PostsTemplate() {
         </div>
     )
 }
-
 function ProfessionalSummaryTemplate() {
-    const [summary, setSummary] = useState("")
-    const [isEditing, setIsEditing] = useState(true)
-    // get word count from db
-    const { user, updateUser } = useContext(UserContext)
+    const [summary, setSummary] = useState("");
+    const [isEditing, setIsEditing] = useState(true);
+    const { user, updateUser } = useContext(UserContext);
 
-
-    const wordCount = summary.trim() === "" ? 0 : summary.trim().split(/\s+/).length
+    // Calculate word count based on user.summary
+    const wordCount = user.summary?.trim() === "" ? 0 : user.summary?.trim().split(/\s+/).length || 0;
 
     const handleSave = (e) => {
-        //update the summary in the database
-        e.preventDefault()
+        e.preventDefault();
         try {
-            updateUser({ summary })
+            updateUser({ summary });
         } catch (error) {
-            console.error("Error updating summary:", error)
+            console.error("Error updating summary:", error);
         }
-        setIsEditing(false)
-    }
+        setIsEditing(false);
+    };
 
     const handleEdit = () => {
-        setIsEditing(true)
-    }
+        setIsEditing(true);
+        // Optionally, sync the local state with user.summary when editing starts
+        setSummary(user.summary || "");
+    };
 
     return (
         <div className="w-full max-w-3xl">
@@ -243,7 +242,7 @@ function ProfessionalSummaryTemplate() {
                     />
                 ) : (
                     <div className="min-h-[60px] w-full rounded-lg border border-gray-300 p-4">
-                        {summary || "Write a brief summary about your skills, experience, and career goals..."}
+                        {user.summary || "Write a brief summary about your skills, experience, and career goals..."}
                     </div>
                 )}
 
@@ -257,18 +256,88 @@ function ProfessionalSummaryTemplate() {
                         </button>
                     )}
                     {isEditing && (
-                        <button type="submit" onClick={handleSave} className="bg-[#5DA05D] hover:bg-green-700 text-white rounded-lg px-4 py-1 text-sm">
+                        <button
+                            type="submit"
+                            onClick={handleSave}
+                            className="bg-[#5DA05D] hover:bg-green-700 text-white rounded-lg px-4 py-1 text-sm"
+                        >
                             Save
                         </button>
                     )}
                 </div>
             </div>
-            <p>{user.summary}</p>
+            {/* <p>{user.summary}</p> */}
             <ExperienceSection />
-            add experience section here
         </div>
-    )
+    );
 }
+// function ProfessionalSummaryTemplate() {
+//     const [summary, setSummary] = useState("")
+//     const [isEditing, setIsEditing] = useState(true)
+//     // get word count from db
+//     const { user, updateUser } = useContext(UserContext)
+
+
+//     const wordCount = summary.trim() === "" ? 0 : summary.trim().split(/\s+/).length
+
+//     const handleSave = (e) => {
+//         //update the summary in the database
+//         e.preventDefault()
+//         try {
+//             updateUser({ summary })
+//         } catch (error) {
+//             console.error("Error updating summary:", error)
+//         }
+//         setIsEditing(false)
+//     }
+
+//     const handleEdit = () => {
+//         setIsEditing(true)
+//     }
+
+//     return (
+//         <div className="w-full max-w-3xl">
+//             <div className="flex justify-between items-center mb-2">
+//                 <h2 className="text-lg font-bold">Professional Summary</h2>
+//                 <span className="text-sm text-gray-500">{wordCount}/1000 words</span>
+//             </div>
+
+//             <div className="relative">
+//                 {isEditing ? (
+//                     <Textarea
+//                         rows={2}
+//                         value={summary}
+//                         onChange={(e) => setSummary(e.target.value)}
+//                         placeholder="Write a brief summary about your skills, experience, and career goals..."
+//                         className="w-full rounded-lg border-gray-300 resize-none p-4"
+//                     />
+//                 ) : (
+//                     <div className="min-h-[60px] w-full rounded-lg border border-gray-300 p-4">
+//                         {summary || "Write a brief summary about your skills, experience, and career goals..."}
+//                     </div>
+//                 )}
+
+//                 <div className="flex justify-end absolute bottom-4 right-2">
+//                     {!isEditing && (
+//                         <button
+//                             onClick={handleEdit}
+//                             className="text-[#5DA05D] hover:text-green-700 text-sm font-semibold mr-4"
+//                         >
+//                             Edit
+//                         </button>
+//                     )}
+//                     {isEditing && (
+//                         <button type="submit" onClick={handleSave} className="bg-[#5DA05D] hover:bg-green-700 text-white rounded-lg px-4 py-1 text-sm">
+//                             Save
+//                         </button>
+//                     )}
+//                 </div>
+//             </div>
+//             <p>{user.summary}</p>
+//             <ExperienceSection />
+//         </div>
+//     )
+// }
 
 function PortfolioGalleryTemplate() {
     return (

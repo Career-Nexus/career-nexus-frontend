@@ -4,10 +4,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import { Trash2, Video } from "lucide-react";
 import { ExperienceService } from "../../../../api/ExperienceService";
+import { VideoModal } from "./VideoModal";
 
 export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
     const { user, updateUser, loading, error } = useContext(UserContext);
     const [success, setSuccess] = useState(false);
+    const [showModal, setShowModal] = useState(false)
 
     const {
         register,
@@ -61,9 +63,10 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                             <img src="/images/video1.png" alt="video stream" className="w-60" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <button className="bg-green-100 flex text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
+                            <button onClick={() => setShowModal(true)} className="bg-green-100 flex text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
                                 <Video /> Record
                             </button>
+                            {showModal && <VideoModal />}
                             <button className="bg-red-100 flex text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200">
                                 <Trash2 /> Remove
                             </button>

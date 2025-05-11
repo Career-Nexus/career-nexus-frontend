@@ -129,31 +129,6 @@ const ViewPersonProfile = () => {
     )
 }
 
-// import { useState, useRef } from "react"
-// import {
-//     BarChart3,
-//     ChevronLeft,
-//     ChevronRight,
-//     ExternalLink,
-//     User,
-//     FileText,
-//     Image,
-//     Briefcase,
-//     PieChart,
-//     Badge,
-//     ChevronUp,
-//     ChevronDown,
-//     Search,
-//     Plus,
-// } from "lucide-react"
-// import { Card, CardBody, Progress, Textarea, Button } from "@chakra-ui/react"
-// import { SocialInteractionBar } from "../SocialInteractionBar"
-// import { Clock, Delete, Download, Edit, Editall, View } from "../../../../icons/icon"
-// import ExperienceSection from "./Experience"
-// import { ProductGalery } from "./ProductVirtualGalary"
-// import { AddProjectModal } from "./AllModal"
-// import ReusableModal from "./ModalDesign"
-
 function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
     const tabsRef = useRef(null)

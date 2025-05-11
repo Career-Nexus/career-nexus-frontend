@@ -1,11 +1,6 @@
 import { useRef, useState } from "react"
 import Modal from "./ModalDesign"
 import { Button } from "@chakra-ui/react"
-//import Modal from "../components/modal"
-// import FormField from "../components/form-field"
-// import FileUpload from "../components/file-upload"
-// import Button from "../components/button"
-
 export default function ProjectFormModal({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -61,39 +56,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }) {
       onClose()
     }
   }
-  //button component
-//   function Button({
-//     children,
-//     type = "button",
-//     variant = "primary",
-//     fullWidth = false,
-//     disabled = false,
-//     onClick,
-//     className = "",
-//   }) {
-//     const baseClasses = "px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2"
-  
-//     const variantClasses = {
-//       primary: "bg-green-500 hover:bg-green-600 text-white focus:ring-green-300",
-//       secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-100",
-//       danger: "bg-red-500 hover:bg-red-600 text-white focus:ring-red-300",
-//       outline: "border border-gray-300 hover:bg-gray-50 text-gray-700 focus:ring-gray-200",
-//     }
-  
-//     const widthClass = fullWidth ? "w-full" : ""
-//     const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : ""
-  
-//     return (
-//       <button
-//         type={type}
-//         onClick={onClick}
-//         disabled={disabled}
-//         className={`${baseClasses} ${variantClasses[variant]} ${widthClass} ${disabledClass} ${className}`}
-//       >
-//         {children}
-//       </button>
-//     )
-//   }
+
   //file upload component
 function FileUpload({ label, name, onChange, accept = "image/*", required = false, error }) {
   const [fileName, setFileName] = useState("No file chosen")

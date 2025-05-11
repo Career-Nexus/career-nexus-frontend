@@ -19,14 +19,11 @@ const MainNavbar = () => {
         navigate("/login")
     }
 
-    // Function to check if a path is active
     const isActive = (path) => {
         return location.pathname === path;
     }
 
-    // Common class for nav items
     const navItemClass = "flex flex-col items-center";
-    // Active class with green underline
     const activeClass = "border-b-2 border-green-500 text-green-800";
 
     return (
@@ -38,7 +35,7 @@ const MainNavbar = () => {
                         <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-12 w-auto' />
                     </div>
                     <div className='hidden md:block'>
-                        <img src="images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
+                        <img src="/images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                     </div>
 
                     {/* Search Box */}
@@ -58,14 +55,14 @@ const MainNavbar = () => {
                             to='/home'
                             className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
                         >
-                            <Home className='mx-auto' />
+                            <Home className={`${navItemClass} ${isActive('/home') ? activeClass : ''} mx-auto`} />
                             <h1 className='text-xs'>Home</h1>
                         </Link>
                         <Link
                             to='/mentorship'
                             className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
                         >
-                            <Mentorship className='mx-auto' />
+                            <Mentorship className='mx-auto'/>
                             <h1 className='text-xs'>Mentorship</h1>
                         </Link>
                         <Link
