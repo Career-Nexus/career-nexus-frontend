@@ -13,7 +13,7 @@ const Profile = () => {
     if(error){
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
-    if(!user.name){
+    if(!user.first_name){
         return <div className='flex items-center justify-center h-screen'>No user found</div>
     }
     const items = [

@@ -75,9 +75,10 @@ export const ExperienceService = {
   async deleteEducation(id) {
     try {
       console.log("Deleting education with ID:", id)
-      const response = await api.delete(`user/education/`, {
-        data: { id } // Send id in the request body
-      });
+      const response = await api.delete(`user/education/?education_id=${id}`);
+      // const response = await api.delete(`user/education/`, {
+      //   data: { id } // Send id in the request body
+      // });
       console.log("Deleted Education response:", response.status)
       return true
     } catch (error) {
@@ -89,9 +90,7 @@ export const ExperienceService = {
   async deleteCertification(id) {
     try {
       console.log("Deleting certification with ID:", id)
-      const response = await api.delete(`user/certification/`, {
-        data: { id }
-      });
+      const response = await api.delete(`user/certification/?certification_id=${id}`);
       console.log("Deleted Certification response:", response.status)
       return true
     } catch (error) {
@@ -99,4 +98,42 @@ export const ExperienceService = {
       throw new Error(error.response?.data?.message || "Failed to delete certification")
     }
   },
+  async addProject(formData) {
+    try {
+      // Create a new FormData object for the API request
+      const projectFormData = new FormData()
+
+      // Add the text fields to the FormData
+      projectFormData.append("title", formData.title)
+      projectFormData.append("description", formData.description)
+
+      // If there's a file, add it to the FormData
+      if (formData.image) {
+        projectFormData.append("image", formData.image)
+      }
+
+      const response = await api.post("project/", projectFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+
+      console.log("Added Project response:", response.data)
+      return response.data
+    } catch (error) {
+      console.error("Add Project Error:", error.response || error.message)
+      throw new Error(error.response?.data?.message || "Failed to add project")
+    }
+  },
+  async getProjects() {
+    try {
+      const response = await api.get("project/")
+      console.log("Fetched Projects response:", response.data)
+      return response.data
+    } catch (error) {
+      console.error("Get Projects Error:", error.response || error.message)
+      throw new Error(error.response?.data?.message || "Failed to fetch projects")
+    }
+  },
 }
+

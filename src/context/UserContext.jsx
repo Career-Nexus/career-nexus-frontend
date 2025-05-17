@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import api, { authService } from "../api/ApiServiceThree";
 
-// Define the shape of the user data
 const defaultUser = {
   id: null,
-  name: "",
+  first_name: "",
+  last_name:"",
+  midle_name:"",
   profile_photo: null,
   cover_photo: null,
   location: "",
@@ -17,8 +18,6 @@ const defaultUser = {
   education: [],
   certification: [],
 };
-
-// Create the Context
 export const UserContext = createContext({
   user: defaultUser,
   loading: false,
@@ -27,14 +26,11 @@ export const UserContext = createContext({
   updateUser: () => {},
   logout: () => {},
 });
-
-// User Provider Component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(defaultUser);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data
   const fetchUser = async () => {
     if (!authService.isAuthenticated()) {
       setLoading(false);
@@ -53,7 +49,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Update user data
   const updateUser = async (updatedData, formData) => {
     try {
       setLoading(true);
@@ -69,14 +64,10 @@ export const UserProvider = ({ children }) => {
           },
         });
       } else {
-        // Handle regular fields without files
         response = await api.put("/user/profile-update/", updatedData);
       }
-
-      // Log response for debugging
       console.log("Update response:", { status: response.status, data: response.data });
 
-      // Check if the response is successful (200, 201, or 204)
       if ([200, 201, 204].includes(response.status)) {
         // Fetch updated user data to ensure consistency
         await fetchUser();
@@ -105,11 +96,10 @@ export const UserProvider = ({ children }) => {
   // Logout function
   const logout = () => {
     authService.logout(); // Clears cookies and session storage
-    setUser(defaultUser); // Reset user state
-    window.location.href = "/login"; // Redirect to login
+    setUser(defaultUser);
+    window.location.href = "/login";
   };
 
-  // Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       user,

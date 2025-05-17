@@ -1,9 +1,7 @@
+"use client"
 
-import React from "react"
-
+import { useState, useRef, useContext } from "react"
 import { Upload, Video, FileText } from "lucide-react"
-
-import { useState, useRef } from "react"
 import {
   Box,
   Button,
@@ -18,8 +16,6 @@ import {
   Input,
   Textarea,
   Text,
-  Radio,
-  RadioGroup,
   Progress,
   AspectRatio,
   HStack,
@@ -28,28 +24,39 @@ import {
   useDisclosure,
   Center,
   FormLabel,
+  useToast,
 } from "@chakra-ui/react"
 import { Calendar } from "react-calendar"
 import "react-calendar/dist/Calendar.css"
 import { format } from "date-fns"
-import { FiUpload, FiVideo, FiCalendar, FiFileText } from "react-icons/fi"
+import { FiUpload, FiVideo } from "react-icons/fi"
 import { EventIcon } from "../../../icons/icon"
+import { PostService } from "../../../api/PostService"
+import { UserContext } from "../../../context/UserContext"
+import { Link } from "react-router-dom"
 
 export default function SocialMediaToolbar() {
   // Modal states
   const { isOpen: isVideoUploadOpen, onOpen: onVideoUploadOpen, onClose: onVideoUploadClose } = useDisclosure()
-
   const { isOpen: isLiveStreamOpen, onOpen: onLiveStreamOpen, onClose: onLiveStreamClose } = useDisclosure()
-
   const { isOpen: isCalendarOpen, onOpen: onCalendarOpen, onClose: onCalendarClose } = useDisclosure()
-
   const { isOpen: isArticleOpen, onOpen: onArticleOpen, onClose: onArticleClose } = useDisclosure()
 
-  // File upload states
+  // Toast for notifications
+  const toast = useToast()
+
+  // Form states
+  const [postContent, setPostContent] = useState("")
   const [date, setDate] = useState(new Date())
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [articleContent, setArticleContent] = useState("")
+  const [articleTitle, setArticleTitle] = useState("") // Added for article title
+
+  const { user } = useContext(UserContext)
+
   const fileInputRef = useRef(null)
 
   const handleFileChange = (e) => {
@@ -69,10 +76,6 @@ export default function SocialMediaToolbar() {
         if (prev >= 100) {
           clearInterval(interval)
           setIsUploading(false)
-          setTimeout(() => {
-            onVideoUploadClose()
-            setSelectedFile(null)
-          }, 1000)
           return 100
         }
         return prev + 10
@@ -80,18 +83,101 @@ export default function SocialMediaToolbar() {
     }, 500)
   }
 
-  const handlePost = () => {
-    // Handle the main post action
-    alert("Post created successfully!")
+  const handlePost = async () => {
+    // Validate inputs
+    if (!postContent && !articleContent && !selectedFile && !isCalendarOpen) {
+      toast({
+        title: "Invalid input",
+        description: "Please provide content, media, or an event date before posting.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+
+      const postData = {
+        body: postContent || "New post",
+        article: articleContent || "",
+        results: "", 
+        count: "1", 
+        profile: user?.id || "user",
+        eventDate: isCalendarOpen ? format(date, "yyyy-MM-dd") : "", // Include event date if applicable
+      }
+
+      if (selectedFile) {
+        postData.media = selectedFile
+      }
+
+      const response = await PostService.createPost(postData)
+
+      // Reset form
+      setPostContent("")
+      setSelectedFile(null)
+      setArticleContent("")
+      setArticleTitle("")
+      setUploadProgress(0)
+      setDate(new Date())
+
+      onVideoUploadClose()
+      onLiveStreamClose()
+      onCalendarClose()
+      onArticleClose()
+
+      toast({
+        title: "Post created",
+        description: "Your post was created successfully!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      })
+
+      return response.data
+    } catch (error) {
+      toast({
+        title: "Error creating post",
+        description: error?.message || "Failed to create post",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
+      console.error("Post creation error:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <>
-      <Flex gap={2} width="full" maxWidth="3xl">
+      <div className="flex gap-2 items-center">
+        <Link to="/profilepage">
+          <img
+            src={user?.profile_photo || "/images/profile.png"}
+            alt="profile"
+            className="w-14 h-auto rounded-full"
+          />
+        </Link>
+        <Textarea
+          placeholder="Share an update"
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
+          size="sm"
+          resize="none"
+          borderRadius="lg"
+          shadow="sm"
+          rows={1}
+          mr={2}
+          flex="1"
+          className="w-full rounded-lg border-gray-300 bg-gray-50"
+        />
+      </div>
+      <Flex gap={2} width="full" maxWidth="3xl" className="gap-2 mt-3 w-full">
         <Button
           variant="ghost"
-          // leftIcon={<FiUpload />}
-          leftIcon={<Upload className="w-5 h-5 text-gray-600"/>}
+          leftIcon={<Upload className="w-5 h-5 text-gray-600" />}
           bg="gray.100"
           _hover={{ bg: "gray.100" }}
           borderRadius="lg"
@@ -106,13 +192,18 @@ export default function SocialMediaToolbar() {
           <Text fontSize="xs" fontWeight="normal" className="md:hidden lg:block">
             Upload Media
           </Text>
-          <Input type="file" ref={fileInputRef} display="none" accept="video/*,image/*" onChange={handleFileChange} />
+          <Input
+            type="file"
+            ref={fileInputRef}
+            display="none"
+            accept="video/*,image/*"
+            onChange={handleFileChange}
+          />
         </Button>
 
         <Button
           variant="ghost"
-          // leftIcon={<FiVideo />}
-          leftIcon={<Video className="w-5 h-5 text-gray-600"/>}
+          leftIcon={<Video className="w-5 h-5 text-gray-600" />}
           bg="gray.100"
           _hover={{ bg: "gray.100" }}
           borderRadius="lg"
@@ -128,8 +219,7 @@ export default function SocialMediaToolbar() {
 
         <Button
           variant="ghost"
-          // leftIcon={<FiCalendar />}
-          leftIcon={<EventIcon className="w-5 h-5 text-gray-600"/>}
+          leftIcon={<EventIcon className="w-5 h-5 text-gray-600" />}
           bg="gray.100"
           _hover={{ bg: "gray.100" }}
           borderRadius="lg"
@@ -145,8 +235,7 @@ export default function SocialMediaToolbar() {
 
         <Button
           variant="ghost"
-          // leftIcon={<FiFileText />}
-          leftIcon={<FileText className="w-5 h-5 text-gray-600"/>}
+          leftIcon={<FileText className="w-5 h-5 text-gray-600" />}
           bg="gray.100"
           _hover={{ bg: "gray.100" }}
           borderRadius="lg"
@@ -170,6 +259,9 @@ export default function SocialMediaToolbar() {
             onClick={handlePost}
             fontSize="xs"
             fontWeight="normal"
+            isLoading={isSubmitting}
+            loadingText="Posting..."
+            disabled={isSubmitting}
           >
             Post
           </Button>
@@ -196,13 +288,25 @@ export default function SocialMediaToolbar() {
                   Size: {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                 </Text>
 
-                {isUploading && <Progress value={uploadProgress} size="sm" colorScheme="green" borderRadius="full" />}
+                {isUploading && (
+                  <Progress value={uploadProgress} size="sm" colorScheme="green" borderRadius="full" />
+                )}
 
                 <HStack spacing={2}>
-                  <Button variant="outline" size="sm" onClick={() => setSelectedFile(null)} isDisabled={isUploading}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedFile(null)}
+                    isDisabled={isUploading}
+                  >
                     Change File
                   </Button>
-                  <Button size="sm" onClick={simulateUpload} isDisabled={isUploading} colorScheme="blue">
+                  <Button
+                    size="sm"
+                    onClick={simulateUpload}
+                    isDisabled={isUploading}
+                    colorScheme="blue"
+                  >
                     {isUploading ? "Uploading..." : "Upload Now"}
                   </Button>
                 </HStack>
@@ -229,8 +333,17 @@ export default function SocialMediaToolbar() {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" onClick={onVideoUploadClose}>
+            <Button variant="ghost" onClick={onVideoUploadClose} mr={3}>
               Cancel
+            </Button>
+            <Button
+              colorScheme="green"
+              onClick={handlePost}
+              isLoading={isSubmitting}
+              loadingText="Posting..."
+              isDisabled={!selectedFile || isSubmitting || (isUploading && uploadProgress < 100)}
+            >
+              Post Media
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -248,27 +361,6 @@ export default function SocialMediaToolbar() {
             </Text>
 
             <VStack spacing={4} align="stretch">
-              <Box>
-                <FormLabel htmlFor="stream-title">Stream Title</FormLabel>
-                <Input id="stream-title" placeholder="Enter a title for your stream" />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="stream-description">Description</FormLabel>
-                <Textarea id="stream-description" placeholder="Tell viewers what your stream is about" />
-              </Box>
-
-              <Box>
-                <FormLabel>Privacy</FormLabel>
-                <RadioGroup defaultValue="public">
-                  <HStack spacing={4}>
-                    <Radio value="public">Public</Radio>
-                    <Radio value="friends">Friends</Radio>
-                    <Radio value="private">Private</Radio>
-                  </HStack>
-                </RadioGroup>
-              </Box>
-
               <Box bg="gray.100" p={4} borderRadius="lg">
                 <AspectRatio ratio={16 / 9}>
                   <Center bg="black" borderRadius="lg">
@@ -285,7 +377,14 @@ export default function SocialMediaToolbar() {
             <Button variant="ghost" mr={3} onClick={onLiveStreamClose}>
               Cancel
             </Button>
-            <Button colorScheme="red">Go Live</Button>
+            <Button
+              colorScheme="red"
+              onClick={handlePost}
+              isLoading={isSubmitting}
+              loadingText="Going Live..."
+            >
+              Go Live
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -303,11 +402,6 @@ export default function SocialMediaToolbar() {
 
             <VStack spacing={4} align="stretch">
               <Box>
-                <FormLabel htmlFor="event-title">Event Title</FormLabel>
-                <Input id="event-title" placeholder="Enter event title" />
-              </Box>
-
-              <Box>
                 <FormLabel>Event Date</FormLabel>
                 <Box border="1px" borderColor="gray.200" borderRadius="md" p={2}>
                   <Calendar onChange={setDate} value={date} className="chakra-calendar" />
@@ -316,34 +410,20 @@ export default function SocialMediaToolbar() {
                   Selected date: {format(date, "PPP")}
                 </Text>
               </Box>
-
-              <HStack spacing={4}>
-                <Box flex="1">
-                  <FormLabel htmlFor="start-time">Start Time</FormLabel>
-                  <Input id="start-time" type="time" />
-                </Box>
-                <Box flex="1">
-                  <FormLabel htmlFor="end-time">End Time</FormLabel>
-                  <Input id="end-time" type="time" />
-                </Box>
-              </HStack>
-
-              <Box>
-                <FormLabel htmlFor="location">Location</FormLabel>
-                <Input id="location" placeholder="Add location" />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="event-description">Description</FormLabel>
-                <Textarea id="event-description" placeholder="Add details about your event" />
-              </Box>
             </VStack>
           </ModalBody>
           <ModalFooter>
             <Button variant="ghost" mr={3} onClick={onCalendarClose}>
               Cancel
             </Button>
-            <Button colorScheme="blue">Create Event</Button>
+            <Button
+              colorScheme="blue"
+              onClick={handlePost}
+              isLoading={isSubmitting}
+              loadingText="Creating..."
+            >
+              Create Event
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -361,15 +441,14 @@ export default function SocialMediaToolbar() {
 
             <VStack spacing={4} align="stretch">
               <Box>
-                <FormLabel htmlFor="article-title">Title</FormLabel>
-                <Input id="article-title" placeholder="Enter article title" fontSize="lg" />
+                <FormLabel htmlFor="article-title">Article Title</FormLabel>
+                <Input
+                  id="article-title"
+                  placeholder="Enter article title"
+                  value={articleTitle}
+                  onChange={(e) => setArticleTitle(e.target.value)}
+                />
               </Box>
-
-              <Box>
-                <FormLabel htmlFor="article-subtitle">Subtitle (optional)</FormLabel>
-                <Input id="article-subtitle" placeholder="Enter subtitle" />
-              </Box>
-
               <Box>
                 <FormLabel htmlFor="article-content">Content</FormLabel>
                 <Box border="1px" borderColor="gray.200" borderRadius="md" p={2}>
@@ -395,25 +474,10 @@ export default function SocialMediaToolbar() {
                     _focus={{ boxShadow: "none" }}
                     resize="none"
                     p={0}
+                    value={articleContent}
+                    onChange={(e) => setArticleContent(e.target.value)}
                   />
                 </Box>
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="article-note">Note</FormLabel>
-                <Textarea
-                  id="article-note"
-                  placeholder="Add a note about this article (internal use only)"
-                  size="sm"
-                  bg="yellow.50"
-                  border="1px"
-                  borderColor="yellow.200"
-                />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="article-tags">Tags</FormLabel>
-                <Input id="article-tags" placeholder="Add tags separated by commas" />
               </Box>
             </VStack>
           </ModalBody>
@@ -421,7 +485,15 @@ export default function SocialMediaToolbar() {
             <Button variant="outline" mr={3}>
               Save Draft
             </Button>
-            <Button colorScheme="blue">Publish Article</Button>
+            <Button
+              colorScheme="blue"
+              onClick={handlePost}
+              isLoading={isSubmitting}
+              loadingText="Publishing..."
+              isDisabled={!articleTitle || !articleContent || isSubmitting}
+            >
+              Publish Article
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

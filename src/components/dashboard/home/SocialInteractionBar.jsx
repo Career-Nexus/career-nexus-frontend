@@ -1,20 +1,92 @@
+import { useToast } from "@chakra-ui/react";
 import { ThumbsUp, MessageCircle, Upload, Bookmark, RefreshCw, Ellipsis, Copy, EyeOff, X, FlagTriangleRight } from "lucide-react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PostService } from "../../../api/PostService";
 
 
 export function SocialInteractionBar({
+  postId,
   likes = 0,
   comments = 0,
   shares = 0,
   showSave = true,
   showRepost = true,
+  onLikeUpdate,
 }) {
+  const [isLiked, setIsLiked] = useState(false)
+  const [likesCount, setLikesCount] = useState(likes)
+  const [isLoading, setIsLoading] = useState(false)
+  const toast = useToast()
+
+  // Check if the current user has liked this post
+  useEffect(() => {
+    if (!postId) return
+
+    async function checkLikeStatus() {
+      try {
+        const liked = await PostService.checkLikeStatus(postId)
+        setIsLiked(liked)
+      } catch (error) {
+        console.error("Error checking like status:", error)
+      }
+    }
+
+    checkLikeStatus()
+  }, [postId])
+
+  const handleLikeClick = async () => {
+    if (isLoading || !postId) return
+
+    try {
+      setIsLoading(true)
+
+      // Optimistically update UI
+      const newIsLiked = !isLiked
+      setIsLiked(newIsLiked)
+
+      // Update likes count optimistically
+      const newLikesCount = newIsLiked ? likesCount + 1 : likesCount - 1
+      setLikesCount(newLikesCount)
+
+      // Call API to toggle like status
+      await PostService.toggleLike(postId, isLiked)
+
+      // Notify parent component about the update if callback exists
+      if (onLikeUpdate) {
+        onLikeUpdate(newLikesCount)
+      }
+    } catch (error) {
+      // Revert optimistic updates on error
+      setIsLiked(!isLiked)
+      setLikesCount(isLiked ? likesCount + 1 : likesCount - 1)
+
+      toast({
+        title: "Error",
+        description: "Failed to update like status. Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+
+      console.error("Error toggling like:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
-    <div className="flex  mt-3 justify-between">
+    <div className="flex mt-3 justify-between">
       <div className="flex">
-        <div className="flex gap-2 justify-center items-center mr-5 hover:bg-green-100 hover:p-2 rounded-lg">
-          <ThumbsUp size={18} /> {likes} <span className="hidden lg:block"></span>
-        </div>
+        <button
+          onClick={handleLikeClick}
+          disabled={isLoading}
+          className={`flex gap-2 justify-center items-center mr-5 hover:bg-green-100 hover:p-2 rounded-lg transition-all ${
+            isLiked ? "text-green-600" : ""
+          }`}
+        >
+          <ThumbsUp size={18} className={isLiked ? "fill-current" : ""} /> {likesCount}{" "}
+          <span className="hidden lg:block"></span>
+        </button>
         <div className="flex gap-2 justify-center items-center mr-5 hover:bg-green-100 hover:p-2 rounded-lg">
           <MessageCircle size={18} /> {comments} <span className="hidden lg:block"></span>
         </div>

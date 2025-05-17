@@ -15,7 +15,7 @@ export function VideoModal() {
   const [audioLevel, setAudioLevel] = useState(0)
   const [deviceStatus, setDeviceStatus] = useState({
     video: "unknown", // unknown, available, unavailable
-    audio: "unknown", // unknown, available, unavailable
+    audio: "unknown",
   })
 
   const timerRef = useRef(null)
@@ -186,7 +186,6 @@ export function VideoModal() {
       let hasAudio = false
       let hasVideo = false
 
-      // Try different combinations based on device availability
       try {
         // Try video + audio first if both seem available
         if (deviceStatus.video === "available" && deviceStatus.audio === "available") {
@@ -283,7 +282,7 @@ export function VideoModal() {
           videoRef.current.srcObject = null
           videoRef.current.src = url
           videoRef.current.muted = isMuted // Apply mute setting
-          videoRef.current.volume = volume // Apply volume setting
+          videoRef.current.volume = volume
           videoRef.current.load() // Force load the new source
         }
 
