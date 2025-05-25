@@ -14,6 +14,13 @@ import MentorshipHome from '../pages/mentorship/MentorshipHome'
 import { UserProvider } from '../context/UserContext'
 import VirtualGalleryDetail from '../components/dashboard/home/profile/VirtualGalleryDetail'
 import MentorDetails from '../pages/mentorship/MentorDetails'
+import OtpVerification from '../pages/auth/OtpTwo'
+import SuccessPage from '../pages/auth/SuccessPage'
+import ResetPasswordOtp from '../pages/auth/ResetPasswordOtp'
+import ResetPasswordEmail from '../pages/auth/ResetPasswordEmail'
+import ResetPassword from '../pages/auth/ResetPassword'
+import { ProfileSetup } from '../pages/auth/ProfileSetup'
+import PasswordResetSuccess from '../pages/auth/PasswordResetSuccess'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -41,7 +48,7 @@ const ProtectedRoute = ({ children }) => {
 const AuthLayout = ({ children }) => {
   return (
     <>
-      <AuthNavbar />
+      {/* <AuthNavbar /> */}
       {children}
     </>
   )
@@ -54,7 +61,7 @@ const RedirectIfAuthenticated = ({ children }) => {
   if (isAuthenticated) {
     return <Navigate to="/home" />
   }
-
+  // return <>{children}</>
   return <AuthLayout>{children}</AuthLayout>
 }
 const Router = () => {
@@ -76,10 +83,66 @@ const Router = () => {
           }
         />
         <Route
+          path="/otp"
+          element={
+            <RedirectIfAuthenticated>
+              <OtpVerification />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <RedirectIfAuthenticated>
+              <SuccessPage />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
           path="/login"
           element={
             <RedirectIfAuthenticated>
               <Login />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/send-email"
+          element={
+            <RedirectIfAuthenticated>
+              <ResetPasswordEmail />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/reset-password-otp"
+          element={
+            <RedirectIfAuthenticated>
+              <ResetPasswordOtp />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <RedirectIfAuthenticated>
+              <ResetPassword />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/password-reset-success"
+          element={
+            <RedirectIfAuthenticated>
+              <PasswordResetSuccess />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/profile-setup"
+          element={
+            <RedirectIfAuthenticated>
+              <ProfileSetup />
             </RedirectIfAuthenticated>
           }
         />

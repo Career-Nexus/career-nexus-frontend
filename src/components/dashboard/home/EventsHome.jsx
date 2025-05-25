@@ -1,7 +1,6 @@
 import React from 'react'
 import { Avatar } from "flowbite-react";
 import { Message } from '../../../icons/icon';
-import OtpModalDemo from '../../../pages/auth/OtpModal';
 import FloatingMessageIcon from './FloatingMessage';
 
 const EventsHome = () => {

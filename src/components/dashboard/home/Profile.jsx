@@ -40,8 +40,9 @@ const Profile = () => {
                 </Link>
                 <img src="/images/active-icon.png" alt="Active" className='ml-28 -mt-8' />
                 <div className='p-3 flex flex-col gap-3'>
-                    <h1 className='font-bold text-2xl mt-4'>{user.name}</h1>
+                    <h1 className='font-bold text-2xl mt-4'>{user.first_name} {user.last_name}</h1>
                     <p className='text-sm'>{user?.bio?.slice(0,60)}...</p>
+                    <p>{user?.industry}</p>
                     {/* <p className='text-sm'>Ui/Ux Designer | Seeking mentorship</p> */}
                     <hr />
                     <p className='font-semibold'>Profile Views:24</p>
