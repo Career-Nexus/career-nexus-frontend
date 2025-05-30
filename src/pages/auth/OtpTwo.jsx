@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { authService } from "../../api/ApiServiceThree"
 import { LoadingIcon } from "../../icons/icon"
+import HeroSection from "../../components/Auth/HeroSection"
 
 const OtpVerification = () => {
   const { state } = useLocation()
@@ -122,34 +123,8 @@ const OtpVerification = () => {
 
   return (
     <div className="grid grid-cols-12 min-h-screen">
-      <div className="col-span-12 lg:col-span-7 hidden md:block">
-        <div className="relative h-full w-full overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center z-0 aspect-[7.8/6] -mt-16 ml-[-16%]"
-            style={{ backgroundImage: "url('/images/auth-img.png')" }}
-          />
-          <div
-            className="absolute inset-0 z-10"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(102, 102, 102, 0) 0%, rgba(102, 102, 102, 0) 45%, rgba(72, 58, 86, 0.6) 60%, #280B45 85%)",
-            }}
-          />
-          <div className="relative z-20 h-full flex flex-col justify-end pb-8 px-16">
-            <div className="mb-1">
-              <div className="inline-flex items-center bg-opacity-20 bg-gray-800 rounded-lg px-3 py-2 border border-white">
-                <div className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"} mr-2`}></div>
-                <span className="text-white text-sm">One connection at a time</span>
-              </div>
-            </div>
-            <h1 className="text-white text-lg md:text-lg lg:text-xl font-bold mb-2 leading-tight">
-              Welcome to your Professional Practical Training Workshop, Career Contents and Global Networking Community!
-            </h1>
-            <p className="text-white md:text-sm opacity-90 max-w-3xl" style={{ fontSize: "0.9rem" }}>
-              Your gateway to skill enhancement and collaborative solutions to workforce applications...
-            </p>
-          </div>
-        </div>
+      <div className="col-span-12 lg:col-span-7 hidden md:block ml-5">
+        <HeroSection />
       </div>
       <div className="col-span-12 lg:col-span-5 flex items-center justify-center py-8">
         <div className="bg-white rounded-lg p-8 max-w-md w-full">

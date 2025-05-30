@@ -51,27 +51,6 @@ api.interceptors.response.use(
 
 
 export const authService = {
-  // Register a new user and send OTP
-  // signup: async (userData) => {
-  //   try {
-  //     const response = await api.post("/user/signup/", userData)
-  //     return response.data
-  //   } catch (error) {
-  //     throw error.response ? error.response.data : error.message
-  //   }
-  // },
-  // verifyOtp: async (data) => {
-  //   try {
-  //     console.log("Calling verifyOtp with:", data)
-  //     const response = await api.post("/user/signup/", data)
-  //     console.log("Verify OTP Response:", response.data)
-  //     // Do NOT set cookies here; let the frontend handle it
-  //     return response.data
-  //   } catch (error) {
-  //     console.log("Verify OTP Error:", error)
-  //     throw error.response ? error.response.data : error.message
-  //   }
-  // },
   signup: async (userData) => {
     try {
       const response = await api.post('/user/signup/', userData);
@@ -88,6 +67,16 @@ export const authService = {
       throw error.response ? error.response.data : error.message;
     }
   },
+  getTermsAndConditions: async (tos="tos") => {
+  try {
+    const response = await api.get(`/info/?title=${encodeURIComponent(tos)}`);
+    console.log("Fetched privacy policy", response.data);
+    return response.data; 
+  } catch (error) {
+    console.error("Error fetching terms and conditions:", error.response?.data || error.message);
+    throw error; 
+  }
+},
 
   verifyOtp: async (data) => {
     try {
@@ -106,32 +95,11 @@ export const authService = {
       throw error.response ? error.response.data : error.message;
     }
   },
-  // Verify OTP and complete registration
-  // verifyOtp: async (userData, otp) => {
-  //   try {
-  //     const response = await api.post("/user/signup/", {
-  //       ...userData,
-  //       otp,
-  //     })
-
-  //     if (response.data.access) {
-  //       Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
-  //       Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
-  //       // Debug log
-  //       console.log("Token set in cookie after verification:", Cookies.get(TOKEN_COOKIE_NAME))
-  //     }
-  //     return response.data
-  //   } catch (error) {
-  //     throw error.response ? error.response.data : error.message
-  //   }
-  // },
-
-
   // Login user
   login: async (credentials) => {
     try {
       const response = await api.post("/user/signin/", credentials)
-      //console.log("Login response:", response.data)
+      console.log("Login response:", response.data)
       if (response.data.access) {
         try {
           // Use js-cookie library
@@ -215,71 +183,8 @@ requestResetOtp: async (data) => {
     throw error.response ? error.response.data : error.message
   }
 },
-
-// Password Reset: Verify OTP
-// verifyResetOtp: async (data) => {
-//   try {
-//     console.log("Calling verifyResetOtp with:", data)
-//     const response = await api.post("/user/forget-password/", data)
-//     console.log("Verify Reset OTP Response:", response.data)
-//     return response.data
-//   } catch (error) {
-//     console.log("Verify Reset OTP Error:", error)
-//     throw error.response ? error.response.data : error.message
-//   }
-// },
-
-// Password Reset: Reset Password
-// resetPassword: async (data) => {
-//   try {
-//     console.log("Calling resetPassword with:", data)
-//     const response = await api.post("/user/forget-password/", data)
-//     console.log("Reset Password Response:", response.data)
-//     return response.data
-//   } catch (error) {
-//     console.log("Reset Password Error:", error)
-//     throw error.response ? error.response.data : error.message
-//   }
-// }
-// verifyResetOtp: async (data) => {
-//     try {
-//       if (!data.email) {
-//         throw new Error('Email is required for OTP verification');
-//       }
-//       console.log('Calling verifyResetOtp with:', data);
-//       const tempToken = Cookies.get('temp_token');
-//       const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
-//       const response = await api.post('/user/forget-password/', data, { headers }); // Updated endpoint
-//       console.log('Verify Reset OTP Response:', response.data);
-//       return response.data;
-//     } catch (error) {
-//       console.error('Verify Reset OTP Error:', error.response?.data || error.message);
-//       throw error.response ? error.response.data : error;
-//     }
-//   },
-
-//   resetPassword: async (data) => {
-//     try {
-//       if (!data.email) {
-//         throw new Error('Email is required for password reset');
-//       }
-//       console.log('Calling resetPassword with:', data);
-//       const tempToken = Cookies.get('temp_token');
-//       const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
-//       const response = await api.post('/user/forget-password/', data, { headers }); // Updated endpoint
-//       console.log('Reset Password Response:', response.data);
-//       return response.data;
-//     } catch (error) {
-//       console.error('Reset Password Error:', error.response?.data || error.message);
-//       throw error.response ? error.response.data : error;
-//     }
-//   },
-// }
 verifyResetOtp: async (data) => {
     try {
-      if (!data.email) {
-        throw new Error('Email is required for OTP verification');
-      }
       console.log('Calling verifyResetOtp with:', data);
       const tempToken = Cookies.get('temp_token');
       const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
@@ -293,8 +198,8 @@ verifyResetOtp: async (data) => {
   },
 resetPassword: async (data) => {
     try {
-      if (!data.email || !data.otp || !data.password1 || !data.password2) {
-        throw new Error('Email, OTP, password1, and password2 are required');
+      if (!data.email || !data.password1 || !data.password2) {
+        throw new Error('Email, password1, and password2 are required');
       }
       console.log('Calling resetPassword with:', data);
       const tempToken = Cookies.get('temp_token');
@@ -307,22 +212,6 @@ resetPassword: async (data) => {
       throw error.response ? error.response.data : error;
     }
   },
-  // resetPassword: async (data) => {
-  //   try {
-  //     if (!data.email) {
-  //       throw new Error('Email is required for password reset');
-  //     }
-  //     console.log('Calling resetPassword with:', data);
-  //     const tempToken = Cookies.get('temp_token');
-  //     const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
-  //     const response = await api.post('/user/forget-password/', data, { headers });
-  //     console.log('Reset Password Response:', response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Reset Password Error:', error.response?.data || error.message);
-  //     throw error.response ? error.response.data : error;
-  //   }
-  // },
 }
 
 export default api

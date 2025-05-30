@@ -21,7 +21,8 @@ const Signup = () => {
   )
 
   const LearnerContent = () => (
-    <div className="flex items-center justify-center bg-white min-h-[calc(100vh-80px)]">
+    // <div className="flex items-center justify-center bg-white aspect-[7.8/6]">
+    <div className="flex items-center justify-center bg-white aspect-[7.8/8]">
       <CreateAccountForm />
     </div>
   )
@@ -30,11 +31,11 @@ const Signup = () => {
     <div className="min-h-screen bg-white">
       <div className="grid grid-cols-12 bg-white">
         {/* Left Column */}
-        <div className="col-span-12 lg:col-span-7 hidden md:block rounded-lg p-4">
+        <div className="col-span-12 lg:col-span-7 hidden md:block rounded-lg ml-5">
           <HeroSection />
         </div>
         {/* Right Column */}
-        <div className="col-span-12 lg:col-span-5 px-4 py-8 bg-white">
+        <div className="col-span-12 lg:col-span-5 px-8 py-8 bg-white">
           <h1 className="text-2xl font-bold text-center mb-8 text-[#3a1c64]">
             Create Account
           </h1>

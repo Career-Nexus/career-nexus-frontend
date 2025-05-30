@@ -7,11 +7,10 @@ function SuccessPage() {
   return (
     <div>
         <div className="grid grid-cols-12 min-h-screen">
-            <div className='md:col-span-7 hidden md:block'>
+            <div className='md:col-span-7 hidden md:block ml-5'>
                 <HeroSection />
             </div>
             <div className='col-span-12 md:col-span-5 px-4 bg-white'>
-                
                 <div className='mx-5 px-12'>
                     <div className='flex flex-col items-center justify-center bg-white min-h-[calc(100vh-200px)]'>
                         <div className='absolute w-28 h-28 rounded-full flex items-center justify-center'>

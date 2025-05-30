@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { CnLogo, Cuate } from '../../assets/images';
 // import { toast } from 'react-toastify';
 
 const CountryCodes = [
@@ -240,7 +241,8 @@ export const ProfileSetup = () => {
   return (
     <div className="grid grid-cols-12 min-h-screen">
       <div className="col-span-12 md:col-span-7">
-        <div className="bg-white p-8 rounded-lg w-full max-w-md mx-auto">
+        <div className="bg-white rounded-lg w-full max-w-md ml-28">
+            <img src={CnLogo} alt="Logo" className='w-24'/>
           <div className="text-sm text-[#6DA05D] mb-2 font-semibold">STEP 1/2</div>
           <h2 className="text-2xl font-bold text-[#2A0D47] mb-6">Set up your profile</h2>
 
@@ -316,7 +318,7 @@ export const ProfileSetup = () => {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className={`w-full py-2 px-4 rounded-lg ${
+            className={`w-[50%] py-2 px-4 rounded-lg ${
               loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#6DA05D] hover:bg-[#5B8F4E] text-white'
             }`}
           >
@@ -325,9 +327,9 @@ export const ProfileSetup = () => {
         </div>
       </div>
       <div className="col-span-12 md:col-span-5 px-4 bg-white hidden md:block">
-        <div className="flex justify-center items-center min-h-screen bg-[#E6FFEB5C]">
-          <div className="bg-[#E6FFEB5C] p-8 rounded-lg w-full max-w-md">
-            <img src="/images/Variant3.png" alt="Verify Email" />
+        <div className="flex justify-center items-center min-h-screen bg-[#E6FFEB33]">
+          <div className="bg-[#E6FFEB33] p-8 rounded-lg w-full max-w-md">
+            <img src={Cuate} alt="Profile setup" />
           </div>
         </div>
       </div>

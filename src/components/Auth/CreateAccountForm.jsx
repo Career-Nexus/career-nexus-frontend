@@ -1,13 +1,13 @@
-
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Google, Linkedin, LoadingIcon } from "../../icons/icon"
 import { Link, useNavigate } from "react-router-dom"
 import { Mail, Lock, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@chakra-ui/react"
 import { EyeClose, EyeOpen } from "../../icons"
 import { authService } from "../../api/ApiServiceThree"
+import TermsAndPrivacyModal from "../../pages/auth/TermsAndPrivacyModal"
 
 const CreateAccountForm = () => {
   const navigate = useNavigate()
@@ -30,86 +30,89 @@ const CreateAccountForm = () => {
     special: false,
   })
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  useEffect(() => {
+    console.log("Form State:", {
+      isPrivacyChecked,
+      loading,
+      errors,
+      formData,
+    })
+  }, [isPrivacyChecked, loading, errors, formData])
 
   const handleCheckboxChange = (e) => {
+    console.log("Checkbox changed:", e.target.checked)
     setIsPrivacyChecked(e.target.checked)
     setErrors((prev) => ({ ...prev, privacy: "" }))
+    setApiError("")
+    if (e.target.checked && !isModalOpen) {
+      setIsModalOpen(true)
+    }
+  }
+
+  const validateEmail = (email) => {
+    if (!email.trim()) {
+      return "Email is required"
+    } else if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+      return "Email is invalid"
+    }
+    return ""
+  }
+
+  const validatePassword1 = (password) => {
+    const requirements = {
+      length: password.length >= 8,
+      lowercase: /[a-z]/.test(password),
+      uppercase: /[A-Z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[^a-zA-Z0-9]/.test(password),
+    }
+    setPasswordRequirements(requirements)
+    if (!password) {
+      return "Password is required"
+    } else if (!Object.values(requirements).every((met) => met)) {
+      return "Please meet all password requirements"
+    }
+    return ""
+  }
+
+  const validatePassword2 = (password1, password2) => {
+    if (!password2) {
+      return "Confirm Password is required"
+    } else if (password1 !== password2) {
+      return "Passwords do not match"
+    }
+    return ""
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
 
-    // Real-time validation for email
     if (name === "email") {
-      if (!value.trim()) {
-        setErrors((prev) => ({ ...prev, email: "Email is required" }))
-      } else if (!/\S+@\S+\.\S+/.test(value)) {
-        setErrors((prev) => ({ ...prev, email: "Email is invalid" }))
-      } else {
-        setErrors((prev) => ({ ...prev, email: "" }))
-      }
+      setErrors((prev) => ({ ...prev, email: validateEmail(value) }))
+    } else if (name === "password1") {
+      setErrors((prev) => ({
+        ...prev,
+        password1: validatePassword1(value),
+        password2: formData.password2 ? validatePassword2(value, formData.password2) : prev.password2,
+      }))
+    } else if (name === "password2") {
+      setErrors((prev) => ({
+        ...prev,
+        password2: validatePassword2(formData.password1, value),
+      }))
     }
 
-    // Clear specific field error when user types
-    setErrors((prev) => ({ ...prev, [name]: "" }))
-
-    // Real-time password validation for password1
-    if (name === "password1") {
-      const requirements = {
-        length: value.length >= 8,
-        lowercase: /[a-z]/.test(value),
-        uppercase: /[A-Z]/.test(value),
-        number: /[0-9]/.test(value),
-        special: /[^a-zA-Z0-9]/.test(value),
-      }
-      setPasswordRequirements(requirements)
-
-      const allRequirementsMet = Object.values(requirements).every((met) => met)
-      if (!allRequirementsMet && value) {
-        setErrors((prev) => ({
-          ...prev,
-          password1: "Please meet all password requirements",
-        }))
-      } else {
-        setErrors((prev) => ({ ...prev, password1: "" }))
-      }
-
-      // Validate password2 when password1 changes
-      if (formData.password2 && value !== formData.password2) {
-        setErrors((prev) => ({ ...prev, password2: "Passwords do not match" }))
-      } else if (formData.password2) {
-        setErrors((prev) => ({ ...prev, password2: "" }))
-      }
-    }
-
-    // Validate password2 when it changes
-    if (name === "password2" && formData.password1 && value !== formData.password1) {
-      setErrors((prev) => ({ ...prev, password2: "Passwords do not match" }))
-    } else if (name === "password2" && formData.password1) {
-      setErrors((prev) => ({ ...prev, password2: "" }))
-    }
+    setApiError("")
   }
 
   const validateForm = () => {
-    const newErrors = {}
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid"
-    }
-
-    if (!formData.password1) {
-      newErrors.password1 = "Password is required"
-    } else if (!Object.values(passwordRequirements).every((met) => met)) {
-      newErrors.password1 = "Please meet all password requirements"
-    }
-
-    if (!formData.password2) {
-      newErrors.password2 = "Confirm Password is required"
-    } else if (formData.password1 !== formData.password2) {
-      newErrors.password2 = "Passwords do not match"
+    const newErrors = {
+      email: validateEmail(formData.email),
+      password1: validatePassword1(formData.password1),
+      password2: validatePassword2(formData.password1, formData.password2),
     }
 
     if (!isPrivacyChecked) {
@@ -117,7 +120,7 @@ const CreateAccountForm = () => {
     }
 
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    return Object.values(newErrors).every((error) => error === "")
   }
 
   const handleSubmit = async (e) => {
@@ -144,13 +147,16 @@ const CreateAccountForm = () => {
     } catch (error) {
       console.log("API Error:", error)
       let errorMessage = "An error occurred during signup. Please try again."
-      if (error.response?.data?.message) {
+      if (error.response?.data?.email?.includes("Existing Email!")) {
+        errorMessage = "This email is already registered. Please use a different email or log in."
+      } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message
       } else if (error.message.includes("Network Error")) {
         errorMessage = "Network error. Please check your connection and try again."
       }
       setApiError(errorMessage)
     } finally {
+      console.log("Resetting loading state")
       setLoading(false)
     }
   }
@@ -166,12 +172,22 @@ const CreateAccountForm = () => {
   const showPasswordRequirements = isPassword1Focused && formData.password1.length > 0
 
   return (
-    <div className="max-w-md w-full mx-auto bg-white">
+    <div className="max-w-md w-full mx-auto bg-white aspect-[7.8/6]">
       <form className="space-y-4" onSubmit={handleSubmit}>
         {apiError && (
           <Alert status="error" variant="subtle" className="rounded-md">
             <AlertCircle className="h-4 w-4 mr-2" />
-            <AlertDescription className="text-red-500">{apiError}</AlertDescription>
+            <AlertDescription className="text-red-500">
+              {apiError}
+              {apiError.includes("email is already registered") && (
+                <span>
+                  {" "}
+                  <Link to="/" className="text-[#5b9a68] hover:underline">
+                    Click here to log in
+                  </Link>
+                </span>
+              )}
+            </AlertDescription>
           </Alert>
         )}
 
@@ -192,7 +208,7 @@ const CreateAccountForm = () => {
             aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email && (
-            <p id="email-error" className="text-xs text-red-500 mt-1">{errors.email}</p>
+            <p id="email-error" className="text-xs text-red-500 mt-4">{errors.email}</p>
           )}
         </div>
 
@@ -220,7 +236,11 @@ const CreateAccountForm = () => {
             onClick={() => setShowPassword1(!showPassword1)}
             aria-label={showPassword1 ? "Hide password" : "Show password"}
           >
-            {showPassword1 ? <img src={EyeOpen} alt="Show password" className="h-5 w-5 text-gray-400" /> : <img src={EyeClose} alt="Hide password" className="h-5 w-5 text-gray-400" />}
+            {showPassword1 ? (
+              <img src={EyeOpen} alt="Show password" className="h-5 w-5 text-gray-400" />
+            ) : (
+              <img src={EyeClose} alt="Hide password" className="h-5 w-5 text-gray-400" />
+            )}
           </button>
           {showPasswordRequirements && (
             <div className="mt-1 bg-white p-3 rounded-md border border-gray-200 shadow-md">
@@ -275,9 +295,9 @@ const CreateAccountForm = () => {
             aria-label={showPassword2 ? "Hide password" : "Show password"}
           >
             {showPassword2 ? (
-             <img src={EyeOpen} className="h-5 w-5 text-gray-400" />
+              <img src={EyeOpen} className="h-5 w-5 text-gray-400" />
             ) : (
-            <img src={EyeClose} className="h-5 w-5 text-gray-400" />
+              <img src={EyeClose} className="h-5 w-5 text-gray-400" />
             )}
           </button>
           {errors.password2 && (
@@ -286,7 +306,7 @@ const CreateAccountForm = () => {
         </div>
 
         {/* Terms and Conditions Checkbox */}
-        <div className="flex items-center gap-2 mt-[-70px]">
+        <div className="flex items-center gap-2 mt-[-10rem]">
           <input
             id="privacy"
             name="privacy"
@@ -298,7 +318,14 @@ const CreateAccountForm = () => {
           />
           <label htmlFor="privacy" className="text-sm text-gray-600">
             I agree to all
-            <Link to="/terms-and-privacy" className="text-[#5b9a68] hover:underline ml-1">
+            <Link
+              to="/terms-and-privacy"
+              onClick={(e) => {
+                e.preventDefault()
+                setIsModalOpen(true)
+              }}
+              className="text-[#5b9a68] hover:underline ml-1"
+            >
               Terms and Privacy
             </Link>
           </label>
@@ -309,10 +336,14 @@ const CreateAccountForm = () => {
         <div>
           <button
             type="submit"
-            disabled={loading || !isPrivacyChecked}
-            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
-                ${loading || isPrivacyChecked ? 'bg-[#5b9a68] hover:bg-[#4e8559] text-white ' : 'bg-gray-100 text-gray-400 cursor-not-allowed'} 
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
+            disabled={loading || !isPrivacyChecked || Object.values(errors).some((error) => error !== "")}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium
+              ${
+                loading || !isPrivacyChecked || Object.values(errors).some((error) => error !== "")
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-[#5b9a68] hover:bg-[#4e8559] text-white"
+              }
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
           >
             {loading ? (
               <span className="flex items-center">
@@ -355,10 +386,12 @@ const CreateAccountForm = () => {
             </Link>
           </p>
         </div>
+        <TermsAndPrivacyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Terms and Conditions" />
       </form>
     </div>
   )
 }
 
 export default CreateAccountForm
+
 

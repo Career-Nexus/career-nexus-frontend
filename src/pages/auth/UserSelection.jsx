@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 // import { toast } from 'react-toastify'; // Optional: for better error feedback
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { ArrowgBack } from "../../assets/icons";
+import { CnLogo, Pana } from "../../assets/images";
 
 const apiNoAuth = axios.create({
   baseURL: 'https://btest.career-nexus.com/',
@@ -118,7 +120,8 @@ export default function UserTypeSelection() {
   return (
     <div className="grid grid-cols-12 min-h-screen">
       <div className="col-span-12 md:col-span-7">
-        <div className="max-w-xl mx-auto py-12 px-4">
+        <div className="bg-white rounded-lg w-full max-w-xl ml-28">
+            <img src={CnLogo} alt="Logo" className='w-24'/>
           <div className="mb-8">
             <div className="text-sm text-[#6DA05D] mb-2 font-semibold">STEP 2/2</div>
             <h2 className="text-2xl font-bold text-[#2A0D47] mb-5">Select your preferred industry</h2>
@@ -142,12 +145,14 @@ export default function UserTypeSelection() {
             </div>
           </div>
 
-          <div className="flex">
+          <div className="flex items-center gap-2">
+            <Link to="/profile-setup" className="flex items-center border border-green-400 p-2 rounded-lg">
+            <img src={ArrowgBack} alt="Back" className="w-6 h-6" /></Link>
             <button
               type="submit"
               onClick={handleSubmit}
               disabled={loading}
-              className={`bg-[#6DA05D] hover:bg-[#5B8F4E] text-white font-medium py-3 px-6 rounded-lg w-full max-w-xs transition-colors ${
+              className={`bg-[#6DA05D] hover:bg-[#5B8F4E] text-white font-medium py-2 px-4 rounded-lg w-[50%] max-w-xs transition-colors ${
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
@@ -157,9 +162,9 @@ export default function UserTypeSelection() {
         </div>
       </div>
       <div className="col-span-12 md:col-span-5 px-4 bg-white hidden md:block">
-        <div className="flex justify-center items-center min-h-screen bg-[#E6FFEB5C]">
-          <div className="bg-[#E6FFEB5C] p-8 rounded-lg w-full max-w-md">
-            <img src="/images/Variant3.png" alt="Verify Email" />
+        <div className="flex justify-center items-center min-h-screen bg-[#E6FFEB33]">
+          <div className="bg-[#E6FFEB33] p-8 rounded-lg w-full max-w-md">
+            <img src={Pana} alt="Select Industry" />
           </div>
         </div>
       </div>
