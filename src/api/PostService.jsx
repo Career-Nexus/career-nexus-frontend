@@ -6,21 +6,22 @@ export const PostService = {
     if (!data || typeof data !== 'object') {
       throw new Error('Invalid input data: Expected an object');
     }
-    const { body, article, results, count, profile, media } = data;
+    // const { body, article, results, count, profile, media } = data;
+    const { body, count, profile, media } = data;
     if (!body || body === undefined) {
       throw new Error('Body is required and cannot be undefined');
     }
-    if (!profile || profile === undefined) {
-      throw new Error('Profile is required and cannot be undefined');
-    }
+    // if (!profile || profile === undefined) {
+    //   throw new Error('Profile is required and cannot be undefined');
+    // }
 
     const formData = new FormData();
     formData.append('body', body || ''); 
-    formData.append('article', article || '');
-    formData.append('results', results || '');
+    // formData.append('article', article || '');
+    // formData.append('results', results || '');
     formData.append('count', count || '1');
     formData.append('profile', profile || '');
-    formData.append('eventDate', data.eventDate || '');
+    // formData.append('eventDate', data.eventDate || '');
 
     if (media) {
       formData.append('media', media);

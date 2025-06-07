@@ -211,8 +211,10 @@ const ResetPasswordOtp = ({ email: propEmail, userData, onSuccess }) => {
               onClick={handleVerify}
               disabled={loading || !isOtpComplete}
               className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium flex items-center justify-center 
-                ${loading || isOtpComplete ? 'bg-[#5b9a68] hover:bg-[#4e8559] text-white' : 
-                  'bg-gray-100 text-gray-400 cursor-not-allowed'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
+                ${loading || isOtpComplete 
+                  ? 'bg-[#5b9a68] hover:bg-[#4e8559] text-white' 
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'} 
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
             >
               {loading ? (
                 <span className="flex items-center">

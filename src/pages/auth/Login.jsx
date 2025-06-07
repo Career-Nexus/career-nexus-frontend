@@ -147,14 +147,14 @@ export default function Login() {
   }
 
   return (
-    <div className="grid grid-cols-12 pb-8 md:pb-0 md:max-h-[87vh] min-h-screen">
+    <div className="grid grid-cols-12 pb-8 md:pb-0 md:max-h-[70vh] min-h-screen">
       <div className="col-span-12 lg:col-span-7 hidden md:block ml-5">
         <HeroSection />
       </div>
-      <div className="col-span-12 lg:col-span-5 md:p-8 p-0 mb-0 md:max-h-[85vh] aspect-[7.8/6]">
+      <div className="col-span-12 lg:col-span-5 md:px-8 p-0 mb-0 md:max-h-[70vh]">
         <div className="flex flex-col items-center justify-center min-h-screen bg-white px-12">
           <div className="w-full max-w-md">
-            <h1 className="md:text-2xl font-bold text-center mb-8 text-[#3a1c64] mt-0 md:-mt-28">Welcome Back</h1>
+            <h1 className="md:text-2xl font-bold text-center text-[#3a1c64] mt-0 mb-5" style={{ marginTop: "-2rem" }}>Welcome Back</h1>
 
             {errors.general && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -175,9 +175,8 @@ export default function Login() {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${
-                    errors.email ? "border-red-500" : "border-gray-200"
-                  }`}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.email ? "border-red-500" : "border-gray-200"
+                    }`}
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
@@ -195,9 +194,8 @@ export default function Login() {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${
-                    errors.password ? "border-red-500" : "border-gray-200"
-                  }`}
+                  className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password ? "border-red-500" : "border-gray-200"
+                    }`}
                 />
                 <button
                   type="button"
@@ -229,7 +227,7 @@ export default function Login() {
                   Forgot Password
                 </Link>
               </div>
-              <div>
+              {/* <div>
                 <button
                   type="submit"
                   disabled={loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()}
@@ -238,6 +236,27 @@ export default function Login() {
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                       : "bg-[#5b9a68] hover:bg-[#4e8559] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5b9a68]"
                   }`}
+                >
+                  {loading ? (
+                    <span className="flex items-center">
+                      <LoadingIcon />
+                      Signing in...
+                    </span>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+              </div> */}
+              <div>
+                <button
+                  type="submit"
+                  disabled={loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()}
+                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md ${loading
+                      ? "bg-[#5b9a68] text-white"
+                      : errors.email || errors.password || !formData.email.trim() || !formData.password.trim()
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "bg-[#5b9a68] hover:bg-[#4e8559] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5b9a68]"
+                    }`}
                 >
                   {loading ? (
                     <span className="flex items-center">

@@ -35,8 +35,8 @@ const Signup = () => {
           <HeroSection />
         </div>
         {/* Right Column */}
-        <div className="col-span-12 lg:col-span-5 px-8 py-8 bg-white">
-          <h1 className="text-2xl font-bold text-center mb-8 text-[#3a1c64]">
+        <div className="col-span-12 lg:col-span-5 px-8 py-6 bg-white">
+          <h1 className="text-2xl font-bold text-center mb-3 text-[#3a1c64]">
             Create Account
           </h1>
           <div className="mx-5 px-12">

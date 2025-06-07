@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 // import { toast } from 'react-toastify'; // Optional: for better error feedback
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { ArrowgBack } from "../../assets/icons";
+import { ArrowgBack, SetupMarked, SetupSpin } from "../../assets/icons";
 import { CnLogo, Pana } from "../../assets/images";
+import { ProfileSetupModal } from "../../components/Auth/SetupCompleteModal";
 
 const apiNoAuth = axios.create({
   baseURL: 'https://btest.career-nexus.com/',
@@ -18,10 +19,11 @@ const apiNoAuth = axios.create({
   withCredentials: true,
   timeout: 10000,
 });
-
 export default function UserTypeSelection() {
-  const [selectedIndustry, setSelectedIndustry] = useState('Technology'); // Single selection
+  const [selectedIndustry, setSelectedIndustry] = useState('Technology');
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Control modal visibility
+  const [isSetupComplete, setIsSetupComplete] = useState(false); // Track modal state
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -44,23 +46,24 @@ export default function UserTypeSelection() {
   ];
 
   const selectIndustry = (industry) => {
-    setSelectedIndustry(industry); // Set single industry
+    setSelectedIndustry(industry);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    setShowModal(true); // Show the modal when submission starts
 
     if (!selectedIndustry) {
       setError('Please select an industry');
       setLoading(false);
-      // toast.error('Please select an industry');
+      setShowModal(false);
       return;
     }
 
     const payload = {
-      industry: selectedIndustry.toLowerCase(), // Ensure lowercase
+      industry: selectedIndustry.toLowerCase(),
     };
 
     try {
@@ -75,10 +78,10 @@ export default function UserTypeSelection() {
       }
 
       const headers = {
-        Authorization: `Bearer ${tempToken}`, // Bearer token
+        Authorization: `Bearer ${tempToken}`,
       };
 
-      console.log('Submitting data:', payload); // Log lowercase payload
+      console.log('Submitting data:', payload);
       console.log('Request headers:', headers);
 
       const response = await apiNoAuth.patch('/user/profile-update/', payload, { headers });
@@ -87,10 +90,22 @@ export default function UserTypeSelection() {
 
       if ([200, 201, 204, 206].includes(response.status)) {
         console.log('Industry updated successfully:', payload);
-        // toast.success('Industry selected successfully');
         Cookies.remove('temp_token');
         Cookies.remove('user_id');
-        navigate('/home');
+
+        // Show "Setup Complete!" state for 5 seconds before navigating
+        // setIsSetupComplete(true);
+        // setTimeout(() => {
+        //   setShowModal(false);
+        //   navigate('/home');
+        // }, 10000);
+        setTimeout(() => {
+          setIsSetupComplete(true);
+          setTimeout(() => {
+            setShowModal(false);
+            navigate('/home');
+          }, 5000); // Additional 1.5 seconds for "Setup Complete!" display
+        }, 5000);
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);
       }
@@ -100,10 +115,10 @@ export default function UserTypeSelection() {
           ? 'Authentication failed: Invalid or missing token. Please complete signup and OTP verification.'
           : err.response.data.message || JSON.stringify(err.response.data)
         : err.message === 'Network Error'
-        ? 'Network error: Unable to reach the server. Please check your connection or try again later.'
-        : err.message.includes('CORS') || err.message.includes('Access-Control')
-        ? 'CORS error: Server is blocking the request due to header restrictions. Please contact support.'
-        : err.message || 'Failed to update industry. Please try again later.';
+          ? 'Network error: Unable to reach the server. Please check your connection or try again later.'
+          : err.message.includes('CORS') || err.message.includes('Access-Control')
+            ? 'CORS error: Server is blocking the request due to header restrictions. Please contact support.'
+            : err.message || 'Failed to update industry. Please try again later.';
       setError(errorMessage);
       console.error('Error updating industry:', {
         message: errorMessage,
@@ -111,17 +126,17 @@ export default function UserTypeSelection() {
         data: err.response?.data,
         error: err,
       });
-      // toast.error(errorMessage);
-    } finally {
       setLoading(false);
+      setShowModal(false); // Hide modal on error
     }
   };
 
   return (
-    <div className="grid grid-cols-12 min-h-screen">
+    <div className="relative grid grid-cols-12 min-h-screen">
+      {/* Main Content */}
       <div className="col-span-12 md:col-span-7">
-        <div className="bg-white rounded-lg w-full max-w-xl ml-28">
-            <img src={CnLogo} alt="Logo" className='w-24'/>
+        <div className="bg-white rounded-lg w-full max-w-xl md:ml-28 mx-5">
+          <img src={CnLogo} alt="Logo" className="w-24" />
           <div className="mb-8">
             <div className="text-sm text-[#6DA05D] mb-2 font-semibold">STEP 2/2</div>
             <h2 className="text-2xl font-bold text-[#2A0D47] mb-5">Select your preferred industry</h2>
@@ -131,11 +146,11 @@ export default function UserTypeSelection() {
               {industries.map((industry) => (
                 <button
                   key={industry}
-                  className={`py-2 my-1 px-3 rounded-lg text-xs border transition-colors ${
-                    selectedIndustry === industry
+                  className={`py-2 my-1 md:px-3 text-wrap rounded-lg text-xs border transition-colors 
+                    ${selectedIndustry === industry
                       ? 'bg-[#E6FFEB] border-[#6DA05D] text-[#6DA05D] font-medium'
                       : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'
-                  }`}
+                    }`}
                   onClick={() => selectIndustry(industry)}
                   disabled={loading}
                 >
@@ -147,14 +162,15 @@ export default function UserTypeSelection() {
 
           <div className="flex items-center gap-2">
             <Link to="/profile-setup" className="flex items-center border border-green-400 p-2 rounded-lg">
-            <img src={ArrowgBack} alt="Back" className="w-6 h-6" /></Link>
+              <img src={ArrowgBack} alt="Back" className="w-6 h-6" />
+            </Link>
             <button
               type="submit"
               onClick={handleSubmit}
               disabled={loading}
-              className={`bg-[#6DA05D] hover:bg-[#5B8F4E] text-white font-medium py-2 px-4 rounded-lg w-[50%] max-w-xs transition-colors ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`bg-[#6DA05D] hover:bg-[#5B8F4E] text-white font-medium py-2 px-4 rounded-lg w-[50%] max-w-xs transition-colors 
+                ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
               {loading ? 'Saving...' : 'Complete'}
             </button>
@@ -168,6 +184,27 @@ export default function UserTypeSelection() {
           </div>
         </div>
       </div>
+
+      {/* Modal Overlay */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
+            {!isSetupComplete ? (
+              <>
+                <img src={SetupSpin} alt="setup-spin" className="animate-spin h-20 w-20 text-green-500" />
+                <p className="mt-4 text-lg font-semibold text-purple-700">Setting up Profile...</p>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center justify-center h-20 w-20 rounded-full bg-green-100">
+                  <img src={SetupMarked} alt="setup-marked" className="h-20 w-20 text-green-500" />
+                </div>
+                <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

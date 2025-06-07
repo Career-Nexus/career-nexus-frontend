@@ -120,7 +120,9 @@ const ResetPasswordEmail = () => {
               type="submit"
               disabled={loading || !!emailError || !email.trim()}
               className={`w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md ${
-                loading || !!emailError || !email.trim()
+                loading 
+                  ? "bg-[#5b9a68] text-white"
+                  :!!emailError || !email.trim()
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : 'bg-[#5b9a68] hover:bg-[#4e8559] text-white'
               }`}

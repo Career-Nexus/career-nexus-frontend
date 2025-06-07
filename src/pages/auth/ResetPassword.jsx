@@ -190,7 +190,9 @@ const [formData, setFormData] = useState({
               type="submit"
               disabled={loading || !formData.password1.trim() || !formData.password2.trim()}
               className={`w-full py-3 px-4 rounded-lg text-sm font-semibold flex items-center justify-center ${
-                loading || !formData.password1.trim() || !formData.password2.trim()
+                loading
+                  ? "bg-[#5b9a68] text-white"
+                  :!formData.password1.trim() || !formData.password2.trim()
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-[#6DA05D] hover:bg-[#5B8F4E] text-white"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6DA05D]`}

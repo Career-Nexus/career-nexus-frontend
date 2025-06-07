@@ -55,10 +55,10 @@ const TermsAndPrivacyModal = ({ isOpen, onClose, title, tos }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-full max-w-md mx-4 p-6 relative">
         {/* Header */}
-        <div className="bg-[#3a1c64] text-white p-4 rounded-t-lg">
-          <h2 className="text-lg font-semibold">{title}</h2>
+        <div className="text-[#3a1c64] px-4 pt-4">
+          <h2 className="text-lg font-extrabold">{title}</h2>
         </div>
-
+        <p className="px-4"><strong>Last updated:</strong> {new Date(updated || "2025-05-29").toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}</p>
         {/* Body */}
         <div className="p-4 max-h-[60vh] overflow-y-auto">
           {loading && <p className="text-center text-gray-600">Loading...</p>}
@@ -67,7 +67,7 @@ const TermsAndPrivacyModal = ({ isOpen, onClose, title, tos }) => {
           )}
           {!loading && !error && content && (
             <div className="text-gray-700 space-y-2">
-              <p><strong>Last updated:</strong> {new Date(updated || "2025-05-29").toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}</p>
+              
               <p>{content}</p>
             </div>
           )}

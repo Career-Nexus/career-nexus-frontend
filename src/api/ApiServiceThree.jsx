@@ -61,12 +61,16 @@ export const authService = {
       if (response.data.user?.id) {
         Cookies.set('user_id', response.data.user.id, COOKIE_OPTIONS);
       }
+      if(response.data.user?.email=="Existing Email!"){
+        console.log("Email already exist, try another email")
+      }
       return response.data;
     } catch (error) {
       console.error('Signup error:', error.response?.data || error.message);
       throw error.response ? error.response.data : error.message;
     }
   },
+  
   getTermsAndConditions: async (tos="tos") => {
   try {
     const response = await api.get(`/info/?title=${encodeURIComponent(tos)}`);

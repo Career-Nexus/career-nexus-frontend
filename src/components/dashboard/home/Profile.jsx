@@ -16,11 +16,7 @@ const Profile = () => {
     if(!user.first_name){
         return <div className='flex items-center justify-center h-screen'>No user found</div>
     }
-    const items = [
-        { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-        { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-        { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-    ]
+    
     const data = [
         { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
         { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
@@ -49,25 +45,7 @@ const Profile = () => {
                     <Link to={'/profilepage'} className='text-[#5DA05D] font-semibold'>View full profile</Link>
                 </div>
             </div>
-            <div className='border border-gray rounded-lg my-5'>
-                <h1 className='p-3 font-semibold'>Who to Follow</h1>
-                <div>
-                    {items.map(item => (
-                        <div key={item.id} className='grid grid-cols-12 items-center p-3'>
-                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
-                            <div className='lg:col-span-6 md:col-span-12 md:mb-2'>
-                                <h3 className='font-bold'>{item.name}</h3>
-                                <p className='text-xs font-thin'>{item.desc}</p>
-                                <p className='text-xs font-thin'>{item.follow}</p>
-                            </div>
-                            <div className='lg:col-span-3 md:col-span-12'>
-                                <button className='border border-[#5DA05D] rounded-lg text-[#5DA05D] text-sm px-2'>Follow</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <a href='#' className='text-[#5DA05D] p-3'>See more...</a>
-            </div>
+            
             <div className='border border-gray rounded-lg my-5'>
                 <h1 className='p-3 font-semibold'>Activity</h1>
                 <div className='flex flex-col gap-4 p-3'>

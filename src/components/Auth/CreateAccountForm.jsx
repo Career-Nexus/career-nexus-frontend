@@ -46,9 +46,9 @@ const CreateAccountForm = () => {
     setIsPrivacyChecked(e.target.checked)
     setErrors((prev) => ({ ...prev, privacy: "" }))
     setApiError("")
-    if (e.target.checked && !isModalOpen) {
-      setIsModalOpen(true)
-    }
+    // if (e.target.checked && !isModalOpen) {
+    //   setIsModalOpen(true)
+    // }
   }
 
   const validateEmail = (email) => {
@@ -141,18 +141,20 @@ const CreateAccountForm = () => {
       if (response.status === "Otp sent") {
         console.log("Signup successful, OTP sent to:", formData.email)
         navigate("/otp", { state: { email: formData.email, userData: userDataToSend } })
-      } else {
+      }
+      else {
         setApiError(response.message || "Signup failed. Please try again.")
       }
     } catch (error) {
       console.log("API Error:", error)
       let errorMessage = "An error occurred during signup. Please try again."
-      if (error.response?.data?.email?.includes("Existing Email!")) {
-        errorMessage = "This email is already registered. Please use a different email or log in."
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message
-      } else if (error.message.includes("Network Error")) {
-        errorMessage = "Network error. Please check your connection and try again."
+      if (error.email?.includes("Existing Email!")) {
+        errorMessage = "This email is already registered. Please use a different email or log in.";
+      } else if (error.message?.includes("Network Error")) {
+        errorMessage = "Network error. Please check your connection and try again.";
+      }
+      else if (error.message) {
+        errorMessage = error.message
       }
       setApiError(errorMessage)
     } finally {
@@ -173,7 +175,7 @@ const CreateAccountForm = () => {
 
   return (
     <div className="max-w-md w-full mx-auto bg-white aspect-[7.8/6]">
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         {apiError && (
           <Alert status="error" variant="subtle" className="rounded-md">
             <AlertCircle className="h-4 w-4 mr-2" />
@@ -203,17 +205,19 @@ const CreateAccountForm = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email Address"
-            className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
+            className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.email ? "border-red-500" : "border-gray-200"
+              }`}
+            // className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
             aria-invalid={errors.email ? "true" : "false"}
             aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email && (
-            <p id="email-error" className="text-xs text-red-500 mt-4">{errors.email}</p>
+            <p id="email-error" className="text-xs text-red-500 mt-2">{errors.email}</p>
           )}
         </div>
 
         {/* Password Input */}
-        <div className="relative">
+        <div className="relative" style={{marginTop:"1rem"}}>
           <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
             <Lock className="h-5 w-5 text-gray-400" />
           </div>
@@ -226,13 +230,16 @@ const CreateAccountForm = () => {
             onFocus={() => setIsPassword1Focused(true)}
             onBlur={() => setIsPassword1Focused(false)}
             placeholder="Password"
-            className="w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
+            className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password1 ? "border-red-500" : "border-gray-200"
+              }`}
+            // className="w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
             aria-invalid={errors.password1 ? "true" : "false"}
             aria-describedby={errors.password1 ? "password1-error" : undefined}
           />
           <button
             type="button"
-            className="relative inset-y-[-1.8rem] right-0 pr-3 flex items-center ml-auto"
+            className="inset-y-0 right-0 pr-3 flex items-center ml-auto mt-[-2rem]"
+            // className="relative inset-y-[-1.8rem] right-0 pr-3 flex items-center ml-auto"
             onClick={() => setShowPassword1(!showPassword1)}
             aria-label={showPassword1 ? "Hide password" : "Show password"}
           >
@@ -270,11 +277,11 @@ const CreateAccountForm = () => {
             </div>
           )}
           {errors.password1 && (
-            <p id="password1-error" className="text-xs text-red-500 mt-1">{errors.password1}</p>
+            <p id="password1-error" className="text-xs text-red-500 mt-3">{errors.password1}</p>
           )}
         </div>
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 pointer-events-none">
+        <div className="relative" style={{marginTop:"1.7rem"}}>
+          <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
             <Lock className="h-5 w-5 text-gray-400" />
           </div>
           <input
@@ -284,13 +291,16 @@ const CreateAccountForm = () => {
             value={formData.password2}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="w-full pl-10 mt-[-5rem] pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
+            className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password2 ? "border-red-500" : "border-gray-200"
+              }`}
+            // className="w-full pl-10 mt-[-5rem] pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 border-gray-300"
             aria-invalid={errors.password2 ? "true" : "false"}
             aria-describedby={errors.password2 ? "password2-error" : undefined}
           />
           <button
             type="button"
-            className="relative inset-y-[-1.8rem] right-0 pr-3 flex items-center ml-auto"
+            // className="relative inset-y-[-1.8rem] right-0 pr-3 flex items-center ml-auto"
+            className="inset-y-0 right-0 pr-3 flex items-center ml-auto mt-[-2rem]"
             onClick={() => setShowPassword2(!showPassword2)}
             aria-label={showPassword2 ? "Hide password" : "Show password"}
           >
@@ -301,12 +311,12 @@ const CreateAccountForm = () => {
             )}
           </button>
           {errors.password2 && (
-            <p id="password2-error" className="text-xs text-red-500 mt-1">{errors.password2}</p>
+            <p id="password2-error" className="text-xs text-red-500 mt-3">{errors.password2}</p>
           )}
         </div>
 
         {/* Terms and Conditions Checkbox */}
-        <div className="flex items-center gap-2 mt-[-10rem]">
+        <div className="flex items-center gap-2">
           <input
             id="privacy"
             name="privacy"
@@ -335,13 +345,15 @@ const CreateAccountForm = () => {
         )}
         <div>
           <button
+            style={{marginTop:"-0.5rem"}}
             type="submit"
             disabled={loading || !isPrivacyChecked || Object.values(errors).some((error) => error !== "")}
             className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium
-              ${
-                loading || !isPrivacyChecked || Object.values(errors).some((error) => error !== "")
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-[#5b9a68] hover:bg-[#4e8559] text-white"
+              ${loading 
+                ? "bg-[#5b9a68] text-white"
+                :!isPrivacyChecked || Object.values(errors).some((error) => error !== "")
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-[#5b9a68] hover:bg-[#4e8559] text-white"
               }
               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
           >
@@ -357,10 +369,11 @@ const CreateAccountForm = () => {
         </div>
 
         {/* Social Login Options */}
-        <div className="flex items-center justify-center mt-6">
+        <div className="flex items-center justify-center" style={{marginTop:"0.7rem"}}>
           <span className="text-sm text-gray-500">Or continue with</span>
         </div>
         <button
+          style={{marginTop:"0.7rem"}}
           type="button"
           onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
@@ -369,6 +382,7 @@ const CreateAccountForm = () => {
           <span>Google</span>
         </button>
         <button
+          style={{marginTop:"0.9rem"}}
           type="button"
           onClick={handleLinkedInLogin}
           className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
@@ -378,7 +392,7 @@ const CreateAccountForm = () => {
         </button>
 
         {/* Login Link */}
-        <div className="text-center mt-4">
+        <div className="text-center" style={{marginTop:"0.7rem"}}>
           <p className="text-sm text-gray-600">
             Already have an account?
             <Link to="/" className="text-[#5b9a68] hover:underline ml-1">

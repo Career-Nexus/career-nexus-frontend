@@ -1,5 +1,4 @@
 import React from 'react'
-import { Avatar } from "flowbite-react";
 import { Message } from '../../../icons/icon';
 import FloatingMessageIcon from './FloatingMessage';
 
@@ -16,67 +15,45 @@ const EventsHome = () => {
     const items3 = [
         { title: 'Discover New Career Opportunities', desc: 'Explore premium services tailored to your career growth.', img1: <Message /> }
     ]
+    const items = [
+            { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+            { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+            { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+        ]
     return (
         <div className='hidden md:block'>
-            <div className="w-full max-w-md overflow-hidden border-gray-300 p-2 rounded border shadow-sm">
-                <div className="relative">
-                    {/* Background image */}
-                    <div className="relative aspect-[4/5.5] w-full">
-                        <img
-                            src="/images/image3.png" alt="Events" className="rounded object-cover w-full h-full" 
-                           //className="w-full h-full object-cover"
-                        />
-
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-purple-900/90" />
-
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 p-2 text-white">
-                            <h2 className="text-xs leading-tight">
-                                Unlock Exclusive Access - Subscribe to Premium Now!
-                            </h2>
-
-                            <button className='text-white bg-[#1F1AB0] p-1 rounded-lg' style={{ fontSize: "10px", position: "relative" }}>Subscribe</button>
+            <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
+                <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
+                <div>
+                    {items.map(item => (
+                        <div key={item.id} className='grid grid-cols-12 items-center py-3'>
+                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
+                            <div className='lg:col-span-6 md:col-span-12 md:mb-2'>
+                                <h3 className='font-bold'>{item.name}</h3>
+                                <p className='text-xs font-thin'>{item.desc}</p>
+                                <p className='text-xs font-thin'>{item.follow}</p>
+                            </div>
+                            <div className='lg:col-span-3 md:col-span-12'>
+                                <button className='border border-[#5DA05D] rounded-lg text-[#5DA05D] text-sm px-2'>Follow</button>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
+                <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
             </div>
-
-            <div className='border border-gray-300 rounded-lg p-2 my-2'>
-                {/* background: linear-gradient(357.2deg, #280B45 19.9%, rgba(72, 58, 86, 0.481928) 72.17%, rgba(102, 102, 102, 0) 101%); */}
-                {items1.map(item => (
-                    <div key={item.title} className='p-2'>
-                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
-                        <p className='text-xs font-semibold mb-1'>{item.event1}</p>
-                        <p className='text-xs'>{item.date1}</p>
-                        <p className='text-xs font-semibold my-1'>{item.event2}</p>
-                        <p className='text-xs'>{item.date2}</p>
-                    </div>
-                ))}
-            </div>
-            <div className='border border-gray-300 rounded-lg p-2 my-2'>
+            <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
                 {items2.map(item => (
                     <div key={item.title} className='p-2'>
-                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
+                        <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
                         <p className='text-xs font-semibold mb-1'>{item.header1}</p>
                         <p className='text-xs'>{item.comp1}</p>
                         <p className='text-xs mb-1'>{item.skill1}</p>
                         <p className='text-xs font-semibold mb-1'>{item.header2}</p>
                         <p className='text-xs'>{item.comp2}</p>
                         <p className='text-xs mb-1'>{item.skip2}</p>
-                        <a href="#" className='text-[#5DA05D] text-xs font-semibold'>View all Jobs</a>
                     </div>
                 ))}
-            </div>
-            <div className='border border-gray-300 rounded-lg p-2 my-2'>
-                {items3.map(item => (
-                    <div key={item.title} className='p-2'>
-                        <h3 className='text-xs font-semibold mb-2'>{item.title}</h3>
-                        <p className='text-xs'>{item.desc}</p>
-                        <a href="#" className='text-[#5DA05D] text-xs font-semibold'>Learn more</a>
-                    </div>
-                ))}
-
+                <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
             </div>
             <FloatingMessageIcon/>
             {/* <OtpModalDemo/> */}
