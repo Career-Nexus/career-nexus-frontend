@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import SocialMediaToolbar from './LiveStream'
 import TabInterface from './TabInterface'
 import { UserContext } from '../../../context/UserContext'
-import { ArrowRight, GraduationCap, Image, NotepadText, Pencil, UserCircle2, VideoIcon } from 'lucide-react'
+import { ArrowRight, Edit, GraduationCap, Image, NotepadText, Pencil, UserCircle2, VideoIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { PostService } from '../../../api/PostService'
 
@@ -36,7 +36,10 @@ const MainSection = () => {
       </div>
       <div className='border border-gray-200 p-2 rounded-lg flex gap-3'>
         <img src={user.profile_photo} alt="profile" className='h-12 w-12 rounded-full' />
-        <button onClick={() => setModalOpen(true)} className='w-full rounded-lg border border-gray-200'>Share an update...</button>
+        <button onClick={() => setModalOpen(true)} className='w-full rounded-lg border border-gray-200 flex items-center justify-between px-3'>
+          Share an update...
+          <span><Edit className='text-[#5DA05D]'/></span>
+        </button>
       </div>
       <ModalComponent
         isOpen={ModalOpen}
@@ -69,7 +72,8 @@ const WelcomeModal = ({ onClose }) => {
   const { user } = useContext(UserContext);
   return (
     <div className="inset-0 flex items-center justify-center z-50 mb-2">
-      <div className="bg-gradient-to-r from-[#131927E5] to-[#5DA05D] text-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
+      {/* <div className="bg-gradient-to-r from-[#131927E5] to-[#5DA05D] text-white p-6 rounded-lg shadow-lg max-w-3xl w-full"> */}
+      <div className="bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white p-4 rounded-lg shadow-lg max-w-3xl w-full">
         <button onClick={onClose} className="float-right text-white hover:text-gray-300">
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -79,9 +83,12 @@ const WelcomeModal = ({ onClose }) => {
           👏
           <h2 className="text-xl font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
         </div>
-        <p className="text-sm">
+        <div className='flex items-center justify-between'>
+          <p className="text-sm">
           Let's get you started on your professional journey. Complete your profile to unlock the full potential of our platform.
         </p>
+        <button className='bg-white p-2 rounded-lg text-[#5DA05D] w-56 hover:bg-[#2b5b2b] hover:text-white'>Complete now</button>
+        </div>
       </div>
     </div>
   );
@@ -90,16 +97,16 @@ const WelcomeModal = ({ onClose }) => {
 const ProfileProgressDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const totalItems = 6;
-  const completedItems = 3; // Example: 3 items completed
+  const completedItems = 1; // Example: 3 items completed
   const progress = (completedItems / totalItems) * 100;
 
   const profileItems = [
     { id: 1, icon: <UserCircle2 className="w-5 h-5 mr-2" />, text: 'Upload Profile Picture', completed: true, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
-    { id: 2, icon: <Pencil className="w-5 h-5 mr-2" />, text: 'Add a Bio Description', completed: true, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
+    { id: 2, icon: <Pencil className="w-5 h-5 mr-2" />, text: 'Add a Bio Description', completed: false, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
     { id: 3, icon: <NotepadText className="w-5 h-5 mr-2" />, text: 'Add Work Experience', completed: false, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
     { id: 4, icon: <GraduationCap className="w-5 h-5 mr-2" />, text: 'Add Educational Background', completed: false, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
     { id: 5, icon: <VideoIcon className="w-5 h-5 mr-2" />, text: 'Upload Video Introduction', completed: false, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
-    { id: 6, icon: <NotepadText className="w-5 h-5 mr-2" />, text: 'Add Certifications', completed: true, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
+    { id: 6, icon: <NotepadText className="w-5 h-5 mr-2" />, text: 'Add Certifications', completed: false, linkto:<Link to={'/profilepage'}><ArrowRight/></Link> },
   ];
 
   return (

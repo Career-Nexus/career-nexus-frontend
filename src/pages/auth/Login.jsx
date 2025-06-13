@@ -251,7 +251,8 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()}
-                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md ${loading
+                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md 
+                    ${loading
                       ? "bg-[#5b9a68] text-white"
                       : errors.email || errors.password || !formData.email.trim() || !formData.password.trim()
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"

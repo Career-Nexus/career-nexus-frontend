@@ -128,7 +128,10 @@ const ResetPasswordEmail = () => {
               }`}
             >
               {loading ? (
-                <LoadingIcon/>
+                <span className='flex items-center'>
+                  <LoadingIcon className="mr-2"/>
+                  sending ...
+                </span>
               ) : (
                 'Send Reset Code'
               )}

@@ -21,6 +21,8 @@ import ResetPasswordEmail from '../pages/auth/ResetPasswordEmail'
 import ResetPassword from '../pages/auth/ResetPassword'
 import { ProfileSetup } from '../pages/auth/ProfileSetup'
 import PasswordResetSuccess from '../pages/auth/PasswordResetSuccess'
+import Jobs from '../pages/jobs/Jobs'
+import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -208,6 +210,22 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <MentorDetails/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/jobs'
+          element={
+            <ProtectedRoute>
+              <Jobs/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/personalize'
+          element={
+            <ProtectedRoute>
+              <PersonalizedJob/>
             </ProtectedRoute>
           }
         />

@@ -41,7 +41,7 @@ const Profile = () => {
                     <p>{user?.industry}</p>
                     {/* <p className='text-sm'>Ui/Ux Designer | Seeking mentorship</p> */}
                     <hr />
-                    <p className='font-semibold'>Profile Views:24</p>
+                    {/* <p className='font-semibold'>Profile Views:24</p> */}
                     <Link to={'/profilepage'} className='text-[#5DA05D] font-semibold'>View full profile</Link>
                 </div>
             </div>

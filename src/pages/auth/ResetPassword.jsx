@@ -199,7 +199,7 @@ const [formData, setFormData] = useState({
             >
               {loading ? (
                 <span className="flex items-center">
-                  <LoadingIcon/>
+                  <LoadingIcon className="mr-2"/>
                   Saving...
                 </span>
               ) : (

@@ -207,7 +207,7 @@ const MainProfile = () => {
                 <hr className="my-3" />
                 <div className="mt-6 flex items-center gap-32 px-3">
                     <div>
-                        <h1 className="text-xl font-bold">{user.name}</h1>
+                        <h1 className="text-xl font-bold">{user.first_name} {user.last_name}</h1>
                         <p className="text-xs md:text-sm my-3">{user.bio}</p>
                         <p className="text-slate-500 font-thin flex items-center gap-2">
                             <MapPin className="w-4 h-4" />

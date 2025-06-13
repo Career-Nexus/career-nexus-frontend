@@ -1,6 +1,3 @@
-
-
-
 import { Link } from "react-router-dom"
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +6,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ArrowgBack, SetupMarked, SetupSpin } from "../../assets/icons";
 import { CnLogo, Pana } from "../../assets/images";
-import { ProfileSetupModal } from "../../components/Auth/SetupCompleteModal";
+import { LoadingIcon } from "../../icons/icon";
 
 const apiNoAuth = axios.create({
   baseURL: 'https://btest.career-nexus.com/',
@@ -90,22 +87,17 @@ export default function UserTypeSelection() {
 
       if ([200, 201, 204, 206].includes(response.status)) {
         console.log('Industry updated successfully:', payload);
-        Cookies.remove('temp_token');
-        Cookies.remove('user_id');
+        
 
-        // Show "Setup Complete!" state for 5 seconds before navigating
-        // setIsSetupComplete(true);
-        // setTimeout(() => {
-        //   setShowModal(false);
-        //   navigate('/home');
-        // }, 10000);
         setTimeout(() => {
           setIsSetupComplete(true);
           setTimeout(() => {
             setShowModal(false);
             navigate('/home');
-          }, 5000); // Additional 1.5 seconds for "Setup Complete!" display
+          }, 5000); 
         }, 5000);
+        // Cookies.remove('temp_token');
+        // Cookies.remove('user_id');
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);
       }
@@ -168,11 +160,18 @@ export default function UserTypeSelection() {
               type="submit"
               onClick={handleSubmit}
               disabled={loading}
-              className={`bg-[#6DA05D] hover:bg-[#5B8F4E] text-white font-medium py-2 px-4 rounded-lg w-[50%] max-w-xs transition-colors 
-                ${loading ? 'opacity-50 cursor-not-allowed' : ''
+              className={`bg-[#5B8F4E] hover:bg-[#5B8F4E] text-white font-medium py-2 px-4 rounded-lg w-[50%] max-w-xs transition-colors 
+                ${loading ? 'bg-[#5B8F4E] text-white cursor-not-allowed' : ''
                 }`}
             >
-              {loading ? 'Saving...' : 'Complete'}
+              {loading ?( 
+              <span className="flex items-center">
+                <LoadingIcon className="mr-2"/>
+                Saving...
+              </span>
+              ):( 
+                'Complete'
+              )}
             </button>
           </div>
         </div>
@@ -191,13 +190,13 @@ export default function UserTypeSelection() {
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
             {!isSetupComplete ? (
               <>
-                <img src={SetupSpin} alt="setup-spin" className="animate-spin h-20 w-20 text-green-500" />
+                <img src={SetupSpin} alt="setup-spin" className="animate-spin h-20 w-20 text-[#5B8F4E]" />
                 <p className="mt-4 text-lg font-semibold text-purple-700">Setting up Profile...</p>
               </>
             ) : (
               <>
                 <div className="flex items-center justify-center h-20 w-20 rounded-full bg-green-100">
-                  <img src={SetupMarked} alt="setup-marked" className="h-20 w-20 text-green-500" />
+                  <img src={SetupMarked} alt="setup-marked" className="h-20 w-20 text-[#5B8F4E] items-center justify-center" />
                 </div>
                 <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
               </>

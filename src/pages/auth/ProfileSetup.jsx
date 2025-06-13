@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CnLogo, Cuate } from '../../assets/images';
+import { LoadingIcon } from '../../icons/icon';
 // import { toast } from 'react-toastify';
 
 const CountryCodes = [
@@ -294,15 +295,6 @@ export const ProfileSetup = () => {
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
                 </div>
               </div>
               <input
@@ -319,10 +311,16 @@ export const ProfileSetup = () => {
             onClick={handleSubmit}
             disabled={loading}
             className={`w-[50%] py-2 px-4 rounded-lg ${
-              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#6DA05D] hover:bg-[#5B8F4E] text-white'
+              loading ? 'bg-[#5B8F4E] text-white cursor-not-allowed' : 'bg-[#5B8F4E] hover:bg-[#5B8F4E] text-white'
             }`}
           >
-            {loading ? 'Saving...' : 'Save & Continue'}
+            {loading ? (
+              <span className="flex items-center">
+                 <LoadingIcon className="mr-2"/>
+                  Saving...
+              </span>
+            ):('Save & Continue')
+            }
           </button>
         </div>
       </div>
