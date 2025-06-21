@@ -2,44 +2,36 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { toast } from 'react-toastify'; // Optional: for better error feedback
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ArrowgBack, SetupMarked, SetupSpin } from "../../assets/icons";
 import { CnLogo, Pana } from "../../assets/images";
 import { LoadingIcon } from "../../icons/icon";
+import api, { authService } from "../../api/ApiServiceThree";
 
-const apiNoAuth = axios.create({
-  baseURL: 'https://btest.career-nexus.com/',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-  timeout: 10000,
-});
 export default function UserTypeSelection() {
   const [selectedIndustry, setSelectedIndustry] = useState('Technology');
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Control modal visibility
-  const [isSetupComplete, setIsSetupComplete] = useState(false); // Track modal state
+  const [showModal, setShowModal] = useState(false); 
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const industries = [
-    'Technology',
-    'Health Care',
-    'Retail & E-commerce',
-    'Manufacturing',
-    'Media & Entertainment',
-    'Government & Public Sector',
-    'Nonprofit & NGO',
-    'Energy & Utilities',
-    'Legal Services',
-    'Construction & Real Estate',
-    'Transportation & Logistics',
-    'Agriculture',
-    'Banking',
-    'Education',
-    'Others',
+    "Technology",
+      "Health",
+      "Media",
+      "Sport",
+      "Business",
+      "Commerce",
+      "Manufacturing",
+      "Entertainment",
+      "Government",
+      "Construction",
+      "Transportation",
+      "Agriculture",
+      "Banking",
+      "Education",
+      "Others",
   ];
 
   const selectIndustry = (industry) => {
@@ -50,7 +42,7 @@ export default function UserTypeSelection() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    setShowModal(true); // Show the modal when submission starts
+    setShowModal(true);
 
     if (!selectedIndustry) {
       setError('Please select an industry');
@@ -69,57 +61,60 @@ export default function UserTypeSelection() {
 
       const tempToken = Cookies.get('temp_token');
       console.log('Temporary token:', tempToken || 'None');
-
+      
       if (!tempToken) {
         throw new Error('No authentication token found. Please complete signup and OTP verification.');
       }
-
+      console.log(tempToken)
       const headers = {
         Authorization: `Bearer ${tempToken}`,
       };
 
       console.log('Submitting data:', payload);
       console.log('Request headers:', headers);
-
-      const response = await apiNoAuth.patch('/user/profile-update/', payload, { headers });
+      const response = await api.patch('/user/profile-update/', payload, { headers });
 
       console.log('Update response:', { status: response.status, data: response.data });
-
-      if ([200, 201, 204, 206].includes(response.status)) {
-        console.log('Industry updated successfully:', payload);
-        
+    if ([200, 201, 204, 206].includes(response.status)) {
+        console.log("Industry updated successfully:", payload)
 
         setTimeout(() => {
-          setIsSetupComplete(true);
-          setTimeout(() => {
-            setShowModal(false);
-            navigate('/home');
-          }, 5000); 
-        }, 5000);
-        // Cookies.remove('temp_token');
-        // Cookies.remove('user_id');
+          setIsSetupComplete(true)
+          setTimeout(async () => {
+            try {
+              if (response.data.token || response.data.access) {
+                const permanentToken = response.data.token || response.data.access
+                authService.setAuthCookies(permanentToken)
+              } else {
+                authService.setAuthCookies(tempToken)
+              }
+              Cookies.remove("temp_token")
+              setShowModal(false)
+              navigate("/home", { replace: true })
+            } catch (authError) {
+              console.error("Authentication setup failed:", authError)
+              setError("Failed to complete authentication setup")
+              setShowModal(false)
+              setLoading(false)
+            }
+          }, 2000)
+        }, 3000)
       } else {
-        throw new Error(`Unexpected response status: ${response.status}`);
+        throw new Error(`Unexpected response status: ${response.status}`)
       }
     } catch (err) {
       const errorMessage = err.response
         ? err.response.status === 401
-          ? 'Authentication failed: Invalid or missing token. Please complete signup and OTP verification.'
+          ? "Authentication failed: Invalid or missing token. Please complete signup and OTP verification."
           : err.response.data.message || JSON.stringify(err.response.data)
-        : err.message === 'Network Error'
-          ? 'Network error: Unable to reach the server. Please check your connection or try again later.'
-          : err.message.includes('CORS') || err.message.includes('Access-Control')
-            ? 'CORS error: Server is blocking the request due to header restrictions. Please contact support.'
-            : err.message || 'Failed to update industry. Please try again later.';
-      setError(errorMessage);
-      console.error('Error updating industry:', {
-        message: errorMessage,
-        status: err.response?.status,
-        data: err.response?.data,
-        error: err,
-      });
-      setLoading(false);
-      setShowModal(false); // Hide modal on error
+        : err.message === "Network Error"
+          ? "Network error: Unable to reach the server. Please check your connection or try again later."
+          : err.message.includes("CORS") || err.message.includes("Access-Control")
+            ? "CORS error: Server is blocking the request due to header restrictions. Please contact support."
+            : err.message || "Failed to update industry. Please try again later."
+      setError(errorMessage)
+      setLoading(false)
+      setShowModal(false)
     }
   };
 
@@ -195,9 +190,7 @@ export default function UserTypeSelection() {
               </>
             ) : (
               <>
-                <div className="flex items-center justify-center h-20 w-20 rounded-full bg-green-100">
-                  <img src={SetupMarked} alt="setup-marked" className="h-20 w-20 text-[#5B8F4E] items-center justify-center" />
-                </div>
+                <img src={SetupMarked} alt="setup-marked" className="h-30 w-30 text-[#5B8F4E]" />
                 <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
               </>
             )}

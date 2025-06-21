@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Bulb, Library } from '../../icons/icon'
 import Jobs from "../../assets/icons/briefcase.svg";
 import { JobServices } from '../../api/JobServices';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
-    const [prefered, setPrefered] = useState([]);
+    const [prefered, setPrefered] = useState();
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const getPrefered = async () => {
             try {
                 const result = await JobServices.GetPreferedJob();
-                console.log(result.results)
-                setPrefered(result.results);
-                
+                console.log(result)
+                setPrefered(result);
+
             } catch (error) {
                 console.log("Error fetching prefered jobs", error)
-            }finally{
+            } finally {
                 setLoading(false)
             }
         }
@@ -37,15 +37,18 @@ function Sidebar() {
     return (
         <div>
             <div className='border border-gray-300 rounded-lg p-2 flex flex-col'>
-                {prefered.map(item => (
-                    <div key={item.title} className='p-2'>
-                        <h3 className='text-xs font-semibold mb-2'>JOB PREFERENCE</h3>
-                        <p className='text-xs font-semibold mb-1'>Job title: {item.title}</p>
-                        <p className='text-xs'>Job type: {item.employment_type}</p>
-                        <p className='text-xs mb-1'>Location: {item.country}</p>
-                    </div>
-                ))}
-                <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
+                {/* {prefered.map((item, index) => ( */}
+                <div className='p-2'>
+                    <h3 className='text-xs font-semibold mb-2'>JOB PREFERENCE</h3>
+                    <p className='text-xs font-semibold mb-1'>Job title: {prefered.title}</p>
+                    <p className='text-xs'>Job type: {prefered.employment_type}</p>
+                    <p className='text-xs mb-1'>Location: {prefered.work_type}</p>
+                </div>
+                {/* ))}  */}
+                <a href='#' className='text-[#5DA05D] flex items-center justify-center text-center p-1 border border-[#5DA05D] w-full rounded-lg'><span className='mr-2'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell">
+                        <path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg>
+                </span>Set job alert</a>
             </div>
             <div className='border border-gray rounded-lg my-5'>
                 <h1 className='p-3 font-semibold'>Activity</h1>

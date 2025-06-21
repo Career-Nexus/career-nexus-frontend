@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Business, Email,Home,Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
+import { Business, Email, Home, Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
 import { ChevronDown, HelpCircle, LogOut, Settings, UserCircle } from 'lucide-react';
@@ -12,7 +12,7 @@ const MainNavbar = () => {
     const navigate = useNavigate()
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
-    const { user,logout } = useContext(UserContext);
+    const { user, logout } = useContext(UserContext);
 
     const handleLogout = () => {
         logout();
@@ -25,7 +25,7 @@ const MainNavbar = () => {
 
     const navItemClass = "flex flex-col items-center";
     const activeClass = "border-b-2 border-green-500 text-[#5DA05D]";
-    const activebg="text-[#5DA05D]"
+    const activebg = "text-[#5DA05D]"
 
     return (
         <nav className='sticky top-0 z-50'>
@@ -39,21 +39,21 @@ const MainNavbar = () => {
                         <img src="/images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                     </div>
 
-                    
+
                     {/* Navigation Links for Medium Screens and Up */}
                     <div className='hidden md:flex items-center justify-center lg:space-x-6 md:space-x-3 ml-[13rem]'>
                         <Link
                             to='/home'
                             className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
                         >
-                            <Home className={`${isActive('/home') ? activebg : ''} mx-auto`}  />
+                            <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
                             <h1 className='text-xs'>Home</h1>
                         </Link>
                         <Link
                             to='/mentorship'
                             className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
                         >
-                            <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`}/>
+                            <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
                             <h1 className='text-xs'>Mentorship</h1>
                         </Link>
                         <Link
@@ -77,13 +77,7 @@ const MainNavbar = () => {
                             <Email className={`${isActive('/mail') ? activebg : ''} mx-auto`} />
                             <h1 className='text-xs'>Mail</h1>
                         </Link>
-                        <Link
-                            to='/notifications'
-                            className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
-                        >
-                            <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto`} />
-                            <h1 className='text-xs'>Notification</h1>
-                        </Link>
+
                         <Link
                             to='/business'
                             className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
@@ -93,7 +87,7 @@ const MainNavbar = () => {
                         </Link>
                     </div>
                     {/* Search Box */}
-                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden flex-grow mx-4 lg:ml-5">
+                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden flex-grow mx-4 md:mx-10">
                         <div className="flex items-center pl-3">
                             <Search />
                         </div>
@@ -103,24 +97,31 @@ const MainNavbar = () => {
                             className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
                         />
                     </div>
+                    <Link
+                        to='/notifications'
+                        className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
+                    >
+                        <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
+                        <div className='h-3 w-3 rounded-full bg-red-600 absolute top-4 ml-3 p-1'></div>
+                        <span className='absolute font-bold top-[14px] ml-3 text-white' style={{fontSize:"9px"}}>2</span>
+                    </Link>
+
                     {/* User Name and Dropdown Menu */}
                     <div className=" ml-4 md:ml-0  flex items-center">
-                        <div className="h-10 w-10 mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
-                            {/* {user?.name?.charAt(0) || 'U'} */}
-                            <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='rounded-full'/>
-                        </div>
                         <div className="relative">
                             <div>
                                 <button
                                     type="button"
-                                    className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="bg-white rounded-full flex text-sm "
                                     id="user-menu-button"
                                     aria-expanded={isProfileMenuOpen}
                                     aria-haspopup="true"
                                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                                 >
                                     <span className="sr-only">Open user menu</span>
-                                    <ChevronDown />
+                                    <div className="h-10 w-10 mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
+                                        <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='rounded-full' />
+                                    </div>
                                 </button>
                             </div>
 
@@ -132,14 +133,14 @@ const MainNavbar = () => {
                                     aria-labelledby="user-menu-button"
                                     tabIndex="-1"
                                 >
-                                    <Link 
+                                    <Link
                                         to={'/help'}
                                         className="flex gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                         tabIndex="-1"
                                         id="user-menu-item-0"
                                     >
-                                        <span><HelpCircle/></span>Help
+                                        <span><HelpCircle /></span>Help
                                     </Link>
                                     <Link
                                         to="/profilepage"
@@ -149,7 +150,7 @@ const MainNavbar = () => {
                                         id="user-menu-item-0"
                                         onClick={() => setIsProfileMenuOpen(false)}
                                     >
-                                        <span><UserCircle/></span>Your Profile
+                                        <span><UserCircle /></span>Your Profile
                                     </Link>
                                     <Link
                                         to="/profilepage"
@@ -159,7 +160,7 @@ const MainNavbar = () => {
                                         id="user-menu-item-0"
                                         onClick={() => setIsProfileMenuOpen(false)}
                                     >
-                                        <span><Settings/></span>Setting
+                                        <span><Settings /></span>Setting
                                     </Link>
                                     <button
                                         className="flex gap-4 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -168,7 +169,7 @@ const MainNavbar = () => {
                                         id="user-menu-item-2"
                                         onClick={handleLogout}
                                     >
-                                        <span><LogOut/></span>Sign out
+                                        <span><LogOut /></span>Sign out
                                     </button>
                                 </div>
                             )}

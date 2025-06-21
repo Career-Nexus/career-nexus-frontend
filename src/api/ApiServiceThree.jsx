@@ -61,7 +61,7 @@ export const authService = {
       if (response.data.user?.id) {
         Cookies.set('user_id', response.data.user.id, COOKIE_OPTIONS);
       }
-      if(response.data.user?.email=="Existing Email!"){
+      if (response.data.user?.email == "Existing Email!") {
         console.log("Email already exist, try another email")
       }
       return response.data;
@@ -70,17 +70,17 @@ export const authService = {
       throw error.response ? error.response.data : error.message;
     }
   },
-  
-  getTermsAndConditions: async (tos="tos") => {
-  try {
-    const response = await api.get(`/info/?title=${encodeURIComponent(tos)}`);
-    console.log("Fetched privacy policy", response.data);
-    return response.data; 
-  } catch (error) {
-    console.error("Error fetching terms and conditions:", error.response?.data || error.message);
-    throw error; 
-  }
-},
+
+  getTermsAndConditions: async (tos = "tos") => {
+    try {
+      const response = await api.get(`/info/?title=${encodeURIComponent(tos)}`);
+      console.log("Fetched privacy policy", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching terms and conditions:", error.response?.data || error.message);
+      throw error;
+    }
+  },
 
   verifyOtp: async (data) => {
     try {
@@ -152,42 +152,43 @@ export const authService = {
   },
 
   resendOtp: async (data) => {
-  try {
-    console.log("Calling resendOtp with:", data)
-    const response = await api.post("/user/signup/", {
-      email: data.email,
-      password1: data.password1,
-      password2: data.password2,
-      resend: true,
-    })
-    console.log("Resend OTP Response:", response.data)
-    return response.data
-  } catch (error) {
-    console.log("Resend OTP Error:", error)
-    throw error.response ? error.response.data : error.message
-  }
-},
+    try {
+      console.log("Calling resendOtp with:", data)
+      const response = await api.post("/user/signup/", {
+        email: data.email,
+        password1: data.password1,
+        password2: data.password2,
+        resend: true,
+      })
+      console.log("Resend OTP Response:", response.data)
+      return response.data
+    } catch (error) {
+      console.log("Resend OTP Error:", error)
+      throw error.response ? error.response.data : error.message
+    }
+  },
   setAuthCookies: (access, user) => {
-  Cookies.set(TOKEN_COOKIE_NAME, access, COOKIE_OPTIONS)
-  Cookies.set(USER_COOKIE_NAME, JSON.stringify(user), COOKIE_OPTIONS)
-  console.log("Token set in cookie:", Cookies.get(TOKEN_COOKIE_NAME))
-},
-// Password Reset: Request OTP
-requestResetOtp: async (data) => {
-  try {
-    if (!data.email) {
+    Cookies.set(TOKEN_COOKIE_NAME, access, COOKIE_OPTIONS)
+    Cookies.set(USER_COOKIE_NAME, JSON.stringify(user), COOKIE_OPTIONS)
+    console.log("Token set in cookie:", Cookies.get(TOKEN_COOKIE_NAME))
+  },
+
+  // Password Reset: Request OTP
+  requestResetOtp: async (data) => {
+    try {
+      if (!data.email) {
         throw new Error('Email is required for OTP request');
       }
-    console.log("Calling requestResetOtp with:", data)
-    const response = await api.post("/user/forget-password/", data)
-    console.log("Request Reset OTP Response:", response.data)
-    return response.data
-  } catch (error) {
-    console.log("Request Reset OTP Error:", error)
-    throw error.response ? error.response.data : error.message
-  }
-},
-verifyResetOtp: async (data) => {
+      console.log("Calling requestResetOtp with:", data)
+      const response = await api.post("/user/forget-password/", data)
+      console.log("Request Reset OTP Response:", response.data)
+      return response.data
+    } catch (error) {
+      console.log("Request Reset OTP Error:", error)
+      throw error.response ? error.response.data : error.message
+    }
+  },
+  verifyResetOtp: async (data) => {
     try {
       console.log('Calling verifyResetOtp with:', data);
       const tempToken = Cookies.get('temp_token');
@@ -200,7 +201,7 @@ verifyResetOtp: async (data) => {
       throw error.response ? error.response.data : error;
     }
   },
-resetPassword: async (data) => {
+  resetPassword: async (data) => {
     try {
       if (!data.email || !data.password1 || !data.password2) {
         throw new Error('Email, password1, and password2 are required');

@@ -108,13 +108,13 @@ const AllJobs = () => {
             </div>
             {alljob.length > 0 &&(
             <div className="container mx-auto p-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                     {alljob.map((job, index) => (
                         // <JobCard key={index} {...job} />
                         <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex gap-3">
-                                    <p>{job.companyLogo}</p>
+                                    <p><img src={logo3} className="w-10 h-10 " /></p>
                                     <div className="ml-2">
                                         <h3 className="text-lg font-semibold">{job.title}</h3>
                                         <p className="text-[#5DA05D] text-sm">{job.organization}</p>
@@ -129,11 +129,11 @@ const AllJobs = () => {
                                 </span>
                                 <span className="mr-2 flex gap-2">
                                     <img src={Building} alt="building" className="text-gray-500 w-4 h-4" />
-                                    <span>{job.employment_type}</span>
+                                    <span>{job.work_type}</span>
                                 </span>
                                 <span className="mr-2 flex gap-2">
                                     <img src={Jobs} alt="building" className="text-gray-500 w-4 h-4" />
-                                    <span>{job.schedule}</span>
+                                    <span>{job.employment_type}</span>
                                 </span>
                                 <div className="text-gray-700 text-xs">💰 {job.salary}</div>
                             </div>
@@ -154,7 +154,7 @@ const AllJobs = () => {
                 <h2 className="mx-auto p-2">Other Jobs</h2>
             </div>
             <div className="container mx-auto p-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                     {jobs.map((job, index) => (
                         // <JobCard key={index} {...job} />
                         <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">

@@ -23,6 +23,8 @@ import { ProfileSetup } from '../pages/auth/ProfileSetup'
 import PasswordResetSuccess from '../pages/auth/PasswordResetSuccess'
 import Jobs from '../pages/jobs/Jobs'
 import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
+import Notification from '../pages/notification/Notification'
+import Network from '../pages/network/Network'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -226,6 +228,22 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <PersonalizedJob/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/network'
+          element={
+            <ProtectedRoute>
+              <Network/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/notifications'
+          element={
+            <ProtectedRoute>
+              <Notification/>
             </ProtectedRoute>
           }
         />
