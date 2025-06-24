@@ -2,6 +2,7 @@ import { useState } from "react";
 import { JobServices } from "../../api/JobServices";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
 import { SetupSpin } from "../../assets/icons";
 
 const PersonalizeJob = () => {
@@ -100,7 +101,7 @@ const PersonalizeJob = () => {
 
   const handleSave = async () => {
     if (selectedTitles.length === 0) {
-      toast("Please select at least one job title.");
+      prompt("Please select at least one job title.");
       return;
     }
     setLoading(true);
@@ -153,24 +154,22 @@ const PersonalizeJob = () => {
     };
 
     console.log("Sending preference payload:", preference);
-
     setTimeout(async () => {
       try {
         const result = await JobServices.UpdateJobPreferences(preference);
         console.log("API response:", result);
-        toast("Preferences saved successfully!");
+        prompt("Preferences saved successfully!");
         setShowModal(false);
         navigate("/jobs");
       } catch (error) {
         console.error("Error updating preferences:", error);
-        toast("Failed to save preferences. Please try again.");
+        prompt("Failed to save preferences. Please try again.");
       } finally {
         setLoading(false);
         setShowModal(false);
       }
     }, 3000);
   };
-
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-6">Personalize Your Job Feed</h2>
@@ -315,7 +314,7 @@ const PersonalizeJob = () => {
             className="flex-1 md:p-3 w-full border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-300 outline-none"
           />
         </div>
-        <ToastContainer />
+        
       </div>
 
       {/* Save Button */}
@@ -348,6 +347,7 @@ const PersonalizeJob = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
