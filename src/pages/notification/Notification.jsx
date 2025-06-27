@@ -1,5 +1,5 @@
 import React from 'react'
-import { JobNotification } from '../../components/jobs/JobNotification'
+import { JobNotification } from '../../components/dashboard/jobs/JobNotification'
 import Profile from '../../components/dashboard/mentorship/Profile'
 
 function Notification() {

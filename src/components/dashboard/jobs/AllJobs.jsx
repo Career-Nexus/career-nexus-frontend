@@ -1,17 +1,18 @@
 'use client'
 import React, { useEffect, useState } from "react"
-import emojiBriefcase from "../../assets/icons/emoji-briefcase.svg"
-import Locate from "../../assets/icons/map-pin.svg"
-import Jobs from "../../assets/icons/briefcase.svg";
-import Building from "../../assets/icons/building.svg";
-import logo from "../../assets/images/job-uiux.svg";
-import logo1 from "../../assets/images/job-projectmgr.svg";
-import logo2 from "../../assets/images/job-frontend.svg";
-import logo3 from "../../assets/images/job-marketing.svg";
-import logo4 from "../../assets/images/job-data-science.svg";
-import logo5 from "../../assets/images/job-senior-uiux.svg";
+// import emojiBriefcase from "../../assets/icons/emoji-briefcase.svg"
+import emojiBriefcase from "../../../assets/icons/emoji-briefcase.svg"
+import Locate from "../../../assets/icons/map-pin.svg"
+import Jobs from "../../../assets/icons/briefcase.svg";
+import Building from "../../../assets/icons/building.svg";
+import logo from "../../../assets/images/job-uiux.svg";
+import logo1 from "../../../assets/images/job-projectmgr.svg";
+import logo2 from "../../../assets/images/job-frontend.svg";
+import logo3 from "../../../assets/images/job-marketing.svg";
+import logo4 from "../../../assets/images/job-data-science.svg";
+import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { JobServices } from "../../api/JobServices";
+import { JobServices } from "../../../api/JobServices";
 const AllJobs = () => {
     const [alljob, setAlljob]=useState([]);
     const [loading, setLoading]=useState(true);
@@ -149,6 +150,15 @@ const AllJobs = () => {
                 </div>
             </div>
             )}
+            
+        </div>
+    );
+};
+export default AllJobs
+
+let OtherJobs = ()=>{
+    return(
+        <div>
             <hr />
             <div className="flex">
                 <h2 className="mx-auto p-2">Other Jobs</h2>
@@ -195,6 +205,5 @@ const AllJobs = () => {
                 </div>
             </div>
         </div>
-    );
-};
-export default AllJobs
+    )
+}

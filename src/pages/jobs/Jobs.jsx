@@ -1,11 +1,10 @@
 import React from 'react'
-import AllJobs from '../../components/jobs/AllJobs'
-import Sidebar from '../../components/jobs/Sidebar'
+import Sidebar from '../../components/dashboard/jobs/Sidebar'
+import AllJobs from '../../components/dashboard/jobs/AllJobs'
 
 function Jobs() {
     return (
         <div>
-
             <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5  lg:px-12 md:py-8'>
                 <div className='col-span-4 md:col-span-4 lg:col-span-3'>
                     <Sidebar />

@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from '../../components/jobs/Sidebar'
-import PersonalizeJob from '../../components/jobs/PersonalizeJob'
+import Sidebar from '../../components/dashboard/jobs/Sidebar'
+import PersonalizeJob from '../../components/dashboard/jobs/PersonalizeJob'
 
 
 function PersonalizedJob() {

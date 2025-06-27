@@ -1,6 +1,8 @@
 import React from 'react'
 import { Message } from '../../../icons/icon';
 import FloatingMessageIcon from './FloatingMessage';
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 
 const EventsHome = () => {
     const items1 = [
@@ -26,8 +28,8 @@ const EventsHome = () => {
                 <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
                 <div>
                     {items.map(item => (
-                        <div key={item.id} className='grid grid-cols-12 items-center py-3'>
-                            <img src={item.image} alt={item.name} className='w-12 h-12 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
+                        <div key={item.id} className='grid grid-cols-12 items-center'>
+                            <img src={item.image} alt={item.name} className='w-10 h-10 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
                             <div className='lg:col-span-6 md:col-span-12 md:mb-2'>
                                 <h3 className='font-bold'>{item.name}</h3>
                                 <p className='text-xs font-thin'>{item.desc}</p>
@@ -56,9 +58,25 @@ const EventsHome = () => {
                 <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
             </div>
             <FloatingMessageIcon/>
-            {/* <OtpModalDemo/> */}
+           <div>
+            <Premium/>
+           </div>
         </div>
     )
 }
 
 export default EventsHome
+
+export const Premium=()=>{
+    return(
+        <div className='bg-[#5DA05D] rounded-lg px-4 py-2 flex flex-col gap-2'>
+            <div className='text-white flex items-center justify-between'>
+                <h2>PREMIUM</h2>
+                <Link><ArrowUpRight/></Link>
+            </div>
+            <p className='text-white text-sm'>
+                Unlock Exclusive Access - Subscribe to Premium Now!
+            </p>
+        </div>
+    )
+}

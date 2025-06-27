@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { JobServices } from "../../api/JobServices";
+import { JobServices } from "../../../api/JobServices";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
-import { SetupSpin } from "../../assets/icons";
+import { SetupSpin } from "../../../assets/icons";
 
 const PersonalizeJob = () => {
   const [selectedTitles, setSelectedTitles] = useState([]);

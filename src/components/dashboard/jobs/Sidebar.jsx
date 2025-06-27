@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Bulb, Library } from '../../icons/icon'
-import Jobs from "../../assets/icons/briefcase.svg";
-import { JobServices } from '../../api/JobServices';
+import { Bulb, Library } from '../../../icons/icon'
+import Jobs from "../../../assets/icons/briefcase.svg";
+import { JobServices } from '../../../api/JobServices';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {

@@ -154,7 +154,7 @@ function AllTemplate() {
           <p className="mb-3">{post.body}</p>
 
           {/* Show "More" button only if content is likely to be long */}
-          {post.body && post.body.length > 100 && (
+          {post.body && post.body.length > 20 && (
             <button
               onClick={() => toggleExpand(post.id)}
               className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
@@ -179,26 +179,41 @@ function AllTemplate() {
               <p className="text-sm">{post.article}</p>
             </div>
           )}
-
-          {/* Show expanded content for non-article posts */}
-          {expandedItems[post.id] && (!post.article || post.article === "undefined") && (
-            <div className="mt-2">
-              <ul className="list-disc ml-5 text-sm">
-                <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
-                <li>Implemented responsive design principles to ensure optimal user experience.</li>
-                <li>Participated in code reviews and provided constructive feedback.</li>
-                <li>Utilized agile methodologies to manage workflows efficiently.</li>
-              </ul>
+          <div className="mt-3 flex gap-3">
+            {/* Show media if available */}
+            <div>
+              {post.pic1 && post?.pic1 !== "N/A" && (
+                <img
+                  src={post.pic1 || "/images/mentor-img2.png"}
+                  alt="post media"
+                  className="w-full h-auto max-h-[348px] object-cover rounded-md"
+                />
+            )}
             </div>
-          )}
-
-          {/* Show media if available */}
-          {post.media && post.media !== "N/A" && (
-            <div className="mt-3">
+            <div>
+              {post.pic2 && post.pic2 !== "N/A" && (
               <img
-                src={post.media || "/images/mentor-img2.png"}
+                src={post.pic2 || "/images/mentor-img2.png"}
                 alt="post media"
                 className="w-full h-auto max-h-[348px] object-cover rounded-md"
+              />
+            )}
+            </div>
+            <div>
+              {post.pic3 && post.pic3 !== "N/A" && (
+                <img
+                  src={post.pic3 || "/images/mentor-img2.png"}
+                  alt="post media"
+                  className="w-full h-auto max-h-[348px] object-cover rounded-md"
+                />
+            )}
+            </div>
+          </div>
+          {post.video && post.video !== "N/A" && (
+            <div className="mt-3 w-full h-auto">
+              <video
+                src={post.video}
+                controls
               />
             </div>
           )}
