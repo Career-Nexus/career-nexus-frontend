@@ -46,6 +46,7 @@ export default function TabInterface() {
 function AllTemplate() {
   const [expandedItems, setExpandedItems] = useState({})
   const [posts, setPosts] = useState([])
+  const [likedPosts, setLikedPosts] = useState(new Set()) // Track multiple liked posts
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -95,10 +96,90 @@ function AllTemplate() {
   }
 
   // Handle like count updates
-  const handleLikeUpdate = (postId, newCount) => {
-    setPosts((currentPosts) =>
-      currentPosts.map((post) => (post.post_id === postId ? { ...post, like_count: newCount } : post)),
-    )
+  // const handleLikeUpdate = (postId, newCount) => {
+  //   setPosts((currentPosts) =>
+  //     currentPosts.map((post) => (post.post_id === postId ? { ...post, like_count: newCount } : post)),
+  //   )
+  // }
+  // const handleLikedPost = async(postId) => {
+  //   let result = await PostService.likePost(postId)
+  //   console.log("Post liked:", result)
+  //   setLikePost(result)
+  // }
+  // setLikePost((prev) => (prev === postId ? null : postId)) // Toggle liked post
+  const handleLikeToggle = async (postId) => {
+    try {
+      // Optimistically update the UI
+      const wasLiked = likedPosts.has(postId)
+
+      // Update liked posts set
+      setLikedPosts((prev) => {
+        const newSet = new Set(prev)
+        if (wasLiked) {
+          newSet.delete(postId)
+        } else {
+          newSet.add(postId)
+        }
+        return newSet
+      })
+
+      // Update the like count in posts
+      setPosts((currentPosts) =>
+        currentPosts.map((post) => {
+          if (post.post_id === postId) {
+            return {
+              ...post,
+              like_count: wasLiked ? post.like_count - 1 : post.like_count + 1,
+            }
+          }
+          return post
+        }),
+      )
+
+      // Make API call
+      const result = await PostService.likePost(postId)
+      console.log("Post like result:", result)
+
+      // If API returns a specific like count, update it
+      if (result.newLikeCount !== undefined) {
+        setPosts((currentPosts) =>
+          currentPosts.map((post) => {
+            if (post.post_id === postId) {
+              return {
+                ...post,
+                like_count: result.newLikeCount,
+              }
+            }
+            return post
+          }),
+        )
+      }
+    } catch (error) {
+      console.error("Error liking post:", error)
+
+      // Revert optimistic update on error
+      setLikedPosts((prev) => {
+        const newSet = new Set(prev)
+        if (likedPosts.has(postId)) {
+          newSet.delete(postId)
+        } else {
+          newSet.add(postId)
+        }
+        return newSet
+      })
+
+      setPosts((currentPosts) =>
+        currentPosts.map((post) => {
+          if (post.post_id === postId) {
+            return {
+              ...post,
+              like_count: likedPosts.has(postId) ? post.like_count + 1 : post.like_count - 1,
+            }
+          }
+          return post
+        }),
+      )
+    }
   }
   // Show loading spinner while fetching posts
   if (loading) {
@@ -222,7 +303,8 @@ function AllTemplate() {
             likes={post.like_count || 0}
             comments={post.comment_count || 0}
             shares={post.share_count || 0}
-            onLikeUpdate={(newCount) => handleLikeUpdate(post.post_id, newCount)}
+            isLiked={likedPosts.has(post.post_id)}
+            onLikeToggle={handleLikeToggle}
           />
         </div>
       ))}
@@ -232,6 +314,7 @@ function AllTemplate() {
 
 function FollowingTemplate() {
   const [expandedItems, setExpandedItems] = useState({});
+  const [likedPosts, setLikedPosts] = useState(new Set()) // Track multiple liked posts
 
   const toggleExpand = (id) => {
     setExpandedItems(prev => ({
@@ -239,7 +322,9 @@ function FollowingTemplate() {
       [id]: !prev[id] // Toggle only the clicked item's state
     }));
   };
-
+  const handleLikedPost = (postId) => {
+    setLikePost((prev) => (prev === postId ? null : postId)) // Toggle liked post
+  }
   const profile = [
     {
       id: 1, image: "/images/profile.png", name: "John Smith",
@@ -308,6 +393,13 @@ function FollowingTemplate() {
           </div>
 
           <SocialInteractionBar likes={125} comments={25} shares={2} views={true} events={true} />
+          {/* <SocialInteractionBar
+            postId={post.post_id}
+            likes={post.like_count || 0}
+            comments={post.comment_count || 0}
+            shares={post.share_count || 0}
+            likePost={(newCount) => handleLikedPost(post.post_id, newCount)}
+          /> */}
         </div>
       ))}
     </div>

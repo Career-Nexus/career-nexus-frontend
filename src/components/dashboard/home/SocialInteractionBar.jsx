@@ -24,8 +24,8 @@ export function SocialInteractionBar({
 
     async function checkLikeStatus() {
       try {
-        const liked = await PostService.checkLikeStatus(postId)
-        setIsLiked(liked)
+        // const liked = await PostService.checkLikeStatus(postId)
+        setIsLiked()
       } catch (error) {
         console.error("Error checking like status:", error)
       }
@@ -49,7 +49,7 @@ export function SocialInteractionBar({
       setLikesCount(newLikesCount)
 
       // Call API to toggle like status
-      await PostService.toggleLike(postId, isLiked)
+      // await PostService.toggleLike(postId, isLiked)
 
       // Notify parent component about the update if callback exists
       if (onLikeUpdate) {
