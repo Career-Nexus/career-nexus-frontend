@@ -5,8 +5,6 @@ import { UserContext } from '../../../context/UserContext'
 
 const Profile = () => {
     const { user, loading, error, logout } = useContext(UserContext)
-    // console.log(user)
-
     if (loading) {
         return <div className='flex items-center justify-center h-screen'>Loading...</div>
     }
@@ -20,28 +18,28 @@ const Profile = () => {
     const data = [
         { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
         { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
-        { id: 3, icon: <a href='#'><Bookmark /></a>, name: 'Bookmarks' },
+        { id: 3, icon: <a href='/saved'><Bookmark /></a>, name: <a href='/saved'>Saved</a> },
         { id: 4, icon: <a href='#'><Library /></a>, name: 'Library' },
         { id: 5, icon: <a href='#'><Newsletter /></a>, name: 'Newsletter' },
         { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
     ]
     return (
         <div className='hidden md:block'>
-            <div className='border border-gray rounded-lg flex flex-col relative'>
-                <div className='flex items-center flex-col pb-5'>
-                    <img src={user.cover_photo} alt="background profile" className='w-full h-[90px] mx-auto' />
-                    <Link to={'/profilepage'}>
+            <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
+                <div className='flex items-center justify-between min-h-32 mx-2 '>
+                    {/* <img src={user.cover_photo} alt="background profile" className='w-full h-[90px] mx-auto' /> */}
+                    <div className='mr-2'>
                         <img src={user.profile_photo} alt="profile picture"
-                            className='rounded-full w-16 h-auto md:mt-[-2.4rem]' />
-                    </Link>
-                    <div className='py-1 flex flex-col gap-3'>
-                        <h1 className='font-bold text-2xl '>{user.first_name} {user.last_name}</h1>
-                        <p className='text-sm'>{user?.bio?.slice(0, 60)}</p>
-                        <p>{user?.industry}</p>
+                            className='h-12 w-12 rounded-full' />
                     </div>
-                    <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link>
+                    <div className='flex flex-col'>
+                        <h1 className='font-bold text-xl '>{user.first_name} {user.last_name}</h1>
+                        {/* <p className='text-sm'>{user?.bio?.slice(0, 60)}</p> */}
+                        <p className='text-sm text-gray-400'>{user?.qualification}</p>
+                    </div>
+                    {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                 </div>
-            </div>
+            </Link>
             <div className='border border-gray rounded-lg my-5'>
                 <h1 className='p-3 font-semibold'>Activity</h1>
                 <div className='flex flex-col gap-4 p-3'>

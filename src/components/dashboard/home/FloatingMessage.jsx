@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { MessageSquare } from "lucide-react"
 import ChatModal from "./ChatModal"
+import { Link } from "react-router-dom"
 
 export default function FloatingMessageIcon() {
   const [unreadCount, setUnreadCount] = useState(2)
@@ -48,7 +49,8 @@ export default function FloatingMessageIcon() {
           isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
         }`}
       >
-        <button
+        <Link to={'/chat'}>
+            <button
           onClick={handleClick}
           className="relative flex items-center justify-center w-12 h-12 bg-[#5DA05D] rounded-full shadow-lg hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
           aria-label="Open messages"
@@ -61,9 +63,9 @@ export default function FloatingMessageIcon() {
             </div>
           )}
         </button>
+        </Link>
       </div>
-
-      <ChatModal isOpen={isModalOpen} onClose={handleCloseModal} onReadMessages={handleReadMessages} />
+      {/* <ChatModal isOpen={isModalOpen} onClose={handleCloseModal} onReadMessages={handleReadMessages} /> */}
     </>
   )
 }

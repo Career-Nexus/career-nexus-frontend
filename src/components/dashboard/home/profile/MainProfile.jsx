@@ -76,17 +76,12 @@ const ProfileCover = () => {
                 />
                 {isCoverHovered && (
                     <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
-                        <Camera className="text-white w-10 h-10 mb-2" />
-                        {/* <FileUpload.Root capture="environment">
-                            <FileUpload.HiddenInput />
-                            <FileUpload.Trigger asChild>
-                                <Button variant="outline" size="sm">
-                                    <HiCamera /> Open Camera
-                                </Button>
-                            </FileUpload.Trigger>
-                            <FileUpload.List />
-                        </FileUpload.Root> */}
+                        <label for="fileInput" class="custom-upload-btn">
+                            <Camera className="text-white w-10 h-10 mb-2" />
+                        </label>
                         <input
+                            style={{display:"none"}}
+                            id='fileInput'
                             type="file"
                             accept="image/jpeg,image/png,image/jpg"
                             {...register("cover_photo", {
@@ -112,8 +107,8 @@ const ProfileCover = () => {
                                 type="submit"
                                 disabled={loading}
                                 className={`px-3 py-1 rounded-md text-white font-normal transition-colors duration-200 ${loading
-                                        ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
                                     }`}
                             >
                                 {loading ? "Uploading..." : "Submit"}
@@ -134,9 +129,14 @@ const ProfileCover = () => {
                     />
                     {isProfileHovered && (
                         <div className="absolute inset-0 rounded-full w-32 h-32 ml-3 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200">
-                            <Camera className="text-white w-8 h-8 mb-2" />
+                            {/* <Camera className="text-white w-8 h-8 mb-2" /> */}
+                            <label for="fileInput" class="custom-upload-btn">
+                                <Camera className="text-white w-8 h-8 mb-2" />
+                            </label>
                             <input
+                                id="fileInput"
                                 type="file"
+                                style={{ display: "none" }}
                                 accept="image/jpeg,image/png,image/jpg"
                                 {...register("profile_photo", {
                                     validate: {
@@ -161,8 +161,8 @@ const ProfileCover = () => {
                                     type="submit"
                                     disabled={loading}
                                     className={`px-2 py-1 rounded-md text-white text-xs transition-colors duration-200 ${loading
-                                            ? "bg-gray-400 cursor-not-allowed"
-                                            : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-[#5DA05D] hover:bg-[#4D8A4D]"
                                         }`}
                                 >
                                     {loading ? "Uploading..." : "Submit"}
@@ -196,13 +196,13 @@ const MainProfile = () => {
                 <ProfileCover />
                 <div className="flex justify-between items-start px-3">
                     <div />
-                    <Button
+                    <button
                         onClick={() => setOpenModal(true)}
                         className="rounded-lg border border-[#5DA05D] md:px-4 px-2 mt-2 flex items-center gap-1 md:h-10 h-7"
                     >
                         <Edit className="text-[#5DA05D] h-4 w-4" />
                         <p className="text-[#5DA05D] md:text-sm text-xs">Edit Profile</p>
-                    </Button>
+                    </button>
                 </div>
                 <hr className="my-3" />
                 <div className="mt-6 flex items-center gap-32 px-3">

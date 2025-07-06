@@ -134,6 +134,56 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch posts")
     }
   },
+  async getUserPosts(params = {}) {
+    try {
+      const response = await api.get("/post/posted/", { params })
+      console.log("User posts fetched: ", response.data)
+      return response.data
+    } catch (error) {
+      console.error('Get user posts error:', error.response || error.message)
+      throw new Error(error.response?.data?.message || "Failed to fetch posts")
+    }
+  },
+  async getFollowingPosts(params = {}) {
+    try {
+      const response = await api.get("/post/following/", { params })
+      console.log("Following Posts fetched:", response.data)
+      return response.data
+    } catch (error) {
+      console.error("Get Posts Error:", error.response || error.message)
+      throw new Error(error.response?.data?.message || "Failed to fetch posts")
+    }
+  },
+  async Follow(follow) {
+    try {
+      console.log('API payload:', follow);
+      const response = await api.post("/follow/", follow)
+      if (response.data)
+        console.log("Post followed:", response.data)
+      return response.data
+    } catch (error) {
+      const message = error.response?.data?.error?.[0];
+      if (message === "User already followed") {
+        console.warn("User is already following this profile.");
+        return null; // or trigger a UI update
+      }
+      if (message === "Cannot follow self") {
+        console.warn("You cannot follow yourself.");
+        return null; // or trigger a UI update
+      }
+      throw new Error(message || "Failed to follow user");
+    }
+  },
+  async getFollowingLists(params = {}) {
+    try {
+      const response = await api.get("/followings/", { params })
+      console.log("Following Users fetched:", response.data)
+      return response.data
+    } catch (error) {
+      console.error("Get Following Users Error:", error.response || error.message)
+      throw new Error(error.response?.data?.message || "Failed to fetch Following Users")
+    }
+  },
   async getPostById(id) {
     try {
       const response = await api.get(`post/${id}/`)
@@ -144,18 +194,6 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch post")
     }
   },
-
-  // Get posts by user profile
-  // async getPostsByProfile(profileId, params = {}) {
-  //   try {
-  //     const response = await api.get(`post/profile/${profileId}/`, { params })
-  //     console.log("Profile posts fetched:", response.data)
-  //     return response.data
-  //   } catch (error) {
-  //     console.error(`Get Profile Posts Error:`, error.response || error.message)
-  //     throw new Error(error.response?.data?.message || "Failed to fetch profile posts")
-  //   }
-  // },
 
   // Like a post
   async likePost(postId) {
@@ -168,52 +206,6 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to like post")
     }
   },
-
-  // Unlike a post
-  async unlikePost(postId) {
-    try {
-      const response = await api.delete(`post/like/${postId}/`)
-      console.log("Post unliked:", response.data)
-      return response.data
-    } catch (error) {
-      console.error(`Unlike Post Error:`, error.response || error.message)
-      throw new Error(error.response?.data?.message || "Failed to unlike post")
-    }
-  },
-
-  // Toggle like status (like if not liked, unlike if already liked)
-  async toggleLike(postId, isLiked) {
-    if (isLiked) {
-      return this.unlikePost(postId)
-    } else {
-      return this.likePost(postId)
-    }
-  },
-
-  // Check if user has liked a post
-  // async checkLikeStatus(postId) {
-  //   try {
-  //     const response = await api.get(`post/like/check/${postId}/`)
-  //     console.log("Like status checked:", response.data)
-  //     return response.data.is_liked || false
-  //   } catch (error) {
-  //     console.error(`Check Like Status Error:`, error.response || error.message)
-  //     return false
-  //   }
-  // },
-
-  // Get likes count for a post
-  // async getLikesCount(postId) {
-  //   try {
-  //     const response = await api.get(`post/like/count/${postId}/`)
-  //     console.log("Likes count fetched:", response.data)
-  //     return response.data.count || 0
-  //   } catch (error) {
-  //     console.error(`Get Likes Count Error:`, error.response || error.message)
-  //     return 0
-  //   }
-  // },
-
   // profile completion api
   async getProfileCompletion() {
     try {

@@ -12,13 +12,14 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
 
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user.first_name || "",
+      first_name: user.first_name || "",
       last_name: user.last_name || "",
-      middle_name: user.middle_name || "",
+      middle_name: user.midle_name || "",
       location: user.location || "",
       bio: user.bio || "",
       position: user.position || "",
@@ -31,7 +32,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       const updatedData = {};
       if (data.first_name !== user.first_name) updatedData.first_name = data.first_name;
       if (data.last_name !== user.last_name) updatedData.last_name = data.last_name;
-      if (data.middle_name !== user.middle_name) updatedData.middle_name = data.middle_name;
+      if (data.middle_name !== user.midle_name) updatedData.middle_name = data.middle_name;
       if (data.location !== user.location) updatedData.location = data.location;
       if (data.bio !== user.bio) updatedData.bio = data.bio;
       if (data.position !== user.position) updatedData.position = data.position;

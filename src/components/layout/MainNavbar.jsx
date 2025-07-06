@@ -119,8 +119,8 @@ const MainNavbar = () => {
                                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                                 >
                                     <span className="sr-only">Open user menu</span>
-                                    <div className="h-10 w-10 mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
-                                        <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='rounded-full' />
+                                    <div className="mx-2 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-semibold">
+                                        <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='h-10 w-10 rounded-full' />
                                     </div>
                                 </button>
                             </div>

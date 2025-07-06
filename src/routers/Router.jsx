@@ -25,6 +25,7 @@ import Jobs from '../pages/jobs/Jobs'
 import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
 import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
+import ChatComponent from '../pages/dashboard/Chat'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -244,6 +245,14 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <Notification/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/chat'
+          element={
+            <ProtectedRoute>
+              <ChatComponent/>
             </ProtectedRoute>
           }
         />

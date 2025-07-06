@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react"
+import { useState, useRef, useContext, useEffect } from "react"
 import {
     BarChart3,
     ChevronLeft,
@@ -15,7 +15,7 @@ import {
     Search,
     Plus,
 } from "lucide-react"
-import { Card, CardBody, Progress, Textarea, Button } from "@chakra-ui/react"
+import { Card, CardBody, Progress, Textarea, Button, Box } from "@chakra-ui/react"
 import { SocialInteractionBar } from "../SocialInteractionBar"
 import { Clock, Delete, Download, Edit, Editall, View } from "../../../../icons/icon"
 import ExperienceSection from "./Experience"
@@ -23,6 +23,8 @@ import { ProductGalery } from "./ProductVirtualGalary"
 import { AddProjectModal } from "./AllModal"
 import ReusableModal from "./ModalDesign"
 import { UserContext } from "../../../../context/UserContext"
+import { PostService } from "../../../../api/PostService"
+import { formatTimeAgo } from "../TabInterface"
 
 export default function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
@@ -117,6 +119,24 @@ export default function ProfileTabs() {
 
 function PostsTemplate() {
     const [expandedItems, setExpandedItems] = useState({});
+    const [userPosts, setUserPosts] = useState([])
+
+    useEffect(() => {
+        const UserPosts = async () => {
+            try {
+                const result = await PostService.getUserPosts()
+                if (result && Array.isArray(result.results)) {
+                    setUserPosts(result.results)
+                } else {
+                    console.error('Unexpected result format:', result);
+                    setFollowing([]);
+                }
+            } catch (error) {
+                console.log("couldn't fetch user posts", error);
+            }
+        }
+        UserPosts();
+    }, [])
 
     const toggleExpand = (id) => {
         setExpandedItems(prev => ({
@@ -124,6 +144,15 @@ function PostsTemplate() {
             [id]: !prev[id] // Toggle only the clicked item's state
         }));
     };
+
+    if (userPosts.length === 0) {
+        return (
+            <Box textAlign="center" py={10}>
+                <p className="text-gray-500 text-lg">All posts created by user will be displayed here!</p>
+            </Box>
+        );
+    }
+
     const profile = [
         {
             id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
@@ -140,63 +169,102 @@ function PostsTemplate() {
     ]
     return (
         <div>
-            {profile.map(p => (
-                <div key={p.id} className='border border-gray-300 rounded-lg p-4 my-5'>
-                    <div className='flex gap-3 mb-2 items-center'>
-                        <img src={p.image} alt="profile" className='w-12 h-12 rounded-full' />
-                        <div className='flex flex-col justify-center'>
-                            <h3 className='font-semibold text-sm'>{p.name}</h3>
-                            <p className='font-light text-sm'>{p.description}</p>
-                            <div className='flex items-center gap-1'>
-                                <p>{p.days}</p>
-                                <p>{p.timeIcon}</p>
+            {userPosts && userPosts.map((post) => (
+                <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
+                    <div className="flex gap-3 mb-2 items-center">
+                        <img
+                            src={post.profile?.profile_photo || "/images/profile.png"}
+                            alt="profile"
+                            className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex flex-col justify-center">
+                            <h3 className="font-semibold text-sm">{post.profile?.first_name || "User"} {post.profile?.last_name}</h3>
+                            <p className="font-light text-sm">{post.profile?.qualification || "User"}</p>
+                            <div className="flex items-center gap-1">
+                                <p>{formatTimeAgo(post.time_stamp)}</p>
+                                <Clock className="w-3 h-3" />
                             </div>
                         </div>
-                        <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
+                        {/* <button onClick={handleFollow} className="text-[#5DA05D] flex justify-center border border-[#5DA05D] ml-auto px-3 py-1 rounded-lg text-xs">
+                            <Plus className="w-4 h-4" /> Follow
+                        </button> */}
                     </div>
-                    <span className='mb-3'>{p.disc2}</span>
-                    <button
-                        onClick={() => toggleExpand(p.id)}
-                        className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-                    >
-                        {expandedItems[p.id] ? (
-                            <>
-                                <span className='text-[#5DA05D]'>Hide</span>
-                                <ChevronUp className="h-3 w-3 ml-0.5" />
-                            </>
-                        ) : (
-                            <>
-                                <span className='text-[#5DA05D]'>More</span>
-                                <ChevronDown className="h-3 w-3 ml-0.5" />
-                            </>
-                        )}
-                    </button>
 
-                    {expandedItems[p.id] && (
-                        <div className="mt-2">
-                            <ul className="list-disc ml-5 text-sm">
-                                <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
-                                <li>Implemented responsive design principles to ensure optimal user experience.</li>
-                                <li>Participated in code reviews and provided constructive feedback.</li>
-                                <li>Utilized agile methodologies to manage workflows efficiently.</li>
-                            </ul>
-                        </div>
+                    <p className="mb-3">{post.body}</p>
+
+                    {/* Show "More" button only if content is likely to be long */}
+                    {post.body && post.body.length > 20 && (
+                        <button
+                            onClick={() => toggleExpand(post.id)}
+                            className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
+                        >
+                            {expandedItems[post.id] ? (
+                                <>
+                                    <span className="text-[#5DA05D]">Hide</span>
+                                    <ChevronUp className="h-3 w-3 ml-0.5" />
+                                </>
+                            ) : (
+                                <>
+                                    <span className="text-[#5DA05D]">More</span>
+                                    <ChevronDown className="h-3 w-3 ml-0.5" />
+                                </>
+                            )}
+                        </button>
                     )}
 
-                    <div>
-                        <img src={p.image2} alt="profile" className='w-full h-[348px]' />
+                    {/* Show article content when expanded */}
+                    {expandedItems[post.id] && post.article && post.article !== "undefined" && (
+                        <div className="mt-2">
+                            <p className="text-sm">{post.article}</p>
+                        </div>
+                    )}
+                    <div className="mt-3 gap-1 grid grid-cols-12 border border-gray-200 p-2 rounded-lg">
+                        <div className="col-span-6 max-h-[300px]">
+                            {post.pic1 && post?.pic1 !== "N/A" && (
+                                <img
+                                    src={post.pic1 || "/images/mentor-img2.png"}
+                                    alt="post media"
+                                    className="w-full h-full max-h-[348px] object-cover rounded-md"
+                                />
+                            )}
+                        </div>
+                        <div className="col-span-6 max-h-[300px] flex flex-col gap-1">
+                            {post.pic2 && post.pic2 !== "N/A" && (
+                                <img
+                                    src={post.pic2 || "/images/mentor-img2.png"}
+                                    alt="post media"
+                                    className="w-full h-full max-h-[150px] object-cover rounded-md"
+                                />
+                            )}
+                            {post.pic3 && post.pic3 !== "N/A" && (
+                                <img
+                                    src={post.pic3 || "/images/mentor-img2.png"}
+                                    alt="post media"
+                                    className="w-full h-full max-h-[150px] object-cover rounded-md"
+                                />
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="mt-3 grid grid-cols-12">
+                        <div className="col-span-12 max-h-[600px]">
+                            {post.video && post.video !== "N/A" && (
+                                <div className="w-full h-full max-h-[500px] object-cover rounded-md">
+                                    <video src={post.video} controls />
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <SocialInteractionBar
-                        likes={125}
-                        comments={25}
-                        shares={2}
-                        views={true}
-                        events={true}
+                        postId={post.post_id}
+                        likes={post.like_count || 0}
+                        comments={post.comment_count || 0}
+                        shares={post.share_count || 0}
+                    // isLiked={likedPosts.has(post.post_id)}
+                    // onLikeToggle={handleLikeToggle}
                     />
                 </div>
-
             ))}
-
         </div>
     )
 }
