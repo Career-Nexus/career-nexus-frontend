@@ -26,6 +26,7 @@ import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
 import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
 import ChatComponent from '../pages/dashboard/Chat'
+import SavedPosts from '../pages/dashboard/SavedPosts'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -253,6 +254,14 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <ChatComponent/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/saved'
+          element={
+            <ProtectedRoute>
+              <SavedPosts/>
             </ProtectedRoute>
           }
         />

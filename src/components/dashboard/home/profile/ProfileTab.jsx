@@ -25,6 +25,7 @@ import ReusableModal from "./ModalDesign"
 import { UserContext } from "../../../../context/UserContext"
 import { PostService } from "../../../../api/PostService"
 import { formatTimeAgo } from "../TabInterface"
+import SocialBar from "../SocialBar"
 
 export default function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
@@ -121,22 +122,77 @@ function PostsTemplate() {
     const [expandedItems, setExpandedItems] = useState({});
     const [userPosts, setUserPosts] = useState([])
 
-    useEffect(() => {
-        const UserPosts = async () => {
-            try {
-                const result = await PostService.getUserPosts()
-                if (result && Array.isArray(result.results)) {
-                    setUserPosts(result.results)
-                } else {
-                    console.error('Unexpected result format:', result);
-                    setFollowing([]);
-                }
-            } catch (error) {
-                console.log("couldn't fetch user posts", error);
+    const fetchPosts = async () => {
+        try {
+            const result = await PostService.getUserPosts()
+            if (result && Array.isArray(result.results)) {
+                setUserPosts(result.results)
+            } else {
+                console.error('Unexpected result format:', result);
+                setFollowing([]);
             }
+        } catch (error) {
+            console.log("couldn't fetch user posts", error);
         }
-        UserPosts();
+    }
+    // const fetchPosts = async () => {
+    //     try {
+    //         const result = await PostService.getUserPosts();
+    //         if (result && Array.isArray(result.results)) {
+    //             // Normalize nested posts
+    //             const normalized = result.results.map(p => p.post ? p.post : p);
+    //             setUserPosts(normalized);
+    //         } else {
+    //             console.error('Unexpected result format:', result);
+    //         }
+    //     } catch (error) {
+    //         console.log("couldn't fetch user posts", error);
+    //     }
+    // };
+    useEffect(() => {
+        fetchPosts();
     }, [])
+
+    // const handleLikeToggle = async (postId, liked) => {
+    //     try {
+    //         if (liked) {
+    //             await PostService.unlikePost({ post: postId });
+    //             updatePostLike(postId, false);
+    //         } else {
+    //             await PostService.likePost({ post: postId });
+    //             updatePostLike(postId, true);
+    //         }
+    //     } catch (e) {
+    //         console.error("Could not toggle like");
+    //     }
+    // };
+    const handleLikeToggle = async (postId, canLike) => {
+        try {
+            if (canLike) {
+                await PostService.likePost({ post: postId });
+                updatePostLike(postId, false);
+            } else {
+                await PostService.unlikePost({ post: postId });
+                updatePostLike(postId, true);
+            }
+        } catch (e) {
+            console.error("Could not toggle like");
+        }
+    };
+    const updatePostLike = (postId, canLike) => {
+        setUserPosts(prev =>
+            prev.map(post => {
+                if (post.post_id === postId) {
+                    return {
+                        ...post,
+                        can_like: canLike,
+                        like_count: canLike ? post.like_count - 1 : post.like_count + 1
+                    };
+                }
+                return post;
+            })
+        );
+    };
 
     const toggleExpand = (id) => {
         setExpandedItems(prev => ({
@@ -153,20 +209,20 @@ function PostsTemplate() {
         );
     }
 
-    const profile = [
-        {
-            id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
-            description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock />,
-            disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
-            image2: "/images/image1.png"
-        },
-        {
-            id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
-            description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock />,
-            disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
-            image2: "/images/image2.png"
-        }
-    ]
+    // const profile = [
+    //     {
+    //         id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
+    //         description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock />,
+    //         disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
+    //         image2: "/images/image1.png"
+    //     },
+    //     {
+    //         id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
+    //         description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock />,
+    //         disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
+    //         image2: "/images/image2.png"
+    //     }
+    // ]
     return (
         <div>
             {userPosts && userPosts.map((post) => (
@@ -255,13 +311,14 @@ function PostsTemplate() {
                             )}
                         </div>
                     </div>
-                    <SocialInteractionBar
-                        postId={post.post_id}
-                        likes={post.like_count || 0}
-                        comments={post.comment_count || 0}
-                        shares={post.share_count || 0}
-                    // isLiked={likedPosts.has(post.post_id)}
-                    // onLikeToggle={handleLikeToggle}
+                    {/* <SocialBar postId={post.post_id} post={post} fetchPosts={fetchPosts} /> */}
+                    {/* <SocialBar post={post.post || post} fetchPosts={fetchPosts} /> */}
+
+                    <SocialBar
+                        post={post}
+                        isLiked={post.can_like === false}
+                        likeCount={post.like_count}
+                        onLikeToggle={() => handleLikeToggle(post.post_id, post.can_like)}
                     />
                 </div>
             ))}
