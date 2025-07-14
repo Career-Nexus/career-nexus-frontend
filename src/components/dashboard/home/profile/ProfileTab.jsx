@@ -64,14 +64,14 @@ export default function ProfileTabs() {
                         <User className="h-3.5 w-3.5" />
                         Professional Portfolio
                     </button>
-                    <button
+                    {/* <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "gallery" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
                         onClick={() => setActiveTab("gallery")}
                     >
                         <Image className="h-3.5 w-3.5" />
                         Virtual Gallery
-                    </button>
+                    </button> */}
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}

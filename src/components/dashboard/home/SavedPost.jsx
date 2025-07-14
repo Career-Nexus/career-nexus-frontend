@@ -64,7 +64,7 @@ function SavedPost() {
     }
     return (
         <div>
-            <h1>Saved Posts</h1>
+            <h1 className='text-4xl font-bold'>Saved Posts</h1>
             {savedPost.map(({ post }) => (
                     <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
                         <div className="flex gap-3 mb-2 items-center">
