@@ -71,12 +71,7 @@ export default function SocialBar({ post, fetchPosts, }) {
           </button>
         </div>
       </div>
-      {/* <CommentSection
-        isOpen={isCommentsOpen}
-        postId={post.post_id}
-        post={post}
-      /> */}
-      <CommentSection 
+      <CommentSection
         postId={(post.post || post).post_id}
         isOpen={isCommentsOpen}
         post={post}
@@ -108,32 +103,101 @@ function RepostCard({ post }) {
     </div>
   );
 }
+// const DropdownMenu = ({ post }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   const handleSave = async () => {
+//     try {
+//       const isSaved = await PostService.savePost({ post: post.post_id })
+//       //const isSaved = await PostService.savePost({ post: postId })
+//       if (isSaved) {
+//         toast.success("Post saved");
+//         setIsOpen(false);
+//       }
+//     } catch (error) {
+//       toast.error("Could not toggle save");
+//       console.log("could not save this post", error);
+//     }
+//   }
+//   const savedpost = post.is_saved === true
+//   const icons = [
+//     { name: 'Save', icon: <Bookmark size={18} onClick={() => { handleSave() }} />, },
+//     { name: 'Copy link', icon: <Copy size={18} />, },
+//     { name: 'Not Interested', icon: <EyeOff size={18} />, },
+//     { name: 'Unfollow', icon: <X /> },
+//     { name: 'Report Post', icon: <FlagTriangleRight /> },
+//   ]
+//   return (
+//     <div className="relative inline-block text-left">
+//       {/* Ellipsis Button */}
+//       <button
+//         onClick={() => setIsOpen(!isOpen)}
+//         className="p-2 rounded-full hover:bg-green-100"
+//       >
+//         <Ellipsis size={26} />
+//       </button>
+
+//       {/* Dropdown Content */}
+//       {isOpen && (
+//         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+//           <ul className="py-1">
+//             {icons.map((item) => (
+//               <li key={item.name}>
+//                 <a
+//                   href="#"
+//                   className="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-green-100"
+//                 >
+//                   {item.icon}
+//                   {item.name}
+//                 </a>
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
 const DropdownMenu = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaved, setIsSaved] = useState(post.is_saved); // ✅ from backend
 
   const handleSave = async () => {
-    try {
-      const isSaved = await PostService.savePost({ post: post.post_id })
-      //const isSaved = await PostService.savePost({ post: postId })
-      if (isSaved) {
-        toast.success("Post saved");
-        setIsOpen(false);
-      }
-    } catch (error) {
-      toast.error("Could not toggle save");
-      console.log("could not save this post", error);
+    if (isSaved) {
+      // Already saved, do nothing
+      return;
     }
-  }
+    try {
+      await PostService.savePost({ post: post.post_id });
+      toast.success("Post saved successfully");
+      setIsSaved(true); // update local state
+      setIsOpen(false);
+    } catch (error) {
+      toast.error("Could not save post");
+      console.error("Save failed:", error);
+    }
+  };
+
   const icons = [
-    { name: 'Save', icon: <Bookmark size={18} onClick={() => { handleSave() }} />, },
-    { name: 'Copy link', icon: <Copy size={18} />, },
-    { name: 'Not Interested', icon: <EyeOff size={18} />, },
-    { name: 'Unfollow', icon: <X /> },
-    { name: 'Report Post', icon: <FlagTriangleRight /> },
-  ]
+    {
+      name: isSaved ? "Saved" : "Save",
+      icon: (
+        <Bookmark
+          size={18}
+          onClick={handleSave}
+          className={isSaved ? "text-green-600 cursor-not-allowed" : "text-gray-600 cursor-pointer"}
+        />
+      ),
+    },
+    { name: "Copy link", icon: <Copy size={18} /> },
+    { name: "Not Interested", icon: <EyeOff size={18} /> },
+    { name: "Unfollow", icon: <X /> },
+    { name: "Report Post", icon: <FlagTriangleRight /> },
+  ];
+
   return (
     <div className="relative inline-block text-left">
-      {/* Ellipsis Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-full hover:bg-green-100"
@@ -141,7 +205,6 @@ const DropdownMenu = ({ post }) => {
         <Ellipsis size={26} />
       </button>
 
-      {/* Dropdown Content */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
           <ul className="py-1">
@@ -149,7 +212,11 @@ const DropdownMenu = ({ post }) => {
               <li key={item.name}>
                 <a
                   href="#"
-                  className="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-green-100"
+                  className={`flex items-center gap-3 px-4 py-2 ${isSaved && item.name === "Saved"
+                      ? "text-[#5DA05D] cursor-not-allowed"
+                      : "text-gray-700 hover:bg-green-100"
+                    }`}
+                  onClick={item.name === "Saved" ? (e) => e.preventDefault() : undefined}
                 >
                   {item.icon}
                   {item.name}
@@ -281,7 +348,7 @@ function CommentSection({ isOpen, postId }) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handlePostComment()}
-                className="flex-1 bg-transparent outline-none text-sm"
+                className="flex-1 bg-transparent text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-0 focus:border-[#5DA05D]"
               />
               <button
                 className="text-gray-500 hover:text-gray-700"
@@ -372,6 +439,7 @@ function CommentSection({ isOpen, postId }) {
                   )}
                   <div className="flex items-center space-x-4">
                     <button
+                      type="button"
                       onClick={() =>
                         comment.can_like === false
                           ? unlikeComment(comment.comment_id)
@@ -406,7 +474,7 @@ function CommentSection({ isOpen, postId }) {
                         value={replyTexts[comment.comment_id] || ""}
                         onChange={(e) => handleReplyTextChange(comment.comment_id, e.target.value)}
                         onKeyPress={(e) => e.key === "Enter" && submitReply(comment.comment_id)}
-                        className="flex-1 bg-transparent outline-none text-sm"
+                        className="flex-1 bg-transparent text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-0 focus:border-[#5DA05D]"
                       />
                     </div>
                     <div className="flex justify-end mt-2 space-x-2">

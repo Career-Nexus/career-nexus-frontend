@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../../context/UserContext'
 
 const Profile = () => {
-    const { user, loading, error, logout } = useContext(UserContext)
-    if (loading) {
-        return <div className='flex items-center justify-center h-screen'>Loading...</div>
-    }
+    const { user, loading, error, } = useContext(UserContext)
+    // if (loading) {
+    //     return <div className='flex items-center justify-center h-screen'>Loading...</div>
+    // }
     if (error) {
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
-    if (!user.first_name) {
-        return <div className='flex items-center justify-center h-screen'>No user found</div>
-    }
+    // if (!user.first_name) {
+    //     return <div className='flex items-center justify-center h-screen'>No user found</div>
+    // }
 
     const data = [
         { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
@@ -27,14 +27,12 @@ const Profile = () => {
         <div className='hidden md:block'>
             <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
                 <div className='flex items-center justify-between min-h-32 mx-2 '>
-                    {/* <img src={user.cover_photo} alt="background profile" className='w-full h-[90px] mx-auto' /> */}
                     <div className='mr-2'>
                         <img src={user.profile_photo} alt="profile picture"
                             className='h-12 w-12 rounded-full' />
                     </div>
                     <div className='flex flex-col'>
                         <h1 className='font-bold text-xl '>{user.first_name} {user.last_name}</h1>
-                        {/* <p className='text-sm'>{user?.bio?.slice(0, 60)}</p> */}
                         <p className='text-sm text-gray-400'>{user?.qualification}</p>
                     </div>
                     {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}

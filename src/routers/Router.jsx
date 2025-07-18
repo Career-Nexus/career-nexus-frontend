@@ -27,6 +27,8 @@ import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
 import ChatComponent from '../pages/dashboard/Chat'
 import SavedPosts from '../pages/dashboard/SavedPosts'
+import { PostsProvider } from '../context/PostsContext'
+import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustry'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -43,8 +45,10 @@ const ProtectedRoute = ({ children }) => {
   // )
   return (
     <UserProvider>
-      <MainNavbar />
-      {children}
+      <PostsProvider>
+        <MainNavbar />
+        {children}
+      </PostsProvider>
     </UserProvider>
   )
 
@@ -80,7 +84,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         {/* Redirect root to login or home based on auth status */}
-      <Route
+        <Route
           path="/signup"
           element={
             <RedirectIfAuthenticated>
@@ -181,7 +185,7 @@ const Router = () => {
           path='/person-profile'
           element={
             <ProtectedRoute>
-              <ViewPersonProfile/>
+              <ViewPersonProfile />
             </ProtectedRoute>
           }
         />
@@ -189,7 +193,7 @@ const Router = () => {
           path='/person-profile/:id'
           element={
             <ProtectedRoute>
-              <ViewPersonProfile/>
+              <ViewPersonProfile />
             </ProtectedRoute>
           }
         />
@@ -197,7 +201,7 @@ const Router = () => {
           path='/gallerydetail/:item'
           element={
             <ProtectedRoute>
-              <VirtualGalleryDetail/>
+              <VirtualGalleryDetail />
             </ProtectedRoute>
           }
         />
@@ -205,7 +209,7 @@ const Router = () => {
           path='/mentorship'
           element={
             <ProtectedRoute>
-              <MentorshipHome/>
+              <MentorshipHome />
             </ProtectedRoute>
           }
         />
@@ -213,7 +217,7 @@ const Router = () => {
           path='/mentordetails/:id'
           element={
             <ProtectedRoute>
-              <MentorDetails/>
+              <MentorDetails />
             </ProtectedRoute>
           }
         />
@@ -221,7 +225,7 @@ const Router = () => {
           path='/jobs'
           element={
             <ProtectedRoute>
-              <Jobs/>
+              <Jobs />
             </ProtectedRoute>
           }
         />
@@ -229,15 +233,23 @@ const Router = () => {
           path='/personalize'
           element={
             <ProtectedRoute>
-              <PersonalizedJob/>
+              <PersonalizedJob />
             </ProtectedRoute>
           }
         />
         <Route
-          path='/network'
+          path="/network"
           element={
             <ProtectedRoute>
-              <Network/>
+              <Network />
+            </ProtectedRoute>
+          }
+          />
+        <Route
+          path="/industry"
+          element={
+            <ProtectedRoute>
+              <ConnectionsInYourIndustry />
             </ProtectedRoute>
           }
         />
@@ -245,7 +257,7 @@ const Router = () => {
           path='/notifications'
           element={
             <ProtectedRoute>
-              <Notification/>
+              <Notification />
             </ProtectedRoute>
           }
         />
@@ -253,7 +265,7 @@ const Router = () => {
           path='/chat'
           element={
             <ProtectedRoute>
-              <ChatComponent/>
+              <ChatComponent />
             </ProtectedRoute>
           }
         />
@@ -261,7 +273,7 @@ const Router = () => {
           path='/saved'
           element={
             <ProtectedRoute>
-              <SavedPosts/>
+              <SavedPosts />
             </ProtectedRoute>
           }
         />

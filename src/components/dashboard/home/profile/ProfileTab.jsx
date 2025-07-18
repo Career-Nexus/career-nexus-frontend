@@ -27,6 +27,7 @@ import { PostService } from "../../../../api/PostService"
 import { formatTimeAgo } from "../TabInterface"
 import SocialBar from "../SocialBar"
 
+
 export default function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("posts")
     const tabsRef = useRef(null)
@@ -119,211 +120,183 @@ export default function ProfileTabs() {
 }
 
 function PostsTemplate() {
-    const [expandedItems, setExpandedItems] = useState({});
-    const [userPosts, setUserPosts] = useState([])
+  const [expandedItems, setExpandedItems] = useState({});
+  const [userPosts, setUserPosts] = useState([]);
+  const [nextPage, setNextPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const fetchPosts = async () => {
-        try {
-            const result = await PostService.getUserPosts()
-            if (result && Array.isArray(result.results)) {
-                setUserPosts(result.results)
-            } else {
-                console.error('Unexpected result format:', result);
-                setFollowing([]);
-            }
-        } catch (error) {
-            console.log("couldn't fetch user posts", error);
-        }
+  const fetchPosts = async (page = 1) => {
+    setLoading(true);
+    try {
+      const data = await PostService.getUserPosts({ page });
+      const newPosts = Array.isArray(data) ? data : data?.results || [];
+      setUserPosts(prev => page === 1 ? newPosts : [...prev, ...newPosts]);
+
+      if (data?.next) {
+        const url = new URL(data.next);
+        const nextPageNumber = url.searchParams.get("page");
+        setNextPage(Number(nextPageNumber));
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
+
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      setError("Failed to load posts.");
+    } finally {
+      setLoading(false);
     }
-    // const fetchPosts = async () => {
-    //     try {
-    //         const result = await PostService.getUserPosts();
-    //         if (result && Array.isArray(result.results)) {
-    //             // Normalize nested posts
-    //             const normalized = result.results.map(p => p.post ? p.post : p);
-    //             setUserPosts(normalized);
-    //         } else {
-    //             console.error('Unexpected result format:', result);
-    //         }
-    //     } catch (error) {
-    //         console.log("couldn't fetch user posts", error);
-    //     }
-    // };
-    useEffect(() => {
-        fetchPosts();
-    }, [])
+  };
 
-    // const handleLikeToggle = async (postId, liked) => {
-    //     try {
-    //         if (liked) {
-    //             await PostService.unlikePost({ post: postId });
-    //             updatePostLike(postId, false);
-    //         } else {
-    //             await PostService.likePost({ post: postId });
-    //             updatePostLike(postId, true);
-    //         }
-    //     } catch (e) {
-    //         console.error("Could not toggle like");
-    //     }
-    // };
-    const handleLikeToggle = async (postId, canLike) => {
-        try {
-            if (canLike) {
-                await PostService.likePost({ post: postId });
-                updatePostLike(postId, false);
-            } else {
-                await PostService.unlikePost({ post: postId });
-                updatePostLike(postId, true);
-            }
-        } catch (e) {
-            console.error("Could not toggle like");
-        }
-    };
-    const updatePostLike = (postId, canLike) => {
-        setUserPosts(prev =>
-            prev.map(post => {
-                if (post.post_id === postId) {
-                    return {
-                        ...post,
-                        can_like: canLike,
-                        like_count: canLike ? post.like_count - 1 : post.like_count + 1
-                    };
-                }
-                return post;
-            })
-        );
-    };
+  useEffect(() => {
+    fetchPosts(1);
+  }, []);
 
-    const toggleExpand = (id) => {
-        setExpandedItems(prev => ({
-            ...prev,
-            [id]: !prev[id] // Toggle only the clicked item's state
-        }));
-    };
-
-    if (userPosts.length === 0) {
-        return (
-            <Box textAlign="center" py={10}>
-                <p className="text-gray-500 text-lg">All posts created by user will be displayed here!</p>
-            </Box>
-        );
+  const handleLoadMore = () => {
+    if (hasMore && !loading) {
+      fetchPosts(nextPage);
     }
+  };
 
-    // const profile = [
-    //     {
-    //         id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
-    //         description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock />,
-    //         disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
-    //         image2: "/images/image1.png"
-    //     },
-    //     {
-    //         id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
-    //         description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock />,
-    //         disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
-    //         image2: "/images/image2.png"
-    //     }
-    // ]
+  const toggleExpand = (id, type = "") => {
+    const key = type ? `${id}_${type}` : id;
+    setExpandedItems((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  if (loading && userPosts.length === 0) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
+
+  if (userPosts.length === 0) {
     return (
-        <div>
-            {userPosts && userPosts.map((post) => (
-                <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
-                    <div className="flex gap-3 mb-2 items-center">
-                        <img
-                            src={post.profile?.profile_photo || "/images/profile.png"}
-                            alt="profile"
-                            className="w-12 h-12 rounded-full object-cover"
-                        />
-                        <div className="flex flex-col justify-center">
-                            <h3 className="font-semibold text-sm">{post.profile?.first_name || "User"} {post.profile?.last_name}</h3>
-                            <p className="font-light text-sm">{post.profile?.qualification || "User"}</p>
-                            <div className="flex items-center gap-1">
-                                <p>{formatTimeAgo(post.time_stamp)}</p>
-                                <Clock className="w-3 h-3" />
-                            </div>
-                        </div>
-                        {/* <button onClick={handleFollow} className="text-[#5DA05D] flex justify-center border border-[#5DA05D] ml-auto px-3 py-1 rounded-lg text-xs">
-                            <Plus className="w-4 h-4" /> Follow
-                        </button> */}
-                    </div>
+      <Box textAlign="center" py={10}>
+        <p className="text-gray-500 text-lg">
+          All posts created by user will be displayed here!
+        </p>
+      </Box>
+    );
+  }
 
-                    <p className="mb-3">{post.body}</p>
+  return (
+    <div>
+      {userPosts.map((post) => (
+        <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
+          <div className="flex gap-3 mb-2 items-center">
+            <img
+              src={post.profile?.profile_photo || "/images/profile.png"}
+              alt="profile"
+              className="w-12 h-12 rounded-full object-cover"
+            />
+            <div className="flex flex-col justify-center">
+              <h3 className="font-semibold text-sm">
+                {post.profile?.first_name} {post.profile?.last_name}
+              </h3>
+              <p className="font-light text-sm">{post.profile?.qualification}</p>
+              <div className="flex items-center gap-1">
+                <p>{formatTimeAgo(post.time_stamp)}</p>
+                <Clock className="w-3 h-3" />
+              </div>
+            </div>
+          </div>
 
-                    {/* Show "More" button only if content is likely to be long */}
-                    {post.body && post.body.length > 20 && (
-                        <button
-                            onClick={() => toggleExpand(post.id)}
-                            className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-                        >
-                            {expandedItems[post.id] ? (
-                                <>
-                                    <span className="text-[#5DA05D]">Hide</span>
-                                    <ChevronUp className="h-3 w-3 ml-0.5" />
-                                </>
-                            ) : (
-                                <>
-                                    <span className="text-[#5DA05D]">More</span>
-                                    <ChevronDown className="h-3 w-3 ml-0.5" />
-                                </>
-                            )}
-                        </button>
-                    )}
+          <p className="mb-3">
+              {expandedItems[post.post_id]
+                ? post.body
+                : post.body?.length > 200
+                  ? post.body.slice(0, 200) + "..."
+                  : post.body}
+            </p>
+            {post.body && post.body.length > 200 && (
+            <button
+              onClick={() => toggleExpand(post.post_id)}
+              className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
+            >
+              {expandedItems[post.post_id] ? (
+                <>
+                  <span>Hide</span>
+                  <ChevronUp className="h-3 w-3 ml-0.5" />
+                </>
+              ) : (
+                <>
+                  <span>More</span>
+                  <ChevronDown className="h-3 w-3 ml-0.5" />
+                </>
+              )}
+            </button>
+          )}
 
-                    {/* Show article content when expanded */}
-                    {expandedItems[post.id] && post.article && post.article !== "undefined" && (
-                        <div className="mt-2">
-                            <p className="text-sm">{post.article}</p>
-                        </div>
-                    )}
-                    <div className="mt-3 gap-1 grid grid-cols-12 border border-gray-200 p-2 rounded-lg">
-                        <div className="col-span-6 max-h-[300px]">
-                            {post.pic1 && post?.pic1 !== "N/A" && (
-                                <img
-                                    src={post.pic1 || "/images/mentor-img2.png"}
-                                    alt="post media"
-                                    className="w-full h-full max-h-[348px] object-cover rounded-md"
-                                />
-                            )}
-                        </div>
-                        <div className="col-span-6 max-h-[300px] flex flex-col gap-1">
-                            {post.pic2 && post.pic2 !== "N/A" && (
-                                <img
-                                    src={post.pic2 || "/images/mentor-img2.png"}
-                                    alt="post media"
-                                    className="w-full h-full max-h-[150px] object-cover rounded-md"
-                                />
-                            )}
-                            {post.pic3 && post.pic3 !== "N/A" && (
-                                <img
-                                    src={post.pic3 || "/images/mentor-img2.png"}
-                                    alt="post media"
-                                    className="w-full h-full max-h-[150px] object-cover rounded-md"
-                                />
-                            )}
-                        </div>
-                    </div>
+          {/* {expandedItems[post.post_id] && post.article && post.article !== "undefined" && (
+            <div className="mt-2">
+              <p className="text-sm">{post.article}</p>
+            </div>
+          )} */}
 
-                    <div className="mt-3 grid grid-cols-12">
-                        <div className="col-span-12 max-h-[600px]">
-                            {post.video && post.video !== "N/A" && (
-                                <div className="w-full h-full max-h-[500px] object-cover rounded-md">
-                                    <video src={post.video} controls />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    {/* <SocialBar postId={post.post_id} post={post} fetchPosts={fetchPosts} /> */}
-                    {/* <SocialBar post={post.post || post} fetchPosts={fetchPosts} /> */}
+          <div className="mt-3 grid grid-cols-12 gap-1 overflow-hidden">
+            <div className="col-span-6">
+              {post.pic1 && post.pic1 !== "N/A" && (
+                <img
+                  src={post.pic1}
+                  alt="Post Image 1"
+                  className="w-full h-full max-h-[200px] object-cover rounded-md"
+                />
+              )}
+            </div>
 
-                    <SocialBar
-                        post={post}
-                        isLiked={post.can_like === false}
-                        likeCount={post.like_count}
-                        onLikeToggle={() => handleLikeToggle(post.post_id, post.can_like)}
-                    />
-                </div>
-            ))}
+            <div className="col-span-6 flex flex-col gap-1">
+              {post.pic2 && post.pic2 !== "N/A" && (
+                <img
+                  src={post.pic2}
+                  alt="Post Image 2"
+                  className="w-full h-[148px] object-cover rounded-md"
+                />
+              )}
+              {post.pic3 && post.pic3 !== "N/A" && (
+                <img
+                  src={post.pic3}
+                  alt="Post Image 3"
+                  className="w-full h-[148px] object-cover rounded-md"
+                />
+              )}
+            </div>
+          </div>
+
+          {post.video && post.video !== "N/A" && (
+            <div className="mt-3 max-w-lg overflow-hidden rounded-lg border border-gray-200 p-1">
+              <video
+                src={post.video}
+                controls
+                className="w-full h-[200px] object-cover"
+              />
+            </div>
+          )}
+          <SocialBar post={post} fetchPosts={()=>fetchPosts(1)} />
         </div>
-    )
+      ))}
+
+      {hasMore && (
+        <div className="text-center my-4">
+          <button
+            onClick={handleLoadMore}
+            disabled={loading}
+            className="px-4 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4c8c4c]"
+          >
+            {loading ? "Loading..." : "Show More"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 function ProfessionalSummaryTemplate() {
     const [summary, setSummary] = useState("");

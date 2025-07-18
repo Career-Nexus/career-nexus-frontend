@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import { Trash2, Video } from "lucide-react";
 import { ExperienceService } from "../../../../api/ExperienceService";
@@ -9,6 +9,9 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   const { user, updateUser, loading, error } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false)
+  const [videoFile, setVideoFile] = useState(null);
+  const [videoPreview, setVideoPreview] = useState(user.intro_video || null);
+  const fileInputRef = useRef(null)
 
   const {
     register,
@@ -16,16 +19,29 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      first_name: user.first_name || "",
-      last_name: user.last_name || "",
-      middle_name: user.midle_name || "",
-      location: user.location || "",
-      bio: user.bio || "",
-      position: user.position || "",
-      qualification: user.qualification || "",
-    },
+    // defaultValues: {
+    //   first_name: user.first_name || "",
+    //   last_name: user.last_name || "",
+    //   middle_name: user.midle_name || "",
+    //   location: user.location || "",
+    //   bio: user.bio || "",
+    //   position: user.position || "",
+    //   qualification: user.qualification || "",
+    //   intro_video: user.intro_video || ""
+    // },
   });
+  useEffect(() => {
+    if (user) {
+      setValue("first_name", user.first_name || "");
+      setValue("last_name", user.last_name || "");
+      setValue("middle_name", user.midle_name || "");
+      setValue("location", user.location || "");
+      setValue("bio", user.bio || "");
+      setValue("position", user.position || "");
+      setValue("qualification", user.qualification || "");
+      setValue("intro_video", user.intro_video || "");
+    }
+  }, [user, setValue]);
 
   const onSubmit = async (data) => {
     try {
@@ -38,16 +54,22 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       if (data.position !== user.position) updatedData.position = data.position;
       if (data.qualification !== user.qualification) updatedData.qualification = data.qualification;
 
-      await updateUser(updatedData);
+      let formData = null;
+      if (videoFile) {
+        formData = new FormData();
+        formData.append("intro_video", videoFile);
+      }
+
+      await updateUser(updatedData, formData);
       setSuccess("Profile updated successfully");
-      setTimeout(() => { window.location.href = "/profilepage"; }, 2000);
-      console.log("Form submitted:", data);
+      setTimeout(() => {
+        window.location.href = "/profilepage";
+      }, 2000);
     } catch (error) {
       setSuccess("Error updating profile");
       console.error("Error submitting form:", error);
     }
   };
-
   return (
     <ModalComponent isOpen={isOpen} onClose={onClose} title="Edit Profile Details">
       {loading && <div>Loading...</div>}
@@ -55,21 +77,65 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       {success && <div style={{ color: "green" }}>{success}</div>}
 
       <div className="max-w-4xl mx-auto bg-white rounded-lg">
-        {/* Video Intro */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2">Video Intro</label>
           <div className="flex items-center gap-4">
-            <div>
-              <img src="/images/video1.png" alt="video stream" className="w-60" />
+            <div onClick={() => fileInputRef.current.click()} className="cursor-pointer">
+              {videoPreview ? (
+                <video
+                  src={videoPreview}
+                  controls
+                  className="w-60 rounded border"
+                />
+              ) : (
+                <img
+                  src="/images/video1.png"
+                  alt="Click to upload video"
+                  className="w-60 rounded border"
+                />
+              )}
             </div>
             <div className="flex flex-col gap-2">
-              <button onClick={() => setShowModal(true)} className="bg-green-100 flex text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200">
+              <button
+                onClick={() => setShowModal(true)}
+                className="bg-green-100 flex text-green-700 border border-green-500 px-4 py-1 rounded hover:bg-green-200"
+              >
                 <Video /> Record
               </button>
-              {showModal && <VideoModal />}
-              <button className="bg-red-100 flex text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200">
+              {/* {showModal && <VideoModal />} */}
+              {showModal && (
+                <VideoModal
+                  onSave={(file) => {
+                    setVideoFile(file)
+                    setVideoPreview(URL.createObjectURL(file))
+                    setShowModal(false)
+                  }}
+                  onClose={() => setShowModal(false)}
+                />
+              )}
+              <button
+                className="bg-red-100 flex text-red-700 border border-red-500 px-4 py-1 rounded hover:bg-red-200"
+                onClick={() => {
+                  setVideoFile(null);
+                  setVideoPreview(null);
+                }}
+              >
                 <Trash2 /> Remove
               </button>
+              {/* Hidden file input */}
+              <input
+                type="file"
+                accept="video/*"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setVideoFile(file);
+                  if (file) {
+                    setVideoPreview(URL.createObjectURL(file));
+                  }
+                }}
+                className="hidden"
+              />
             </div>
           </div>
         </div>
@@ -709,7 +775,7 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
             )}
           </div>
 
-            {/* <div>
+          {/* <div>
             <label className="block font-medium mb-1">
               Description<span className="text-red-500">*</span>
             </label>

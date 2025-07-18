@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect } from "react"
 import { X, Video, Play, StopCircle, Pause, Volume2, VolumeX, AlertCircle, Camera, Mic } from "lucide-react"
 
-export function VideoModal() {
+export function VideoModal({ onSave, onClose }) {
   const [isOpen, setIsOpen] = useState(true)
   const [errorMessage, setErrorMessage] = useState("")
   const [modalState, setModalState] = useState("initial")
@@ -48,6 +48,7 @@ export function VideoModal() {
     }
   }, [volume, isMuted])
 
+  
   const checkDeviceAvailability = async () => {
     try {
       // Check if MediaDevices API is supported
@@ -113,11 +114,15 @@ export function VideoModal() {
     }
   }
 
+  // const closeModal = () => {
+  //   cleanupResources()
+  //   setIsOpen(false)
+  // }
   const closeModal = () => {
     cleanupResources()
+    if (onClose) onClose()
     setIsOpen(false)
   }
-
   const setupAudioAnalyser = (stream) => {
     try {
       // Check if stream has audio tracks
@@ -356,9 +361,22 @@ export function VideoModal() {
     setVolume(Number.parseFloat(e.target.value))
   }
 
+  // const useVideo = () => {
+  //   // Here you would typically save the video or process it further
+  //   console.log("Video saved:", recordedVideoUrlRef.current)
+  //   closeModal()
+  // }
   const useVideo = () => {
-    // Here you would typically save the video or process it further
     console.log("Video saved:", recordedVideoUrlRef.current)
+
+    // Convert recorded blob to File
+    const blob = new Blob(chunksRef.current, { type: "video/webm" })
+    const file = new File([blob], "intro_video.webm", { type: "video/webm" })
+
+    if (onSave) {
+      onSave(file) // send back to parent
+    }
+
     closeModal()
   }
 

@@ -330,3 +330,9 @@ export const Booked=()=>(
 </svg>
 
 )
+export const Building=()=>(
+    <svg width="20" height="20" className="text-gray-600" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 15.5H16V17.5H18M18 11.5H16V13.5H18M20 19.5H12V17.5H14V15.5H12V13.5H14V11.5H12V9.5H20M10 7.5H8V5.5H10M10 11.5H8V9.5H10M10 15.5H8V13.5H10M10 19.5H8V17.5H10M6 7.5H4V5.5H6M6 11.5H4V9.5H6M6 15.5H4V13.5H6M6 19.5H4V17.5H6M12 7.5V3.5H2V21.5H22V7.5H12Z" fill="currentColor"/>
+</svg>
+
+)

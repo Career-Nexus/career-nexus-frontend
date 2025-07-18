@@ -737,7 +737,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                     value="Everyone"
                     checked={visibility === "Everyone"}
                     onChange={(e) => handleVisibilityChange(e.target.value)}
-                    className="form-radio text-[#5DA05D] p-2 mr-2"
+                    className="form-radio text-[#5DA05D] p-2 mr-2 accent-[#5DA05D] focus:ring-[#5b9a68]"
                   />
                   Everyone
                 </label>
@@ -748,7 +748,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                     value="Followers only"
                     checked={visibility === "Followers only"}
                     onChange={(e) => handleVisibilityChange(e.target.value)}
-                    className="form-radio text-[#5DA05D] mr-2 p-2"
+                    className="form-radio text-[#5DA05D] mr-2 p-2 accent-[#5DA05D] focus:ring-[#5b9a68]"
                   />
                   Followers only
                 </label>

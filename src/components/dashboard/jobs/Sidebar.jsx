@@ -25,7 +25,7 @@ function Sidebar() {
         getPrefered();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    // if (loading) return <p>Loading...</p>;
 
     const data = [
         { id: 2, icon: <a href='#'><Bulb /></a>, name: 'My Preference' },

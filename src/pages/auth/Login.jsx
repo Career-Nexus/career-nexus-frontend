@@ -218,7 +218,7 @@ export default function Login() {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleCheckboxChange}
-                  className="rounded border border-green-300"
+                  className="rounded border text-[#5DA05D] border-[#5b9a68] focus:accent-[#5b9a68] focus:ring-[#5b9a68] h-4 w-4 accent-[#5b9a68]"
                 />
                 <label htmlFor="rememberMe" className="text-sm font-thin">
                   Remember me
@@ -227,26 +227,6 @@ export default function Login() {
                   Forgot Password
                 </Link>
               </div>
-              {/* <div>
-                <button
-                  type="submit"
-                  disabled={loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()}
-                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md ${
-                    loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-[#5b9a68] hover:bg-[#4e8559] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5b9a68]"
-                  }`}
-                >
-                  {loading ? (
-                    <span className="flex items-center">
-                      <LoadingIcon />
-                      Signing in...
-                    </span>
-                  ) : (
-                    "Login"
-                  )}
-                </button>
-              </div> */}
               <div>
                 <button
                   type="submit"

@@ -7,6 +7,7 @@ import { ArrowgBack, SetupMarked, SetupSpin } from "../../assets/icons";
 import { CnLogo, Pana } from "../../assets/images";
 import { LoadingIcon } from "../../icons/icon";
 import api, { authService } from "../../api/ApiServiceThree";
+import { industries } from "./Industries";
 
 export default function UserTypeSelection() {
   const [selectedIndustry, setSelectedIndustry] = useState('Technology');
@@ -15,24 +16,6 @@ export default function UserTypeSelection() {
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  const industries = [
-    "Technology",
-      "Health",
-      "Media",
-      "Sport",
-      "Business",
-      "Commerce",
-      "Manufacturing",
-      "Entertainment",
-      "Government",
-      "Construction",
-      "Transportation",
-      "Agriculture",
-      "Banking",
-      "Education",
-      "Others",
-  ];
 
   const selectIndustry = (industry) => {
     setSelectedIndustry(industry);

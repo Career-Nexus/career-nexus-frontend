@@ -3,20 +3,16 @@
 import { useState } from "react"
 import CreateAccountForm from "../../components/Auth/CreateAccountForm"
 import HeroSection from "../../components/Auth/HeroSection"
+import MentorAccountForm from "../../components/Auth/MentorAccountForm"
+import MentorHero from "../../components/Auth/MentorHero"
 // import CreateAccountForm from "./CreateAccountForm"
 
 const Signup = () => {
   const [activeTab, setActiveTab] = useState('learner')
 
   const MentorContent = () => (
-    <div className="p-4 text-gray-700">
-      <h3 className="text-lg font-semibold mb-2">Welcome Mentor!</h3>
-      <p>Share your expertise, guide learners, and build your mentoring profile.</p>
-      <ul className="list-disc pl-5 mt-2">
-        <li>Create and manage courses</li>
-        <li>Host live mentoring sessions</li>
-        <li>Track learner progress</li>
-      </ul>
+    <div className="flex items-center justify-center bg-white aspect-[7.8/8]">
+      <MentorAccountForm/>
     </div>
   )
 
@@ -32,7 +28,7 @@ const Signup = () => {
       <div className="grid grid-cols-12 bg-white">
         {/* Left Column */}
         <div className="col-span-12 lg:col-span-7 hidden md:block rounded-lg ml-5">
-          <HeroSection />
+          {activeTab ==='learner'? <HeroSection />:<MentorHero/>}
         </div>
         {/* Right Column */}
         <div className="col-span-12 lg:col-span-5 px-8 py-6 bg-white">

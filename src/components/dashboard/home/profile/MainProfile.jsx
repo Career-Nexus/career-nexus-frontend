@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { Edit } from '../../../../icons/icon'
 import ProfileTabs from './ProfileTab'
-import { Button } from '@chakra-ui/react'
 import ReusableModal from './ModalDesign'
-import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Video } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, Camera } from 'lucide-react'
 import { EditComponent } from './AllModal'
-import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../../context/UserContext'
 import { useForm } from 'react-hook-form'
 import { toast } from "react-toastify";
@@ -175,16 +173,19 @@ const MainProfile = () => {
                     </div>
 
                     <div className='flex justify-between float-end'>
-                        <img
-                            src="/images/video1.png"
-                            alt="video stream"
-                            className="rounded-lg max-w-xs"
-                        />
-                        {/* Example:
-                        {user?.intro_video && (
-                        <video src={user.intro_video} controls className="rounded-lg max-w-xs" />
+                        {user?.intro_video ? (
+                            <video
+                                src={user.intro_video}
+                                controls
+                                className="rounded-lg max-w-xs"
+                            />
+                        ) : (
+                            <img
+                                src="/images/video1.png"
+                                alt="video stream"
+                                className="rounded-lg max-w-xs"
+                            />
                         )}
-                        */}
                     </div>
                 </div>
             </div>

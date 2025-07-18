@@ -18,10 +18,10 @@ const EventsHome = () => {
         { title: 'Discover New Career Opportunities', desc: 'Explore premium services tailored to your career growth.', img1: <Message /> }
     ]
     const items = [
-            { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-            { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-            { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-        ]
+        { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+        { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+        { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
+    ]
     return (
         <div className='hidden md:block'>
             <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
@@ -57,26 +57,37 @@ const EventsHome = () => {
                 ))}
                 <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
             </div>
-            <FloatingMessageIcon/>
-           <div>
-            <Premium/>
-           </div>
+            <FloatingMessageIcon />
+            <div>
+                <Premium />
+            </div>
         </div>
     )
 }
 
 export default EventsHome
 
-export const Premium=()=>{
-    return(
-        <div className='bg-[#5DA05D] rounded-lg px-4 py-2 flex flex-col gap-2'>
-            <div className='text-white flex items-center justify-between'>
-                <h2>PREMIUM</h2>
-                <Link><ArrowUpRight/></Link>
-            </div>
-            <p className='text-white text-sm'>
-                Unlock Exclusive Access - Subscribe to Premium Now!
-            </p>
+export const Premium = () => {
+    return (
+        <div className="relative inline-block">
+            <img src="/images/premium.png" alt="premium" className="w-full rounded-lg" />
+            <Link href="#" className="absolute top-3 right-2.5 text-white">
+                <ArrowUpRight size={20} />
+            </Link>
         </div>
     )
 }
+
+// const Premium = () => {
+//     return (
+//         <div className='bg-[#5DA05D] rounded-lg px-4 py-2 flex flex-col gap-2' >
+//             <div className='text-white flex items-center justify-between'>
+//                 <h2>PREMIUM</h2>
+//                 <Link><ArrowUpRight /></Link>
+//             </div>
+//             <p className='text-white text-sm'>
+//                 Unlock Exclusive Access - Subscribe to Premium Now!
+//             </p>
+//         </div>
+//     )
+// }

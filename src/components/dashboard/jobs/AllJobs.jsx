@@ -14,6 +14,7 @@ import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { JobServices } from "../../../api/JobServices";
 import FloatingMessageIcon from "../home/FloatingMessage";
+import { Box, Spinner } from "@chakra-ui/react";
 
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
@@ -66,7 +67,13 @@ const AllJobs = () => {
         fetchData();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading){
+        return (
+              <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+                  <Spinner size="lg" color="#5DA05D" thickness="4px" />
+              </Box>
+          );
+    }
 
     return (
         <div>

@@ -1,20 +1,22 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Google, Linkedin, LoadingIcon } from "../../icons/icon"
+import { Building, Google, Linkedin, LoadingIcon } from "../../icons/icon"
 import { Link, useNavigate } from "react-router-dom"
-import { Mail, Lock, AlertCircle } from "lucide-react"
+import { Mail, Lock, AlertCircle, ChevronDown, ChevronUp } from "lucide-react"
 import { Alert, AlertDescription } from "@chakra-ui/react"
 import { EyeClose, EyeOpen } from "../../icons"
 import { authService } from "../../api/ApiServiceThree"
 import TermsAndPrivacyModal from "../../pages/auth/TermsAndPrivacyModal"
+import { industries } from "../../pages/auth/Industries"
 
-const CreateAccountForm = () => {
+const MentorAccountForm = () => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password1: "",
     password2: "",
+    industry: "",
   })
   const [errors, setErrors] = useState({})
   const [apiError, setApiError] = useState("")
@@ -85,6 +87,12 @@ const CreateAccountForm = () => {
     }
     return ""
   }
+  const validateIndustry = (industry) => {
+    if (!industry) {
+      return "Please select your preferred industry"
+    }
+    return ""
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -103,6 +111,8 @@ const CreateAccountForm = () => {
         ...prev,
         password2: validatePassword2(formData.password1, value),
       }))
+    } else if (name === "industry") {
+      setErrors((prev) => ({ ...prev, industry: validateIndustry(value) }))
     }
 
     setApiError("")
@@ -113,6 +123,7 @@ const CreateAccountForm = () => {
       email: validateEmail(formData.email),
       password1: validatePassword1(formData.password1),
       password2: validatePassword2(formData.password1, formData.password2),
+      industry: validateIndustry(formData.industry),
     }
 
     if (!isPrivacyChecked) {
@@ -133,6 +144,7 @@ const CreateAccountForm = () => {
       email: formData.email,
       password1: formData.password1,
       password2: formData.password2,
+      industry: formData.industry,
     }
     setLoading(true)
     try {
@@ -217,7 +229,7 @@ const CreateAccountForm = () => {
         </div>
 
         {/* Password Input */}
-        <div className="relative" style={{marginTop:"1rem"}}>
+        <div className="relative" style={{ marginTop: "1rem" }}>
           <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
             <Lock className="h-5 w-5 text-gray-400" />
           </div>
@@ -280,7 +292,7 @@ const CreateAccountForm = () => {
             <p id="password1-error" className="text-xs text-red-500 mt-3">{errors.password1}</p>
           )}
         </div>
-        <div className="relative" style={{marginTop:"1.7rem"}}>
+        <div className="relative" style={{ marginTop: "1.7rem" }}>
           <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
             <Lock className="h-5 w-5 text-gray-400" />
           </div>
@@ -315,18 +327,80 @@ const CreateAccountForm = () => {
           )}
         </div>
 
+        {/* <div className="relative" style={{ marginTop: "1.7rem" }}>
+          <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
+            <Building className="h-5 w-4 text-gray-400" />
+          </div>
+          <input
+            type={showPassword2 ? "text" : "password"}
+            id="industry"
+            name="password2"
+            value={formData.password2}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password2 ? "border-red-500" : "border-gray-200"
+              }`}
+            
+            aria-invalid={errors.password2 ? "true" : "false"}
+            aria-describedby={errors.password2 ? "password2-error" : undefined}
+          />
+          <button
+            type="button"
+            
+            className="inset-y-0 right-0 pr-3 flex items-center ml-auto mt-[-2rem]"
+            onClick={() => setShowPassword2(!showPassword2)}
+            aria-label={showPassword2 ? "Hide password" : "Show password"}
+          >
+            {showPassword2 ? (
+             
+              <ChevronDown className="h-5 w-5 text-gray-400" />
+            ) : (
+              <ChevronUp className="h-5 w-5 text-gray-400" />
+            )}
+          </button>
+          {errors.password2 && (
+            <p id="password2-error" className="text-xs text-red-500 mt-3">{errors.password2}</p>
+          )}
+        </div> */}
+
+        <div className="relative" style={{ marginTop: "1.7rem" }}>
+        {/* <div className="relative mt-6"> */}
+          <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
+            <Building className="h-5 w-4 text-gray-400" />
+          </div>
+          <select
+            id="industry"
+            name="industry"
+            value={formData.industry}
+            onChange={handleChange}
+            className={`w-full pl-10 pr-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.industry ? "border-red-500" : "border-gray-200"
+              }`}
+          >
+            <option value="">Select Preferred Industry</option>
+            {industries.map((industry) => (
+              <option key={industry} value={industry}>
+                {industry}
+              </option>
+            ))}
+          </select>
+          {errors.industry && (
+            <p className="text-xs text-red-500 mt-2">{errors.industry}</p>
+          )}
+        </div>
+
         {/* Terms and Conditions Checkbox */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-[-5rem]">
           <input
             id="privacy"
             name="privacy"
             type="checkbox"
             checked={isPrivacyChecked}
             onChange={handleCheckboxChange}
-            className="rounded border border-[#5b9a68] text-[#5DA05D] focus:ring-[#5b9a68] h-4 w-4 accent-[#5b9a68]"
+            className="rounded border text-[#5DA05D] border-[#5b9a68] mt-[-1rem] focus:ring-[#5b9a68] h-4 w-4 accent-[#5b9a68]"
+            style={{accentColor:"#15803d"}}
             aria-describedby={errors.privacy ? "privacy-error" : undefined}
           />
-          <label htmlFor="privacy" className="text-sm text-gray-600">
+          <label htmlFor="privacy" className="text-sm text-gray-600 mt-[-1rem]">
             I agree to all
             <Link
               to="/terms-and-privacy"
@@ -345,15 +419,15 @@ const CreateAccountForm = () => {
         )}
         <div>
           <button
-            style={{marginTop:"-0.5rem"}}
+            style={{ marginTop: "-0.5rem" }}
             type="submit"
             disabled={loading || !isPrivacyChecked || Object.values(errors).some((error) => error !== "")}
             className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium
-              ${loading 
+              ${loading
                 ? "bg-[#5b9a68] text-white"
-                :!isPrivacyChecked || Object.values(errors).some((error) => error !== "")
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-[#5b9a68] hover:bg-[#4e8559] text-white"
+                : !isPrivacyChecked || Object.values(errors).some((error) => error !== "")
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-[#5b9a68] hover:bg-[#4e8559] text-white"
               }
               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
           >
@@ -369,11 +443,11 @@ const CreateAccountForm = () => {
         </div>
 
         {/* Social Login Options */}
-        <div className="flex items-center justify-center" style={{marginTop:"0.7rem"}}>
+        <div className="flex items-center justify-center" style={{ marginTop: "0.7rem" }}>
           <span className="text-sm text-gray-500">Or continue with</span>
         </div>
         <button
-          style={{marginTop:"0.7rem"}}
+          style={{ marginTop: "0.7rem" }}
           type="button"
           onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
@@ -382,7 +456,7 @@ const CreateAccountForm = () => {
           <span>Google</span>
         </button>
         <button
-          style={{marginTop:"0.9rem"}}
+          style={{ marginTop: "0.9rem" }}
           type="button"
           onClick={handleLinkedInLogin}
           className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
@@ -392,7 +466,7 @@ const CreateAccountForm = () => {
         </button>
 
         {/* Login Link */}
-        <div className="text-center" style={{marginTop:"0.7rem"}}>
+        <div className="text-center" style={{ marginTop: "0.7rem" }}>
           <p className="text-sm text-gray-600">
             Already have an account?
             <Link to="/" className="text-[#5b9a68] hover:underline ml-1">
@@ -406,6 +480,6 @@ const CreateAccountForm = () => {
   )
 }
 
-export default CreateAccountForm
+export default MentorAccountForm
 
 
