@@ -562,11 +562,11 @@ const ModalComponent = ({ isOpen, onClose }) => {
     try {
       const postData = {
         body: postContent,
-        pic1: selectedImages[0]?.file || "N/A",
-        pic2: selectedImages[1]?.file || "N/A",
-        pic3: selectedImages[2]?.file || "N/A",
-        video: selectedVideo?.file || "N/A",
-        article: "N/A",
+        pic1: selectedImages[0]?.file || null,
+        pic2: selectedImages[1]?.file || null,
+        pic3: selectedImages[2]?.file || null,
+        video: selectedVideo?.file || null,
+        article: null,
         count: 1,
         profile: user?.profile_id || user?.id || "",
       }
