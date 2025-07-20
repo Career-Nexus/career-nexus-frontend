@@ -144,7 +144,7 @@ const MentorAccountForm = () => {
       email: formData.email,
       password1: formData.password1,
       password2: formData.password2,
-      industry: formData.industry,
+      industry: formData.industry.toLowerCase(),
     }
     setLoading(true)
     try {
@@ -152,7 +152,7 @@ const MentorAccountForm = () => {
       console.log("API Response:", response)
       if (response.status === "Otp sent") {
         console.log("Signup successful, OTP sent to:", formData.email)
-        navigate("/otp", { state: { email: formData.email, userData: userDataToSend } })
+        navigate("/mentor-otp", { state: { email: formData.email, userData: userDataToSend } })
       }
       else {
         setApiError(response.message || "Signup failed. Please try again.")
@@ -327,42 +327,6 @@ const MentorAccountForm = () => {
           )}
         </div>
 
-        {/* <div className="relative" style={{ marginTop: "1.7rem" }}>
-          <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
-            <Building className="h-5 w-4 text-gray-400" />
-          </div>
-          <input
-            type={showPassword2 ? "text" : "password"}
-            id="industry"
-            name="password2"
-            value={formData.password2}
-            onChange={handleChange}
-            placeholder="Confirm Password"
-            className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password2 ? "border-red-500" : "border-gray-200"
-              }`}
-            
-            aria-invalid={errors.password2 ? "true" : "false"}
-            aria-describedby={errors.password2 ? "password2-error" : undefined}
-          />
-          <button
-            type="button"
-            
-            className="inset-y-0 right-0 pr-3 flex items-center ml-auto mt-[-2rem]"
-            onClick={() => setShowPassword2(!showPassword2)}
-            aria-label={showPassword2 ? "Hide password" : "Show password"}
-          >
-            {showPassword2 ? (
-             
-              <ChevronDown className="h-5 w-5 text-gray-400" />
-            ) : (
-              <ChevronUp className="h-5 w-5 text-gray-400" />
-            )}
-          </button>
-          {errors.password2 && (
-            <p id="password2-error" className="text-xs text-red-500 mt-3">{errors.password2}</p>
-          )}
-        </div> */}
-
         <div className="relative" style={{ marginTop: "1.7rem" }}>
         {/* <div className="relative mt-6"> */}
           <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
@@ -379,7 +343,7 @@ const MentorAccountForm = () => {
             <option value="">Select Preferred Industry</option>
             {industries.map((industry) => (
               <option key={industry} value={industry}>
-                {industry}
+                {industry.toLowerCase()}
               </option>
             ))}
           </select>

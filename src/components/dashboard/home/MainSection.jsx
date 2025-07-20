@@ -42,7 +42,7 @@ const MainSection = () => {
         <img src={user.profile_photo} alt="profile" className='h-12 w-12 rounded-full' />
         <button onClick={() => setModalOpen(true)} className='w-full rounded-lg border border-gray-200 flex items-center justify-between px-3'>
           Share an update...
-          <span><Edit className='text-[#5DA05D]'/></span>
+          <span><Edit className='text-[#5DA05D]' /></span>
         </button>
       </div>
       <ModalComponent
@@ -60,27 +60,66 @@ const WelcomeModal = ({ onClose }) => {
   const navigate = useNavigate();
 
   return (
+    // <div className="inset-0 flex items-center justify-center z-50 mb-2">
+    //   <div className="bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full">
+    //     <button onClick={onClose} className="float-right text-white hover:text-gray-300">
+    //       <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    //         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    //       </svg>
+    //     </button>
+    //     <div className="flex items-center mb-2">
+    //       👏
+    //       <h2 className="text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
+    //     </div>
+    //     <div className='flex items-center justify-between gap-5'>
+    //       <p className="text-xs">
+    //         Let's get you started on your professional journey. Complete your profile to unlock the full potential of our platform.
+    //       </p>
+    //       <button
+    //         onClick={() => navigate('/profilepage')}
+    //         className='bg-white px-2 py-[6px] rounded-lg text-[#5DA05D] w-56'
+    //       >
+    //         Complete now
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
     <div className="inset-0 flex items-center justify-center z-50 mb-2">
-      <div className="bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full">
-        <button onClick={onClose} className="float-right text-white hover:text-gray-300">
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <div className="flex items-center mb-2">
-          👏
-          <h2 className="text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
-        </div>
-        <div className='flex items-center justify-between gap-5'>
-          <p className="text-xs">
-            Let's get you started on your professional journey. Complete your profile to unlock the full potential of our platform.
-          </p>
-          <button
-            onClick={() => navigate('/profilepage')}
-            className='bg-white px-2 py-[6px] rounded-lg text-[#5DA05D] w-56'
-          >
-            Complete now
+      <div className="relative bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full overflow-hidden">
+        {/* White gradient overlay - diagonal from bottom to top */}
+        <div className="absolute w-72 h-14 bg-gradient-to-tl from-white/5 via-white/40 to-transparent rounded-full -rotate-45 bottom-6 top-6 right-16 pointer-events-none transform origin-bottom"></div>
+
+        {/* Original content wrapped in relative container */}
+        <div className="relative z-10">
+          <button onClick={onClose} className="float-right text-white hover:text-gray-300">
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
+          <div className="flex items-center mb-2">
+            <span className="mr-2">👏</span>
+            <h2 className="text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
+          </div>
+          <div className="flex items-center justify-between gap-5">
+            <p className="text-xs">
+              Let's get you started on your professional journey. Complete your profile to unlock the full potential of
+              our platform.
+            </p>
+            <button
+              onClick={() => navigate("/profilepage")}
+              className="bg-white px-2 py-[6px] rounded-lg text-[#5DA05D] w-56"
+            >
+              Complete now
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -97,47 +136,47 @@ const ProfileProgressDropdown = ({ onCompletionChange }) => {
 
   // Define profile items with mapping to API response keys
   const profileItems = [
-    { 
-      id: 1, 
+    {
+      id: 1,
       key: 'profile_photo',
-      icon: <UserCircle2 className="w-5 h-5 mr-2" />, 
-      text: 'Upload Profile Picture', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <UserCircle2 className="w-5 h-5 mr-2" />,
+      text: 'Upload Profile Picture',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
-    { 
-      id: 2, 
+    {
+      id: 2,
       key: 'bio',
-      icon: <Pencil className="w-5 h-5 mr-2" />, 
-      text: 'Add a Bio Description', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <Pencil className="w-5 h-5 mr-2" />,
+      text: 'Add a Bio Description',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
-    { 
-      id: 3, 
+    {
+      id: 3,
       key: 'experience',
-      icon: <NotepadText className="w-5 h-5 mr-2" />, 
-      text: 'Add Work Experience', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <NotepadText className="w-5 h-5 mr-2" />,
+      text: 'Add Work Experience',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
-    { 
-      id: 4, 
+    {
+      id: 4,
       key: 'education',
-      icon: <GraduationCap className="w-5 h-5 mr-2" />, 
-      text: 'Add Educational Background', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <GraduationCap className="w-5 h-5 mr-2" />,
+      text: 'Add Educational Background',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
-    { 
-      id: 5, 
+    {
+      id: 5,
       key: 'intro_video',
-      icon: <VideoIcon className="w-5 h-5 mr-2" />, 
-      text: 'Upload Video Introduction', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <VideoIcon className="w-5 h-5 mr-2" />,
+      text: 'Upload Video Introduction',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
-    { 
-      id: 6, 
+    {
+      id: 6,
       key: 'certification',
-      icon: <NotepadText className="w-5 h-5 mr-2" />, 
-      text: 'Add Certifications', 
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link> 
+      icon: <NotepadText className="w-5 h-5 mr-2" />,
+      text: 'Add Certifications',
+      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
     },
   ];
 
@@ -661,11 +700,11 @@ const ModalComponent = ({ isOpen, onClose }) => {
         prev.map((img, i) =>
           i === currentMediaIndex
             ? {
-                ...img,
-                file: croppedFile,
-                url: URL.createObjectURL(croppedFile),
-                edited: true,
-              }
+              ...img,
+              file: croppedFile,
+              url: URL.createObjectURL(croppedFile),
+              edited: true,
+            }
             : img,
         ),
       )
@@ -854,9 +893,8 @@ const ModalComponent = ({ isOpen, onClose }) => {
           <button
             disabled={!hasContent || isLoading}
             onClick={handlePost}
-            className={`px-6 py-2 rounded-lg transition-colors ${
-              !hasContent || isLoading ? "bg-gray-200 cursor-not-allowed" : "bg-[#5DA05D] hover:bg-green-700 text-white"
-            }`}
+            className={`px-6 py-2 rounded-lg transition-colors ${!hasContent || isLoading ? "bg-gray-200 cursor-not-allowed" : "bg-[#5DA05D] hover:bg-green-700 text-white"
+              }`}
           >
             {isLoading ? "Posting..." : "Post"}
           </button>

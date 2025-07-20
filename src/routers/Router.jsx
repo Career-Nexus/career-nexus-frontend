@@ -29,6 +29,9 @@ import ChatComponent from '../pages/dashboard/Chat'
 import SavedPosts from '../pages/dashboard/SavedPosts'
 import { PostsProvider } from '../context/PostsContext'
 import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustry'
+import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
+import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
+import MentorSuccessPage from '../pages/auth/mentors/MentorSuccess'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -101,6 +104,15 @@ const Router = () => {
           }
         />
         <Route
+          path="/mentor-otp"
+          element={
+            <RedirectIfAuthenticated>
+              <MentorOtpVerification />
+            </RedirectIfAuthenticated>
+          }
+        />
+       
+        <Route
           path="/success"
           element={
             <RedirectIfAuthenticated>
@@ -108,6 +120,15 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
+        <Route
+          path="/mentor-success"
+          element={
+            <RedirectIfAuthenticated>
+              <MentorSuccessPage />
+            </RedirectIfAuthenticated>
+          }
+        />
+        
         <Route
           path="/login"
           element={
@@ -161,6 +182,15 @@ const Router = () => {
           element={
             <RedirectIfAuthenticated>
               <UserTypeSelection />
+            </RedirectIfAuthenticated>
+          }
+        />
+        {/* Mentors */}
+        <Route
+          path="/mentor-profile"
+          element={
+            <RedirectIfAuthenticated>
+              <MentorProfileSetup />
             </RedirectIfAuthenticated>
           }
         />
