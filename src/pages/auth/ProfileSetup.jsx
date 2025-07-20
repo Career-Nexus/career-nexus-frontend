@@ -5,166 +5,179 @@ import Cookies from 'js-cookie';
 import { CnLogo, Cuate } from '../../assets/images';
 import { LoadingIcon } from '../../icons/icon';
 // import { toast } from 'react-toastify';
+import Select from "react-select";
 
 const CountryCodes = [
-    {
-        name: "United States",
-        code: "US",
-        continent: "North America",
-        flag: <img src={"https://flagcdn.com/us.svg"} alt="United States Flag" className='w-20 h-20' />,
-        dial_code: "+1"
-    },
-    {
-        name: "Canada",
-        code: "CA",
-        continent: "North America",
-        flag: <img src={"https://flagcdn.com/ca.svg"} alt="Canada Flag" className='w-20 h-20' />,
-        dial_code: "+1"
-    },
-    {
-        name: "Mexico",
-        code: "MX",
-        continent: "North America",
-        flag: <img src={"https://flagcdn.com/mx.svg"} alt="Mexico Flag" className='w-20 h-20' />,
-        dial_code: "+52"
-    },
-    {
-        name: "Brazil",
-        code: "BR",
-        continent: "South America",
-        flag: <img src={"https://flagcdn.com/br.svg"} alt="Brazil Flag" className='w-20 h-20' />,
-        dial_code: "+55"
-    },
-    {
-        name: "Argentina",
-        code: "AR",
-        continent: "South America",
-        flag: <img src="https://flagcdn.com/ar.svg" alt="Argentina Flag" />,
-        dial_code: "+54"
-    },
-    {
-        name: "United Kingdom",
-        code: "GB",
-        continent: "Europe",
-        flag: <img src="https://flagcdn.com/gb.svg" alt="United Kingdom Flag" />,
-        dial_code: "+44"
-    },
-    {
-        name: "Germany",
-        code: "DE",
-        continent: "Europe",
-        flag: <img src="https://flagcdn.com/de.svg" alt="Germany Flag" />,
-        dial_code: "+49"
-    },
-    {
-        name: "France",
-        code: "FR",
-        continent: "Europe",
-        flag: <img src="https://flagcdn.com/fr.svg" alt="France Flag" />,
-        dial_code: "+33"
-    },
-    {
-        name: "Italy",
-        code: "IT",
-        continent: "Europe",
-        flag: <img src="https://flagcdn.com/it.svg" alt="Italy Flag" />,
-        dial_code: "+39"
-    },
-    {
-        name: "Spain",
-        code: "ES",
-        continent: "Europe",
-        flag: <img src="https://flagcdn.com/es.svg" alt="Spain Flag" />,
-        dial_code: "+34"
-    },
-    {
-        name: "China",
-        code: "CN",
-        continent: "Asia",
-        flag: <img src="https://flagcdn.com/cn.svg" alt="China Flag" />,
-        dial_code: "+86"
-    },
-    {
-        name: "India",
-        code: "IN",
-        continent: "Asia",
-        flag: <img src="https://flagcdn.com/in.svg" alt="India Flag" />,
-        dial_code: "+91"
-    },
-    {
-        name: "Japan",
-        code: "JP",
-        continent: "Asia",
-        flag: <img src="https://flagcdn.com/jp.svg" alt="Japan Flag" />,
-        dial_code: "+81"
-    },
-    {
-        name: "South Korea",
-        code: "KR",
-        continent: "Asia",
-        flag: <img src="https://flagcdn.com/kr.svg" alt="South Korea Flag" />,
-        dial_code: "+82"
-    },
-    {
-        name: "Indonesia",
-        code: "ID",
-        continent: "Asia",
-        flag: <img src="https://flagcdn.com/id.svg" alt="Indonesia Flag" />,
-        dial_code: "+62"
-    },
-    {
-        name: "Nigeria",
-        code: "NG",
-        continent: "Africa",
-        flag: <img src="https://flagcdn.com/ng.svg" alt="Nigeria Flag" />,
-        dial_code: "+234"
-    },
-    {
-        name: "South Africa",
-        code: "ZA",
-        continent: "Africa",
-        flag: <img src="https://flagcdn.com/za.svg" alt="South Africa Flag" />,
-        dial_code: "+27"
-    },
-    {
-        name: "Egypt",
-        code: "EG",
-        continent: "Africa",
-        flag: <img src="https://flagcdn.com/eg.svg" alt="Egypt Flag" />,
-        dial_code: "+20"
-    },
-    {
-        name: "Australia",
-        code: "AU",
-        continent: "Oceania",
-        flag: <img src="https://flagcdn.com/au.svg" alt="Australia Flag" />,
-        dial_code: "+61"
-    },
-    {
-        name: "New Zealand",
-        code: "NZ",
-        continent: "Oceania",
-        flag: <img src="https://flagcdn.com/nz.svg" alt="New Zealand Flag" />,
-        dial_code: "+64"
-    }
-]
+  {
+    name: "United States",
+    code: "US",
+    continent: "North America",
+    flag: "https://flagcdn.com/us.svg",
+    dial_code: "+1",
+  },
+  {
+    name: "Canada",
+    code: "CA",
+    continent: "North America",
+    flag: "https://flagcdn.com/ca.svg",
+    dial_code: "+1",
+  },
+  {
+    name: "Mexico",
+    code: "MX",
+    continent: "North America",
+    flag: "https://flagcdn.com/mx.svg",
+    dial_code: "+52",
+  },
+  {
+    name: "Brazil",
+    code: "BR",
+    continent: "South America",
+    flag: "https://flagcdn.com/br.svg",
+    dial_code: "+55",
+  },
+  {
+    name: "Argentina",
+    code: "AR",
+    continent: "South America",
+    flag: "https://flagcdn.com/ar.svg",
+    dial_code: "+54",
+  },
+  {
+    name: "United Kingdom",
+    code: "GB",
+    continent: "Europe",
+    flag: "https://flagcdn.com/gb.svg",
+    dial_code: "+44",
+  },
+  {
+    name: "Germany",
+    code: "DE",
+    continent: "Europe",
+    flag: "https://flagcdn.com/de.svg",
+    dial_code: "+49",
+  },
+  {
+    name: "France",
+    code: "FR",
+    continent: "Europe",
+    flag: "https://flagcdn.com/fr.svg",
+    dial_code: "+33",
+  },
+  {
+    name: "Italy",
+    code: "IT",
+    continent: "Europe",
+    flag: "https://flagcdn.com/it.svg",
+    dial_code: "+39",
+  },
+  {
+    name: "Spain",
+    code: "ES",
+    continent: "Europe",
+    flag: "https://flagcdn.com/es.svg",
+    dial_code: "+34",
+  },
+  {
+    name: "China",
+    code: "CN",
+    continent: "Asia",
+    flag: "https://flagcdn.com/cn.svg",
+    dial_code: "+86",
+  },
+  {
+    name: "India",
+    code: "IN",
+    continent: "Asia",
+    flag: "https://flagcdn.com/in.svg",
+    dial_code: "+91",
+  },
+  {
+    name: "Japan",
+    code: "JP",
+    continent: "Asia",
+    flag: "https://flagcdn.com/jp.svg",
+    dial_code: "+81",
+  },
+  {
+    name: "South Korea",
+    code: "KR",
+    continent: "Asia",
+    flag: "https://flagcdn.com/kr.svg",
+    dial_code: "+82",
+  },
+  {
+    name: "Indonesia",
+    code: "ID",
+    continent: "Asia",
+    flag: "https://flagcdn.com/id.svg",
+    dial_code: "+62",
+  },
+  {
+    name: "Nigeria",
+    code: "NG",
+    continent: "Africa",
+    flag: "https://flagcdn.com/ng.svg",
+    dial_code: "+234",
+  },
+  {
+    name: "South Africa",
+    code: "ZA",
+    continent: "Africa",
+    flag: "https://flagcdn.com/za.svg",
+    dial_code: "+27",
+  },
+  {
+    name: "Egypt",
+    code: "EG",
+    continent: "Africa",
+    flag: "https://flagcdn.com/eg.svg",
+    dial_code: "+20",
+  },
+  {
+    name: "Australia",
+    code: "AU",
+    continent: "Oceania",
+    flag: "https://flagcdn.com/au.svg",
+    dial_code: "+61",
+  },
+  {
+    name: "New Zealand",
+    code: "NZ",
+    continent: "Oceania",
+    flag: "https://flagcdn.com/nz.svg",
+    dial_code: "+64",
+  },
+];
+
 const apiNoAuth = axios.create({
   baseURL: 'https://btest.career-nexus.com/',
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
-//    timeout: 10000,
+  //    timeout: 10000,
 });
 
 export const ProfileSetup = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [countryCode, setCountryCode] = useState(CountryCodes[0]?.dial_code || '+1');
+  // const [countryCode, setCountryCode] = useState(CountryCodes[0]?.dial_code || '+1');
+  const [countryCode, setCountryCode] = useState(CountryCodes[0])
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const countryOptions = CountryCodes.map((country) => ({
+      value: country,
+      label: (
+        <div className="flex items-center gap-1">
+          <img src={country.flag || "/placeholder.svg"} alt={`${country.name} Flag`} className="w-5 h-5" />
+          <span>{country.dial_code}</span>
+        </div>
+      ),
+    }))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -174,7 +187,7 @@ export const ProfileSetup = () => {
     if (!firstName || !lastName || !phoneNumber) {
       setError('All fields are required');
       setLoading(false);
-    //   toast.error('All fields are required');
+      //   toast.error('All fields are required');
       return;
     }
 
@@ -182,15 +195,17 @@ export const ProfileSetup = () => {
     if (!phoneRegex.test(phoneNumber)) {
       setError('Phone number must be 10 digits');
       setLoading(false);
-    //   toast.error('Phone number must be 10 digits');
+      //   toast.error('Phone number must be 10 digits');
       return;
     }
 
     const updatedData = {
       first_name: firstName,
       last_name: lastName,
-      phone_number: `${countryCode}${phoneNumber}`,
+       phone_number: `${countryCode.dial_code}${phoneNumber}`,
     };
+
+    
 
     try {
       const cookies = Cookies.get();
@@ -222,10 +237,10 @@ export const ProfileSetup = () => {
           ? 'Authentication failed: Invalid or missing token. Please complete signup and OTP verification.'
           : err.response.data.message || JSON.stringify(err.response.data)
         : err.message === 'Network Error'
-        ? 'Network error: Unable to reach the server. Please check your connection or try again later.'
-        : err.message.includes('CORS') || err.message.includes('Access-Control')
-        ? 'CORS error: Server is blocking the request due to header restrictions. Please contact support.'
-        : err.message || 'Failed to update profile. Please try again later.';
+          ? 'Network error: Unable to reach the server. Please check your connection or try again later.'
+          : err.message.includes('CORS') || err.message.includes('Access-Control')
+            ? 'CORS error: Server is blocking the request due to header restrictions. Please contact support.'
+            : err.message || 'Failed to update profile. Please try again later.';
       setError(errorMessage);
       console.error('Error updating profile:', {
         message: errorMessage,
@@ -233,7 +248,7 @@ export const ProfileSetup = () => {
         data: err.response?.data,
         error: err,
       });
-    //   toast.error(errorMessage);
+      //   toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -243,7 +258,7 @@ export const ProfileSetup = () => {
     <div className="grid grid-cols-12 min-h-screen">
       <div className="col-span-12 md:col-span-7">
         <div className="bg-white rounded-lg w-full max-w-md ml-28">
-            <img src={CnLogo} alt="Logo" className='w-24'/>
+          <img src={CnLogo} alt="Logo" className='w-24' />
           <div className="text-sm text-[#6DA05D] mb-2 font-semibold">STEP 1/2</div>
           <h2 className="text-2xl font-bold text-[#2A0D47] mb-6">Set up your profile</h2>
 
@@ -277,7 +292,7 @@ export const ProfileSetup = () => {
             <p className="text-xs text-gray-500 mt-1">Your name should match your government-issued ID</p>
           </div>
 
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Phone Number <span className="text-red-600">*</span>
             </label>
@@ -305,21 +320,42 @@ export const ProfileSetup = () => {
                 className="w-full p-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6DA05D]"
               />
             </div>
+          </div> */}
+          <div className=" mb-5">
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Phone Number <span className="text-red-600">*</span>
+            </label>
+            <div className="flex gap-2">
+              <div className="w-40">
+                <Select
+                  options={countryOptions}
+                  defaultValue={countryOptions[0]}
+                  onChange={(selected) => setCountryCode(selected.value)}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="2015555555"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="w-full p-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6DA05D]"
+              />
+            </div>
           </div>
-
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className={`w-[50%] py-2 px-4 rounded-lg ${
-              loading ? 'bg-[#5B8F4E] text-white cursor-not-allowed' : 'bg-[#5B8F4E] hover:bg-[#5B8F4E] text-white'
-            }`}
+            className={`w-[50%] py-2 px-4 rounded-lg ${loading ? 'bg-[#5B8F4E] text-white cursor-not-allowed' : 'bg-[#5B8F4E] hover:bg-[#5B8F4E] text-white'
+              }`}
           >
             {loading ? (
               <span className="flex items-center">
-                 <LoadingIcon className="mr-2"/>
-                  Saving...
+                <LoadingIcon className="mr-2" />
+                Saving...
               </span>
-            ):('Save & Continue')
+            ) : ('Save & Continue')
             }
           </button>
         </div>
