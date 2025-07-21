@@ -264,7 +264,7 @@ const validateFileSize = (file, maxSize, fileType) => {
   if (file.size > maxSize) {
     const maxSizeFormatted = formatFileSize(maxSize)
     const fileSizeFormatted = formatFileSize(file.size)
-    return `${fileType} file "${file.name}" (${fileSizeFormatted}) exceeds the maximum size limit of ${maxSizeFormatted}.`
+    return `${fileType} file "${file}" (${fileSizeFormatted}) exceeds the maximum size limit of ${maxSizeFormatted}.`
   }
   return null
 }
@@ -551,49 +551,42 @@ const ModalComponent = ({ isOpen, onClose }) => {
   if (!isOpen) return null
 
   const handlePost = async () => {
-    if (!postContent.trim() && selectedImages.length === 0 && !selectedVideo) {
-      setError("Please add content or media to post.")
-      return
-    }
-
-    setIsLoading(true)
-    setError("")
-
-    try {
-      const postData = {
-        body: postContent,
-        pic1: selectedImages[0]?.file || null,
-        pic2: selectedImages[1]?.file || null,
-        pic3: selectedImages[2]?.file || null,
-        video: selectedVideo?.file || null,
-        article: null,
-        count: 1,
-        profile: user?.profile_id || user?.id || "",
-      }
-
-      // Debug: Log what we're sending
-      console.log("Sending post data:", {
-        body: postData.body,
-        count: postData.count,
-        profile: postData.profile,
-        pic1: postData.pic1 !== "N/A" ? `File: ${postData.pic1.name} (${formatFileSize(postData.pic1.size)})` : "N/A",
-        pic2: postData.pic2 !== "N/A" ? `File: ${postData.pic2.name} (${formatFileSize(postData.pic2.size)})` : "N/A",
-        pic3: postData.pic3 !== "N/A" ? `File: ${postData.pic3.name} (${formatFileSize(postData.pic3.size)})` : "N/A",
-        video:
-          postData.video !== "N/A" ? `File: ${postData.video.name} (${formatFileSize(postData.video.size)})` : "N/A",
-      })
-
-      await PostService.createPost(postData)
-
-      resetForm()
-      onClose()
-    } catch (err) {
-      setError(err.message || "Failed to create post. Please try again.")
-      console.error("Post Error:", err)
-    } finally {
-      setIsLoading(false)
-    }
+  if (!postContent.trim() && selectedImages.length === 0 && !selectedVideo) {
+    setError("Please add content or media to post.")
+    return
   }
+
+  setIsLoading(true)
+  setError("")
+
+  try {
+    const formData = new FormData()
+
+    formData.append("body", postContent)
+    formData.append("article", null)
+    formData.append("count", 1)
+    formData.append("profile", user?.profile_id || user?.id || "")
+
+    // Only append files if they exist
+    if (selectedImages[0]) formData.append("pic1", selectedImages[0].file)
+    if (selectedImages[1]) formData.append("pic2", selectedImages[1].file)
+    if (selectedImages[2]) formData.append("pic3", selectedImages[2].file)
+
+    if (selectedVideo) formData.append("video", selectedVideo.file)
+
+    console.log([...formData.entries()]) // see what you are sending
+
+    await PostService.createPost(formData)
+
+    resetForm()
+    onClose()
+  } catch (err) {
+    setError(err.message || "Failed to create post. Please try again.")
+    console.error("Post Error:", err)
+  } finally {
+    setIsLoading(false)
+  }
+}
 
   const resetForm = () => {
     setPostContent("")

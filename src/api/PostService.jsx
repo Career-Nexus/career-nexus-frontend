@@ -2,71 +2,14 @@ import { data } from "react-router-dom"
 import api from "./ApiServiceThree"
 
 export const PostService = {
-  async createPost(data) {
-    try {
-      if (!data || typeof data !== "object") {
-        throw new Error("Invalid input data: Expected an object")
-      }
-
-      const { body, count, profile, pic1, pic2, pic3, video, article } = data
-
-      if (!body || body === undefined) {
-        throw new Error("Body is required and cannot be undefined")
-      }
-
-      const formData = new FormData()
-      formData.append("body", body || "")
-      formData.append("count", count || "1")
-      formData.append("profile", profile || "")
-      formData.append("article", article || "N/A")
-
-      // Handle multiple media files
-      if (pic1 && pic1 !== "N/A") {
-        formData.append("pic1", pic1)
-      } else {
-        formData.append("pic1", "N/A")
-      }
-
-      if (pic2 && pic2 !== "N/A") {
-        formData.append("pic2", pic2)
-      } else {
-        formData.append("pic2", "N/A")
-      }
-
-      if (pic3 && pic3 !== "N/A") {
-        formData.append("pic3", pic3)
-      } else {
-        formData.append("pic3", "N/A")
-      }
-
-      if (video && video !== "N/A") {
-        formData.append("video", video)
-      } else {
-        formData.append("video", "N/A")
-      }
-
-      // Debug logging
-      for (const [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`FormData ${key}: File - ${value.name} (${value.size} bytes, ${value.type})`)
-        } else {
-          console.log(`FormData ${key}:`, value)
-        }
-      }
-
-      const response = await api.post("post/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-
-      console.log("Post created response:", response.data)
-      return response.data
-    } catch (error) {
-      console.error("Create Post Error:", error.message, error.response?.data)
-      throw new Error(error.response?.data?.message || error.message || "Failed to create post")
-    }
-  },
+ 
+  createPost: async (formData) => {
+  return api.post("post/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+},
   async getPosts(params = {}) {
     try {
       const response = await api.get("post/", { params })
