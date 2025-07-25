@@ -1,18 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Company1, Company2, Like, VideoIcon } from '../../../../icons/icon'
-//import SocialMediaToolbar from '../LiveStream'
-// import ProfileTabs from './ProfileTab'
 import { Button } from '@chakra-ui/react'
 import ReusableModal from './ModalDesign'
 import { BriefcaseBusiness, GraduationCap, MapPin, Camera, UserPlus, ChevronLeft, User, Briefcase, PieChart, Image, FileText, ChevronRight, Clock, ChevronDown, Edit, Building, Calendar, ChevronUp, Plus } from 'lucide-react'
 import { EditComponent } from './AllModal'
 import EventsHome from '../EventsHome'
 import { SocialInteractionBar } from '../SocialInteractionBar'
+import { UserContext } from '../../../../context/UserContext'
 
 const ViewPersonProfile = () => {
     const [openModal, setOpenModal] = useState(false);
     const [isHovered, setIsHovered] = useState(false)
     const [hovered, setHovered] = useState(false)
+    const { user } = useContext(UserContext)
 
     function ProfilePicture() {
 
@@ -28,17 +28,18 @@ const ViewPersonProfile = () => {
                         <img src="/images/bg-profile2.png" alt="cover photo" className='w-full md:h-48 rounded-tl-lg rounded-tr-lg' />
 
                         {/* Edit overlay - only visible on hover */}
-                        {isHovered && (
+                        {/* {isHovered && ( */}
                             <div className='flex items-center justify-center'>
                                 <div className='absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg'>
-                                    <img src="/images/bg-profile.png" alt="cover photo" className='w-full md:h-48 ' />
+                                    {/* <img src="/images/bg-profile.png" alt="cover photo" className='w-full md:h-48 ' /> */}
+                                    <img src={user?.cover_photo || "/images/bg-profile.png"} alt="cover photo" className='w-full md:h-48 ' />
                                 </div>
                                 <div onClick={() => setOpenModal(true)} className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
                                     <Camera className="text-white w-10 h-10" />
                                     <span className="text-white text-xl mt-2">Edit</span>
                                 </div>
                             </div>
-                        )}
+                        {/* )} */}
                     </div>
                 </div>
             </div>
@@ -59,18 +60,18 @@ const ViewPersonProfile = () => {
                         >
                             <img src="/images/profile2.png" alt="profile picture"
                                 className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
-                            {hovered && (
+                            {/* {hovered && ( */}
                                 <div className='flex items-center justify-center'>
                                     <div className='absolute inset-0 rounded-full w-32 h-auto mt-[-3.7rem] ml-3 flex flex-col items-center justify-center transition-opacity duration-200'>
-                                        <img src="/images/profile.png" alt="profile picture"
-                                            className='rounded-full w-32 h-auto' />
+                                        {/* <img src="/images/profile.png" alt="profile picture" className='rounded-full w-32 h-auto' /> */}
+                                        <img src={user?.profile_photo} alt="profile picture" className='rounded-full w-32 h-auto' />
                                     </div>
                                     <div className="absolute inset-0 rounded-full w-32 h-auto mt-[-3.7rem] ml-3 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200">
                                         <Camera className="text-white w-8 h-8" />
                                         <span className="text-white text-xl mt-1">Edit</span>
                                     </div>
                                 </div>
-                            )}
+                            {/* )} */}
                         </div>
                         {/* modal here */}
                         <EditComponent ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />

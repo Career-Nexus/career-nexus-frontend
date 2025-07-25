@@ -54,16 +54,6 @@ const ConnectionInUserIndustry = () => {
         }
     };
 
-    const handleUnfollow = async (userId) => {
-        try {
-            await PostService.Unfollow({ user_following: userId });
-            getConnectionByIndustry();
-        } catch (error) {
-            console.error("Could not unfollow user", error);
-            setError("Could not unfollow user");
-        }
-    };
-
     const mentors = [
         {
             id: 1,

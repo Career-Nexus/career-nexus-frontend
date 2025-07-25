@@ -16,7 +16,7 @@ export const ProfileSetupModal = () => {
                 {isLoading ? (
                     <>
                         <svg
-                            className="animate-spin h-12 w-12 text-green-500"
+                            className="animate-spin h-12 w-12 text-[#6DA05D]"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -39,9 +39,9 @@ export const ProfileSetupModal = () => {
                     </>
                 ) : (
                     <>
-                        <div className="flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                        <div className="flex items-center justify-center h-12 w-12 rounded-full bg-[#6DA05D]">
                             <svg
-                                className="h-8 w-8 text-green-500"
+                                className="h-8 w-8 text-[#6DA05D]"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"

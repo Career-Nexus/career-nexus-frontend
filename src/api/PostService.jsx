@@ -2,14 +2,14 @@ import { data } from "react-router-dom"
 import api from "./ApiServiceThree"
 
 export const PostService = {
- 
+
   createPost: async (formData) => {
-  return api.post("post/", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  })
-},
+    return api.post("post/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  },
   async getPosts(params = {}) {
     try {
       const response = await api.get("post/", { params })
@@ -120,31 +120,31 @@ export const PostService = {
       console.log("failed to unlike post", error)
     }
   },
- 
+
   async comment(comment) {
-  try {
-    console.log("Api payload", comment);
-    const formData = new FormData();
-    formData.append("post", comment.post);
-    formData.append("body", comment.body);
-    if (comment.media) {
-      formData.append("media", comment.media);
-    }
+    try {
+      console.log("Api payload", comment);
+      const formData = new FormData();
+      formData.append("post", comment.post);
+      formData.append("body", comment.body);
+      if (comment.media) {
+        formData.append("media", comment.media);
+      }
 
-    const response = await api.post("/post/comment/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+      const response = await api.post("/post/comment/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    if (response.data) {
-      console.log("comment added", response.data);
-      return { success: true, data: response.data };
+      if (response.data) {
+        console.log("comment added", response.data);
+        return { success: true, data: response.data };
+      }
+    } catch (error) {
+      console.log("failed to comment post", error);
     }
-  } catch (error) {
-    console.log("failed to comment post", error);
-  }
-},
+  },
   async getComment(postId) {
     try {
       console.log("Api payload", postId)
@@ -217,15 +217,26 @@ export const PostService = {
       console.log("failed to save post", save)
     }
   },
-  async getSavedPost(){
+  async getSavedPost() {
     try {
       const response = await api.get("/post/save/");
-      if(response.data){
-        console.log("saved posts fetched",response.data);
-        return ({success:true, data: response.data});
+      if (response.data) {
+        console.log("saved posts fetched", response.data);
+        return ({ success: true, data: response.data });
       }
     } catch (error) {
       console.log("error getting saved post", error)
+    }
+  },
+  //analysis
+  async getAnalytics(){
+    try {
+      const response = await api.get("/user/analytics/");
+      console.log("User analytics fetched:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Get User Analytics Error:", error.response || error.message);
+      throw new Error(error.response?.data?.message || "Failed to fetch user analytics");
     }
   },
   // profile completion api

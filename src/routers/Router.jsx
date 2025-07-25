@@ -32,6 +32,7 @@ import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustr
 import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
 import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
 import MentorSuccessPage from '../pages/auth/mentors/MentorSuccess'
+import ProfileCompleted from '../pages/auth/mentors/ProfileCompleted'
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -111,7 +112,7 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
-       
+
         <Route
           path="/success"
           element={
@@ -128,7 +129,7 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
-        
+
         <Route
           path="/login"
           element={
@@ -194,6 +195,15 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
+        <Route
+          path="/complete"
+          element={
+            <RedirectIfAuthenticated>
+              <ProfileCompleted />
+            </RedirectIfAuthenticated>
+          }
+        />
+        
         {/* Protected Routes */}
         <Route
           path="/home"
@@ -274,7 +284,7 @@ const Router = () => {
               <Network />
             </ProtectedRoute>
           }
-          />
+        />
         <Route
           path="/industry"
           element={

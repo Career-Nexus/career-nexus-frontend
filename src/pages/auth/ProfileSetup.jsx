@@ -4,151 +4,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CnLogo, Cuate } from '../../assets/images';
 import { LoadingIcon } from '../../icons/icon';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Select from "react-select";
-
-const CountryCodes = [
-  {
-    name: "United States",
-    code: "US",
-    continent: "North America",
-    flag: "https://flagcdn.com/us.svg",
-    dial_code: "+1",
-  },
-  {
-    name: "Canada",
-    code: "CA",
-    continent: "North America",
-    flag: "https://flagcdn.com/ca.svg",
-    dial_code: "+1",
-  },
-  {
-    name: "Mexico",
-    code: "MX",
-    continent: "North America",
-    flag: "https://flagcdn.com/mx.svg",
-    dial_code: "+52",
-  },
-  {
-    name: "Brazil",
-    code: "BR",
-    continent: "South America",
-    flag: "https://flagcdn.com/br.svg",
-    dial_code: "+55",
-  },
-  {
-    name: "Argentina",
-    code: "AR",
-    continent: "South America",
-    flag: "https://flagcdn.com/ar.svg",
-    dial_code: "+54",
-  },
-  {
-    name: "United Kingdom",
-    code: "GB",
-    continent: "Europe",
-    flag: "https://flagcdn.com/gb.svg",
-    dial_code: "+44",
-  },
-  {
-    name: "Germany",
-    code: "DE",
-    continent: "Europe",
-    flag: "https://flagcdn.com/de.svg",
-    dial_code: "+49",
-  },
-  {
-    name: "France",
-    code: "FR",
-    continent: "Europe",
-    flag: "https://flagcdn.com/fr.svg",
-    dial_code: "+33",
-  },
-  {
-    name: "Italy",
-    code: "IT",
-    continent: "Europe",
-    flag: "https://flagcdn.com/it.svg",
-    dial_code: "+39",
-  },
-  {
-    name: "Spain",
-    code: "ES",
-    continent: "Europe",
-    flag: "https://flagcdn.com/es.svg",
-    dial_code: "+34",
-  },
-  {
-    name: "China",
-    code: "CN",
-    continent: "Asia",
-    flag: "https://flagcdn.com/cn.svg",
-    dial_code: "+86",
-  },
-  {
-    name: "India",
-    code: "IN",
-    continent: "Asia",
-    flag: "https://flagcdn.com/in.svg",
-    dial_code: "+91",
-  },
-  {
-    name: "Japan",
-    code: "JP",
-    continent: "Asia",
-    flag: "https://flagcdn.com/jp.svg",
-    dial_code: "+81",
-  },
-  {
-    name: "South Korea",
-    code: "KR",
-    continent: "Asia",
-    flag: "https://flagcdn.com/kr.svg",
-    dial_code: "+82",
-  },
-  {
-    name: "Indonesia",
-    code: "ID",
-    continent: "Asia",
-    flag: "https://flagcdn.com/id.svg",
-    dial_code: "+62",
-  },
-  {
-    name: "Nigeria",
-    code: "NG",
-    continent: "Africa",
-    flag: "https://flagcdn.com/ng.svg",
-    dial_code: "+234",
-  },
-  {
-    name: "South Africa",
-    code: "ZA",
-    continent: "Africa",
-    flag: "https://flagcdn.com/za.svg",
-    dial_code: "+27",
-  },
-  {
-    name: "Egypt",
-    code: "EG",
-    continent: "Africa",
-    flag: "https://flagcdn.com/eg.svg",
-    dial_code: "+20",
-  },
-  {
-    name: "Australia",
-    code: "AU",
-    continent: "Oceania",
-    flag: "https://flagcdn.com/au.svg",
-    dial_code: "+61",
-  },
-  {
-    name: "New Zealand",
-    code: "NZ",
-    continent: "Oceania",
-    flag: "https://flagcdn.com/nz.svg",
-    dial_code: "+64",
-  },
-];
+import { CountryCodes } from './CountryCodes';
 
 const apiNoAuth = axios.create({
   baseURL: 'https://btest.career-nexus.com/',
@@ -187,7 +45,7 @@ export const ProfileSetup = () => {
     if (!firstName || !lastName || !phoneNumber) {
       setError('All fields are required');
       setLoading(false);
-      //   toast.error('All fields are required');
+      toast.error('All fields are required');
       return;
     }
 
@@ -195,7 +53,7 @@ export const ProfileSetup = () => {
     if (!phoneRegex.test(phoneNumber)) {
       setError('Phone number must be 10 digits');
       setLoading(false);
-      //   toast.error('Phone number must be 10 digits');
+      toast.error('Phone number must be 10 digits');
       return;
     }
 
@@ -226,7 +84,7 @@ export const ProfileSetup = () => {
 
       if ([200, 201, 204].includes(response.status)) {
         console.log('Profile updated successfully:', updatedData);
-        // toast.success('Profile updated successfully');
+        toast.success('Profile updated successfully');
         navigate('/select-type');
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);
@@ -292,35 +150,6 @@ export const ProfileSetup = () => {
             <p className="text-xs text-gray-500 mt-1">Your name should match your government-issued ID</p>
           </div>
 
-          {/* <div className="mb-8">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Phone Number <span className="text-red-600">*</span>
-            </label>
-            <div className="flex gap-2">
-              <div className="relative">
-                <select
-                  value={countryCode}
-                  onChange={(e) => setCountryCode(e.target.value)}
-                  className="appearance-none bg-gray-100 w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6DA05D]"
-                >
-                  {CountryCodes.map((country) => (
-                    <option key={country.code} value={country.dial_code}>
-                      {country.flag} {country.dial_code}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                </div>
-              </div>
-              <input
-                type="text"
-                placeholder="201-555-5555"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full p-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6DA05D]"
-              />
-            </div>
-          </div> */}
           <div className=" mb-5">
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Phone Number <span className="text-red-600">*</span>

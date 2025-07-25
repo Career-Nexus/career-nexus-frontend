@@ -6,6 +6,8 @@ import { ArrowRight, Check, Edit, GraduationCap, Image, ImageIcon, NotepadText, 
 import { Link, useNavigate } from 'react-router-dom'
 import { PostService } from '../../../api/PostService'
 import { emojis } from './Emoji'
+import ImageCropper from './ImageCropper'
+import VideoTrimmer from './VideoTrimmer'
 // import { Button, InputGroup, RadioGroup, Textarea } from '@chakra-ui/react'
 
 
@@ -13,13 +15,13 @@ const MainSection = () => {
   const { user } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [ModalOpen, setModalOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [profileCompletion, setProfileCompletion] = useState(0);
 
-  const handlePost = (postData) => {
-    setPosts([...posts, postData]); // Add new post to the list
-    console.log('New Post:', postData); // For debugging
-  };
+  // const handlePost = (postData) => {
+  //   setPosts([...posts, postData]); // Add new post to the list
+  //   console.log('New Post:', postData); // For debugging
+  // };
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -48,7 +50,7 @@ const MainSection = () => {
       <ModalComponent
         isOpen={ModalOpen}
         onClose={() => setModalOpen(false)}
-        onPost={handlePost}
+      // onPost={handlePost}
       />
       <TabInterface />
     </div>
@@ -60,30 +62,6 @@ const WelcomeModal = ({ onClose }) => {
   const navigate = useNavigate();
 
   return (
-    // <div className="inset-0 flex items-center justify-center z-50 mb-2">
-    //   <div className="bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full">
-    //     <button onClick={onClose} className="float-right text-white hover:text-gray-300">
-    //       <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    //         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    //       </svg>
-    //     </button>
-    //     <div className="flex items-center mb-2">
-    //       👏
-    //       <h2 className="text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
-    //     </div>
-    //     <div className='flex items-center justify-between gap-5'>
-    //       <p className="text-xs">
-    //         Let's get you started on your professional journey. Complete your profile to unlock the full potential of our platform.
-    //       </p>
-    //       <button
-    //         onClick={() => navigate('/profilepage')}
-    //         className='bg-white px-2 py-[6px] rounded-lg text-[#5DA05D] w-56'
-    //       >
-    //         Complete now
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="inset-0 flex items-center justify-center z-50 mb-2">
       <div className="relative bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full overflow-hidden">
         {/* White gradient overlay - diagonal from bottom to top */}
@@ -92,17 +70,7 @@ const WelcomeModal = ({ onClose }) => {
         {/* Original content wrapped in relative container */}
         <div className="relative z-10">
           <button onClick={onClose} className="float-right text-white hover:text-gray-300">
-            <svg
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="w-5 h-5" />
           </button>
           <div className="flex items-center mb-2">
             <span className="mr-2">👏</span>
@@ -246,11 +214,10 @@ const ProfileProgressDropdown = ({ onCompletionChange }) => {
 };
 export default MainSection
 
-// File size constants
+//File size constants
 const MAX_IMAGE_SIZE = 1 * 1024 * 1024 // 1MB in bytes
 const MAX_VIDEO_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 
-// Utility function to format file size
 const formatFileSize = (bytes) => {
   if (bytes === 0) return "0 Bytes"
   const k = 1024
@@ -258,8 +225,6 @@ const formatFileSize = (bytes) => {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
 }
-
-// Utility function to validate file size
 const validateFileSize = (file, maxSize, fileType) => {
   if (file.size > maxSize) {
     const maxSizeFormatted = formatFileSize(maxSize)
@@ -269,270 +234,268 @@ const validateFileSize = (file, maxSize, fileType) => {
   return null
 }
 
-// Image cropper component
-const ImageCropper = ({ imageSrc, onCrop, onCancel }) => {
-  const canvasRef = useRef(null)
-  const [cropArea, setCropArea] = useState({ x: 0, y: 0, width: 200, height: 200 })
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+// const ImageCropper = ({ imageSrc, onCrop, onCancel }) => {
+//   const canvasRef = useRef(null)
+//   const [cropArea, setCropArea] = useState({ x: 0, y: 0, width: 200, height: 200 })
+//   const [isDragging, setIsDragging] = useState(false)
+//   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
 
-  const handleMouseDown = (e) => {
-    const rect = canvasRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+//   const handleMouseDown = (e) => {
+//     const rect = canvasRef.current.getBoundingClientRect()
+//     const x = e.clientX - rect.left
+//     const y = e.clientY - rect.top
 
-    if (x >= cropArea.x && x <= cropArea.x + cropArea.width && y >= cropArea.y && y <= cropArea.y + cropArea.height) {
-      setIsDragging(true)
-      setDragStart({ x: x - cropArea.x, y: y - cropArea.y })
-    }
-  }
+//     if (x >= cropArea.x && x <= cropArea.x + cropArea.width && y >= cropArea.y && y <= cropArea.y + cropArea.height) {
+//       setIsDragging(true)
+//       setDragStart({ x: x - cropArea.x, y: y - cropArea.y })
+//     }
+//   }
 
-  const handleMouseMove = (e) => {
-    if (!isDragging) return
+//   const handleMouseMove = (e) => {
+//     if (!isDragging) return
 
-    const rect = canvasRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left - dragStart.x
-    const y = e.clientY - rect.top - dragStart.y
+//     const rect = canvasRef.current.getBoundingClientRect()
+//     const x = e.clientX - rect.left - dragStart.x
+//     const y = e.clientY - rect.top - dragStart.y
 
-    setCropArea((prev) => ({
-      ...prev,
-      x: Math.max(0, Math.min(x, 400 - prev.width)),
-      y: Math.max(0, Math.min(y, 300 - prev.height)),
-    }))
-  }
+//     setCropArea((prev) => ({
+//       ...prev,
+//       x: Math.max(0, Math.min(x, 400 - prev.width)),
+//       y: Math.max(0, Math.min(y, 300 - prev.height)),
+//     }))
+//   }
 
-  const handleMouseUp = () => {
-    setIsDragging(false)
-  }
+//   const handleMouseUp = () => {
+//     setIsDragging(false)
+//   }
 
-  const handleCrop = () => {
-    try {
-      const canvas = document.createElement("canvas")
-      const ctx = canvas.getContext("2d")
+//   const handleCrop = () => {
+//     try {
+//       const canvas = document.createElement("canvas")
+//       const ctx = canvas.getContext("2d")
 
-      if (!ctx) {
-        console.error("Could not get canvas context")
-        return
-      }
+//       if (!ctx) {
+//         console.error("Could not get canvas context")
+//         return
+//       }
 
-      const img = new window.Image()
+//       const img = new window.Image()
 
-      img.onload = () => {
-        try {
-          canvas.width = cropArea.width
-          canvas.height = cropArea.height
+//       img.onload = () => {
+//         try {
+//           canvas.width = cropArea.width
+//           canvas.height = cropArea.height
 
-          const scaleX = img.naturalWidth / 400
-          const scaleY = img.naturalHeight / 300
+//           const scaleX = img.naturalWidth / 400
+//           const scaleY = img.naturalHeight / 300
 
-          ctx.drawImage(
-            img,
-            cropArea.x * scaleX,
-            cropArea.y * scaleY,
-            cropArea.width * scaleX,
-            cropArea.height * scaleY,
-            0,
-            0,
-            cropArea.width,
-            cropArea.height,
-          )
+//           ctx.drawImage(
+//             img,
+//             cropArea.x * scaleX,
+//             cropArea.y * scaleY,
+//             cropArea.width * scaleX,
+//             cropArea.height * scaleY,
+//             0,
+//             0,
+//             cropArea.width,
+//             cropArea.height,
+//           )
 
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                onCrop(blob)
-              } else {
-                console.error("Failed to create blob from canvas")
-              }
-            },
-            "image/jpeg",
-            0.9,
-          )
-        } catch (error) {
-          console.error("Error during image processing:", error)
-        }
-      }
+//           canvas.toBlob(
+//             (blob) => {
+//               if (blob) {
+//                 onCrop(blob)
+//               } else {
+//                 console.error("Failed to create blob from canvas")
+//               }
+//             },
+//             "image/jpeg",
+//             0.9,
+//           )
+//         } catch (error) {
+//           console.error("Error during image processing:", error)
+//         }
+//       }
 
-      img.onerror = () => {
-        console.error("Failed to load image for cropping")
-      }
+//       img.onerror = () => {
+//         console.error("Failed to load image for cropping")
+//       }
 
-      img.crossOrigin = "anonymous"
-      img.src = imageSrc
-    } catch (error) {
-      console.error("Error in handleCrop:", error)
-    }
-  }
+//       img.crossOrigin = "anonymous"
+//       img.src = imageSrc
+//     } catch (error) {
+//       console.error("Error in handleCrop:", error)
+//     }
+//   }
 
-  return (
-    <div className="space-y-4">
-      <div className="relative">
-        <img src={imageSrc || "/placeholder.svg"} alt="Crop" className="w-full h-64 object-cover" />
-        <canvas
-          ref={canvasRef}
-          width={400}
-          height={300}
-          className="absolute inset-0 w-full h-full cursor-move"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          style={{
-            background: `linear-gradient(to right, 
-              transparent ${cropArea.x}px, 
-              rgba(0,0,0,0.5) ${cropArea.x}px, 
-              rgba(0,0,0,0.5) ${cropArea.x + cropArea.width}px, 
-              transparent ${cropArea.x + cropArea.width}px),
-            linear-gradient(to bottom, 
-              transparent ${cropArea.y}px, 
-              rgba(0,0,0,0.5) ${cropArea.y}px, 
-              rgba(0,0,0,0.5) ${cropArea.y + cropArea.height}px, 
-              transparent ${cropArea.y + cropArea.height}px)`,
-          }}
-        />
-        <div
-          className="absolute border-2 border-white border-dashed"
-          style={{
-            left: `${(cropArea.x / 400) * 100}%`,
-            top: `${(cropArea.y / 300) * 100}%`,
-            width: `${(cropArea.width / 400) * 100}%`,
-            height: `${(cropArea.height / 300) * 100}%`,
-          }}
-        />
-      </div>
+//   return (
+//     <div className="space-y-4">
+//       <div className="relative">
+//         <img src={imageSrc || "/placeholder.svg"} alt="Crop" className="w-full h-64 object-cover" />
+//         <canvas
+//           ref={canvasRef}
+//           width={400}
+//           height={300}
+//           className="absolute inset-0 w-full h-full cursor-move"
+//           onMouseDown={handleMouseDown}
+//           onMouseMove={handleMouseMove}
+//           onMouseUp={handleMouseUp}
+//           style={{
+//             background: `linear-gradient(to right, 
+//               transparent ${cropArea.x}px, 
+//               rgba(0,0,0,0.5) ${cropArea.x}px, 
+//               rgba(0,0,0,0.5) ${cropArea.x + cropArea.width}px, 
+//               transparent ${cropArea.x + cropArea.width}px),
+//             linear-gradient(to bottom, 
+//               transparent ${cropArea.y}px, 
+//               rgba(0,0,0,0.5) ${cropArea.y}px, 
+//               rgba(0,0,0,0.5) ${cropArea.y + cropArea.height}px, 
+//               transparent ${cropArea.y + cropArea.height}px)`,
+//           }}
+//         />
+//         <div
+//           className="absolute border-2 border-white border-dashed"
+//           style={{
+//             left: `${(cropArea.x / 400) * 100}%`,
+//             top: `${(cropArea.y / 300) * 100}%`,
+//             width: `${(cropArea.width / 400) * 100}%`,
+//             height: `${(cropArea.height / 300) * 100}%`,
+//           }}
+//         />
+//       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">Width:</label>
-          <input
-            type="range"
-            min="50"
-            max="300"
-            value={cropArea.width}
-            onChange={(e) => setCropArea((prev) => ({ ...prev, width: Number.parseInt(e.target.value) }))}
-            className="flex-1"
-          />
-          <span className="text-sm w-12">{cropArea.width}px</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">Height:</label>
-          <input
-            type="range"
-            min="50"
-            max="200"
-            value={cropArea.height}
-            onChange={(e) => setCropArea((prev) => ({ ...prev, height: Number.parseInt(e.target.value) }))}
-            className="flex-1"
-          />
-          <span className="text-sm w-12">{cropArea.height}px</span>
-        </div>
-      </div>
+//       <div className="space-y-2">
+//         <div className="flex items-center space-x-2">
+//           <label className="text-sm font-medium">Width:</label>
+//           <input
+//             type="range"
+//             min="50"
+//             max="300"
+//             value={cropArea.width}
+//             onChange={(e) => setCropArea((prev) => ({ ...prev, width: Number.parseInt(e.target.value) }))}
+//             className="flex-1"
+//           />
+//           <span className="text-sm w-12">{cropArea.width}px</span>
+//         </div>
+//         <div className="flex items-center space-x-2">
+//           <label className="text-sm font-medium">Height:</label>
+//           <input
+//             type="range"
+//             min="50"
+//             max="200"
+//             value={cropArea.height}
+//             onChange={(e) => setCropArea((prev) => ({ ...prev, height: Number.parseInt(e.target.value) }))}
+//             className="flex-1"
+//           />
+//           <span className="text-sm w-12">{cropArea.height}px</span>
+//         </div>
+//       </div>
 
-      <div className="flex justify-end space-x-2">
-        <button onClick={onCancel} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
-          Cancel
-        </button>
-        <button onClick={handleCrop} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Apply Crop
-        </button>
-      </div>
-    </div>
-  )
-}
+//       <div className="flex justify-end space-x-2">
+//         <button onClick={onCancel} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
+//           Cancel
+//         </button>
+//         <button onClick={handleCrop} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+//           Apply Crop
+//         </button>
+//       </div>
+//     </div>
+//   )
+// }
 
-// Video trimmer component
-const VideoTrimmer = ({ videoSrc, onTrim, onCancel }) => {
-  const videoRef = useRef(null)
-  const [duration, setDuration] = useState(0)
-  const [startTime, setStartTime] = useState(0)
-  const [endTime, setEndTime] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
+// const VideoTrimmer = ({ videoSrc, onTrim, onCancel }) => {
+//   const videoRef = useRef(null)
+//   const [duration, setDuration] = useState(0)
+//   const [startTime, setStartTime] = useState(0)
+//   const [endTime, setEndTime] = useState(0)
+//   const [currentTime, setCurrentTime] = useState(0)
 
-  const handleLoadedMetadata = () => {
-    const videoDuration = videoRef.current.duration
-    setDuration(videoDuration)
-    setEndTime(videoDuration)
-  }
+//   const handleLoadedMetadata = () => {
+//     const videoDuration = videoRef.current.duration
+//     setDuration(videoDuration)
+//     setEndTime(videoDuration)
+//   }
 
-  const handleTimeUpdate = () => {
-    setCurrentTime(videoRef.current.currentTime)
-  }
+//   const handleTimeUpdate = () => {
+//     setCurrentTime(videoRef.current.currentTime)
+//   }
 
-  const handleTrim = () => {
-    onTrim({
-      startTime,
-      endTime,
-      duration: endTime - startTime,
-    })
-  }
+//   const handleTrim = () => {
+//     onTrim({
+//       startTime,
+//       endTime,
+//       duration: endTime - startTime,
+//     })
+//   }
 
-  const seekTo = (time) => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = time
-    }
-  }
+//   const seekTo = (time) => {
+//     if (videoRef.current) {
+//       videoRef.current.currentTime = time
+//     }
+//   }
 
-  return (
-    <div className="space-y-4">
-      <video
-        ref={videoRef}
-        src={videoSrc}
-        controls
-        className="w-full h-64 object-cover rounded"
-        onLoadedMetadata={handleLoadedMetadata}
-        onTimeUpdate={handleTimeUpdate}
-      />
+//   return (
+//     <div className="space-y-4">
+//       <video
+//         ref={videoRef}
+//         src={videoSrc}
+//         controls
+//         className="w-full h-64 object-cover rounded"
+//         onLoadedMetadata={handleLoadedMetadata}
+//         onTimeUpdate={handleTimeUpdate}
+//       />
 
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">Start:</label>
-          <input
-            type="range"
-            min="0"
-            max={duration}
-            step="0.1"
-            value={startTime}
-            onChange={(e) => {
-              const value = Number.parseFloat(e.target.value)
-              setStartTime(value)
-              seekTo(value)
-            }}
-            className="flex-1"
-          />
-          <span className="text-sm w-16">{startTime.toFixed(1)}s</span>
-        </div>
+//       <div className="space-y-2">
+//         <div className="flex items-center space-x-2">
+//           <label className="text-sm font-medium">Start:</label>
+//           <input
+//             type="range"
+//             min="0"
+//             max={duration}
+//             step="0.1"
+//             value={startTime}
+//             onChange={(e) => {
+//               const value = Number.parseFloat(e.target.value)
+//               setStartTime(value)
+//               seekTo(value)
+//             }}
+//             className="flex-1"
+//           />
+//           <span className="text-sm w-16">{startTime.toFixed(1)}s</span>
+//         </div>
 
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">End:</label>
-          <input
-            type="range"
-            min={startTime}
-            max={duration}
-            step="0.1"
-            value={endTime}
-            onChange={(e) => {
-              const value = Number.parseFloat(e.target.value)
-              setEndTime(value)
-              seekTo(value)
-            }}
-            className="flex-1"
-          />
-          <span className="text-sm w-16">{endTime.toFixed(1)}s</span>
-        </div>
+//         <div className="flex items-center space-x-2">
+//           <label className="text-sm font-medium">End:</label>
+//           <input
+//             type="range"
+//             min={startTime}
+//             max={duration}
+//             step="0.1"
+//             value={endTime}
+//             onChange={(e) => {
+//               const value = Number.parseFloat(e.target.value)
+//               setEndTime(value)
+//               seekTo(value)
+//             }}
+//             className="flex-1"
+//           />
+//           <span className="text-sm w-16">{endTime.toFixed(1)}s</span>
+//         </div>
 
-        <div className="text-sm text-gray-600">Trim duration: {(endTime - startTime).toFixed(1)}s</div>
-      </div>
+//         <div className="text-sm text-gray-600">Trim duration: {(endTime - startTime).toFixed(1)}s</div>
+//       </div>
 
-      <div className="flex justify-end space-x-2">
-        <button onClick={onCancel} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
-          Cancel
-        </button>
-        <button onClick={handleTrim} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Apply Trim
-        </button>
-      </div>
-    </div>
-  )
-}
+//       <div className="flex justify-end space-x-2">
+//         <button onClick={onCancel} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
+//           Cancel
+//         </button>
+//         <button onClick={handleTrim} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+//           Apply Trim
+//         </button>
+//       </div>
+//     </div>
+//   )
+// }
 
 const ModalComponent = ({ isOpen, onClose }) => {
   const { user } = useContext(UserContext)
@@ -551,42 +514,42 @@ const ModalComponent = ({ isOpen, onClose }) => {
   if (!isOpen) return null
 
   const handlePost = async () => {
-  if (!postContent.trim() && selectedImages.length === 0 && !selectedVideo) {
-    setError("Please add content or media to post.")
-    return
+    if (!postContent.trim() && selectedImages.length === 0 && !selectedVideo) {
+      setError("Please add content or media to post.")
+      return
+    }
+
+    setIsLoading(true)
+    setError("")
+
+    try {
+      const formData = new FormData()
+
+      formData.append("body", postContent)
+      formData.append("article", null)
+      formData.append("count", 1)
+      formData.append("profile", user?.profile_id || user?.id || "")
+
+      // Only append files if they exist
+      if (selectedImages[0]) formData.append("pic1", selectedImages[0].file)
+      if (selectedImages[1]) formData.append("pic2", selectedImages[1].file)
+      if (selectedImages[2]) formData.append("pic3", selectedImages[2].file)
+
+      if (selectedVideo) formData.append("video", selectedVideo.file)
+
+      console.log([...formData.entries()]) // see what you are sending
+
+      await PostService.createPost(formData)
+
+      resetForm()
+      onClose()
+    } catch (err) {
+      setError(err.message || "Failed to create post. Please try again.")
+      console.error("Post Error:", err)
+    } finally {
+      setIsLoading(false)
+    }
   }
-
-  setIsLoading(true)
-  setError("")
-
-  try {
-    const formData = new FormData()
-
-    formData.append("body", postContent)
-    formData.append("article", null)
-    formData.append("count", 1)
-    formData.append("profile", user?.profile_id || user?.id || "")
-
-    // Only append files if they exist
-    if (selectedImages[0]) formData.append("pic1", selectedImages[0].file)
-    if (selectedImages[1]) formData.append("pic2", selectedImages[1].file)
-    if (selectedImages[2]) formData.append("pic3", selectedImages[2].file)
-
-    if (selectedVideo) formData.append("video", selectedVideo.file)
-
-    console.log([...formData.entries()]) // see what you are sending
-
-    await PostService.createPost(formData)
-
-    resetForm()
-    onClose()
-  } catch (err) {
-    setError(err.message || "Failed to create post. Please try again.")
-    console.error("Post Error:", err)
-  } finally {
-    setIsLoading(false)
-  }
-}
 
   const resetForm = () => {
     setPostContent("")
@@ -607,43 +570,46 @@ const ModalComponent = ({ isOpen, onClose }) => {
   }
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files || [])
-    const remainingSlots = 3 - selectedImages.length
-    const filesToAdd = files.slice(0, remainingSlots)
+    const files = Array.from(e.target.files || []);
+    const remainingSlots = 3 - selectedImages.length;
+    const filesToAdd = files.slice(0, remainingSlots);
 
     if (files.length > remainingSlots) {
-      setError(`You can only add ${remainingSlots} more image(s). Maximum 3 images allowed.`)
-      return
+      setError(`You can only add ${remainingSlots} more image(s). Maximum 3 images allowed.`);
+      return;
     }
 
-    // Validate file sizes
-    const validFiles = []
-    const errors = []
+    const validFiles = [];
+    const errors = [];
 
     for (const file of filesToAdd) {
-      const sizeError = validateFileSize(file, MAX_IMAGE_SIZE, "Image")
+      if (file.type === "image/webp") {
+        errors.push("WEBP images are not supported. Please use JPG or PNG.");
+        continue;
+      }
+
+      const sizeError = validateFileSize(file, MAX_IMAGE_SIZE, "Image");
       if (sizeError) {
-        errors.push(sizeError)
+        errors.push(sizeError);
       } else {
-        validFiles.push(file)
+        validFiles.push(file);
       }
     }
 
     if (errors.length > 0) {
-      setError(errors.join(" "))
-      return
+      setError(errors.join(" "));
+      return;
     }
 
     const newImages = validFiles.map((file) => ({
       file,
       url: URL.createObjectURL(file),
       edited: false,
-    }))
+    }));
 
-    setSelectedImages((prev) => [...prev, ...newImages])
-    setError("") // Clear any previous errors
-  }
-
+    setSelectedImages((prev) => [...prev, ...newImages]);
+    setError(""); // Clear any previous errors
+  };
   const handleVideoChange = (e) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -856,7 +822,8 @@ const ModalComponent = ({ isOpen, onClose }) => {
             >
               <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png"
+                // accept="image/*"
                 className="hidden"
                 onChange={handleImageChange}
                 multiple
@@ -932,6 +899,21 @@ const ModalComponent = ({ isOpen, onClose }) => {
             </button>
             <h3 className="text-lg font-semibold mb-4">{mediaType === "video" ? "Trim Video" : "Crop Image"}</h3>
 
+            {/* {mediaType === "video" && selectedVideo && (
+              <VideoTrimmer
+                videoSrc={selectedVideo.url}
+                onTrim={handleTrimComplete}
+                onCancel={() => setIsEditModalOpen(false)}
+              />
+            )}
+
+            {mediaType === "image" && selectedImages[currentMediaIndex] && (
+              <ImageCropper
+                imageSrc={selectedImages[currentMediaIndex].url}
+                onCrop={handleCropComplete}
+                onCancel={() => setIsEditModalOpen(false)}
+              />
+            )} */}
             {mediaType === "video" && selectedVideo && (
               <VideoTrimmer
                 videoSrc={selectedVideo.url}

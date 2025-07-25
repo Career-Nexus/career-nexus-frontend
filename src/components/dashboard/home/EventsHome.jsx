@@ -67,27 +67,34 @@ const EventsHome = () => {
 
 export default EventsHome
 
-export const Premium = () => {
-    return (
-        <div className="relative inline-block">
-            <img src="/images/premium.png" alt="premium" className="w-full rounded-lg" />
-            <Link href="#" className="absolute top-3 right-2.5 text-white">
-                <ArrowUpRight size={20} />
-            </Link>
-        </div>
-    )
-}
-
-// const Premium = () => {
+// export const Premium = () => {
 //     return (
-//         <div className='bg-[#5DA05D] rounded-lg px-4 py-2 flex flex-col gap-2' >
-//             <div className='text-white flex items-center justify-between'>
-//                 <h2>PREMIUM</h2>
-//                 <Link><ArrowUpRight /></Link>
-//             </div>
-//             <p className='text-white text-sm'>
-//                 Unlock Exclusive Access - Subscribe to Premium Now!
-//             </p>
+//         <div className="relative inline-block">
+//             <img src="/images/premium.png" alt="premium" className="w-full rounded-lg" />
+//             <Link href="#" className="absolute top-3 right-2.5 text-white">
+//                 <ArrowUpRight size={20} />
+//             </Link>
 //         </div>
 //     )
 // }
+
+export const Premium = () => {
+    return (
+        <div className="inset-0 flex items-center justify-center z-50 mb-2">
+            <div className="relative bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-2 rounded-lg shadow-lg max-w-3xl w-full overflow-hidden">
+                {/* <div className='bg-[#5DA05D] rounded-lg px-4 py-2 flex flex-col gap-2' > */}
+                <div className="absolute w-72 h-14 bg-gradient-to-tl from-white/5 via-white/40 to-transparent rounded-full -rotate-45 bottom-6 top-6 right-0 pointer-events-none transform origin-bottom"></div>
+
+                <div className='relative z-10'>
+                    <div className='text-white flex items-center justify-between '>
+                        <h2>PREMIUM</h2>
+                        <Link><ArrowUpRight /></Link>
+                    </div>
+                    <p className='text-white text-sm'>
+                        Unlock Exclusive Access - Subscribe to Premium Now!
+                    </p>
+                </div>
+            </div>
+        </div>
+    )
+}
