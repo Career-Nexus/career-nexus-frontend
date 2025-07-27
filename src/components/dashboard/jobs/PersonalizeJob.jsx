@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { JobServices } from "../../../api/JobServices";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 import { SetupSpin } from "../../../assets/icons";
+import FloatingMessageIcon from "../home/FloatingMessage";
+
 
 const PersonalizeJob = () => {
   const [selectedTitles, setSelectedTitles] = useState([]);
@@ -158,12 +159,12 @@ const PersonalizeJob = () => {
       try {
         const result = await JobServices.UpdateJobPreferences(preference);
         console.log("API response:", result);
-        prompt("Preferences saved successfully!");
+        toast.success("Preferences saved successfully!");
         setShowModal(false);
         navigate("/jobs");
       } catch (error) {
         console.error("Error updating preferences:", error);
-        prompt("Failed to save preferences. Please try again.");
+        toast.error("Failed to save preferences. Please try again.");
       } finally {
         setLoading(false);
         setShowModal(false);
@@ -347,7 +348,7 @@ const PersonalizeJob = () => {
           </div>
         </div>
       )}
-      <ToastContainer />
+      <FloatingMessageIcon />
     </div>
   );
 };

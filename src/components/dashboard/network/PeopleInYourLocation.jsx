@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { NetworkService } from '../../../api/NetworkService';
 import { toast } from "react-toastify";
+import { Link } from 'react-router-dom';
 
 function PeopleInYourLocation() {
     const [bylocation, setBylocation] = useState([]);
@@ -49,7 +50,7 @@ function PeopleInYourLocation() {
             <div className="mb-12 border border-gray-200 rounded-lg p-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900">People you might know</h2>
-                    <button className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</button>
+                    <Link to="/industry" className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</Link>
                 </div>
 
                 {bylocation.length === 0 ? (

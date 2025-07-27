@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Premium } from '../home/EventsHome'
 import { NetworkService } from '../../../api/NetworkService'
 
-const SideBar = ({ invites = [] }) => {
+const SideBar = () => {
     const [followings, setFollowings] = useState(0);
     const [connections, setConnections] = useState(0);
     const [pendingInvites, setPendingInvites] = useState([]);

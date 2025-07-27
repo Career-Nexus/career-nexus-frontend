@@ -33,6 +33,8 @@ import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
 import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
 import MentorSuccessPage from '../pages/auth/mentors/MentorSuccess'
 import ProfileCompleted from '../pages/auth/mentors/ProfileCompleted'
+import MyJobs from '../pages/jobs/MyJobs'
+
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated()
@@ -274,6 +276,14 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <PersonalizedJob />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/my-jobs'
+          element={
+            <ProtectedRoute>
+              <MyJobs />
             </ProtectedRoute>
           }
         />

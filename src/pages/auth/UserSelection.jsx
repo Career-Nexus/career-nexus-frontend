@@ -12,7 +12,7 @@ import { industries } from "./Industries";
 export default function UserTypeSelection() {
   const [selectedIndustry, setSelectedIndustry] = useState('Technology');
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function UserTypeSelection() {
 
       const tempToken = Cookies.get('temp_token');
       console.log('Temporary token:', tempToken || 'None');
-      
+
       if (!tempToken) {
         throw new Error('No authentication token found. Please complete signup and OTP verification.');
       }
@@ -58,7 +58,7 @@ export default function UserTypeSelection() {
       const response = await api.patch('/user/profile-update/', payload, { headers });
 
       console.log('Update response:', { status: response.status, data: response.data });
-    if ([200, 201, 204, 206].includes(response.status)) {
+      if ([200, 201, 204, 206].includes(response.status)) {
         console.log("Industry updated successfully:", payload)
 
         setTimeout(() => {
@@ -80,8 +80,8 @@ export default function UserTypeSelection() {
               setShowModal(false)
               setLoading(false)
             }
-          }, 2000)
-        }, 3000)
+          }, 20000)
+        }, 30000)
       } else {
         throw new Error(`Unexpected response status: ${response.status}`)
       }
@@ -131,7 +131,7 @@ export default function UserTypeSelection() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Link to="/profile-setup" className="flex items-center border border-green-400 p-2 rounded-lg">
+            <Link to="/profile-setup" className="flex items-center border border-[#5B8F4E] p-2 rounded-lg">
               <img src={ArrowgBack} alt="Back" className="w-6 h-6" />
             </Link>
             <button
@@ -142,12 +142,12 @@ export default function UserTypeSelection() {
                 ${loading ? 'bg-[#5B8F4E] text-white cursor-not-allowed' : ''
                 }`}
             >
-              {loading ?( 
-              <span className="flex items-center">
-                <LoadingIcon className="mr-2"/>
-                Saving...
-              </span>
-              ):( 
+              {loading ? (
+                <span className="flex items-center">
+                  <LoadingIcon className="mr-2" />
+                  Saving...
+                </span>
+              ) : (
                 'Complete'
               )}
             </button>
@@ -173,8 +173,10 @@ export default function UserTypeSelection() {
               </>
             ) : (
               <>
-                <img src={SetupMarked} alt="setup-marked" className="h-30 w-30 text-[#5B8F4E]" />
-                <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
+                <div className="flex flex-col items-center mt-20">
+                  <img src={SetupMarked} alt="setup-marked" className="h-30 w-30 text-[#5B8F4E] flex items-center justify-center" />
+                  <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
+                </div>
               </>
             )}
           </div>

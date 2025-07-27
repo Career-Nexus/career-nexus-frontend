@@ -3,11 +3,14 @@ import api from './ApiServiceThree'
 export const JobServices = {
     // create job
     // get jobs
-    async GetUsersJobs() {
+    async GetUsersJobs(params = {}) {
         try {
-            const response = await api.get('/job/recommend/');
+            const response = await api.get('/job/recommend/', { params });
             console.log(response.data);
-            return response.data;
+            if (response.data) {
+                console.log("recomended jobs fetched", response.data);
+                return { success: true, data: response.data }
+            }
         } catch (error) {
             console.log(error);
         }

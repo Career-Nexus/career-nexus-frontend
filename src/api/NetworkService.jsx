@@ -1,7 +1,5 @@
 import api from "./ApiServiceThree"
 
-
-
 export const NetworkService = {
     async recommendbylocation(params = {}) {
         try {

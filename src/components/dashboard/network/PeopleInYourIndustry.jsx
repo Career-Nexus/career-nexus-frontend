@@ -2,6 +2,8 @@ import { Box } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react'
 import { NetworkService } from '../../../api/NetworkService';
 import { toast } from "react-toastify";
+import ConnectionInUserIndustry from './ConnectionInUserIndustry';
+import { Link } from 'react-router-dom';
 
 function PeopleInYourIndustry() {
     const [byindustry, setByindustry] = useState([]);
@@ -27,18 +29,18 @@ function PeopleInYourIndustry() {
     const createConnection = async (userId) => {
         setPendingConnections((prev) => [...prev, userId]);
         try {
-          const response = await NetworkService.createConnection({ connection: userId });
-          if (response) {
-            console.log("Connection created successfully:", response);
-            setConnections((prev) => [...prev, response]);
-            toast.success("Connection created successfully");
-          }
+            const response = await NetworkService.createConnection({ connection: userId });
+            if (response) {
+                console.log("Connection created successfully:", response);
+                setConnections((prev) => [...prev, response]);
+                toast.success("Connection request sent successfully");
+            }
         } catch (error) {
-          console.error("Error creating connection:", error);
-          setError("Failed to create connection");
-          toast.error("Failed to create connection");
+            console.error("Error creating connection:", error);
+            setError("Failed to create connection");
+            toast.error("Failed to create connection");
         }
-      };
+    };
     useEffect(() => {
         getConnectionByIndustry();
     }, []);
@@ -48,7 +50,7 @@ function PeopleInYourIndustry() {
             <div className="mb-12 border border-gray-200 rounded-lg p-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900">People in your Industry</h2>
-                    <button className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</button>
+                    <Link to="/industry" className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</Link>
                 </div>
 
                 {byindustry.length === 0 ? (

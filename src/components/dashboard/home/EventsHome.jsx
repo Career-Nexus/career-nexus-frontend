@@ -1,61 +1,133 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Message } from '../../../icons/icon';
 import FloatingMessageIcon from './FloatingMessage';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { NetworkService } from '../../../api/NetworkService';
+import { PostService } from '../../../api/PostService';
+import { toast } from 'react-toastify';
+import { JobServices } from '../../../api/JobServices';
 
 const EventsHome = () => {
-    const items1 = [
-        { title: 'Upcoming Sessions', event1: 'Resume Review', date1: 'Today, 2:00PM', event2: 'Portfolio Feedback', date2: 'Tomorrow, 10:00AM' }
-    ]
+    const [whoToFollow, setWhoToFollow] = useState([]);
+    const [recommended, setRecommended] = useState([]);
+
+    const getWhoToFollow = async () => {
+        try {
+            const { data } = await NetworkService.recommendtofollow();
+            const isArray = Array.isArray(data?.results) ? data.results : [];
+            const withFollowState = isArray.map((mentor) => ({
+                ...mentor,
+                following: false, // Add `following: false` to each mentor
+            }));
+            setWhoToFollow(withFollowState);
+        } catch (error) {
+            console.error("Error fetching who to follow:", error);
+        }
+    }
+
+    const recommendedJobs = async () => {
+        try {
+            const { data } = await JobServices.GetUsersJobs();
+            const isArray = Array.isArray(data?.results) ? data.results : [];
+            setRecommended(isArray);
+        } catch (error) {
+            console.error("Error fetching recommended jobs:", error);
+        }
+    }
+
+    useEffect(() => {
+        getWhoToFollow();
+        recommendedJobs();
+    }, []);
+
+    const handleFollow = async (userId) => {
+        try {
+            // Optimistically mark as following in local state
+            setWhoToFollow((prev) =>
+                prev.map((mentor) =>
+                    mentor.id === userId ? { ...mentor, following: true } : mentor
+                )
+            );
+            await PostService.Follow({ user_following: userId });
+            toast.success("You are now following this user");
+        } catch (err) {
+            console.error(err);
+            // Roll back if failed:
+            setWhoToFollow((prev) =>
+                prev.map((mentor) =>
+                    mentor.id === userId ? { ...mentor, following: false } : mentor
+                )
+            );
+        }
+    }
     const items2 = [
         {
             title: 'Recommended Jobs', header1: 'Ux Designer', comp1: 'TechCorp Inc.', skill1: 'Matching skill: 4/5',
             header2: "Product Manager", comp2: "Innovate Solutions", skip2: "Matching skill: 3/5"
         }
     ]
-    const items3 = [
-        { title: 'Discover New Career Opportunities', desc: 'Explore premium services tailored to your career growth.', img1: <Message /> }
-    ]
-    const items = [
-        { id: 1, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-        { id: 2, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-        { id: 3, image: '/images/profile2.png', name: 'Eric Moore', desc: 'Ux Mentor, Google', follow: '121,344 Followers' },
-    ]
     return (
         <div className='hidden md:block'>
             <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
                 <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
-                <div>
-                    {items.map(item => (
-                        <div key={item.id} className='grid grid-cols-12 items-center'>
-                            <img src={item.image} alt={item.name} className='w-10 h-10 rounded-full md:col-span-12 lg:col-span-3 md:mb-2' />
-                            <div className='lg:col-span-6 md:col-span-12 md:mb-2'>
-                                <h3 className='font-bold'>{item.name}</h3>
-                                <p className='text-xs font-thin'>{item.desc}</p>
-                                <p className='text-xs font-thin'>{item.follow}</p>
+                {whoToFollow.length === 0 ? (
+                    <div className='flex justify-center items-center h-20'>
+                        <p className='text-gray-500'>No recommendations available</p>
+                    </div>
+                ) : (
+                    <>
+                        {whoToFollow.slice(0, 3).map(item => (
+                            <div key={item.id} className='grid grid-cols-12 items-center'>
+                                <div className='col-span-3'>
+                                    <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
+                                </div>
+                                <div className='col-span-6 mb-2'>
+                                    <h3 className='font-bold'>{item.name}</h3>
+                                    <p className='text-xs font-thin'>{item.qualification}</p>
+                                    <p className='text-xs font-thin'>{item.followers} Followers</p>
+                                </div>
+                                <div className='col-span-3'>
+                                    <button
+                                        onClick={() => handleFollow(item.id)}
+                                        disabled={item.following}
+                                        className={`w-full border py-1 ${item.following
+                                            ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+                                            : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+                                            } rounded-lg transition-colors duration-200 font-medium text-xs`}
+                                    >
+                                        {item.following ? "Following" : "Follow"}
+                                    </button>
+                                </div>
                             </div>
-                            <div className='lg:col-span-3 md:col-span-12'>
-                                <button className='border border-[#5DA05D] rounded-lg text-[#5DA05D] text-sm px-2'>Follow</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
+                        ))}
+                        <Link to={'/industry'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
+                    </>
+                )}
             </div>
             <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
-                {items2.map(item => (
-                    <div key={item.title} className='p-2'>
-                        <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
-                        <p className='text-xs font-semibold mb-1'>{item.header1}</p>
-                        <p className='text-xs'>{item.comp1}</p>
-                        <p className='text-xs mb-1'>{item.skill1}</p>
-                        <p className='text-xs font-semibold mb-1'>{item.header2}</p>
-                        <p className='text-xs'>{item.comp2}</p>
-                        <p className='text-xs mb-1'>{item.skip2}</p>
+                <h1 className='py-3 font-semibold'>Recommended Jobs</h1>
+                {recommended.length === 0 ? (
+                    <div className='flex justify-center items-center h-20'>
+                        <p className='text-gray-500'>No recommended jobs available</p>
                     </div>
-                ))}
-                <a href='#' className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</a>
+                ) : (
+                    <div >
+                        {recommended.slice(0, 2).map(item => (
+                            <div key={item.id} className='p-2'>
+                                <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
+                                <p className='text-xs font-semibold mb-1'>{item.organization}</p>
+                                <p className='text-xs'>{item.experience_level}</p>
+                                <p className='text-xs mb-1'>Matching Skills:3/4</p>
+                                {/* <p className='text-xs font-semibold mb-1'>{item.header2}</p>
+                        <p className='text-xs'>{item.comp2}</p>
+                        <p className='text-xs mb-1'>{item.skip2}</p> */}
+                            </div>
+                        ))}
+
+                    </div>
+                )}
+                <Link to='/jobs' className='text-[#5DA05D] justify-center text-center px-5 py-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
             </div>
             <FloatingMessageIcon />
             <div>
@@ -66,17 +138,6 @@ const EventsHome = () => {
 }
 
 export default EventsHome
-
-// export const Premium = () => {
-//     return (
-//         <div className="relative inline-block">
-//             <img src="/images/premium.png" alt="premium" className="w-full rounded-lg" />
-//             <Link href="#" className="absolute top-3 right-2.5 text-white">
-//                 <ArrowUpRight size={20} />
-//             </Link>
-//         </div>
-//     )
-// }
 
 export const Premium = () => {
     return (

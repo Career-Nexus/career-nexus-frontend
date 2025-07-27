@@ -19,9 +19,10 @@ import { Box, Spinner } from "@chakra-ui/react";
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
     return (
-        <div>
-            <div className="inset-0 flex items-center justify-center z-50 mb-2">
-                <div className="bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white p-4 mx-4 rounded-lg max-w-6xl w-full">
+        <div className="inset-0 flex items-center z-50 mb-2 ml-4">
+            <div className="relative bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-4 rounded-lg shadow-lg max-w-3xl w-full overflow-hidden">
+                <div className="absolute w-72 h-14 bg-gradient-to-tl from-white/5 via-white/40 to-transparent rounded-full -rotate-45 bottom-6 top-6 right-16 pointer-events-none transform origin-bottom"></div>
+                <div className="relative z-10">
                     <div className='flex items-center justify-between'>
                         <p className="text-sm">
                             <div className="flex gap-2">
@@ -30,7 +31,7 @@ export const JobCard = ({ hideCard }) => {
                             </div>
                             Personalize your job feed to see more relevant opportunities.
                         </p>
-                        <Link to={'/personalize'} className='bg-white p-2 rounded-lg text-[#5DA05D] text-center w-40 hover:bg-[#2b5b2b] hover:text-white'>Set now</Link>
+                        <Link to={'/personalize'} className="bg-white p-2 rounded-lg text-[#5DA05D] text-center w-40">Set now</Link>
                     </div>
                 </div>
             </div>
@@ -44,41 +45,47 @@ const AllJobs = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const fetchData = async () => {
+        try {
+            // Fetch user jobs
+            const {data} = await JobServices.GetUsersJobs();
+            const isArray = Array.isArray(data?.results) ? data.results : [];
+            console.log("User jobs:", isArray);
+            setAlljob(isArray);
+
+            // Fetch preferred job to check preference_set
+            const preferedResult = await JobServices.GetPreferedJob();
+            console.log("Preferred job:", preferedResult);
+            setPrefered(preferedResult);
+
+            navigate('/jobs');
+        } catch (error) {
+            console.log("Error fetching data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch user jobs
-                const jobResult = await JobServices.GetUsersJobs();
-                console.log(jobResult.results);
-                setAlljob(jobResult.results);
-
-                // Fetch preferred job to check preference_set
-                const preferedResult = await JobServices.GetPreferedJob();
-                console.log(preferedResult);
-                setPrefered(preferedResult);
-
-                navigate('/jobs');
-            } catch (error) {
-                console.log("Error fetching data", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, []);
 
-    if (loading){
+    if (loading) {
         return (
-              <Box display="flex" justifyContent="center" alignItems="center" height="200px">
-                  <Spinner size="lg" color="#5DA05D" thickness="4px" />
-              </Box>
-          );
+            <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+                <Spinner size="lg" color="#5DA05D" thickness="4px" />
+            </Box>
+        );
     }
 
     return (
         <div>
             <JobCard hideCard={prefered?.preference_set} />
-            {alljob.length > 0 && (
+            {alljob.length === 0 ? (
+                <div className="container mx-auto p-4">
+                    <p className="text-gray-500">No job listings available</p>
+                </div>
+            ) : (
                 <div className="container mx-auto p-4">
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                         {alljob.map((job, index) => (
@@ -130,67 +137,67 @@ const AllJobs = () => {
 export default AllJobs;
 
 const jobs = [
-        {
-            companyLogo: <img src={logo} alt="ui/ux" className="w-10 h-10 " />,
-            companyName: "Instagram",
-            jobTitle: "Senior UI/UX Designer",
-            time: "Posted 3mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        },
-        {
-            companyLogo: <img src={logo1} className="w-10 h-10 " />,
-            companyName: "StartupXYZ",
-            jobTitle: "Project Manager",
-            time: "Posted 2mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        },
-        {
-            companyLogo: <img src={logo2} className="w-10 h-10 " />,
-            companyName: "WebAgency",
-            jobTitle: "Frontend Developer",
-            time: "Posted 4mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        },
-        {
-            companyLogo: <img src={logo3} className="w-10 h-10 " />,
-            companyName: "Instagram",
-            jobTitle: "Marketing Manager",
-            time: "Posted 3mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        },
-        {
-            companyLogo: <img src={logo4} className="w-10 h-10 " />,
-            companyName: "Instagram",
-            jobTitle: "Data Scientist",
-            time: "Posted 5mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        },
-        {
-            companyLogo: <img src={logo5} className="w-10 h-10 " />,
-            companyName: "Instagram",
-            jobTitle: "Senior UI/UX Designer",
-            time: "Posted 3mins ago",
-            location: "America",
-            workType: "Hybrid",
-            schedule: "Part-time",
-            salaryRange: "$80k-$120k"
-        }
-    ];
+    {
+        companyLogo: <img src={logo} alt="ui/ux" className="w-10 h-10 " />,
+        companyName: "Instagram",
+        jobTitle: "Senior UI/UX Designer",
+        time: "Posted 3mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    },
+    {
+        companyLogo: <img src={logo1} className="w-10 h-10 " />,
+        companyName: "StartupXYZ",
+        jobTitle: "Project Manager",
+        time: "Posted 2mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    },
+    {
+        companyLogo: <img src={logo2} className="w-10 h-10 " />,
+        companyName: "WebAgency",
+        jobTitle: "Frontend Developer",
+        time: "Posted 4mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    },
+    {
+        companyLogo: <img src={logo3} className="w-10 h-10 " />,
+        companyName: "Instagram",
+        jobTitle: "Marketing Manager",
+        time: "Posted 3mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    },
+    {
+        companyLogo: <img src={logo4} className="w-10 h-10 " />,
+        companyName: "Instagram",
+        jobTitle: "Data Scientist",
+        time: "Posted 5mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    },
+    {
+        companyLogo: <img src={logo5} className="w-10 h-10 " />,
+        companyName: "Instagram",
+        jobTitle: "Senior UI/UX Designer",
+        time: "Posted 3mins ago",
+        location: "America",
+        workType: "Hybrid",
+        schedule: "Part-time",
+        salaryRange: "$80k-$120k"
+    }
+];
 let OtherJobs = () => {
     return (
         <div>
