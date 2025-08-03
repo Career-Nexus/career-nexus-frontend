@@ -1,31 +1,46 @@
-import React from 'react'
-import { mentors } from './MentorMain';
+import React, { useContext, useEffect, useState } from 'react'
+//import { mentors } from './MentorMain';
 import { Link, useParams } from 'react-router-dom';
 import { Playbutton } from '../../../icons';
 import { Bookmark, MessageCircle, RefreshCw, ThumbsUp, Upload } from 'lucide-react';
+import { UserContext } from '../../../context/UserContext';
 
 function MentorDetailPost() {
-      const { id } = useParams();
+    const [mentorDetails, setMentorDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { user, userwithid, getUserById } = useContext(UserContext)
+    const { id } = useParams();
 
-    const mentor = mentors.find((m) => m.id === parseInt(id));
+    useEffect(() => {
+        if (id) {
+            getUserById(id); // fetch and store in context
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (userwithid) {
+            setMentorDetails(userwithid);
+            setLoading(false);
+        }
+    }, [userwithid]);
     return (
         <div>
             <div className='border border-gray-200 p-2 rounded-lg'>
                 <div className='flex gap-4'>
                     <div>
-                        <img src={mentor.image} alt={mentor.name} className="rounded-full w-16 h-16 ml-3 object-cover" />
+                        <img src={userwithid.profile_photo} alt={userwithid.first_name} className="rounded-full w-16 h-16 ml-3 object-cover" />
                     </div>
                     <div className='flex flex-col'>
-                        <span>{mentor.name}</span>
-                        <span>{mentor.title}</span>
-                        <span>{mentor.time}</span>
+                        <span>{userwithid.first_name} {userwithid.last_name}</span>
+                        <span>{userwithid.position}</span>
+                        <span>3hr</span>
                     </div>
                 </div>
                 <div className='my-3'>
-                    {mentor.shortdisc}<Link to={"/session"} className='text-green-500'>Click here to book now!</Link>
+                    {userwithid.bio}<Link to={"/session"} className='text-green-500'>Click here to book now!</Link>
                 </div>
                 <div className='relative flex'>
-                    <img src={mentor.postimg} alt="videoFrame" className='w-[80%] h-52' />
+                    <img src="/images/videoFrame2.png" alt="videoFrame" className='w-[80%] h-52' />
                     <img src={Playbutton} alt="play" className='relative ml-[-25rem]  items-center' />
                 </div>
                 <div>
@@ -33,7 +48,7 @@ function MentorDetailPost() {
                 </div>
             </div>
             <br />
-            <div className='border border-gray-200 p-2 rounded-lg'>
+            {/* <div className='border border-gray-200 p-2 rounded-lg'>
                 <div className='flex gap-4'>
                     <div>
                         <img src={mentor.image} alt={mentor.name} className="rounded-full w-16 h-16 ml-3 object-cover" />
@@ -54,7 +69,7 @@ function MentorDetailPost() {
                 <div>
                     <SocialInteractionBar likes={125} comments={25} shares={2} views={true} events={true} />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

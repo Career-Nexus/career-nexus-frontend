@@ -5,7 +5,8 @@ const defaultUser = {
   id: null,
   first_name: "",
   last_name:"",
-  midle_name:"",
+  middle_name:"",
+  country_code:null,
   profile_photo: null,
   cover_photo: null,
   location: "",
@@ -17,6 +18,17 @@ const defaultUser = {
   experience: [],
   education: [],
   certification: [],
+  years_of_experience:"",
+  availability:null,
+  current_job:"",
+  areas_of_expertise:[],
+  technical_skills:[],
+  user_type:"",
+  linkedin_url:"",
+  followers:"",
+  followings:"",
+  resume:"",
+  mentorship_styles:"",
 };
 export const UserContext = createContext({
   user: defaultUser,
@@ -24,10 +36,13 @@ export const UserContext = createContext({
   error: null,
   fetchUser: () => {},
   updateUser: () => {},
+  getUserById: () => {},
+  userwithid: defaultUser,
   logout: () => {},
 });
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(defaultUser);
+  const [userwithid, setUserwithid]=useState(defaultUser);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,7 +63,14 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
+  const getUserById = async (user_id)=>{
+    try {
+      const response = await api.get(`/user/retrieve-profile/?user_id=${user_id}`)
+      setUserwithid(response.data)
+    } catch (error) {
+      console.log("failed to fetch user by id details")
+    }
+  }
   const updateUser = async (updatedData, formData) => {
     try {
       setLoading(true);
@@ -108,8 +130,10 @@ export const UserProvider = ({ children }) => {
       fetchUser,
       updateUser,
       logout,
+      getUserById,
+      userwithid,
     }),
-    [user, loading, error]
+    [user, userwithid, loading, error]
   );
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Message } from '../../../icons/icon';
 import FloatingMessageIcon from './FloatingMessage';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,12 @@ import { NetworkService } from '../../../api/NetworkService';
 import { PostService } from '../../../api/PostService';
 import { toast } from 'react-toastify';
 import { JobServices } from '../../../api/JobServices';
+import { UserContext } from '../../../context/UserContext';
 
 const EventsHome = () => {
     const [whoToFollow, setWhoToFollow] = useState([]);
     const [recommended, setRecommended] = useState([]);
+    const { user } = useContext(UserContext)
 
     const getWhoToFollow = async () => {
         try {
@@ -61,77 +63,123 @@ const EventsHome = () => {
             );
         }
     }
-    const items2 = [
+    const otherMentors = [
         {
-            title: 'Recommended Jobs', header1: 'Ux Designer', comp1: 'TechCorp Inc.', skill1: 'Matching skill: 4/5',
-            header2: "Product Manager", comp2: "Innovate Solutions", skip2: "Matching skill: 3/5"
+            id: 1, image: "/images/mentor-cover1.png", name: 'Emily Rodriguez', work: 'Product Designer...', followers: '121,344'
+        },
+        {
+            id: 2, image: "/images/mentor-cover1.png", name: 'David Park', work: 'Marketing Lead ...', followers: '121,344'
+        },
+        {
+            id: 3, image: "/images/mentor-cover1.png", name: 'Eric Moore', work: 'Ux Mentor, Google ...', followers: '121,344'
         }
     ]
     return (
-        <div className='hidden md:block'>
-            <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
-                <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
-                {whoToFollow.length === 0 ? (
-                    <div className='flex justify-center items-center h-20'>
-                        <p className='text-gray-500'>No recommendations available</p>
+        <div>
+            {user.user_type === "learner" ? (
+                <div className='hidden md:block'>
+                    <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
+                        <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
+                        {whoToFollow.length === 0 ? (
+                            <div className='flex justify-center items-center h-20'>
+                                <p className='text-gray-500'>No recommendations available</p>
+                            </div>
+                        ) : (
+                            <>
+                                {whoToFollow.slice(0, 3).map(item => (
+                                    <div key={item.id} className='grid grid-cols-12 items-center'>
+                                        <div className='col-span-3'>
+                                            <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
+                                        </div>
+                                        <div className='col-span-6 mb-2'>
+                                            <h3 className='font-bold'>{item.name}</h3>
+                                            <p className='text-xs font-thin'>{item.qualification}</p>
+                                            <p className='text-xs font-thin'>{item.followers} Followers</p>
+                                        </div>
+                                        <div className='col-span-3'>
+                                            <button
+                                                onClick={() => handleFollow(item.id)}
+                                                disabled={item.following}
+                                                className={`w-full border py-1 ${item.following
+                                                    ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+                                                    : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+                                                    } rounded-lg transition-colors duration-200 font-medium text-xs`}
+                                            >
+                                                {item.following ? "Following" : "Follow"}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                                <Link to={'/industry'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
+                            </>
+                        )}
                     </div>
-                ) : (
-                    <>
-                        {whoToFollow.slice(0, 3).map(item => (
+                    <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
+                        <h1 className='py-3 font-semibold'>Recommended Jobs</h1>
+                        {recommended.length === 0 ? (
+                            <div className='flex justify-center items-center h-20'>
+                                <p className='text-gray-500'>No recommended jobs available</p>
+                            </div>
+                        ) : (
+                            <div >
+                                {recommended.slice(0, 2).map(item => (
+                                    <div key={item.id} className='p-2'>
+                                        <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
+                                        <p className='text-xs font-semibold mb-1'>{item.organization}</p>
+                                        <p className='text-xs'>{item.experience_level}</p>
+                                        <p className='text-xs mb-1'>Matching Skills:3/4</p>
+                                        {/* <p className='text-xs font-semibold mb-1'>{item.header2}</p>
+                        <p className='text-xs'>{item.comp2}</p>
+                        <p className='text-xs mb-1'>{item.skip2}</p> */}
+                                    </div>
+                                ))}
+
+                            </div>
+                        )}
+                        <Link to='/jobs' className='text-[#5DA05D] justify-center text-center px-5 py-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
+                    </div>
+
+                </div>
+            ) : (
+                <>
+                    <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
+                        <h1 className='mb-2 text-lg font-semibold'>Other Mentors</h1>
+                        {otherMentors.map(item => (
                             <div key={item.id} className='grid grid-cols-12 items-center'>
                                 <div className='col-span-3'>
-                                    <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
+                                    <img src={item.image} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
                                 </div>
                                 <div className='col-span-6 mb-2'>
                                     <h3 className='font-bold'>{item.name}</h3>
-                                    <p className='text-xs font-thin'>{item.qualification}</p>
+                                    <p className='text-xs font-thin'>{item.work}</p>
                                     <p className='text-xs font-thin'>{item.followers} Followers</p>
                                 </div>
                                 <div className='col-span-3'>
                                     <button
-                                        onClick={() => handleFollow(item.id)}
-                                        disabled={item.following}
-                                        className={`w-full border py-1 ${item.following
-                                            ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                                            : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
-                                            } rounded-lg transition-colors duration-200 font-medium text-xs`}
+
+                                        className={`w-full border py-1
+                                    "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+                                    rounded-lg transition-colors duration-200 font-medium text-xs`}
                                     >
-                                        {item.following ? "Following" : "Follow"}
+                                        Follow
                                     </button>
                                 </div>
                             </div>
                         ))}
-                        <Link to={'/industry'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
-                    </>
-                )}
-            </div>
-            <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
-                <h1 className='py-3 font-semibold'>Recommended Jobs</h1>
-                {recommended.length === 0 ? (
-                    <div className='flex justify-center items-center h-20'>
-                        <p className='text-gray-500'>No recommended jobs available</p>
+                        <Link to={'/industry'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more</Link>
                     </div>
-                ) : (
-                    <div >
-                        {recommended.slice(0, 2).map(item => (
-                            <div key={item.id} className='p-2'>
-                                <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
-                                <p className='text-xs font-semibold mb-1'>{item.organization}</p>
-                                <p className='text-xs'>{item.experience_level}</p>
-                                <p className='text-xs mb-1'>Matching Skills:3/4</p>
-                                {/* <p className='text-xs font-semibold mb-1'>{item.header2}</p>
-                        <p className='text-xs'>{item.comp2}</p>
-                        <p className='text-xs mb-1'>{item.skip2}</p> */}
-                            </div>
-                        ))}
+                </>
+            )}
 
-                    </div>
-                )}
-                <Link to='/jobs' className='text-[#5DA05D] justify-center text-center px-5 py-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
-            </div>
-            <FloatingMessageIcon />
+            {/* mentor */}
+
             <div>
-                <Premium />
+                <div>
+                    <FloatingMessageIcon />
+                </div>
+                <div>
+                    <Premium />
+                </div>
             </div>
         </div>
     )

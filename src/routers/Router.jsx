@@ -205,7 +205,7 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
-        
+
         {/* Protected Routes */}
         <Route
           path="/home"
@@ -255,8 +255,16 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path='/mentordetails/:id'
+          element={
+            <ProtectedRoute>
+              <MentorDetails />
+            </ProtectedRoute>
+          }
+        /> */}
+        <Route
+          path="/mentordetails/:id"
           element={
             <ProtectedRoute>
               <MentorDetails />

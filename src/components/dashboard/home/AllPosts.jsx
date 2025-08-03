@@ -16,7 +16,7 @@ export default function AllTemplate() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useContext(UserContext);
+  const { user,userwithid } = useContext(UserContext);
 
   const fetchPosts = async (page = 1) => {
     setLoading(true);
@@ -116,7 +116,7 @@ export default function AllTemplate() {
 
         return (
           <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
-            <Link to={`/person-profile/${user?.id}`} className="flex gap-3 mb-2 items-center">
+            <Link to={`/person-profile/${post.profile.id}`} className="flex gap-3 mb-2 items-center">
               <img
                 src={post.profile?.profile_photo || "/images/profile.png"}
                 alt="profile"

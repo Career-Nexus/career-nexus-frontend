@@ -1,7 +1,10 @@
 
-import { Funnel, GraduationCap, LaughIcon, Search } from 'lucide-react';
-import React, { useState } from 'react';
+import { Bookmark, Funnel, GraduationCap, LaughIcon, Search, Star } from 'lucide-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { MentorServices } from '../../../api/MentorServices';
+import MentorDetail from './MentorDetail';
+import { UserContext } from '../../../context/UserContext';
 
 const Dropdown = ({ label, options }) => {
   const [selected, setSelected] = useState(label);
@@ -46,7 +49,7 @@ export const mentors = [
     rating: 4.9,
     sessions: 3,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img1.png",
     cover: "/images/mentor-cover1.png",
     location: "USA",
@@ -56,10 +59,10 @@ export const mentors = [
       following: "500+",
       followers: "6,176",
     },
-    time:"2d",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    time: "2d",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
   {
     id: 2,
@@ -68,7 +71,7 @@ export const mentors = [
     rating: 4.3,
     sessions: 12,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img2.png",
     cover: "/images/mentor-cover1.png",
     location: "Uk",
@@ -78,10 +81,10 @@ export const mentors = [
       following: "400+",
       followers: "6,470",
     },
-    time:"12h",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    time: "12h",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
   {
     id: 3,
@@ -90,7 +93,7 @@ export const mentors = [
     rating: 4.9,
     sessions: 12,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img3.png",
     cover: "/images/mentor-cover1.png",
     location: "USA",
@@ -101,18 +104,18 @@ export const mentors = [
       followers: "6,471",
     },
     time: "1h",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
   {
     id: 4,
     name: "Robert Fox",
     title: "Senior Software Engineer at SEECS-National University",
-    rating: "New Tutor",
+    rating: "5",
     sessions: 0,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img4.png",
     cover: "/images/mentor-cover1.png", location: "USA",
     job: "Software Engineer at TechCorp",
@@ -122,9 +125,9 @@ export const mentors = [
       followers: "6,476",
     },
     time: "2d",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
   {
     id: 5,
@@ -133,7 +136,7 @@ export const mentors = [
     rating: 4.9,
     sessions: 12,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img5.png",
     cover: "/images/mentor-cover1.png",
     location: "Nigeria",
@@ -144,18 +147,18 @@ export const mentors = [
       followers: "6,446",
     },
     time: "2d",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
   {
     id: 6,
     name: "Robert Fox",
     title: "Senior Software Engineer at SEECS-National University",
-    rating: "New Tutor",
+    rating: "4",
     sessions: 0,
     description: "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["Tech", "America", "Available Now", "Senior"],
+    tags: ["React", "Full stack", "Node", "Leadership"],
     image: "/images/mentor-img4.png",
     cover: "/images/mentor-cover1.png",
     location: "USA",
@@ -166,90 +169,91 @@ export const mentors = [
       followers: "6,476",
     },
     time: "now",
-    shortdisc:"Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg:"/images/videoFrame.png",
-    profsummary:"With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+    postimg: "/images/videoFrame.png",
+    profsummary: "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
   },
 ];
 
-const tagIcons = {
-  Tech: (
-    <svg className="w-4 h-4 mr-1 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeWidth="2" d="M9.75 17l-3.5-5 3.5-5M14.25 7l3.5 5-3.5 5" />
-    </svg>
-  ),
-  America: (
-    <svg className="w-4 h-4 mr-1 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeWidth="2" d="M17.657 16.657L13.414 12l4.243-4.243M6.343 7.343L10.586 12l-4.243 4.243" />
-    </svg>
-  ),
-  'Available Now': (
-    <svg className="w-4 h-4 mr-1 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-      <circle cx="10" cy="10" r="5" />
-    </svg>
-  ),
-  Senior: (
-    <svg className="w-4 h-4 mr-1 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0 0H9m3 0h3" />
-    </svg>
-  ),
-};
 
 const MentorCard = ({ mentor }) => {
-  const [available, setAvailable] = useState(mentor.tags.includes('Available Now'));
-
+  const fullName = `${mentor.first_name} ${mentor.last_name}`;
+  const profilePhoto = mentor.profile_photo;
+  const jobTitle = mentor.current_job;
+  const rating = mentor.rating || "4.0"; // fallback default rating
+  const {userwithid} = useContext(UserContext)
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
-      <Link to={`/mentordetails/${mentor.id}`}>
-        <img src={mentor.image} alt={mentor.name} className="w-full h-48 object-cover p-2" />
-      </Link>
-      <div className="p-4 space-y-2">
-        <Link to={`/mentordetails/${mentor.id}`}>
-          <div className="flex justify-between items-center">
-            <h2 className="font-semibold text-lg">{mentor.name}</h2>
-            <div className="flex items-center gap-1 text-sm text-yellow-500">
-              <span>{mentor.rating}</span>
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.036 3.187a1 1 0 00.95.69h3.356c.969 0 1.371 1.24.588 1.81l-2.715 1.97a1 1 0 00-.364 1.118l1.036 3.187c.3.921-.755 1.688-1.538 1.118l-2.715-1.97a1 1 0 00-1.175 0l-2.715 1.97c-.783.57-1.838-.197-1.538-1.118l1.036-3.187a1 1 0 00-.364-1.118l-2.715-1.97c-.783-.57-.38-1.81.588-1.81h3.356a1 1 0 00.95-.69l1.036-3.187z" />
-              </svg>
-            </div>
+      <div className="flex justify-between p-3">
+        <Link to={`/mentordetails/${mentor.id}`} className='flex gap-2'>
+          <img src={profilePhoto} alt={fullName} className="w-14 h-14 rounded-full object-cover p-2" />
+          <div>
+            <h2 className="font-semibold text-lg">{fullName}</h2>
+            <p className="text-sm text-gray-600 text-wrap">{jobTitle}</p>
+            <p>8 years experience</p>
           </div>
-          <p className="text-sm text-gray-600 truncate">{mentor.title}</p>
         </Link>
-        <div className="flex items-center text-gray-500 text-sm">
-          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeWidth="2" d="M17 20h5v-2a2 2 0 00-2-2h-3M7 20H2v-2a2 2 0 012-2h3m10-6v-2a4 4 0 10-8 0v2m-4 0h16"></path>
-          </svg>
-          {mentor.sessions} Sessions
-        </div>
-        <div className="flex flex-wrap gap-1 mt-2">
-          {mentor.tags.map((tag) => (
-            <span
-              key={tag}
-              className={`flex items-center text-xs px-2 py-1 rounded-full border ${tag === 'Available Now' && available
-                ? 'bg-green-100 text-green-800 border-green-300'
-                : 'bg-gray-100 text-gray-700 border-gray-300'
-                } cursor-default`}
-              onClick={
-                tag === 'Available Now'
-                  ? (e) => {
-                    e.stopPropagation();
-                    setAvailable(!available);
-                  }
-                  : undefined
-              }
-            >
-              {tagIcons[tag]}
-              {tag === 'Available Now' ? (available ? 'Available Now' : 'Not Available') : tag}
-            </span>
+        <div className="flex gap-1 text-sm text-yellow-300">
+          {Array.from({ length: Math.floor(rating) }).map((_, i) => (
+            <Star className="fill-yellow-300" size={12} key={i} />
           ))}
+          <span className="text-black mt-[-6px]">{rating}</span>
         </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between mt-2 p-4">
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>React</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Full stack</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Node</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Leadership</span>
+      </div>
+      <div className='flex items-center justify-center gap-5 my-5'>
+        <button className='py-2 px-4 bg-[#5DA05D] text-white rounded-lg'>
+          <Link to={`/mentordetails/${mentor.id}`}>Book Session</Link>
+        </button>
+        <button className='py-2 px-4 border-2 border-[#5DA05D] text-[#5DA05D] rounded-lg flex gap-2'>
+          <Bookmark />
+          Save
+        </button>
       </div>
     </div>
   );
 };
 
 const MentorMain = () => {
+  const [recommendmentor, setRecommendmentor] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [nextPage, setNextPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+
+  const getRecommendedMentors = async (page = 1) => {
+    setLoading(true);
+    try {
+      const { success, data } = await MentorServices.recommendedmentors({ page });
+      const isArray = Array.isArray(data) ? data : [];
+      setRecommendmentor((prev) => (page === 1 ? isArray : [...prev, ...isArray]));
+      if (data?.next) {
+        const url = new URL(data.next);
+        const nextPageNumber = url.searchParams.get("page");
+        setNextPage(Number(nextPageNumber));
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
+      setError(null);
+    } catch (error) {
+      console.log("could not fetch connection by location", error);
+      setError("Error occurred while fetching location connections");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getRecommendedMentors();
+  }, [])
+
   return (
     <div className="bg-white p-4">
       <div className="flex items-center w-[71%] border border-gray-300 rounded-lg overflow-hidden flex-grow">
@@ -264,90 +268,97 @@ const MentorMain = () => {
       </div>
 
       <div className="flex items-center gap-3 mt-2 flex-wrap">
-        <Dropdown label="Industry" options={["Tech", "Finance", "Health"]} />
-        <Dropdown label="Location" options={["Remote", "On-site", "Hybrid"]} />
+        <Dropdown label="Experience Level" options={["Junior", "Mid", "Senior"]} />
+        <Dropdown label="All Skills" options={["Tech", "Finance", "Health"]} />
         <Dropdown label="Availability" options={["Weekdays", "Weekends"]} />
-        <Dropdown label="Experience" options={["Junior", "Mid", "Senior"]} />
-        <button className="px-5 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">
+
+        <button className="px-5 py-1 bg-[#5DA05D] text-white rounded-lg hover:bg-[#5DA05D] text-sm">
           Search
         </button>
       </div>
       <div>
         <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-12 gap-4">
-          {mentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              // to={`/mentordetails/${mentor.id}`}
-              className="col-span-1 md:col-span-6"
-            >
+          {recommendmentor.map((mentor) => (
+            <div key={mentor.id} className="col-span-1 md:col-span-6">
               <MentorCard mentor={mentor} />
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-4">
-          <button className="px-4 py-2 border border-green-400 text-green-400 rounded-lg hover:bg-gray-300">
+
+        {/* <div className="flex justify-center mt-4">
+          <button className="px-4 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-gray-300">
             Load More
           </button>
+        </div> */}
+        <div className="flex justify-center mt-4">
+          {hasMore && (
+            <button
+              onClick={() => getRecommendedMentors(nextPage)}
+              className="px-4 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-gray-300"
+            >
+              Load More
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export const mentorExperience=[
+export const mentorExperience = [
   {
-    id:1,
-    logo:"",
-    role:"Software Engineer",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 1,
+    logo: "",
+    role: "Software Engineer",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   },
   {
-    id:2,
-    logo:"",
-    role:"Software Engineer 2",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 2,
+    logo: "",
+    role: "Software Engineer 2",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   },
   {
-    id:3,
-    logo:"",
-    role:"Software Engineer 3",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 3,
+    logo: "",
+    role: "Software Engineer 3",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   },
   {
-    id:4,
-    logo:"",
-    role:"Software Engineer 4",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 4,
+    logo: "",
+    role: "Software Engineer 4",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   },
   {
-    id:5,
-    logo:"",
-    role:"Software Engineer 5",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 5,
+    logo: "",
+    role: "Software Engineer 5",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   },
   {
-    id:6,
-    logo:"",
-    role:"Software Engineer 6",
-    company:"Nexmatics Africa",
-    date:"Aug 2018 - Present",
-    address:"Dallas, Texas, United States - On-site",
-    details:"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
+    id: 6,
+    logo: "",
+    role: "Software Engineer 6",
+    company: "Nexmatics Africa",
+    date: "Aug 2018 - Present",
+    address: "Dallas, Texas, United States - On-site",
+    details: "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams..."
   }
 ]
 export default MentorMain;

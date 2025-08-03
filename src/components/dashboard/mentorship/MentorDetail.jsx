@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { Bookmark, BriefcaseBusiness, ChevronLeft, ChevronRight, Ellipsis, GraduationCap, MapPin, MessageCircle, RefreshCw, ThumbsUp, Upload, UserPlus } from 'lucide-react';
 import { mentors } from './MentorMain';
@@ -6,88 +6,118 @@ import ProfileDetail from './ProfileDetail';
 import { Playbutton } from '../../../icons';
 import MentorDetailPost from './MentorDetailPost';
 import MentorProfSummary from './MentorProfSummary';
-
+import api from '../../../api/ApiServiceThree';
+import { UserContext } from '../../../context/UserContext';
 
 function MentorDetail() {
+    const [mentorDetails, setMentorDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { user, userwithid, getUserById } = useContext(UserContext)
     const { id } = useParams();
 
-    const mentor = mentors.find((m) => m.id === parseInt(id));
+    useEffect(() => {
+        if (id) {
+            getUserById(id); // fetch and store in context
+        }
+    }, [id]);
 
-    if (!mentor) {
+    useEffect(() => {
+        if (userwithid) {
+            setMentorDetails(userwithid);
+            setLoading(false);
+        }
+    }, [userwithid]);
+
+    if (loading) {
+        return <div className="p-6 text-center text-gray-600">Loading mentor profile...</div>;
+    }
+
+    if (!mentorDetails) {
         return (
             <div className="p-6">
-                <h1 className="text-2xl font-bold">Project not found</h1>
+                <h1 className="text-2xl font-bold">Mentor not found</h1>
                 <Link to="/mentorship" className="text-blue-500 underline">Go back to mentors page</Link>
             </div>
         );
     }
+
+    const mentor = mentorDetails;
+
     return (
-        <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5  lg:px-12 md:py-8 '>
+        <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5 lg:px-12 md:py-8'>
             <div className='col-span-4 md:col-span-4 lg:col-span-3'>
-                <ProfileDetail/>
+                <ProfileDetail />
             </div>
             <div className='col-span-8 md:col-span-8 lg:col-span-9 border border-gray-200 p-4 rounded-lg'>
                 <div className="col-span-8 rounded-lg shadow-sm">
                     <div className="relative w-full h-48">
-                        {/* <img src={mentor.image} alt={mentor.name} className="rounded-lg mb-6 w-full h-96 object-cover" /> */}
-                        <img src={mentor.cover} alt={mentor.name} className="w-full h-48 object-cover rounded-tl-lg rounded-tr-lg" />
+                        <img src={userwithid.cover_photo} alt={userwithid.first_name} className="w-full h-48 object-cover rounded-tl-lg rounded-tr-lg" />
                     </div>
                     <div className="relative w-32 h-32">
-                        <img src={mentor.image} alt={mentor.name} className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover" />
+                        <img src={userwithid.profile_photo} alt={userwithid.first_name} className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover" />
                     </div>
-                    <h1 className="text-3xl font-bold mb-2">{mentor.name}</h1>
+                    <h1 className="text-3xl font-bold mb-2">{userwithid.first_name} {userwithid.last_name}</h1>
                     <div className='flex items-center justify-between'>
                         <div>
-                            <p className="text-gray-600 italic mb-4">{mentor.title}</p>
+                            <p className="text-gray-600 italic mb-4">{userwithid.qualification}</p>
                             <div className='flex gap-4'>
-                                <p className='flex gap-2'>
-                                    <MapPin />{mentor.location}
-                                </p>
-                                <p className='flex gap-2'>
-                                    <BriefcaseBusiness />{mentor.job}
-                                </p>
+                                <p className='flex gap-2'><MapPin />{userwithid.location}</p>
+                                <p className='flex gap-2'><BriefcaseBusiness />{userwithid.current_job}</p>
                             </div>
-                            <div className='flex gap-2 my-2'>
-                                <GraduationCap />{mentor.degree}
-                            </div>
+                            <div className='flex gap-2 my-2'><GraduationCap />{userwithid.position}</div>
                             <div className='flex gap-4 my-2'>
                                 <div className='flex gap-2'>
-                                    <span className='text-[#5DA05D]'>{mentor.stats.following}</span> following
+                                    <span className='text-[#5DA05D]'>{userwithid.followings || 0}</span> following
                                 </div>
                                 <div className='flex gap-2'>
-                                    <span className='text-[#5DA05D]'>{mentor.stats.followers}</span> followers
+                                    <span className='text-[#5DA05D]'>{userwithid.followers || 0}</span> followers
                                 </div>
                                 <div className='flex gap-2'>
-                                    <span className='text-[#5DA05D]'>{mentor.sessions}</span> sessions
+                                    <span className='text-[#5DA05D]'>{userwithid.session || 0}</span> sessions
                                 </div>
                             </div>
                             <div className="flex mt-6 space-x-3">
-                                <button className="bg-[#2A0D47] text-white px-4 py-2 rounded-lg">
-                                    Book a Session
-                                </button>
-                                <button className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg flex gap-2 items-center ">
+                                <button className="bg-[#2A0D47] text-white px-4 py-2 rounded-lg">Book a Session</button>
+                                {/* <button className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg flex gap-2 items-center ">
                                     <UserPlus className='w-5 h-5' />
                                     Follow
-                                </button>
-                                <button className="border border-[#5DA05D] text-gray-600 px-2 py-2 rounded-lg ">
+                                </button> */}
+                                <button className="border border-[#5DA05D] text-gray-600 px-4 py-2 rounded-lg ">
                                     <Ellipsis />
                                 </button>
                             </div>
                         </div>
-                        <div>
-                            <img src="/images/video1.png" alt="video" />
+                        <div className='flex justify-between float-end'>
+                        {userwithid?.intro_video ? (
+                            <video
+                                src={userwithid.intro_video}
+                                controls
+                                className="rounded-lg max-w-xs"
+                            />
+                        ) : (
+                            <img
+                                src="/images/video1.png"
+                                alt="video stream"
+                                className="rounded-lg max-w-xs"
+                            />
+                        )}
+                    </div>
+                    
+                    </div>
+
+                    <div>
+                        <div className='flex items-center justify-between'>
+                            <span>Reviews (10)</span>
+                            <Link to={'#'} className='text-[#]'>See All</Link>
                         </div>
                     </div>
                     <Link to="/mentorship" className="mt-6 inline-block text-green-600 underline">← Back to mentorship</Link>
                 </div>
-                {/* tabs here */}
                 <MentorDetailsTabs />
             </div>
-
         </div>
-    )
+    );
 }
-
 export default MentorDetail
 
 
@@ -178,7 +208,7 @@ function MentorDetailsTabs() {
 }
 
 function Posts() {
-    return(
+    return (
         <div>
             <MentorDetailPost/>
         </div>
@@ -187,7 +217,8 @@ function Posts() {
 function ProfessionalSummary() {
     return (
         <div>
-            <MentorProfSummary/>
+            {/* <MentorProfSummary /> */}
+            professional summary
         </div>
     )
 }

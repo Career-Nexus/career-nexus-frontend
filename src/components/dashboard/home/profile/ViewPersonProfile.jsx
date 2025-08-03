@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Company1, Company2, Like, VideoIcon } from '../../../../icons/icon'
 import { Button } from '@chakra-ui/react'
 import ReusableModal from './ModalDesign'
@@ -7,39 +7,40 @@ import { EditComponent } from './AllModal'
 import EventsHome from '../EventsHome'
 import { SocialInteractionBar } from '../SocialInteractionBar'
 import { UserContext } from '../../../../context/UserContext'
+import { useParams } from 'react-router-dom';
 
 const ViewPersonProfile = () => {
     const [openModal, setOpenModal] = useState(false);
     const [isHovered, setIsHovered] = useState(false)
     const [hovered, setHovered] = useState(false)
-    const { user } = useContext(UserContext)
+    const { user, userwithid } = useContext(UserContext)
+
+
+    const { id } = useParams();
+    const { getUserById } = useContext(UserContext); // make sure getUserById is exposed in the context
+
+    useEffect(() => {
+        if (id) {
+            getUserById(id); // fetch and store in context
+        }
+    }, [id]);
 
     function ProfilePicture() {
-
-
         return (
             <div className=''>
                 <div className="flex items-center justify-center w-full h-auto">
                     <div
                         className="relative w-full h-48"
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
                     >
-                        <img src="/images/bg-profile2.png" alt="cover photo" className='w-full md:h-48 rounded-tl-lg rounded-tr-lg' />
-
-                        {/* Edit overlay - only visible on hover */}
-                        {/* {isHovered && ( */}
-                            <div className='flex items-center justify-center'>
-                                <div className='absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg'>
-                                    {/* <img src="/images/bg-profile.png" alt="cover photo" className='w-full md:h-48 ' /> */}
-                                    <img src={user?.cover_photo || "/images/bg-profile.png"} alt="cover photo" className='w-full md:h-48 ' />
-                                </div>
-                                <div onClick={() => setOpenModal(true)} className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
-                                    <Camera className="text-white w-10 h-10" />
-                                    <span className="text-white text-xl mt-2">Edit</span>
-                                </div>
+                        <div className='flex items-center justify-center'>
+                            <div className='absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg'>
+                                <img src={userwithid?.cover_photo || "/images/bg-profile.png"} alt="cover photo" className='w-full md:h-48 ' />
                             </div>
-                        {/* )} */}
+                            {/* <div onClick={() => setOpenModal(true)} className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
+                                <Camera className="text-white w-10 h-10" />
+                                <span className="text-white text-xl mt-2">Edit</span>
+                            </div> */}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,48 +56,41 @@ const ViewPersonProfile = () => {
                     </div>
                     <div className='flex justify-between'>
                         <div className='relative w-32 h-auto'
-                            onMouseEnter={() => setHovered(true)}
-                            onMouseLeave={() => setHovered(false)}
                         >
-                            <img src="/images/profile2.png" alt="profile picture"
-                                className='rounded-full w-32 h-auto mt-[-3.7rem] ml-3' />
-                            {/* {hovered && ( */}
-                                <div className='flex items-center justify-center'>
-                                    <div className='absolute inset-0 rounded-full w-32 h-auto mt-[-3.7rem] ml-3 flex flex-col items-center justify-center transition-opacity duration-200'>
-                                        {/* <img src="/images/profile.png" alt="profile picture" className='rounded-full w-32 h-auto' /> */}
-                                        <img src={user?.profile_photo} alt="profile picture" className='rounded-full w-32 h-auto' />
-                                    </div>
-                                    <div className="absolute inset-0 rounded-full w-32 h-auto mt-[-3.7rem] ml-3 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200">
-                                        <Camera className="text-white w-8 h-8" />
-                                        <span className="text-white text-xl mt-1">Edit</span>
-                                    </div>
+                            <div className='flex items-center justify-center'>
+                                <div className='absolute inset-0 rounded-full w-32 h-auto mt-[-3rem] ml-2 flex flex-col items-center justify-center transition-opacity duration-200'>
+                                    <img src={userwithid?.profile_photo} alt="profile picture"
+                                        className="w-28 h-28 rounded-full object-cover" />
                                 </div>
+                                {/* <div className="absolute inset-0 rounded-full w-32 h-auto mt-[-3.7rem] ml-3 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200">
+                                    <Camera className="text-white w-8 h-8" />
+                                    <span className="text-white text-xl mt-1">Edit</span>
+                                </div> */}
+                            </div>
                             {/* )} */}
                         </div>
                         {/* modal here */}
-                        <EditComponent ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
-                        {/* <Button onClick={() => setOpenModal(true)} className='rounded-lg border border-[#5DA05D] md:px-4 px-2 mt-2 flex items-center gap-1 md:h-10 h-7'>
-                            <Edit className='text-[#5DA05D] h-4 w-4' /> <p className='text-[#5DA05D] md:text-sm text-xs'>Edit Profile</p>
-                        </Button> */}
+                        {/* <EditComponent ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} /> */}
                     </div>
                     <hr className='my-3' />
                     <div className='mt-6 flex items-center gap-32'>
                         <div>
                             <h1 className='text-xl font-bold'>
-                                John Smith
+                                {userwithid.first_name} {userwithid.last_name}
                             </h1>
                             <p className='text-xs md:text-sm my-3'>
-                                Skilled in Full Stack Development, Agile Project Management, and Data Analysis.
+                               {userwithid.bio}
                             </p>
                             <p className='text-slate-500 font-thin flex items-center gap-2'>
-                                <MapPin className='w-4 h-4' /> USA <BriefcaseBusiness className='w-4 h-4' /> Software Engineer at TechCorp
+                                <MapPin className='w-4 h-4' /> {userwithid.location} 
+                                <BriefcaseBusiness className='w-4 h-4' /> {userwithid.current_job}
                             </p>
                             <p className='text-slate-500 font-thin flex items-center gap-2'>
-                                <GraduationCap className='w-4 h-4' /> B.Sc in Computer Science
+                                <GraduationCap className='w-4 h-4' /> {userwithid.qualification}
                             </p>
                             <p className='my-3'>
-                                <span className='text-[#5DA05D] mr-2'>500</span> Following
-                                <span className='text-[#5DA05D] mx-2'>6,476</span> Followers
+                                <span className='text-[#5DA05D] mr-2'>{userwithid.followings}</span> Following
+                                <span className='text-[#5DA05D] mx-2'>{userwithid.followers}</span> Followers
                             </p>
                             <div className='flex gap-2 mb-2'>
                                 <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
@@ -110,12 +104,26 @@ const ViewPersonProfile = () => {
                         </div>
                         <div className='flex items-center justify-center' >
                             <div className='relative'>
-                                <div className='w-full h-auto'>
-                                    <img src="/images/profile2.png" alt="video stream" className='relative w-80 h-36 rounded-lg mt-16 mr-8' />
-                                </div>
-                                <div className='absolute inset-0 flex flex-col items-center justify-center mt-12'>
-                                    <VideoIcon />
-                                </div>
+                                {userwithid?.intro_video ? (
+                                    <div className='w-full h-44'>
+                                        <video
+                                        src={userwithid.intro_video}
+                                        controls
+                                        // className="rounded-lg max-w-xs w-80 h-36"
+                                        className='h-full rounded-lg mt-16 mr-8 max-w-2xl bg-cover'
+                                    />
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <div className='w-full h-auto'>
+                                            <img src="/images/profile2.png" alt="video stream" className='relative w-80 h-36 rounded-lg mt-16 mr-8' />
+                                        </div>
+                                        <div className='absolute inset-0 flex flex-col items-center justify-center mt-12'>
+                                            <VideoIcon />
+                                        </div>
+                                    </div>
+                                )
+                                }
                             </div>
                         </div>
                     </div>
@@ -339,7 +347,7 @@ function ProfessionalSummaryTemplate() {
             </div>
 
             {/* have it */}
-            <ExperienceSection/>
+            <ExperienceSection />
         </div>
     )
 }

@@ -42,7 +42,7 @@ api.interceptors.response.use(
     // Handle unauthorized errors (401)
     if (error.response && error.response.status === 401) {
       Cookies.remove(TOKEN_COOKIE_NAME)
-      Cookies.remove(USER_COOKIE_NAME)
+      Cookies.remove(USER_COOKIE_NAME) 
       window.location.href = "/login" // Redirect to login page
     }
     return Promise.reject(error)

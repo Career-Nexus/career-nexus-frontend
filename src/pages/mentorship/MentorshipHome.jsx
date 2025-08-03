@@ -1,6 +1,7 @@
 import React from 'react'
-import Profile from '../../components/dashboard/mentorship/Profile'
+//import Profile from '../../components/dashboard/home/Profile'
 import MentorMain from '../../components/dashboard/mentorship/MentorMain'
+import Profile from '../../components/dashboard/mentorship/Profile'
 
 const MentorshipHome = () => {
   return (

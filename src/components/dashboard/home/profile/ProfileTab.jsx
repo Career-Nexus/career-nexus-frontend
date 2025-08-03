@@ -188,7 +188,7 @@ function ProfessionalSummaryTemplate() {
                     )}
                 </div>
             </div>
-            <Link to={`/person-profile/${user.id}`}>View now</Link>
+            {/* <Link to={`/person-profile/${user.id}`}>View now</Link> */}
             {/* <p>{user.summary}</p> */}
             <ExperienceSection />
         </div>
