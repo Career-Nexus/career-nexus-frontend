@@ -2,6 +2,7 @@ import React from 'react'
 import Profile from '../../components/dashboard/home/Profile'
 import MainSection from '../../components/dashboard/home/MainSection'
 import EventsHome from '../../components/dashboard/home/EventsHome'
+import { ProfileProvider } from '../../context/ProfileContext'
 
 const Home = () => {
     return (
@@ -10,7 +11,9 @@ const Home = () => {
                 <Profile />
             </div>
             <div className='col-span-12 md:col-span-8 lg:col-span-6'>
-                <MainSection />
+                <ProfileProvider>
+                    <MainSection />
+                </ProfileProvider>
             </div>
             <div className='md:hidden lg:block lg:col-span-3'>
                 <EventsHome />

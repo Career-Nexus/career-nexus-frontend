@@ -105,10 +105,13 @@ function MentorDetail() {
                     
                     </div>
 
-                    <div>
+                    <div className='border-t border-gray-200 my-4'>
                         <div className='flex items-center justify-between'>
                             <span>Reviews (10)</span>
-                            <Link to={'#'} className='text-[#]'>See All</Link>
+                            <Link to={'#'} className='text-[#5DA05D]'>See All</Link>
+                        </div>
+                        <div className='border border-gray-200 rounded-lg p-5 mt-2'>
+                            <h1>ggg</h1>
                         </div>
                     </div>
                     <Link to="/mentorship" className="mt-6 inline-block text-green-600 underline">← Back to mentorship</Link>

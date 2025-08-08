@@ -8,6 +8,7 @@ import { PostService } from '../../../api/PostService'
 import { emojis } from './Emoji'
 import ImageCropper from './ImageCropper'
 import VideoTrimmer from './VideoTrimmer'
+import { ProfileContext } from '../../../context/ProfileContext'
 // import { Button, InputGroup, RadioGroup, Textarea } from '@chakra-ui/react'
 
 
@@ -15,22 +16,32 @@ const MainSection = () => {
   const { user } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [ModalOpen, setModalOpen] = useState(false);
-  const [profileCompletion, setProfileCompletion] = useState(0);
+  //const [profileCompletion, setProfileCompletion] = useState(0);
+  const { profileCompletion } = useContext(ProfileContext);
+  
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
-
-  const handleCompletionChange = (completion) => {
-    setProfileCompletion(completion);
-    if (completion === 100) {
-      setIsModalOpen(false); // Hide WelcomeModal when completion is 100%
+  useEffect(() => {
+    if (profileCompletion === 100) {
+      setIsModalOpen(false);
     }
-  };
+  }, [profileCompletion]);
+  
+  // const handleCompletionChange = (completion) => {
+  //   setProfileCompletion(completion);
+  //   if (completion === 100) {
+  //     setIsModalOpen(false); // Hide WelcomeModal when completion is 100%
+  //   }
+  // };
 
   return (
     <div>
-      <div>{isModalOpen && profileCompletion < 100 && <WelcomeModal onClose={handleClose} />}</div>
+      {isModalOpen && profileCompletion < 100 && (
+        <WelcomeModal onClose={handleClose} />
+      )}
+      {/* <div>{isModalOpen && profileCompletion < 100 && <WelcomeModal onClose={handleClose} />}</div> */}
       {/* <div>
         {profileCompletion < 100 && <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />}
       </div> */}
@@ -88,124 +99,6 @@ const WelcomeModal = ({ onClose }) => {
   );
 };
 
-const ProfileProgressDropdown = ({ onCompletionChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [completionData, setCompletionData] = useState({
-    completion: 0,
-    complete_items: [],
-    incomplete_items: []
-  });
-
-  // Define profile items with mapping to API response keys
-  const profileItems = [
-    {
-      id: 1,
-      key: 'profile_photo',
-      icon: <UserCircle2 className="w-5 h-5 mr-2" />,
-      text: 'Upload Profile Picture',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 2,
-      key: 'bio',
-      icon: <Pencil className="w-5 h-5 mr-2" />,
-      text: 'Add a Bio Description',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 3,
-      key: 'experience',
-      icon: <NotepadText className="w-5 h-5 mr-2" />,
-      text: 'Add Work Experience',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 4,
-      key: 'education',
-      icon: <GraduationCap className="w-5 h-5 mr-2" />,
-      text: 'Add Educational Background',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 5,
-      key: 'intro_video',
-      icon: <VideoIcon className="w-5 h-5 mr-2" />,
-      text: 'Upload Video Introduction',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 6,
-      key: 'certification',
-      icon: <NotepadText className="w-5 h-5 mr-2" />,
-      text: 'Add Certifications',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-  ];
-
-  useEffect(() => {
-    const fetchProfileCompletion = async () => {
-      try {
-        const result = await PostService.getProfileCompletion();
-        console.log("Profile completion response:", result);
-        setCompletionData(result);
-        onCompletionChange(result.completion); // Notify parent of completion percentage
-      } catch (error) {
-        console.error("Error fetching profile completion:", error);
-        onCompletionChange(0); // Fallback to 0% on error
-      }
-    };
-    fetchProfileCompletion();
-  }, [onCompletionChange]);
-
-  // Hide dropdown if completion is 100%
-  if (completionData.completion === 100) {
-    return null;
-  }
-
-  return (
-    <div className="relative w-full max-w-3xl my-3">
-      <div
-        className="flex items-center justify-between p-4 bg-white border rounded-lg shadow cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span>COMPLETE YOUR PROFILE ({completionData.completion}%)</span>
-        <svg
-          className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </div>
-      {isOpen && (
-        <div className="w-full mt-1 bg-white border rounded-lg shadow-lg">
-          <ul className="py-2">
-            {profileItems.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                <span className={completionData.complete_items.includes(item.key) ? 'text-[#5DA05D]' : 'text-gray-400'}>
-                  {item.icon}
-                </span>
-                <span>{item.text}</span>
-                <span className="ml-auto mr-4 text-gray-400">
-                  {completionData.complete_items.includes(item.key) ? (
-                    <Check className="w-5 h-5 text-[#5DA05D]" />
-                  ) : (
-                    item.linkto
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
 export default MainSection
 
 //File size constants

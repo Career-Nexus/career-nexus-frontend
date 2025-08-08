@@ -117,21 +117,25 @@ const Profile = () => {
                                 {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                             </div>
                         </Link>
-                        <div className='border border-gray rounded-lg my-5'>
-                            <h1 className='p-3 font-bold text-2xl'>Trending Topics</h1>
-                            <div className='flex flex-col gap-4 p-3'>
-                                {trend.map(item => (
-                                    <div key={item.id} className='flex items-center justify-between'>
-                                        <div className='font-bold text-lg'>
-                                            <div>#{item.type}</div>
-                                            <h3 className='text-gray-500'>{item.post}K Posts</h3>
-                                        </div>
+                        <div className='border border-gray rounded-lg my-5 p-5'>
+                            <h1 className='p-3 font-semibold text-2xl'>My Mentees</h1>
+                            <div className='flex flex-col gap-4 mb-5'>
+                                {mentors.map(item => (
+                                    <div key={item.id} className='flex items-center gap-4 flex-wrap'>
+                                        <img src={item.image} alt={item.name} className='w-5 md:w-8 h-5 md:h-8 rounded-full' />
                                         <div>
-                                            <TrendingUp className='text-[#5DA05D]' />
+                                            <h3 className='text-sm md:text-lg'>{item.name}</h3>
                                         </div>
+                                        <div className='ml-auto'>{item.dot}</div>
                                     </div>
                                 ))}
                             </div>
+                            {/* <div className='border border-[#5DA05D] w-full items-center rounded-lg'>
+                                <a href='#' className='text-[#5DA05D] p-3'>See more...</a>
+                            </div> */}
+                            <Link to={'#'} className='text-[#5DA05D] hover:text-[#5DA05D] flex gap-2 items-center justify-center border border-[#5DA05D] rounded-lg p-2 font-medium text-sm'>
+                                <span>See more...</span>
+                            </Link>
                         </div>
                     </div>
                 )

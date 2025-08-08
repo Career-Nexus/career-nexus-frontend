@@ -12,15 +12,16 @@ export const MentorServices={
             console.log("could not fetch recommended mentors")
         }
     },
-    async searchmentors(param = {}){
+    async searchmentors(params = {}){
         try {
-            const response = api.get("/mentor/search/?text=yemi&availability=weekends");
+            const response = await api.get(`/mentor/search/`,{params});
             if(response.data){
                 console.log("Search mentor fetched", response.data)
                 return {success: true, data: response.data}
             }         
         } catch (error) {
-            console.log("error fetching the searched mentor")
+            console.log("error fetching the searched mentor");
+            return { success: false, data: [] };
         }
     }
 }

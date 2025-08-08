@@ -13,7 +13,7 @@ const ErrorPage = () => {
         <footer className="text-center py-5">
           <p>ALL RIGHT RESERVED &copy; {year}</p>
         </footer>
-      </section>
+      </section> 
     );
 }
 

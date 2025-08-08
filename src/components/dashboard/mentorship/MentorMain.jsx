@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { MentorServices } from '../../../api/MentorServices';
 import MentorDetail from './MentorDetail';
 import { UserContext } from '../../../context/UserContext';
+import { Box, Spinner } from '@chakra-ui/react';
+import MentorshipRequests from './MentorshipRequests';
 
 const Dropdown = ({ label, options }) => {
   const [selected, setSelected] = useState(label);
@@ -181,7 +183,7 @@ const MentorCard = ({ mentor }) => {
   const profilePhoto = mentor.profile_photo;
   const jobTitle = mentor.current_job;
   const rating = mentor.rating || "4.0"; // fallback default rating
-  const {userwithid} = useContext(UserContext)
+  const { userwithid } = useContext(UserContext)
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
       <div className="flex justify-between p-3">
@@ -190,7 +192,7 @@ const MentorCard = ({ mentor }) => {
           <div>
             <h2 className="font-semibold text-lg">{fullName}</h2>
             <p className="text-sm text-gray-600 text-wrap">{jobTitle}</p>
-            <p>8 years experience</p>
+            <p>{mentor.years_of_experience || 0} Years Experience</p>
           </div>
         </Link>
         <div className="flex gap-1 text-sm text-yellow-300">
@@ -201,10 +203,10 @@ const MentorCard = ({ mentor }) => {
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-between mt-2 p-4">
-        <span className='bg-[#2A0D471A] px-4 rounded-lg'>React</span>
-        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Full stack</span>
-        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Node</span>
-        <span className='bg-[#2A0D471A] px-4 rounded-lg'>Leadership</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>{mentor.technical_skills[0] || "Tech"}</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>{mentor.technical_skills[1]}</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>{mentor.technical_skills[2]}</span>
+        <span className='bg-[#2A0D471A] px-4 rounded-lg'>{mentor.technical_skills[3]}</span>
       </div>
       <div className='flex items-center justify-center gap-5 my-5'>
         <button className='py-2 px-4 bg-[#5DA05D] text-white rounded-lg'>
@@ -225,6 +227,13 @@ const MentorMain = () => {
   const [error, setError] = useState(null);
   const [nextPage, setNextPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [searchMentor, setSearchMentor] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // For text search
+  const [availability, setAvailability] = useState("");
+  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [experienceLevel, setExperienceLevel] = useState("");
+  const [skills, setSkills] = useState("");
+  const {user} = useContext(UserContext);
 
 
   const getRecommendedMentors = async (page = 1) => {
@@ -249,58 +258,144 @@ const MentorMain = () => {
       setLoading(false);
     }
   }
+  const SearchMentors = async () => {
+    setLoading(true);
+    setSearchTriggered(true);
+
+    try {
+      const params = {};
+
+      if (searchQuery.trim()) params.text = searchQuery.trim();
+      if (availability) params.availability = availability;
+      if (experienceLevel) params.experience_level = experienceLevel;
+      if (skills) params.skills = skills;
+
+      const { success, data } = await MentorServices.searchmentors(params);
+
+      if (success) {
+        setSearchMentor(data);
+      } else {
+        setSearchMentor([]);
+      }
+    } catch (error) {
+      console.error("Search failed", error);
+      setSearchMentor([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getRecommendedMentors();
   }, [])
 
+  if (loading && recommendmentor.length === 0) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+        <Spinner size="lg" color="#5DA05D" thickness="4px" />
+      </Box>
+    );
+  }
+  // if (recommendmentor.length === 0) {
+  //   return (
+  //     <Box textAlign="center" py={28} className='shadow-lg'>
+  //       <p className="text-gray-500 text-lg">
+  //         Recommended Mentors based on your interest will be displayed here!
+  //       </p>
+  //     </Box>
+  //   )
+  // }
+
   return (
     <div className="bg-white p-4">
-      <div className="flex items-center w-[71%] border border-gray-300 rounded-lg overflow-hidden flex-grow">
-        <div className="flex items-center pl-3">
-          <Search className="w-4 h-4" />
-        </div>
-        <input
-          type="text"
-          placeholder="Search mentors by name or expertise"
-          className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
-        />
-      </div>
+      {user.user_type=="learner"?(
+        <div>
+        {recommendmentor.length === 0 ? (
+          <Box textAlign="center" py={28} className='shadow-lg'>
+            <p className="text-gray-500 text-lg">
+              Recommended Mentors based on your interest will be displayed here!
+            </p>
+          </Box>
+        ) : (
+          <div>
 
-      <div className="flex items-center gap-3 mt-2 flex-wrap">
-        <Dropdown label="Experience Level" options={["Junior", "Mid", "Senior"]} />
-        <Dropdown label="All Skills" options={["Tech", "Finance", "Health"]} />
-        <Dropdown label="Availability" options={["Weekdays", "Weekends"]} />
-
-        <button className="px-5 py-1 bg-[#5DA05D] text-white rounded-lg hover:bg-[#5DA05D] text-sm">
-          Search
-        </button>
-      </div>
-      <div>
-        <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-12 gap-4">
-          {recommendmentor.map((mentor) => (
-            <div key={mentor.id} className="col-span-1 md:col-span-6">
-              <MentorCard mentor={mentor} />
+            <div className="flex items-center w-[71%] border border-gray-300 rounded-lg overflow-hidden flex-grow">
+              <div className="flex items-center pl-3">
+                <Search className="w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search mentors by name or expertise"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
+              />
             </div>
-          ))}
-        </div>
 
-        {/* <div className="flex justify-center mt-4">
-          <button className="px-4 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-gray-300">
-            Load More
-          </button>
-        </div> */}
-        <div className="flex justify-center mt-4">
-          {hasMore && (
-            <button
-              onClick={() => getRecommendedMentors(nextPage)}
-              className="px-4 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-gray-300"
-            >
-              Load More
-            </button>
-          )}
-        </div>
+            <div className="flex items-center gap-3 mt-2 flex-wrap">
+              <Dropdown
+                label="Experience Level"
+                options={["entry", "mid", "senior", "executive"]}
+                onChange={(value) => setExperienceLevel(value.toLowerCase())}
+              />
+
+              <Dropdown
+                label="All Skills"
+                options={["Tech", "Finance", "Health"]}
+                onChange={(value) => setSkills(value)}
+              />
+
+              <Dropdown
+                label="Availability"
+                options={["Weekdays", "Weekends"]}
+                onChange={(value) => setAvailability(value.toLowerCase())}
+              />
+
+              <button
+                onClick={SearchMentors}
+                className="px-5 py-1 bg-[#5DA05D] text-white rounded-lg hover:bg-[#5DA05D] text-sm">
+                Search
+              </button>
+            </div>
+            <div>
+              <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-12 gap-4">
+                {searchTriggered ? (
+                  searchMentor.length > 0 ? (
+                    searchMentor.map((mentor) => (
+                      <div key={mentor.id} className="col-span-1 md:col-span-6">
+                        <MentorCard mentor={mentor} />
+                      </div>
+                    ))
+                  ) : (
+                    <p className="col-span-12 text-center text-gray-500">No mentor found</p>
+                  )
+                ) : (
+                  recommendmentor.map((mentor) => (
+                    <div key={mentor.id} className="col-span-1 md:col-span-6">
+                      <MentorCard mentor={mentor} />
+                    </div>
+                  ))
+                )}
+              </div>
+              <div className="flex justify-center mt-4">
+                {hasMore && (
+                  <button
+                    onClick={() => getRecommendedMentors(nextPage)}
+                    className="px-4 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-gray-300"
+                  >
+                    Load More
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+      ):(
+        <MentorshipRequests />
+      )}
+      
+
     </div>
   );
 };

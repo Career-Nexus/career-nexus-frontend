@@ -27,7 +27,6 @@ import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
 import ChatComponent from '../pages/dashboard/Chat'
 import SavedPosts from '../pages/dashboard/SavedPosts'
-import { PostsProvider } from '../context/PostsContext'
 import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustry'
 import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
 import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
@@ -51,10 +50,8 @@ const ProtectedRoute = ({ children }) => {
   // )
   return (
     <UserProvider>
-      <PostsProvider>
-        <MainNavbar />
+      <MainNavbar />
         {children}
-      </PostsProvider>
     </UserProvider>
   )
 
