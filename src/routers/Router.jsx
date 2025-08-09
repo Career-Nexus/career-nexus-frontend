@@ -9,7 +9,7 @@ import ErrorPage from '../components/ErrorPage'
 import AuthNavbar from '../components/layout/AuthNavbar'
 import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
-import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
+// import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
 import MentorshipHome from '../pages/mentorship/MentorshipHome'
 import { UserProvider } from '../context/UserContext'
 import VirtualGalleryDetail from '../components/dashboard/home/profile/VirtualGalleryDetail'
@@ -33,6 +33,7 @@ import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
 import MentorSuccessPage from '../pages/auth/mentors/MentorSuccess'
 import ProfileCompleted from '../pages/auth/mentors/ProfileCompleted'
 import MyJobs from '../pages/jobs/MyJobs'
+import ViewPersonProfile from '../components/dashboard/home/profile/viewPersonProfile/ViewPersonProfile'
 
 
 const ProtectedRoute = ({ children }) => {

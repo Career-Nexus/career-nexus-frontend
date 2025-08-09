@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Company1, Company2, Like, VideoIcon } from '../../../../icons/icon'
-import { Button } from '@chakra-ui/react'
-import ReusableModal from './ModalDesign'
-import { BriefcaseBusiness, GraduationCap, MapPin, Camera, UserPlus, ChevronLeft, User, Briefcase, PieChart, Image, FileText, ChevronRight, Clock, ChevronDown, Edit, Building, Calendar, ChevronUp, Plus } from 'lucide-react'
-import { EditComponent } from './AllModal'
-import EventsHome from '../EventsHome'
-import { SocialInteractionBar } from '../SocialInteractionBar'
-import { UserContext } from '../../../../context/UserContext'
+import { Company1, Company2, Like, VideoIcon } from '../../../../../icons/icon'
+import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus,ChevronDown, Building, Calendar, ChevronUp } from 'lucide-react'
+import { EditComponent } from '../AllModal'
+import EventsHome from '../../EventsHome'
+import { UserContext } from '../../../../../context/UserContext'
 import { useParams } from 'react-router-dom';
+import PersonsPosts from './PersonsPosts'
+import ProfessionalSummary from './ProfessionalSummary'
 
 const ViewPersonProfile = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -139,7 +138,7 @@ const ViewPersonProfile = () => {
 }
 
 function ProfileTabs() {
-    const [activeTab, setActiveTab] = useState("posts")
+    const [activeTab, setActiveTab] = useState("professional")
     const tabsRef = useRef(null)
 
     // Scroll tabs horizontally on smaller screens
@@ -166,14 +165,7 @@ function ProfileTabs() {
                 </button>
 
                 <div ref={tabsRef} className="my-3 gap-3 flex overflow-x-auto scrollbar-hide px-6 md:px-0 md:overflow-visible">
-                    <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("posts")}
-                    >
-                        {/* <FileText className="h-3.5 w-3.5" /> */}
-                        Posts
-                    </button>
+                    
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "professional" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -182,14 +174,13 @@ function ProfileTabs() {
                         {/* <User className="h-3.5 w-3.5" /> */}
                         Professional Portfolio
                     </button>
-                    <button
+                    {/* <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "gallery" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
                         onClick={() => setActiveTab("gallery")}
                     >
-                        {/* <Image className="h-3.5 w-3.5" /> */}
                         Virtual Gallery
-                    </button>
+                    </button> */}
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -206,6 +197,14 @@ function ProfileTabs() {
                         {/* <PieChart className="h-3.5 w-3.5" /> */}
                         Analytics Dashboard
                     </button>
+                    <button
+                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                            }`}
+                        onClick={() => setActiveTab("posts")}
+                    >
+                        {/* <FileText className="h-3.5 w-3.5" /> */}
+                        Posts
+                    </button>
 
                 </div>
 
@@ -219,8 +218,8 @@ function ProfileTabs() {
 
             {/* Tab content */}
             <div className="mt-6">
-                {activeTab === "posts" && <PostsTemplate />}
-                {activeTab === "professional" && <ProfessionalSummaryTemplate />}
+                {activeTab === "posts" && <PersonsPosts />}
+                {activeTab === "professional" && <ProfessionalSummary />}
                 {activeTab === "gallery" && <PortfolioGalleryTemplate />}
                 {activeTab === "projects" && <ProjectCatalogTemplate />}
                 {activeTab === "analytics" && <AnalyticsDashboardTemplate />}
@@ -229,110 +228,110 @@ function ProfileTabs() {
     )
 }
 
-function PostsTemplate() {
-    const [expandedItems, setExpandedItems] = useState({
-        walmart: false,
-        apple: false
-    });
+// function PostsTemplate() {
+//     const [expandedItems, setExpandedItems] = useState({
+//         walmart: false,
+//         apple: false
+//     });
 
-    const toggleExpand = (key) => {
-        setExpandedItems(prev => ({
-            ...prev,
-            [key]: !prev[key]
-        }));
-    };
-    const profile = [
-        {
-            id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
-            description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock className='w-3 h-3' />,
-            disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
-            image2: "/images/image1.png"
-        },
-        {
-            id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
-            description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock className='w-3 h-3' />,
-            disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
-            image2: "/images/image2.png"
-        }
-    ]
-    return (
-        <div className='grid grid-cols-12'>
-            <div className='col-span-9'>
-                {profile.map(p => (
-                    <div key={p.id} className='border border-gray-300 rounded-lg p-4 my-5'>
-                        <div className='flex gap-3 mb-2 items-center'>
-                            <img src={p.image} alt="profile" className='w-12 h-12 rounded-full' />
-                            <div className='flex flex-col justify-center'>
-                                <h3 className='font-semibold text-sm'>{p.name}</h3>
-                                <p className='font-light text-sm'>{p.description}</p>
-                                <div className='flex items-center gap-1'>
-                                    <p>{p.days}</p>
-                                    <p>{p.timeIcon}</p>
-                                </div>
-                            </div>
-                            <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
-                        </div>
-                        <ul className="list-disc ml-5 mt-3 text-sm">
+//     const toggleExpand = (key) => {
+//         setExpandedItems(prev => ({
+//             ...prev,
+//             [key]: !prev[key]
+//         }));
+//     };
+//     const profile = [
+//         {
+//             id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
+//             description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock className='w-3 h-3' />,
+//             disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
+//             image2: "/images/image1.png"
+//         },
+//         {
+//             id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
+//             description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock className='w-3 h-3' />,
+//             disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
+//             image2: "/images/image2.png"
+//         }
+//     ]
+//     return (
+//         <div className='grid grid-cols-12'>
+//             <div className='col-span-9'>
+//                 {profile.map(p => (
+//                     <div key={p.id} className='border border-gray-300 rounded-lg p-4 my-5'>
+//                         <div className='flex gap-3 mb-2 items-center'>
+//                             <img src={p.image} alt="profile" className='w-12 h-12 rounded-full' />
+//                             <div className='flex flex-col justify-center'>
+//                                 <h3 className='font-semibold text-sm'>{p.name}</h3>
+//                                 <p className='font-light text-sm'>{p.description}</p>
+//                                 <div className='flex items-center gap-1'>
+//                                     <p>{p.days}</p>
+//                                     <p>{p.timeIcon}</p>
+//                                 </div>
+//                             </div>
+//                             <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
+//                         </div>
+//                         <ul className="list-disc ml-5 mt-3 text-sm">
 
-                            <span className=" ">
+//                             <span className=" ">
 
-                                <span className='mb-3'>{p.disc2}</span>
-                                {!expandedItems.walmart && "..."}
-                                <button
-                                    onClick={() => toggleExpand("walmart")}
-                                    className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-                                >
-                                    {expandedItems.walmart ? (
-                                        <>
-                                            <span className='text-[#5DA05D]'>Hide</span>
-                                            <ChevronUp className="h-3 w-3 ml-0.5" />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className='text-[#5DA05D]'>More</span>
-                                            <ChevronDown className="h-3 w-3 ml-0.5" />
-                                        </>
-                                    )}
-                                </button>
-                            </span>
-                            {expandedItems.walmart && (
-                                <>
-                                    <li className="mt-2">
-                                        Collaborated with cross-functional teams to deliver high-quality software solutions on time and
-                                        within budget.
-                                    </li>
-                                    <li className="mt-2">
-                                        Implemented responsive design principles to ensure optimal user experience across various devices
-                                        and screen sizes.
-                                    </li>
-                                    <li className="mt-2">
-                                        Participated in code reviews and provided constructive feedback to improve code quality and
-                                        maintainability.
-                                    </li>
-                                    <li className="mt-2">
-                                        Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
-                                    </li>
-                                </>
-                            )}
-                        </ul>
-                        <div>
-                            <img src={p.image2} alt="profile" className='w-full h-[348px]' />
-                        </div>
-                        <SocialInteractionBar
-                            likes={125}
-                            comments={25}
-                            shares={2}
-                            views={true}
-                            events={true}
-                        />
-                    </div>
+//                                 <span className='mb-3'>{p.disc2}</span>
+//                                 {!expandedItems.walmart && "..."}
+//                                 <button
+//                                     onClick={() => toggleExpand("walmart")}
+//                                     className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
+//                                 >
+//                                     {expandedItems.walmart ? (
+//                                         <>
+//                                             <span className='text-[#5DA05D]'>Hide</span>
+//                                             <ChevronUp className="h-3 w-3 ml-0.5" />
+//                                         </>
+//                                     ) : (
+//                                         <>
+//                                             <span className='text-[#5DA05D]'>More</span>
+//                                             <ChevronDown className="h-3 w-3 ml-0.5" />
+//                                         </>
+//                                     )}
+//                                 </button>
+//                             </span>
+//                             {expandedItems.walmart && (
+//                                 <>
+//                                     <li className="mt-2">
+//                                         Collaborated with cross-functional teams to deliver high-quality software solutions on time and
+//                                         within budget.
+//                                     </li>
+//                                     <li className="mt-2">
+//                                         Implemented responsive design principles to ensure optimal user experience across various devices
+//                                         and screen sizes.
+//                                     </li>
+//                                     <li className="mt-2">
+//                                         Participated in code reviews and provided constructive feedback to improve code quality and
+//                                         maintainability.
+//                                     </li>
+//                                     <li className="mt-2">
+//                                         Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
+//                                     </li>
+//                                 </>
+//                             )}
+//                         </ul>
+//                         <div>
+//                             <img src={p.image2} alt="profile" className='w-full h-[348px]' />
+//                         </div>
+//                         <SocialInteractionBar
+//                             likes={125}
+//                             comments={25}
+//                             shares={2}
+//                             views={true}
+//                             events={true}
+//                         />
+//                     </div>
 
-                ))}
+//                 ))}
 
-            </div>
-        </div>
-    )
-}
+//             </div>
+//         </div>
+//     )
+// }
 
 function ProfessionalSummaryTemplate() {
     return (

@@ -38,8 +38,6 @@ const MainNavbar = () => {
                     <div className='hidden md:block'>
                         <img src="/images/cnlogonew.png" alt="Career-Nexus logo" className="h-16 w-auto" />
                     </div>
-
-
                     {/* Navigation Links for Medium Screens and Up */}
                     {
                         user.user_type === "learner" ? (

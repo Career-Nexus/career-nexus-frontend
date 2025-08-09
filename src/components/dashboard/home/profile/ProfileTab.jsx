@@ -16,7 +16,6 @@ import {
     Plus,
 } from "lucide-react"
 import { Card, CardBody, Progress, Textarea, Button, Box } from "@chakra-ui/react"
-import { SocialInteractionBar } from "../SocialInteractionBar"
 import { Clock, Delete, Download, Edit, Editall, View } from "../../../../icons/icon"
 import ExperienceSection from "./Experience"
 import { ProductGalery } from "./ProductVirtualGalary"
@@ -31,7 +30,7 @@ import { Link } from "react-router-dom"
 
 
 export default function ProfileTabs() {
-    const [activeTab, setActiveTab] = useState("posts")
+    const [activeTab, setActiveTab] = useState("professional")
     const tabsRef = useRef(null)
 
     // Scroll tabs horizontally on smaller screens

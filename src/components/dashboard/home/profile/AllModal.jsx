@@ -34,7 +34,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
     if (user) {
       setValue("first_name", user.first_name || "");
       setValue("last_name", user.last_name || "");
-      setValue("middle_name", user.midle_name || "");
+      setValue("middle_name", user.middle_name || "");
       setValue("location", user.location || "");
       setValue("bio", user.bio || "");
       setValue("position", user.position || "");
