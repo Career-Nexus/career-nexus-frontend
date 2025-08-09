@@ -7,7 +7,7 @@ import { PostService } from "../../../api/PostService";
 
 export default function MentorPosts() {
   const [expandedItems, setExpandedItems] = useState({});
-  const [userPosts, setUserPosts] = useState([]);
+  const [mentorsPosts, setMentorsPosts] = useState([]);
   const [nextPage, setNextPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -16,9 +16,9 @@ export default function MentorPosts() {
   const fetchPosts = async (page = 1) => {
     setLoading(true);
     try {
-      const data = await PostService.getUserPosts({ page });
+      const data = await PostService.getMentorsPosts({ page });
       const newPosts = Array.isArray(data) ? data : data?.results || [];
-      setUserPosts(prev => page === 1 ? newPosts : [...prev, ...newPosts]);
+      setMentorsPosts(prev => page === 1 ? newPosts : [...prev, ...newPosts]);
 
       if (data?.next) {
         const url = new URL(data.next);
@@ -56,7 +56,7 @@ export default function MentorPosts() {
     }));
   };
 
-  if (loading && userPosts.length === 0) {
+  if (loading && mentorsPosts.length === 0) {
         return (
           <Box display="flex" justifyContent="center" alignItems="center" height="200px">
             <Spinner size="lg" color="#5DA05D" thickness="4px" />
@@ -68,11 +68,11 @@ export default function MentorPosts() {
     return <p className="text-red-500">{error}</p>;
   }
 
-  if (userPosts.length === 0) {
+  if (mentorsPosts.length === 0) {
     return (
       <Box textAlign="center" py={10}>
         <p className="text-gray-500 text-lg">
-          All posts created by user will be displayed here!
+          All posts created by Mentors will be displayed here!
         </p>
       </Box>
     );
@@ -80,7 +80,7 @@ export default function MentorPosts() {
 
   return (
     <div>
-      {userPosts.map((post) => (
+      {mentorsPosts.map((post) => (
         <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
           <div className="flex gap-3 mb-2 items-center">
             <img

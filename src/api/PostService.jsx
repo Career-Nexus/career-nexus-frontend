@@ -40,6 +40,15 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch posts")
     }
   },
+  async getMentorsPosts(params ={}){
+    try {
+      const response = await api.get("/post/by-mentors/", {params});
+      console.log("Mentors posts fetched:", response.data)
+      return response.data;
+    } catch (error) {
+      console.error("Couldn't mentors posts")
+    }
+  },
   async Follow(follow) {
     try {
       console.log('API payload:', follow);

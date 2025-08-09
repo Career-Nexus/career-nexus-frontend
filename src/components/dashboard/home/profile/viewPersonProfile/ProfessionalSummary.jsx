@@ -11,10 +11,6 @@ export default function ProfessionalSummary() {
             <div>
                 <h2 className='font-bold text-xl mb-3'>Professional Summary</h2>
                 <p className='text-sm'>
-                    {/* With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications. <br />
-                    As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep. <br />
-                    If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀
-                     */}
                     {userwithid.summary}
                 </p>
             </div>
