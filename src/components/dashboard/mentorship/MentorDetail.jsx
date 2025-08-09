@@ -8,6 +8,8 @@ import MentorDetailPost from './MentorDetailPost';
 import MentorProfSummary from './MentorProfSummary';
 import api from '../../../api/ApiServiceThree';
 import { UserContext } from '../../../context/UserContext';
+import ProfessionalSummary from '../home/profile/viewPersonProfile/ProfessionalSummary';
+import PersonsPosts from '../home/profile/viewPersonProfile/PersonsPosts';
 
 function MentorDetail() {
     const [mentorDetails, setMentorDetails] = useState(null);
@@ -125,7 +127,7 @@ export default MentorDetail
 
 
 function MentorDetailsTabs() {
-    const [activeTab, setActiveTab] = useState("posts")
+    const [activeTab, setActiveTab] = useState("professional")
     const tabsRef = useRef(null)
 
     // Scroll tabs horizontally on smaller screens
@@ -160,13 +162,13 @@ function MentorDetailsTabs() {
                     >
                         Professional Portfolio
                     </button>
-                    <button
+                    {/* <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "gallery" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
                         onClick={() => setActiveTab("gallery")}
                     >
                         Virtual Gallery
-                    </button>
+                    </button> */}
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -200,7 +202,7 @@ function MentorDetailsTabs() {
 
             {/* Tab content */}
             <div className="my-6">
-                <span>{activeTab === "professional" && <ProfessionalSummary />}</span>
+                <span>{activeTab === "professional" && <ProfSummary />}</span>
                 <span>{activeTab === "gallery" && <PortfolioGallery />}</span>
                 <span>{activeTab === "projects" && <ProjectCatalog />}</span>
                 <span>{activeTab === "analytics" && <AnalyticsDashboard />}</span>
@@ -213,15 +215,17 @@ function MentorDetailsTabs() {
 function Posts() {
     return (
         <div>
-            <MentorDetailPost/>
+            {/* <MentorDetailPost/> */}
+            <PersonsPosts/>
         </div>
     )
 }
-function ProfessionalSummary() {
+function ProfSummary() {
     return (
         <div>
+            <ProfessionalSummary/>
             {/* <MentorProfSummary /> */}
-            professional summary
+            {/* professional summary */}
         </div>
     )
 }

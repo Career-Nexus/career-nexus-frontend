@@ -1,12 +1,11 @@
 import { ChevronDown, ChevronUp, Clock } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Spinner } from "@chakra-ui/react";
 import { PostService } from "../../../../../api/PostService";
 import { formatTimeAgo } from "../../TabInterface";
 import SocialBar from "../../SocialBar";
-// import SocialBar from "./SocialBar";
-// import { formatTimeAgo } from "./TabInterface";
-// import { PostService } from "../../../api/PostService";
+import { useParams } from "react-router-dom";
+//import { UserContext } from "../../../../../context/UserContext";
 
 export default function PersonsPosts() {
   const [expandedItems, setExpandedItems] = useState({});
@@ -15,57 +14,59 @@ export default function PersonsPosts() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { id: userId } = useParams(); // userId from URL
 
-  const fetchPosts = async (page = 1) => {
-    setLoading(true);
-    try {
-      const data = await PostService.getUserPosts({ page });
-      const newPosts = Array.isArray(data) ? data : data?.results || [];
-      setUserPosts(prev => page === 1 ? newPosts : [...prev, ...newPosts]);
+const fetchPosts = async (page = 1) => {
+  setLoading(true);
+  try {
+    const data = await PostService.getOtherUserPosts(userId, page);
+    const newPosts = Array.isArray(data) ? data : data?.results || [];
 
-      if (data?.next) {
-        const url = new URL(data.next);
-        const nextPageNumber = url.searchParams.get("page");
-        setNextPage(Number(nextPageNumber));
-        setHasMore(true);
-      } else {
-        setHasMore(false);
-      }
+    setUserPosts(prev => page === 1 ? newPosts : [...prev, ...newPosts]);
 
-      setError(null);
-    } catch (err) {
-      console.error("Error fetching posts:", err);
-      setError("Failed to load posts.");
-    } finally {
-      setLoading(false);
+    if (data?.next) {
+      const url = new URL(data.next);
+      const nextPageNumber = url.searchParams.get("page");
+      setNextPage(Number(nextPageNumber));
+      setHasMore(true);
+    } else {
+      setHasMore(false);
     }
-  };
+  } catch (err) {
+    console.error("Error fetching posts:", err);
+    setError("Failed to load posts.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-  useEffect(() => {
-    fetchPosts(1);
-  }, []);
+useEffect(() => {
+  if (userId) {
+    fetchPosts(1); // always start with page 1 for this user
+  }
+}, [userId]);
 
-  const handleLoadMore = () => {
-    if (hasMore && !loading) {
-      fetchPosts(nextPage);
-    }
-  };
+const handleLoadMore = () => {
+  if (hasMore && !loading) {
+    fetchPosts(nextPage); // always use correct nextPage for THIS user
+  }
+};
 
   const toggleExpand = (id, type = "") => {
     const key = type ? `${id}_${type}` : id;
-    setExpandedItems((prev) => ({
+    setExpandedItems(prev => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
 
   if (loading && userPosts.length === 0) {
-        return (
-          <Box display="flex" justifyContent="center" alignItems="center" height="200px">
-            <Spinner size="lg" color="#5DA05D" thickness="4px" />
-          </Box>
-        );
-      }
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+        <Spinner size="lg" color="#5DA05D" thickness="4px" />
+      </Box>
+    );
+  }
 
   if (error) {
     return <p className="text-red-500">{error}</p>;
@@ -85,6 +86,7 @@ export default function PersonsPosts() {
     <div>
       {userPosts.map((post) => (
         <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
+          {/* Post content */}
           <div className="flex gap-3 mb-2 items-center">
             <img
               src={post.profile?.profile_photo || "/images/profile.png"}
@@ -104,13 +106,14 @@ export default function PersonsPosts() {
           </div>
 
           <p className="mb-3">
-              {expandedItems[post.post_id]
-                ? post.body
-                : post.body?.length > 200
-                  ? post.body.slice(0, 200) + "..."
-                  : post.body}
-            </p>
-            {post.body && post.body.length > 200 && (
+            {expandedItems[post.post_id]
+              ? post.body
+              : post.body?.length > 200
+                ? post.body.slice(0, 200) + "..."
+                : post.body}
+          </p>
+
+          {post.body && post.body.length > 200 && (
             <button
               onClick={() => toggleExpand(post.post_id)}
               className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
@@ -129,12 +132,7 @@ export default function PersonsPosts() {
             </button>
           )}
 
-          {/* {expandedItems[post.post_id] && post.article && post.article !== "undefined" && (
-            <div className="mt-2">
-              <p className="text-sm">{post.article}</p>
-            </div>
-          )} */}
-
+          {/* Images */}
           <div className="mt-3 grid grid-cols-12 gap-1 overflow-hidden">
             <div className="col-span-6">
               {post.pic1 && post.pic1 !== "N/A" && (
@@ -164,6 +162,7 @@ export default function PersonsPosts() {
             </div>
           </div>
 
+          {/* Video */}
           {post.video && post.video !== "N/A" && (
             <div className="mt-3 max-w-lg overflow-hidden rounded-lg border border-gray-200 p-1">
               <video
@@ -173,7 +172,8 @@ export default function PersonsPosts() {
               />
             </div>
           )}
-          <SocialBar post={post} fetchPosts={()=>fetchPosts(1)} />
+
+          <SocialBar post={post} fetchPosts={() => fetchPosts(1)} />
         </div>
       ))}
 

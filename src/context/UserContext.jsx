@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, useMemo } from "react";
 import api, { authService } from "../api/ApiServiceThree";
 
 const defaultUser = {
-  id: null,
   first_name: "",
   last_name:"",
   middle_name:"",

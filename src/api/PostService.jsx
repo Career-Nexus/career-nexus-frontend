@@ -46,9 +46,28 @@ export const PostService = {
       console.log("Mentors posts fetched:", response.data)
       return response.data;
     } catch (error) {
-      console.error("Couldn't mentors posts")
+      console.error("Couldn't fetch mentors posts", error)
     }
   },
+//   async getOtherUserPosts(user) {
+//   try {
+//     const id = typeof user === "object" ? user.id : user; // extract just the number
+//     console.log("user_id value:", id);
+//     const response = await api.get(`/post/by-user/?user_id=${id}`);
+//     console.log("other users posts fetched", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.log("couldn't fetch other user posts", error);
+//   }
+// },
+async getOtherUserPosts(userId, page = 1) {
+  try {
+    const response = await api.get(`/post/by-user/?user_id=${userId}&page=${page}`);
+    return response.data;
+  } catch (error) {
+    console.error("Couldn't fetch other user posts", error);
+  }
+},
   async Follow(follow) {
     try {
       console.log('API payload:', follow);

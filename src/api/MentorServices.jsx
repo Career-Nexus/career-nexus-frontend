@@ -23,5 +23,17 @@ export const MentorServices={
             console.log("error fetching the searched mentor");
             return { success: false, data: [] };
         }
+    },
+    async bookmentorsession(mentor){
+        try {
+            console.log("Api payload", mentor)
+            const response = await api.post('/mentor/sessions/book/',mentor);
+            if(response.data){
+                console.log("session with mentor booked", response.data)
+                return {success: true, data: response.data}
+            } 
+        } catch (error) {
+            console.log("couldn't book session with mentor")
+        }
     }
 }
