@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { Bookmark, BriefcaseBusiness, ChevronLeft, ChevronRight, Ellipsis, GraduationCap, MapPin, MessageCircle, RefreshCw, ThumbsUp, Upload, UserPlus } from 'lucide-react';
-import { mentors } from './MentorMain';
+// import { mentors } from './MentorMain';
 import ProfileDetail from './ProfileDetail';
 import { Playbutton } from '../../../icons';
 import MentorDetailPost from './MentorDetailPost';
-import MentorProfSummary from './MentorProfSummary';
+// import MentorProfSummary from './MentorProfSummary';
 import api from '../../../api/ApiServiceThree';
 import { UserContext } from '../../../context/UserContext';
 import ProfessionalSummary from '../home/profile/viewPersonProfile/ProfessionalSummary';

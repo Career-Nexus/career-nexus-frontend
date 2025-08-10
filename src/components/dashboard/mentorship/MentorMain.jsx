@@ -63,152 +63,152 @@ const Dropdown = ({ label, options, value, onChange }) => {
   )
 }
 
-export const mentors = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: 4.9,
-    sessions: 3,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img1.png",
-    cover: "/images/mentor-cover1.png",
-    location: "USA",
-    job: "Software Engineer at Career Nexus",
-    degree: "BSc in Computer Engineering",
-    stats: {
-      following: "500+",
-      followers: "6,176",
-    },
-    time: "2d",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-  {
-    id: 2,
-    name: "Cameroon Williams",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: 4.3,
-    sessions: 12,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img2.png",
-    cover: "/images/mentor-cover1.png",
-    location: "Uk",
-    job: "Software Engineer at Google",
-    degree: "BSc in Computer Science",
-    stats: {
-      following: "400+",
-      followers: "6,470",
-    },
-    time: "12h",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-  {
-    id: 3,
-    name: "Esther Howard",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: 4.9,
-    sessions: 12,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img3.png",
-    cover: "/images/mentor-cover1.png",
-    location: "USA",
-    job: "Software Engineer at Microsoft",
-    degree: "BSc in Computer Science",
-    stats: {
-      following: "500+",
-      followers: "6,471",
-    },
-    time: "1h",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-  {
-    id: 4,
-    name: "Robert Fox",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: "5",
-    sessions: 0,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img4.png",
-    cover: "/images/mentor-cover1.png",
-    location: "USA",
-    job: "Software Engineer at TechCorp",
-    degree: "BSc in Computer Science",
-    stats: {
-      following: "500+",
-      followers: "6,476",
-    },
-    time: "2d",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-  {
-    id: 5,
-    name: "Rachel Piper",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: 4.9,
-    sessions: 12,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img5.png",
-    cover: "/images/mentor-cover1.png",
-    location: "Nigeria",
-    job: "Software Engineer at First Bank",
-    degree: "BSc in Computer Science",
-    stats: {
-      following: "500+",
-      followers: "6,446",
-    },
-    time: "2d",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-  {
-    id: 6,
-    name: "Robert Fox",
-    title: "Senior Software Engineer at SEECS-National University",
-    rating: "4",
-    sessions: 0,
-    description:
-      "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
-    tags: ["React", "Full stack", "Node", "Leadership"],
-    image: "/images/mentor-img4.png",
-    cover: "/images/mentor-cover1.png",
-    location: "USA",
-    job: "Software Engineer at TechCorp",
-    degree: "BSc in Computer Science",
-    stats: {
-      following: "300+",
-      followers: "6,476",
-    },
-    time: "now",
-    shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
-    postimg: "/images/videoFrame.png",
-    profsummary:
-      "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
-  },
-]
+// export const mentors = [
+//   {
+//     id: 1,
+//     name: "Sarah Johnson",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: 4.9,
+//     sessions: 3,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img1.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "USA",
+//     job: "Software Engineer at Career Nexus",
+//     degree: "BSc in Computer Engineering",
+//     stats: {
+//       following: "500+",
+//       followers: "6,176",
+//     },
+//     time: "2d",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+//   {
+//     id: 2,
+//     name: "Cameroon Williams",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: 4.3,
+//     sessions: 12,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img2.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "Uk",
+//     job: "Software Engineer at Google",
+//     degree: "BSc in Computer Science",
+//     stats: {
+//       following: "400+",
+//       followers: "6,470",
+//     },
+//     time: "12h",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+//   {
+//     id: 3,
+//     name: "Esther Howard",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: 4.9,
+//     sessions: 12,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img3.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "USA",
+//     job: "Software Engineer at Microsoft",
+//     degree: "BSc in Computer Science",
+//     stats: {
+//       following: "500+",
+//       followers: "6,471",
+//     },
+//     time: "1h",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+//   {
+//     id: 4,
+//     name: "Robert Fox",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: "5",
+//     sessions: 0,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img4.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "USA",
+//     job: "Software Engineer at TechCorp",
+//     degree: "BSc in Computer Science",
+//     stats: {
+//       following: "500+",
+//       followers: "6,476",
+//     },
+//     time: "2d",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+//   {
+//     id: 5,
+//     name: "Rachel Piper",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: 4.9,
+//     sessions: 12,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img5.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "Nigeria",
+//     job: "Software Engineer at First Bank",
+//     degree: "BSc in Computer Science",
+//     stats: {
+//       following: "500+",
+//       followers: "6,446",
+//     },
+//     time: "2d",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+//   {
+//     id: 6,
+//     name: "Robert Fox",
+//     title: "Senior Software Engineer at SEECS-National University",
+//     rating: "4",
+//     sessions: 0,
+//     description:
+//       "This project involved the end-to-end UI/UX design of a responsive e-commerce website tailored for a smooth and engaging online shopping experience. The aim was to combine aesthetics with functionality—making it easy for users to discover products, learn more about them, and complete purchases effortlessly.",
+//     tags: ["React", "Full stack", "Node", "Leadership"],
+//     image: "/images/mentor-img4.png",
+//     cover: "/images/mentor-cover1.png",
+//     location: "USA",
+//     job: "Software Engineer at TechCorp",
+//     degree: "BSc in Computer Science",
+//     stats: {
+//       following: "300+",
+//       followers: "6,476",
+//     },
+//     time: "now",
+//     shortdisc: "Looking for mentee interested in Learning advanced Ui/Ux techniques. 5 spots available.",
+//     postimg: "/images/videoFrame.png",
+//     profsummary:
+//       "With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications.As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep.If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀",
+//   },
+// ]
 
 // const MentorCard = ({ mentor }) => {
 //   const fullName = `${mentor.first_name} ${mentor.last_name}`
@@ -548,7 +548,7 @@ const MentorMain = () => {
 
   return (
     <div className="bg-white p-4">
-      {user.user_type === "mentor" ? (
+      {user.user_type === "learner" ? (
         <div>
           {recommendmentor.length === 0 ? (
             <Box textAlign="center" py={28} className="shadow-lg">
@@ -675,67 +675,67 @@ const MentorMain = () => {
   )
 }
 
-export const mentorExperience = [
-  {
-    id: 1,
-    logo: "",
-    role: "Software Engineer",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-  {
-    id: 2,
-    logo: "",
-    role: "Software Engineer 2",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-  {
-    id: 3,
-    logo: "",
-    role: "Software Engineer 3",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-  {
-    id: 4,
-    logo: "",
-    role: "Software Engineer 4",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-  {
-    id: 5,
-    logo: "",
-    role: "Software Engineer 5",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-  {
-    id: 6,
-    logo: "",
-    role: "Software Engineer 6",
-    company: "Nexmatics Africa",
-    date: "Aug 2018 - Present",
-    address: "Dallas, Texas, United States - On-site",
-    details:
-      "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
-  },
-]
+// export const mentorExperience = [
+//   {
+//     id: 1,
+//     logo: "",
+//     role: "Software Engineer",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+//   {
+//     id: 2,
+//     logo: "",
+//     role: "Software Engineer 2",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+//   {
+//     id: 3,
+//     logo: "",
+//     role: "Software Engineer 3",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+//   {
+//     id: 4,
+//     logo: "",
+//     role: "Software Engineer 4",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+//   {
+//     id: 5,
+//     logo: "",
+//     role: "Software Engineer 5",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+//   {
+//     id: 6,
+//     logo: "",
+//     role: "Software Engineer 6",
+//     company: "Nexmatics Africa",
+//     date: "Aug 2018 - Present",
+//     address: "Dallas, Texas, United States - On-site",
+//     details:
+//       "Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript.Enhanced project comprehension with use case scenarios and diagrams...",
+//   },
+// ]
 
 export default MentorMain
