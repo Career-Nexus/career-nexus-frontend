@@ -1,13 +1,19 @@
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Home, Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { ChevronDown, HelpCircle, LogOut, Settings, UserCircle } from 'lucide-react';
+import { ChevronDown, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle } from 'lucide-react';
+import { MentorServices } from '../../api/MentorServices';
 
 
 const MainNavbar = () => {
+    const [searchUser, setSearchUser] = useState([])
+    const [searchTriggered, setSearchTriggered] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [loading, setLoading] = useState(false);
+
     const location = useLocation()
     const navigate = useNavigate()
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
@@ -19,8 +25,42 @@ const MainNavbar = () => {
         navigate("/login")
     }
 
+    // Auto-trigger search with debounce
+    useEffect(() => {
+        if (!searchQuery.trim()) {
+            setSearchUser([]);
+            return;
+        }
+
+        const delayDebounce = setTimeout(() => {
+            searchUsers();
+        }, 500); // 0.5s delay
+
+        return () => clearTimeout(delayDebounce);
+    }, [searchQuery]);
+
+    const searchUsers = async () => {
+        try {
+            setLoading(true);
+            const { success, data } = await MentorServices.searchuser({
+                keyword: searchQuery.trim(),
+            });
+            setSearchUser(success ? data : []);
+        } catch (error) {
+            console.error("Search failed", error);
+            setSearchUser([]);
+        } finally {
+            setLoading(false);
+        }
+    };
     const isActive = (path) => {
         return location.pathname === path;
+    }
+
+    const clearSearch = () => {
+        setSearchQuery("")
+        setSearchTriggered(false)
+        setSearchUser([])
     }
 
     const navItemClass = "flex flex-col items-center";
@@ -143,8 +183,30 @@ const MainNavbar = () => {
                             type="text"
                             placeholder="Search for Jobs, Skills, people....."
                             className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                        {loading && <LoaderIcon className="animate-spin w-4 h-4 mr-3 text-gray-500" />}
                     </div>
+                    {/* Search Results Dropdown */}
+                    {searchUser.length > 0 && (
+                        <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
+                            {searchUser.map((u) => (
+                                <Link
+                                    key={u.id}
+                                    to={`/person-profile/${u.id}`}
+                                    className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100"
+                                    onClick={() => setSearchQuery("")}
+                                >
+                                    <img src={u.profile_photo} alt={u.name} className="w-8 h-8 rounded-full" />
+                                    <div>
+                                        <p className="font-medium">{u.name}</p>
+                                        <p className="text-xs text-gray-500">{u.qualification}</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                     <Link
                         to='/notifications'
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}

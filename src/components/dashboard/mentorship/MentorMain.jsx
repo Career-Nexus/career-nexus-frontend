@@ -365,8 +365,8 @@ const MentorCard = ({ mentor }) => {
             onClick={openModal}
             disabled={mentorSession.includes(mentor.id)}
             className={`py-2 px-4 border ${mentorSession.includes(mentor.id)
-                ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                : "bg-[#5DA05D] text-white"
+              ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+              : "bg-[#5DA05D] text-white"
               } rounded-lg transition-colors duration-200 font-medium text-sm`}
           >
             {mentorSession.includes(mentor.id) ? "Pending..." : "Book Session"}
