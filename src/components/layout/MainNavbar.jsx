@@ -57,11 +57,11 @@ const MainNavbar = () => {
         return location.pathname === path;
     }
 
-    const clearSearch = () => {
-        setSearchQuery("")
-        setSearchTriggered(false)
-        setSearchUser([])
-    }
+    // const clearSearch = () => {
+    //     setSearchQuery("")
+    //     setSearchTriggered(false)
+    //     setSearchUser([])
+    // }
 
     const navItemClass = "flex flex-col items-center";
     const activeClass = "border-b-2 border-green-500 text-[#5DA05D]";

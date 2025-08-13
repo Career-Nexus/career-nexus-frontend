@@ -48,5 +48,70 @@ export const MentorServices = {
         } catch (error) {
             console.log("couldn't book session with mentor")
         }
-    }
+    },
+    async requestedmentorship(params = {}) {
+        try {
+            const response = await api.get("/mentor/sessions/?status=requested", { params })
+            if (response.data) {
+                console.log("retrieved requested mentorship session")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("couldn't retrieve requested mentorship session")
+        }
+    },
+    async acceptedmentorship(params = {}) {
+        try {
+            const response = await api.get("/mentor/sessions/?status=accepted", { params })
+            if (response.data) {
+                console.log("retrieved accepted mentorship session")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("couldn't retrieve accepted mentorship session")
+        }
+    },
+    async scheduledmentorship(params = {}) {
+        try {
+            const response = await api.get("/mentor/sessions/?status=scheduled", { params })
+            if (response.data) {
+                console.log("retrieved scheduled mentorship session")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("couldn't retrieve scheduled mentorship session")
+        }
+    },
+    // async acceptOrrejectrequest(action){
+    //     try {
+    //         const response = await api.post("/mentor/sessions/accept-reject/",action)
+    //         if(response.data){
+    //             console.log('Action completed successfully',response.data)
+    //             return { success: true, data: response.data }
+    //         }
+    //     } catch (error) {
+    //         console.log("Couln't complete this action")
+    //     }
+    // },
+    async acceptOrRejectRequest(sessionId, decision) {
+        try {
+            const payload = {
+                session: sessionId, // session ID
+                action: decision    // "Accept" or "Reject"
+            };
+
+            const response = await api.post("/mentor/sessions/accept-reject/", payload);
+
+            if (response.status === 200 && response.data) {
+                console.log("Action completed successfully", response.data);
+                return { success: true, data: response.data };
+            } else {
+                console.error("Unexpected response:", response);
+                return { success: false };
+            }
+        } catch (error) {
+            console.error("Couldn't complete this action", error);
+            return { success: false, error };
+        }
+    },
 }

@@ -125,7 +125,7 @@ const jobs = [
     salaryRange: "$80k-$120k"
   }
 ];
-let OtherJobs = () => {
+export let OtherJobs = () => {
   return (
     <div>
       <div className="container mx-auto">

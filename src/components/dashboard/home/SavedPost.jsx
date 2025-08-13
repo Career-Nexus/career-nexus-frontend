@@ -5,6 +5,7 @@ import { Alert, AlertIcon, Box, Spinner } from '@chakra-ui/react';
 import { formatTimeAgo } from './TabInterface';
 import { ChevronDown, ChevronUp, Clock } from 'lucide-react';
 
+
 function SavedPost() {
     const [savedPost, setSavedPost] = useState([])
     const [expandedItems, setExpandedItems] = useState({});
@@ -65,7 +66,6 @@ function SavedPost() {
   }
     return (
         <div>
-            <h1 className='text-4xl font-bold'>Saved Posts</h1>
             {savedPost.map(({ post }) => (
                 <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
                     <div className="flex gap-3 mb-2 items-center">

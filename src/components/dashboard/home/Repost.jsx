@@ -5,19 +5,19 @@ import { PostService } from "../../../api/PostService";
 export default function RepostModal({ isOpen, onClose, onRepost, post }) {
   const [text, setText] = useState("");
 
-  const handleRepost = async() => {
+  const handleRepost = async () => {
     try {
-        await PostService.repost({
-            parent:post.post_id,
-            body:text
-        })
-       onRepost(post.post_id, text);
-       setText("");
-       onClose(); 
+      await PostService.repost({
+        parent: post.post_id,
+        body: text
+      })
+      onRepost(post.post_id, text);
+      setText("");
+      onClose();
     } catch (error) {
-        console.log("could not repost this post")
+      console.log("could not repost this post")
     }
-    
+
   };
 
   if (!isOpen) return null;
@@ -33,6 +33,23 @@ export default function RepostModal({ isOpen, onClose, onRepost, post }) {
         </button>
 
         <h2 className="text-lg font-semibold mb-4">Repost</h2>
+        <div className="flex gap-3 mb-2">
+          <img
+            src={post.profile?.profile_photo || "/images/profile.png"}
+            alt="profile"
+            className="w-12 h-12 rounded-full object-cover"
+          />
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-sm">
+              {post.profile?.first_name || "User"} {post.profile?.last_name}
+            </h3>
+            <p className="font-light text-sm">{post.profile?.qualification || "User"}</p>
+            {/* <div className="flex items-center gap-1">
+                  <p>{formatTimeAgo(post.time_stamp)}</p>
+                  <Clock className="w-3 h-3" />
+                </div> */}
+          </div>
+        </div>
         <p>{post.body}</p>
         <textarea
           value={text}

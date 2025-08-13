@@ -20,7 +20,7 @@ const Profile = () => {
         { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
         { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
         { id: 3, icon: <a href='/saved'><Bookmark /></a>, name: <a href='/saved'>Saved</a> },
-        { id: 4, icon: <a href='#'><Library /></a>, name: 'Library' },
+        { id: 4, icon: <a href='/library'><Library /></a>, name: <a href='/library'>Library</a> },
         { id: 5, icon: <a href='#'><Newsletter /></a>, name: 'Newsletter' },
         { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
     ]

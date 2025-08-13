@@ -24,31 +24,29 @@ export default function MentorshipRequests() {
       </div>
 
       {/* Tabs */}
-      <div className="w-full">
-        <div className="flex space-x-4 mb-6 justify-start border-b border-gray-200">
+      <div className="w-full max-w-4xl mx-auto pt-4">
+      <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
           <button
             onClick={() => setActiveTab("booking-requests")}
-            className={`pb-2 text-gray-500 hover:text-gray-900 ${
-              activeTab === "booking-requests" ? "border-b-2 border-gray-800 font-semibold text-gray-900" : ""
-            }`}
+            type="button"
+            className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'booking-requests' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
           >
             BOOKING REQUESTS (4)
           </button>
+          
           <button
             onClick={() => setActiveTab("upcoming-sessions")}
-            className={`pb-2 text-gray-500 hover:text-gray-900 ${
-              activeTab === "upcoming-sessions" ? "border-b-2 border-gray-800 font-semibold text-gray-900" : ""
-            }`}
+            type="button"
+          className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'upcoming-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
           >
             UPCOMING SESSION (2)
           </button>
           <button
             onClick={() => setActiveTab("completed-sessions")}
-            className={`pb-2 text-gray-500 hover:text-gray-900 ${
-              activeTab === "completed-sessions" ? "border-b-2 border-gray-800 font-semibold text-gray-900" : ""
-            }`}
+            type="button"
+          className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'completed-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
           >
-            COMPLETED SESSION (12)
+            COMPLETED SESSION (3)
           </button>
         </div>
 
@@ -61,7 +59,6 @@ export default function MentorshipRequests() {
     </div>
   )
 }
-
 // SVG Icons
 const SearchIcon = () => (
   <svg

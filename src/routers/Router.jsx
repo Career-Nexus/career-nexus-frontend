@@ -6,7 +6,7 @@ import Home from '../pages/dashboard/Home'
 import ProfilePage from '../pages/dashboard/ProfilePage'
 import MainNavbar from '../components/layout/MainNavbar'
 import ErrorPage from '../components/ErrorPage'
-import AuthNavbar from '../components/layout/AuthNavbar'
+// import AuthNavbar from '../components/layout/AuthNavbar'
 import UserTypeSelection from '../pages/auth/UserSelection'
 import { authService } from '../api/ApiServiceThree'
 // import ViewPersonProfile from '../components/dashboard/home/profile/ViewPersonProfile'
@@ -26,7 +26,6 @@ import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
 import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
 import ChatComponent from '../pages/dashboard/Chat'
-import SavedPosts from '../pages/dashboard/SavedPosts'
 import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustry'
 import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
 import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
@@ -34,6 +33,9 @@ import MentorSuccessPage from '../pages/auth/mentors/MentorSuccess'
 import ProfileCompleted from '../pages/auth/mentors/ProfileCompleted'
 import MyJobs from '../pages/jobs/MyJobs'
 import ViewPersonProfile from '../components/dashboard/home/profile/viewPersonProfile/ViewPersonProfile'
+import AllSaved from '../pages/dashboard/SavedPosts'
+import Library from '../pages/dashboard/Library'
+
 
 
 const ProtectedRoute = ({ children }) => {
@@ -329,7 +331,15 @@ const Router = () => {
           path='/saved'
           element={
             <ProtectedRoute>
-              <SavedPosts />
+              <AllSaved />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/library'
+          element={
+            <ProtectedRoute>
+              <Library />
             </ProtectedRoute>
           }
         />
