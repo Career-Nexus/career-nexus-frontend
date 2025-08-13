@@ -68,7 +68,7 @@ export function BookingRequests() {
     const requestedSessions = async () => {
         setLoading(true);
         try {
-            const res = await MentorServices.requestedmentorship();
+            const res = await MentorServices.scheduledmentorship();
             const rawData = Array.isArray(res?.data) ? res.data : [];
 
             const mappedData = rawData.map((session) => ({

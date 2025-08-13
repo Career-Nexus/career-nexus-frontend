@@ -330,7 +330,7 @@ const MentorMain = () => {
 
   return (
     <div className="bg-white p-4">
-      {user.user_type === "mentor" ? (
+      {user.user_type === "learner" ? (
         <div>
           {recommendmentor.length === 0 ? (
             <Box textAlign="center" py={28} className="shadow-lg">
