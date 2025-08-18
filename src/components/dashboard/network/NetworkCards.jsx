@@ -32,7 +32,7 @@ const NetworkCards = () => {
       setLoading(false);
     }
   };
- 
+
   useEffect(() => {
     getRecommendToFollow();
   }, []);
@@ -75,7 +75,7 @@ const NetworkCards = () => {
   return (
     <div className="max-w-6xl mx-auto min-h-screen">
       <div className="mb-6">
-         <PendingInvitations />
+        <PendingInvitations />
       </div>
       {/* people you can follow */}
       <div className="mb-6 border border-gray-200 rounded-lg p-6">
@@ -97,19 +97,21 @@ const NetworkCards = () => {
               // <ProfileCard key={mentor.id} person={mentor} type="mentor" />
               <div key={follow.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
 
-                <div className="relative">
-                  <img
-                    src={follow.profile_photo || "/placeholder.svg"}
-                    alt={follow.name}
-                    className="w-20 h-20 rounded-full object-cover"
-                  />
-                </div>
+                <Link to={`/person-profile/${follow.id}`}>
+                  <div className="relative">
+                    <img
+                      src={follow.profile_photo || "/placeholder.svg"}
+                      alt={follow.name}
+                      className="w-20 h-20 rounded-full object-cover"
+                    />
+                  </div>
 
-                <div className="space-y-1 border-b border-gray-300 pb-3">
-                  <h3 className="font-semibold text-gray-900 text-lg">{follow.name}</h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">{follow.qualification}</p>
-                  <p className="text-xs text-gray-500">{follow.followers} followers</p>
-                </div>
+                  <div className="space-y-1 border-b border-gray-300 pb-3">
+                    <h3 className="font-semibold text-gray-900 text-lg">{follow.name}</h3>
+                    <p className="text-xs text-gray-600 leading-relaxed">{follow.qualification}</p>
+                    <p className="text-xs text-gray-500">{follow.followers} followers</p>
+                  </div>
+                </Link>
                 {/* <button onClick={() => handleFollow(mentor.id)} className="w-full py-2 px-4 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-green-50 transition-colors duration-200 font-medium text-sm">
                   Follow
                 </button> */}
@@ -129,7 +131,7 @@ const NetworkCards = () => {
         )}
       </div>
       <div>
-        <PeopleInYourIndustry /> 
+        <PeopleInYourIndustry />
       </div>
       <div>
         <PeopleInYourLocation />

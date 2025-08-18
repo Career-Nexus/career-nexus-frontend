@@ -114,4 +114,39 @@ export const MentorServices = {
             return { success: false, error };
         }
     },
+    async SaveMentor(save){
+        try {
+            console.log("Api payload",save)
+            const response = await api.post("/mentor/save/",save)
+            if (response.data) {
+                console.log("retrieved scheduled mentorship session")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not save this mentor")
+        }
+    },
+    async getSavedMentors(params={}){
+        try {
+            const response = await api.get("/mentor/save/",{params})
+            if (response.data) {
+                console.log("retrieve saved mentors")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not retrieve saved mentors")
+        }
+
+    },
+    async removeSavedMentor(id){
+        try {
+            const response = await api.delete(`/mentor/save/?mentor=${id}`)
+            if (response.data) {
+                console.log("Saved mentors retrieved")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not remove saved mentor")
+        }
+    },
 }

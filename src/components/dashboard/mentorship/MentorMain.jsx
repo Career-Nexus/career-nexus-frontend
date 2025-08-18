@@ -73,6 +73,9 @@ const MentorCard = ({ mentor }) => {
   const [mentorSession, setMentorSession] = useState([]);
   const [booking, setBooking] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [saveMentor, setSaveMentor] = useState(false)
+
   const [formData, setFormData] = useState({
     session_type: "individual",
     date: "",
@@ -108,6 +111,21 @@ const MentorCard = ({ mentor }) => {
       }
     } catch (error) {
       toast.error("Failed to book session");
+    }
+  };
+
+  const handleSave = async () => {
+    if (saveMentor) {
+      // Already saved, do nothing
+      return;
+    }
+    try {
+      await MentorServices.SaveMentor({ mentor: mentor.id });
+      toast.success("Mentor saved successfully");
+      setSaveMentor(true); // now mark as saved
+    } catch (error) {
+      toast.error("Could not save mentor");
+      console.error("Save failed:", error);
     }
   };
 
@@ -153,9 +171,22 @@ const MentorCard = ({ mentor }) => {
           >
             {mentorSession.includes(mentor.id) ? "Pending..." : "Book Session"}
           </button>
-          <button className="py-2 px-4 border-2 border-[#5DA05D] text-[#5DA05D] rounded-lg flex gap-2">
+          {/* <button
+            onClick={handleSave}
+           className={`rounded-lg flex gap-2 ${saveMentor ? "py-2 px-4 border-2 border-[#5DA05D] text-[#5DA05D] ":"text-gray-600 cursor-pointer"}`}>
             <Bookmark />
             Save
+          </button> */}
+          <button
+            onClick={handleSave}
+            disabled={saveMentor}
+            className={`rounded-lg flex gap-2 py-2 px-4 border-2 ${saveMentor
+              ? "border-[#5DA05D] text-[#5DA05D] cursor-not-allowed"
+              : "border-gray-400 text-gray-600 hover:border-[#5DA05D] hover:text-[#5DA05D]"
+              }`}
+          >
+            <Bookmark />
+            {saveMentor ? "Saved" : "Save"}
           </button>
         </div>
       </div>
@@ -332,6 +363,70 @@ const MentorMain = () => {
     <div className="bg-white p-4">
       {user.user_type === "learner" ? (
         <div>
+          {/* Search Section */}
+          <div className="mb-6">
+            <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
+              <div className="flex items-center pl-3">
+                <Search className="w-4 h-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search mentors by name or expertise"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-grow py-2 px-3 border-0 focus:outline-none focus:ring-0 w-full"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 flex-wrap">
+              <Dropdown
+                label="Experience Level"
+                options={["entry", "mid", "senior", "executive"]}
+                value={experienceLevel}
+                onChange={(value) => {
+                  console.log("Experience selected:", value)
+                  setExperienceLevel(value)
+                }}
+              />
+
+              <Dropdown
+                label="All Skills"
+                options={["tech", "finance", "health"]}
+                value={skills}
+                onChange={(value) => {
+                  console.log("Skills selected:", value)
+                  setSkills(value)
+                }}
+              />
+
+              <Dropdown
+                label="Availability"
+                options={["weekdays", "weekends"]}
+                value={availability}
+                onChange={(value) => {
+                  console.log("Availability selected:", value)
+                  setAvailability(value)
+                }}
+              />
+
+              <button
+                onClick={SearchMentors}
+                disabled={loading}
+                className="px-5 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4a8f4a] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Searching..." : "Search"}
+              </button>
+
+              {searchTriggered && (
+                <button
+                  onClick={clearSearch}
+                  className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
           {recommendmentor.length === 0 ? (
             <Box textAlign="center" py={28} className="shadow-lg">
               <p className="text-gray-500 text-lg">
@@ -340,71 +435,6 @@ const MentorMain = () => {
             </Box>
           ) : (
             <div>
-              {/* Search Section */}
-              <div className="mb-6">
-                <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
-                  <div className="flex items-center pl-3">
-                    <Search className="w-4 h-4 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Search mentors by name or expertise"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-grow py-2 px-3 border-0 focus:outline-none focus:ring-0 w-full"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 flex-wrap">
-                  <Dropdown
-                    label="Experience Level"
-                    options={["entry", "mid", "senior", "executive"]}
-                    value={experienceLevel}
-                    onChange={(value) => {
-                      console.log("Experience selected:", value)
-                      setExperienceLevel(value)
-                    }}
-                  />
-
-                  <Dropdown
-                    label="All Skills"
-                    options={["tech", "finance", "health"]}
-                    value={skills}
-                    onChange={(value) => {
-                      console.log("Skills selected:", value)
-                      setSkills(value)
-                    }}
-                  />
-
-                  <Dropdown
-                    label="Availability"
-                    options={["weekdays", "weekends"]}
-                    value={availability}
-                    onChange={(value) => {
-                      console.log("Availability selected:", value)
-                      setAvailability(value)
-                    }}
-                  />
-
-                  <button
-                    onClick={SearchMentors}
-                    disabled={loading}
-                    className="px-5 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4a8f4a] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? "Searching..." : "Search"}
-                  </button>
-
-                  {searchTriggered && (
-                    <button
-                      onClick={clearSearch}
-                      className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-              </div>
-
               {/* Results Section */}
               <div>
                 <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -447,6 +477,7 @@ const MentorMain = () => {
                   </div>
                 )}
               </div>
+
             </div>
           )}
         </div>

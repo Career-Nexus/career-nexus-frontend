@@ -2,15 +2,16 @@ import { useState } from "react"
 import { BookingRequests } from "./BookingRequests"
 import { UpcomingSessions } from "./UpcomingSessions"
 import { CompletedSessions } from "./CompletedSessions"
+import { Search } from "lucide-react"
 
 export default function MentorshipRequests() {
   const [searchTerm, setSearchTerm] = useState("")
   const [activeTab, setActiveTab] = useState("booking-requests")
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Search */}
-      <div className="flex items-center mb-6 max-w-7xl">
+      {/* <div className="flex items-center mb-6 max-w-7xl">
         <input
           type="text"
           placeholder="Search mentorship requests"
@@ -21,11 +22,30 @@ export default function MentorshipRequests() {
         <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#5DA05D] text-white hover:bg-[#5DA05D] h-10 px-4 py-2 ml-4">
           <SearchIcon className="w-4 h-4 mr-2" /> Search
         </button>
+      </div> */}
+      <div className="mb-6 flex gap-5">
+        <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
+          <div className="flex items-center pl-3">
+            <Search className="w-4 h-4 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search mentors by name or expertise"
+            // value={searchQuery}
+            // onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-grow py-2 px-3 border-0 focus:outline-none focus:ring-0 w-full"
+          />
+
+        </div>
+        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#5DA05D] text-white hover:bg-[#5DA05D] h-10 px-4 py-2">
+          Search
+        </button>
+
       </div>
 
       {/* Tabs */}
-      <div className="w-full max-w-4xl mx-auto pt-4">
-      <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
+      <div className="w-full max-w-7xl mx-auto pt-4">
+        <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
           <button
             onClick={() => setActiveTab("booking-requests")}
             type="button"
@@ -33,18 +53,18 @@ export default function MentorshipRequests() {
           >
             BOOKING REQUESTS (4)
           </button>
-          
+
           <button
             onClick={() => setActiveTab("upcoming-sessions")}
             type="button"
-          className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'upcoming-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
+            className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'upcoming-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
           >
             UPCOMING SESSION (2)
           </button>
           <button
             onClick={() => setActiveTab("completed-sessions")}
             type="button"
-          className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'completed-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
+            className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'completed-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
           >
             COMPLETED SESSION (3)
           </button>

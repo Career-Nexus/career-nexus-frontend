@@ -89,19 +89,21 @@ function RecomentToFollow() {
                         {recommendtofollow.map((follow) => (
                             <div key={follow.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
 
-                                <div className="relative">
-                                    <img
-                                        src={follow.profile_photo || "/placeholder.svg"}
-                                        alt={follow.name}
-                                        className="w-20 h-20 rounded-full object-cover"
-                                    />
-                                </div>
+                                <Link to={`/person-profile/${follow.id}`}>
+                                    <div className="relative">
+                                        <img
+                                            src={follow.profile_photo || "/placeholder.svg"}
+                                            alt={follow.name}
+                                            className="w-20 h-20 rounded-full object-cover"
+                                        />
+                                    </div>
 
-                                <div className="space-y-1 border-b border-gray-300 pb-3">
-                                    <h3 className="font-semibold text-gray-900 text-lg">{follow.name}</h3>
-                                    <p className="text-xs text-gray-600 leading-relaxed">{follow.qualification}</p>
-                                    <p className="text-xs text-gray-500">{follow.followers} followers</p>
-                                </div>
+                                    <div className="space-y-1 border-b border-gray-300 pb-3">
+                                        <h3 className="font-semibold text-gray-900 text-lg">{follow.name}</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed">{follow.qualification}</p>
+                                        <p className="text-xs text-gray-500">{follow.followers} followers</p>
+                                    </div>
+                                </Link>
 
                                 <button
                                     onClick={() => handleFollow(follow.id)}

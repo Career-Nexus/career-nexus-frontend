@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import SavedPost from './SavedPost'
 import SavedMentors from '../mentorship/SavedMentors'
 import { OtherJobs } from '../jobs/UsersJob'
+import SavedJobs from '../jobs/SavedJobs'
 
 function Saved() {
     const [activeTab, setActiveTab] = useState("posts")
@@ -36,7 +37,7 @@ function Saved() {
             <div className="mt-6">
                 {activeTab === "posts" && <SavedPost />}
                 {activeTab === "mentors" && <SavedMentors />}
-                {activeTab === "jobs" && <OtherJobs />}
+                {activeTab === "jobs" && <SavedJobs />}
             </div>
         </div>
     )

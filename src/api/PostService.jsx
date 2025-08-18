@@ -40,34 +40,34 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch posts")
     }
   },
-  async getMentorsPosts(params ={}){
+  async getMentorsPosts(params = {}) {
     try {
-      const response = await api.get("/post/by-mentors/", {params});
+      const response = await api.get("/post/by-mentors/", { params });
       console.log("Mentors posts fetched:", response.data)
       return response.data;
     } catch (error) {
       console.error("Couldn't fetch mentors posts", error)
     }
   },
-//   async getOtherUserPosts(user) {
-//   try {
-//     const id = typeof user === "object" ? user.id : user; // extract just the number
-//     console.log("user_id value:", id);
-//     const response = await api.get(`/post/by-user/?user_id=${id}`);
-//     console.log("other users posts fetched", response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.log("couldn't fetch other user posts", error);
-//   }
-// },
-async getOtherUserPosts(userId, page = 1) {
-  try {
-    const response = await api.get(`/post/by-user/?user_id=${userId}&page=${page}`);
-    return response.data;
-  } catch (error) {
-    console.error("Couldn't fetch other user posts", error);
-  }
-},
+  //   async getOtherUserPosts(user) {
+  //   try {
+  //     const id = typeof user === "object" ? user.id : user; // extract just the number
+  //     console.log("user_id value:", id);
+  //     const response = await api.get(`/post/by-user/?user_id=${id}`);
+  //     console.log("other users posts fetched", response.data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.log("couldn't fetch other user posts", error);
+  //   }
+  // },
+  async getOtherUserPosts(userId, page = 1) {
+    try {
+      const response = await api.get(`/post/by-user/?user_id=${userId}&page=${page}`);
+      return response.data;
+    } catch (error) {
+      console.error("Couldn't fetch other user posts", error);
+    }
+  },
   async Follow(follow) {
     try {
       console.log('API payload:', follow);
@@ -242,7 +242,7 @@ async getOtherUserPosts(userId, page = 1) {
         return ({ success: true, data: response.data })
       }
     } catch (error) {
-      console.log("failed to save post", save)
+      console.log("failed to save post", error)
     }
   },
   async getSavedPost() {
@@ -256,8 +256,9 @@ async getOtherUserPosts(userId, page = 1) {
       console.log("error getting saved post", error)
     }
   },
+
   //analysis
-  async getAnalytics(){
+  async getAnalytics() {
     try {
       const response = await api.get("/user/analytics/");
       console.log("User analytics fetched:", response.data);
@@ -265,6 +266,44 @@ async getOtherUserPosts(userId, page = 1) {
     } catch (error) {
       console.error("Get User Analytics Error:", error.response || error.message);
       throw new Error(error.response?.data?.message || "Failed to fetch user analytics");
+    }
+  },
+  //project catalog
+  async createProject(catalog) {
+    console.log("Api payload", catalog)
+    try {
+      const response = await api.post("/project/", catalog);
+      console.log("project posted", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Project created");
+    }
+  },
+  async getProjects(params = {}) {
+    try {
+      const response = await api.get("/project/", { params });
+      console.log("project fetched", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Could not fetch project");
+    }
+  },
+  async getOthersProjects(productId) {
+    try {
+      const response = await api.get(`/project/?portfolio_id=${productId}`)
+      console.log("Others project fetched", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Could not fetch others project");
+    }
+  },
+  async deleteProject(productId) {
+    try {
+      const response = await api.delete(`/project/?portfolio_id=${productId}`)
+      console.log("project deleted", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Could not delete project");
     }
   },
   // profile completion api

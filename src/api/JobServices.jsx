@@ -34,5 +34,13 @@ export const JobServices = {
         } catch (error) {
             console.log(error)
         }
+    },
+    async SaveJob(save){
+        console.log("Api Payload",save)
+        try {
+            const response = await api.post('not set yet',save)
+        } catch (error) {
+            console.log("Couldn't save this job", error)
+        }
     }
 }

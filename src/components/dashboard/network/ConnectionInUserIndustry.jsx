@@ -5,6 +5,7 @@ import { Alert, AlertIcon, Box, Spinner } from "@chakra-ui/react"
 import RecomentToFollow from "./RecomentToFollow"
 import { toast } from "react-toastify";
 import ConnectionsByLocation from "./ConnectionByLocation"
+import { Link } from "react-router-dom"
 
 const ConnectionInUserIndustry = () => {
     const [byindustry, setByindustry] = useState([])
@@ -83,7 +84,7 @@ const ConnectionInUserIndustry = () => {
             </Alert>
         );
     }
-  
+
     return (
         <div className="max-w-6xl mx-auto min-h-screen">
             {/* people to follow */}
@@ -104,20 +105,21 @@ const ConnectionInUserIndustry = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {byindustry.map((suggestion) => (
                             <div key={suggestion.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
+                                <Link to={`/person-profile/${suggestion.id}`}>
+                                    <div className="relative">
+                                        <img
+                                            src={suggestion.profile_photo || "/placeholder.svg"}
+                                            alt={suggestion.name}
+                                            className="w-20 h-20 rounded-full object-cover"
+                                        />
+                                    </div>
 
-                                <div className="relative">
-                                    <img
-                                        src={suggestion.profile_photo || "/placeholder.svg"}
-                                        alt={suggestion.name}
-                                        className="w-20 h-20 rounded-full object-cover"
-                                    />
-                                </div>
-
-                                <div className="space-y-1 border-b border-gray-300 pb-3">
-                                    <h3 className="font-semibold text-gray-900 text-lg">{suggestion.name}</h3>
-                                    <p className="text-xs text-gray-600 leading-relaxed">{suggestion.qualification}</p>
-                                    <p className="text-xs text-gray-500">Recommended match</p>
-                                </div>
+                                    <div className="space-y-1 border-b border-gray-300 pb-3">
+                                        <h3 className="font-semibold text-gray-900 text-lg">{suggestion.name}</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed">{suggestion.qualification}</p>
+                                        <p className="text-xs text-gray-500">Recommended match</p>
+                                    </div>
+                                </Link>
                                 <button
                                     onClick={() => createConnection(suggestion.id)}
                                     disabled={pendingConnections.includes(suggestion.id)}
@@ -146,7 +148,7 @@ const ConnectionInUserIndustry = () => {
                 )}
             </div>
             <>
-                <ConnectionsByLocation/>
+                <ConnectionsByLocation />
             </>
             <div>
                 <FloatingMessageIcon />
