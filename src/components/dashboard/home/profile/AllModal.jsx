@@ -4,6 +4,7 @@ import { UserContext } from "../../../../context/UserContext";
 import { Trash2, Video } from "lucide-react";
 import { ExperienceService } from "../../../../api/ExperienceService";
 import { VideoModal } from "./VideoModal";
+import { toast } from "react-toastify";
 
 export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   const { user, updateUser, loading, error } = useContext(UserContext);
@@ -48,7 +49,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       const updatedData = {};
       if (data.first_name !== user.first_name) updatedData.first_name = data.first_name;
       if (data.last_name !== user.last_name) updatedData.last_name = data.last_name;
-      if (data.middle_name !== user.midle_name) updatedData.middle_name = data.middle_name;
+      if (data.middle_name !== user.middle_name) updatedData.middle_name = data.middle_name;
       if (data.location !== user.location) updatedData.location = data.location;
       if (data.bio !== user.bio) updatedData.bio = data.bio;
       if (data.position !== user.position) updatedData.position = data.position;
@@ -62,11 +63,13 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
 
       await updateUser(updatedData, formData);
       setSuccess("Profile updated successfully");
+      toast.success("Profile updated successfully");
       setTimeout(() => {
         window.location.href = "/profilepage";
       }, 2000);
     } catch (error) {
       setSuccess("Error updating profile");
+      toast.error("Error updating profile");
       console.error("Error submitting form:", error);
     }
   };
@@ -295,11 +298,11 @@ export const ExperienceModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
         console.log("Update data:", data)
 
         response = await ExperienceService.updateExperience(itemToEdit, data)
-        alert("Experience updated successfully")
+        toast.success("Experience updated successfully")
       } else {
         // Add new experience
         response = await ExperienceService.addExperience(data)
-        alert("Experience added successfully")
+        toast.success("Experience added successfully")
       }
 
       reset()
@@ -453,11 +456,11 @@ export const EducationModal = ({ ModalComponent, isOpen, onClose, itemToEdit = n
 
         response = await ExperienceService.updateEducation(itemToEdit, data)
         console.log("Education update response:", response)
-        alert("Education updated successfully")
+        toast.success("Education updated successfully")
       } else {
         // Add new education
         response = await ExperienceService.addEducation(data)
-        alert("Education added successfully")
+        toast.success("Education added successfully")
       }
 
       reset()
@@ -594,7 +597,7 @@ export const CertificationModal = ({ ModalComponent, isOpen, onClose, itemToEdit
     try {
       // Only add new certifications, no updates
       const response = await ExperienceService.addCertification(data)
-      alert("Certification added successfully")
+      toast.success("Certification added successfully")
 
       reset()
       onClose()
@@ -698,48 +701,207 @@ export const CertificationModal = ({ ModalComponent, isOpen, onClose, itemToEdit
   )
 }
 
-export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
-  const [fileName, setFileName] = useState("No file chosen")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const fileInputRef = useRef(null)
+// export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
+//   const [fileName, setFileName] = useState("No file chosen")
+//   const [isSubmitting, setIsSubmitting] = useState(false)
+//   const fileInputRef = useRef(null)
+//   const {
+//     register,
+//     reset,
+//     handleSubmit,
+//     formState: { errors },
+//   } = useForm();
+
+//   const onSubmit = async (data) => {
+//     try {
+//       setIsSubmitting(true)
+//       // Add the file to the form data if it exists
+//       if (fileInputRef.current?.files?.[0]) {
+//         data.image = fileInputRef.current.files[0]
+//       }
+//       const response = await ExperienceService.addProject(data);
+//       console.log("Project added successfully:", response);
+//       toast.success("Project added successfully");
+//       // Reset the form and close the modal
+//       reset()
+//       setFileName("No file chosen")
+//       onClose();
+//     } catch (error) {
+//       console.error("Failed to add project:", error)
+//       toast.error("Failed to add project");
+//       // Handle error (show error message to user)
+//     } finally {
+//       setIsSubmitting(false)
+//     }
+//   };
+//   const handleFileChange = (e) => {
+//   const file = e.target.files?.[0];
+//   if (file) {
+//     if (file.size > 1024 * 1024) { // 1 MB
+//       toast.error("File size must not exceed 1MB");
+//       fileInputRef.current.value = ""; // reset input
+//       setFileName("No file chosen");
+//       return;
+//     }
+//     setFileName(file.name);
+//   } else {
+//     setFileName("No file chosen");
+//   }
+// };
+
+//   const handleButtonClick = () => {
+//     fileInputRef.current?.click()
+//   }
+//   return (
+//     <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Project">
+//       <div className="max-w-xl mx-auto bg-white">
+//         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+//           <div>
+//             <label className="block font-medium mb-1">
+//               Title<span className="text-red-500">*</span>
+//             </label>
+//             <input
+//               type="text"
+//               // {...register("title", { required: "This field is required" })}
+//               {...register("title", { required: "This field is required" })}
+//               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+//               placeholder="Enter Project Title"
+//             />
+//             {errors.title && (
+//               <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+//             )}
+//           </div>
+
+//           {/* Description */}
+//           <div>
+//             <label className="block font-medium mb-1">
+//               Description<span className="text-red-500">*</span>
+//             </label>
+//             <textarea
+//               {...register("description", { required: "This field is required" })}
+//               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+//               placeholder="Enter Project Description"
+//               rows={1}
+//             />
+//             {errors.description && (
+//               <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+//             )}
+//           </div>
+
+//           <div>
+//             <div className="w-full max-w-md">
+//               <div className="text-sm mb-2">Upload Image</div>
+//               <div className="flex items-center border border-gray-200 rounded-md bg-gray-50 p-1">
+//                 <button
+//                   type="button"
+//                   onClick={handleButtonClick}
+//                   className="bg-green-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-green-200 focus:outline-none"
+//                 >
+//                   Choose File
+//                 </button>
+//                 <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
+//                 <span className="ml-3 text-sm text-gray-500">{fileName}</span>
+//               </div>
+//             </div>
+//           </div>
+//           {/* Save Button */}
+//           <button
+//             type="submit"
+//             disabled={isSubmitting}
+//             className="w-full bg-[#5DA05D] text-white py-2 rounded hover:bg-[#4C904C] transition disabled:bg-[#8BC08B] disabled:cursor-not-allowed"
+//           >
+//             {isSubmitting ? "Saving..." : "Save"}
+//           </button>
+//         </form>
+//       </div>
+//     </ModalComponent>
+//   )
+// }
+export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = null }) => {
+  const [fileName, setFileName] = useState("No file chosen");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
+
   const {
     register,
+    reset,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // Pre-populate form when editing
+  useEffect(() => {
+    if (itemToEdit) {
+      // Fill in form with existing project values
+      setValue("title", itemToEdit.title || "");
+      setValue("description", itemToEdit.description || "");
+      if (itemToEdit.image) {
+        setFileName(itemToEdit.image.split("/").pop()); // show file name from URL if editing
+      }
+    } else {
+      reset();
+      setFileName("No file chosen");
+    }
+  }, [itemToEdit, setValue, reset]);
+
   const onSubmit = async (data) => {
     try {
-      setIsSubmitting(true)
-      // Add the file to the form data if it exists
+      setIsSubmitting(true);
+
+      // Add image file if selected
       if (fileInputRef.current?.files?.[0]) {
-        data.image = fileInputRef.current.files[0]
+        data.image = fileInputRef.current.files[0];
       }
-      const response = await ExperienceService.addProject(data);
-      console.log("Project added successfully:", response);
-      // Reset the form and close the modal
-      reset()
-      setFileName("No file chosen")
-      onClose();
+
+      let response;
+      if (itemToEdit) {
+        // Update existing project
+        response = await ExperienceService.updateProject(itemToEdit.id, data);
+        toast.success("Project updated successfully");
+      } else {
+        // Add new project
+        response = await ExperienceService.addProject(data);
+        toast.success("Project added successfully");
+      }
+
+      reset();
+      setFileName("No file chosen");
+      onClose(); // close modal after saving
     } catch (error) {
-      console.error("Failed to add project:", error)
-      // Handle error (show error message to user)
+      console.error("Failed to save project:", error);
+      toast.error(itemToEdit ? "Failed to update project" : "Failed to add project");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   };
 
-
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0]
-    setFileName(file ? file.name : "No file chosen")
-  }
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        toast.error("File size must not exceed 1MB");
+        fileInputRef.current.value = "";
+        setFileName("No file chosen");
+        return;
+      }
+      setFileName(file.name);
+    } else {
+      setFileName("No file chosen");
+    }
+  };
 
   const handleButtonClick = () => {
-    fileInputRef.current?.click()
-  }
+    fileInputRef.current?.click();
+  };
+
   return (
-    <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Project">
+    <ModalComponent
+      isOpen={isOpen}
+      onClose={onClose}
+      title={itemToEdit ? "Edit Project" : "Add Project"}
+    >
       <div className="max-w-xl mx-auto bg-white">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
@@ -749,17 +911,13 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
             </label>
             <input
               type="text"
-              // {...register("title", { required: "This field is required" })}
               {...register("title", { required: "This field is required" })}
               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
               placeholder="Enter Project Title"
             />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
-            )}
+            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
           </div>
 
-          {/* Description */}
           <div>
             <label className="block font-medium mb-1">
               Description<span className="text-red-500">*</span>
@@ -775,21 +933,6 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
             )}
           </div>
 
-          {/* <div>
-            <label className="block font-medium mb-1">
-              Description<span className="text-red-500">*</span>
-            </label>
-            <textarea
-              {...register("tools", { required: "This field is required" })}
-              className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-              placeholder="Enter Project Description"
-              rows={1}
-            />
-            {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-            )}
-          </div> */}
-
           <div>
             <div className="w-full max-w-md">
               <div className="text-sm mb-2">Upload Image</div>
@@ -801,21 +944,27 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
                 >
                   Choose File
                 </button>
-                <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
                 <span className="ml-3 text-sm text-gray-500">{fileName}</span>
               </div>
             </div>
           </div>
-          {/* Save Button */}
+
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-[#5DA05D] text-white py-2 rounded hover:bg-[#4C904C] transition disabled:bg-[#8BC08B] disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isSubmitting ? "Saving..." : itemToEdit ? "Update" : "Save"}
           </button>
         </form>
       </div>
     </ModalComponent>
-  )
+  );
 }

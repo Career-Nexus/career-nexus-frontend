@@ -99,6 +99,7 @@ export const ExperienceService = {
     }
   },
   async addProject(formData) {
+    console.log("Api payload", formData)
     try {
       // Create a new FormData object for the API request
       const projectFormData = new FormData()
@@ -112,27 +113,65 @@ export const ExperienceService = {
         projectFormData.append("image", formData.image)
       }
 
-      const response = await api.post("project/", projectFormData, {
+      const response = await api.post("/project/", projectFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
 
       console.log("Added Project response:", response.data)
-      return response.data
+      return ({ success: true, data: response.data })
     } catch (error) {
       console.error("Add Project Error:", error.response || error.message)
       throw new Error(error.response?.data?.message || "Failed to add project")
     }
   },
-  async getProjects() {
+  // async getProjects() {
+  //   try {
+  //     const response = await api.get("project/")
+  //     console.log("Fetched Projects response:", response.data)
+  //     return response.data
+  //   } catch (error) {
+  //     console.error("Get Projects Error:", error.response || error.message)
+  //     throw new Error(error.response?.data?.message || "Failed to fetch projects")
+  //   }
+  // },
+  //project catalog
+  // async createProject(catalog) {
+  //   console.log("Api payload", catalog)
+  //   try {
+  //     const response = await api.post("/project/", catalog);
+  //     console.log("project posted", response.data);
+  //     return ({ success: true, data: response.data })
+  //   } catch (error) {
+  //     console.log("Project created");
+  //   }
+  // },
+  async getProjects(params = {}) {
     try {
-      const response = await api.get("project/")
-      console.log("Fetched Projects response:", response.data)
-      return response.data
+      const response = await api.get("/project/", { params });
+      console.log("project fetched", response.data);
+      return ({ success: true, data: response.data })
     } catch (error) {
-      console.error("Get Projects Error:", error.response || error.message)
-      throw new Error(error.response?.data?.message || "Failed to fetch projects")
+      console.log("Could not fetch project");
+    }
+  },
+  async getOthersProjects(productId) {
+    try {
+      const response = await api.get(`/project/?portfolio_id=${productId}`)
+      console.log("Others project fetched", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Could not fetch others project");
+    }
+  },
+  async deleteProject(productId) {
+    try {
+      const response = await api.delete(`/project/?portfolio_id=${productId}`)
+      console.log("project deleted", response.data);
+      return ({ success: true, data: response.data })
+    } catch (error) {
+      console.log("Could not delete project");
     }
   },
 }

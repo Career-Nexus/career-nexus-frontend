@@ -1,28 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Bookmark, Bulb, Library, Newsletter, Setting, Video } from '../../../icons/icon'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../../context/UserContext'
 import { GraduationCap, TrendingUp } from 'lucide-react'
 
 const Profile = () => {
-    const { user, loading, error, } = useContext(UserContext)
-    // if (loading) {
-    //     return <div className='flex items-center justify-center h-screen'>Loading...</div>
-    // }
+    const [activeId, setActiveId] = useState(null);
+    const { user, error, } = useContext(UserContext)
     if (error) {
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
-    // if (!user.first_name) {
-    //     return <div className='flex items-center justify-center h-screen'>No user found</div>
-    // }
+
 
     const data = [
         { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
         { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
         { id: 3, icon: <a href='/saved'><Bookmark /></a>, name: <a href='/saved'>Saved</a> },
         { id: 4, icon: <a href='/library'><Library /></a>, name: <a href='/library'>Library</a> },
-        { id: 5, icon: <a href='#'><Newsletter /></a>, name: 'Newsletter' },
-        { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
+        { id: 5, icon: <a href='/newsletter'><Newsletter /></a>, name: <a href='/newsletter'>Newsletter</a> },
+        // { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
     ]
     const trend = [
         { id: 1, type: 'RemoteWork', post: '15.2' },
@@ -49,14 +45,29 @@ const Profile = () => {
                     <div className='border border-gray rounded-lg my-5'>
                         <h1 className='p-3 font-semibold'>Activity</h1>
                         <div className='flex flex-col gap-4 p-3'>
-                            {data.map(item => (
-                                <div key={item.id} className='flex items-center gap-4'>
-                                    <div>{item.icon}</div>
-                                    <div>
-                                        <h3 className='text-lg'>{item.name}</h3>
+                            {data.map(item => {
+                                const isActive = activeId === item.id;
+                                return (
+                                    // <div key={item.id} className='flex items-center gap-4'>
+                                    //     <div>{item.icon}</div>
+                                    //     <div>
+                                    //         <h3 className='text-lg'>{item.name}</h3>
+                                    //     </div>
+                                    // </div>
+                                    <div key={item.id}>
+                                        <a
+                                            href={item.href}
+                                            onClick={() => setActiveId(item.id)}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors
+                                            ${isActive ? "bg-[#5DA05D] text-white " : "hover:bg-[#5DA05D] hover:text-white"}`}
+                                        >
+                                            {item.icon}
+                                            <span className="text-sm font-medium">{item.name}</span>
+                                        </a>
                                     </div>
-                                </div>
-                            ))}
+                                )
+                            })}
+                            
                         </div>
                     </div>
                 </div>

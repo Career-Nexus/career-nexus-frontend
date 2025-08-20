@@ -35,6 +35,8 @@ import MyJobs from '../pages/jobs/MyJobs'
 import ViewPersonProfile from '../components/dashboard/home/profile/viewPersonProfile/ViewPersonProfile'
 import AllSaved from '../pages/dashboard/SavedPosts'
 import Library from '../pages/dashboard/Library'
+import NewsletterPage from "../pages/activities/NewsLetter"
+import Setting from "../pages/activities/Setting"
 
 
 
@@ -340,6 +342,22 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <Library />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/newsletter'
+          element={
+            <ProtectedRoute>
+              <NewsletterPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/settings'
+          element={
+            <ProtectedRoute>
+              <Setting />
             </ProtectedRoute>
           }
         />

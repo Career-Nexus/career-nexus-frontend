@@ -2,11 +2,44 @@ import { Briefcase, Plus, Search} from "lucide-react"
 import { AddProjectModal } from "./AllModal"
 import { Card, CardBody } from "@chakra-ui/react"
 import { Delete, Download, Editall, View } from "../../../../icons/icon"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ReusableModal from "./ModalDesign"
+import { ExperienceService } from "../../../../api/ExperienceService"
+import { toast } from "react-toastify"
 
 function ProjectCatalog() {
     const [openModal, setOpenModal] = useState()
+    const [projects, setProjects] = useState([])
+    
+    const fetchProjects = async () => {
+        try {
+            const response = await ExperienceService.getProjects();
+            const isArray = Array.isArray(response.data);
+            if (isArray) {
+                setProjects(response.data);
+            } else {
+                console.error("Unexpected response format:", response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching projects:", error)
+        }
+    }
+    const deleteProject = async (projectId) => {
+        try {
+            await ExperienceService.deleteProject(projectId);
+            
+            setProjects((prevProjects) => prevProjects.filter((project) => project.id !== projectId));
+            toast.success("Project deleted successfully");
+        } catch (error) {
+            console.error("Error deleting project:", error);
+            toast.error("Failed to delete project");
+        }
+    };
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    // console.log("Projects:", projects);
     return (
         <div className="space-y-6">
             <h2 className="text-xl font-semibold flex items-center gap-2">
@@ -33,25 +66,26 @@ function ProjectCatalog() {
                     <AddProjectModal ModalComponent={ReusableModal} isOpen={openModal} onClose={() => setOpenModal(false)} />
                 </button>
             </div>
-
+            {projects.length ===0?(
+                <div className="text-center pt-14">No project in the catalog.</div>
+            ):(
             <div className="grid gap-6">
-                {[1, 2, 3].map((item) => (
-                    <Card key={item} className="overflow-hidden">
+                {projects.map((project) => (
+                    <Card key={project.id} className="overflow-hidden">
                         <CardBody className="p-0">
                             <div className="md:flex">
                                 <div className="md:w-1/4 bg-gray-100 md:h-auto h-40 relative">
                                     <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                                        <img src="/images/gallery.png" alt="Gallery" />
+                                        <img src={project.image || "/images/gallery.png"} alt="Gallery" />
                                     </div>
                                 </div>
                                 <div className="p-5 md:w-3/4">
                                     <div className="flex justify-between items-start mb-2">
-                                        <h3 className="font-semibold">E-Commerce Platform Redesign</h3>
+                                        <h3 className="font-semibold">{project.title}</h3>
                                     </div>
 
                                     <p className="text-sm text-gray-700 mb-4">
-                                        A complete redesign of an e-commerce platform focusing on improved user experience, mobile
-                                        responsiveness, and conversion optimization.
+                                        {project.description}
                                     </p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
@@ -59,13 +93,17 @@ function ProjectCatalog() {
 
                                     <div className="flex justify-between items-center">
                                         <div className="text-xs text-gray-500">
-                                            {item === 1 ? "Due in 2 weeks" : "Completed on May 15, 2023"}
+                                            {project.dueDate ? `Due in ${project.dueDate} weeks` : `Completed on ${project.completedDate}`}
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <View />
                                             <Download />
-                                            <Editall />
-                                            <Delete />
+                                            <button onClick={() => setOpenModal(true)}>
+                                                <Editall />
+                                            </button>
+                                            <button onClick={() => deleteProject(project.id)} >
+                                                <Delete />
+                                            </button>
                                         </div>
                                         {/* <button className="bg-[#5DA05D] text-white px-3 py-1 rounded text-xs">View Details</button> */}
                                     </div>
@@ -75,6 +113,7 @@ function ProjectCatalog() {
                     </Card>
                 ))}
             </div>
+            )}
         </div>
     )
 }

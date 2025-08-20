@@ -37,4 +37,52 @@ export const ActivityService={
             console.log("Could not delete library")
         }
     },
+    //newsletter
+    async createNewsletter(create){
+        try {
+            console.log("Api payload",create)
+            const response = await api.post("/newsletter/create/",create)
+            if (response.data) {
+                console.log("Newsletter created", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not create newsletter")
+        }
+    },
+    async getNewsletter(params={}){
+        try {
+            const response = await api.get("/newsletter/",{params})
+            if (response.data) {
+                console.log("Newsletter data fetched", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not fetch newsletter")
+        }
+    },
+    async subscribeNewsletter(email){
+        try {
+            console.log("Api payload",email)
+            const response = await api.post(`/newsletter/subscribe/`, { email })
+            if (response.data) {
+                console.log("Newsletter subscription successful", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not delete newsletter")
+        }
+    },
+    async unsubscribeNewsletter(email){
+        try {
+            console.log("Api payload",email)
+            const response = await api.post(`/newsletter/unsubscribe/`, { email })
+            if (response.data) {
+                console.log("Newsletter unsubscription successful", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not unsubscribe from newsletter")
+        }
+    }
 }
