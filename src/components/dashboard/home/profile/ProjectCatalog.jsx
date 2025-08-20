@@ -93,14 +93,14 @@ function ProjectCatalog() {
 
                                     <div className="flex justify-between items-center">
                                         <div className="text-xs text-gray-500">
-                                            {project.dueDate ? `Due in ${project.dueDate} weeks` : `Completed on ${project.completedDate}`}
+                                            {/* {project.dueDate ? `Due in ${project.dueDate} weeks` : `Completed on ${project.completedDate}`} */}
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <View />
                                             <Download />
-                                            <button onClick={() => setOpenModal(true)}>
+                                            {/* <button onClick={() => setOpenModal(true)}>
                                                 <Editall />
-                                            </button>
+                                            </button> */}
                                             <button onClick={() => deleteProject(project.id)} >
                                                 <Delete />
                                             </button>
