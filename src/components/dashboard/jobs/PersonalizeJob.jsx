@@ -3,7 +3,7 @@ import { JobServices } from "../../../api/JobServices";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SetupSpin } from "../../../assets/icons";
-import FloatingMessageIcon from "../home/FloatingMessage";
+import FloatingMessageIcon from "../chat/FloatingMessage";
 
 
 const PersonalizeJob = () => {

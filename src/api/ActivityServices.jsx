@@ -84,5 +84,27 @@ export const ActivityService={
         } catch (error) {
             console.log("Could not unsubscribe from newsletter")
         }
+    },
+    async userSettings(){
+        try {
+            const response = await api.get("/user/settings/")
+            if (response.data) {
+                console.log("User settings fetched", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not fetch user settings")
+        }
+    },
+    async updateUserSettings(updatedSettings) {
+        try {
+            const response = await api.put("/user/settings/", updatedSettings);
+            if (response.data) {
+                console.log("User settings updated", response.data);
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.log("Could not update user settings");
+        }
     }
 }

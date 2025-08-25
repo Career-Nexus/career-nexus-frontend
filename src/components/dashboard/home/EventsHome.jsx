@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Message } from '../../../icons/icon';
-import FloatingMessageIcon from './FloatingMessage';
+import FloatingMessageIcon from '../chat/FloatingMessage';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { NetworkService } from '../../../api/NetworkService';

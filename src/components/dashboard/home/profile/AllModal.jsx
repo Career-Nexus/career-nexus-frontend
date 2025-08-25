@@ -701,127 +701,13 @@ export const CertificationModal = ({ ModalComponent, isOpen, onClose, itemToEdit
   )
 }
 
-// export const AddProjectModal = ({ ModalComponent, isOpen, onClose }) => {
-//   const [fileName, setFileName] = useState("No file chosen")
-//   const [isSubmitting, setIsSubmitting] = useState(false)
-//   const fileInputRef = useRef(null)
-//   const {
-//     register,
-//     reset,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm();
-
-//   const onSubmit = async (data) => {
-//     try {
-//       setIsSubmitting(true)
-//       // Add the file to the form data if it exists
-//       if (fileInputRef.current?.files?.[0]) {
-//         data.image = fileInputRef.current.files[0]
-//       }
-//       const response = await ExperienceService.addProject(data);
-//       console.log("Project added successfully:", response);
-//       toast.success("Project added successfully");
-//       // Reset the form and close the modal
-//       reset()
-//       setFileName("No file chosen")
-//       onClose();
-//     } catch (error) {
-//       console.error("Failed to add project:", error)
-//       toast.error("Failed to add project");
-//       // Handle error (show error message to user)
-//     } finally {
-//       setIsSubmitting(false)
-//     }
-//   };
-//   const handleFileChange = (e) => {
-//   const file = e.target.files?.[0];
-//   if (file) {
-//     if (file.size > 1024 * 1024) { // 1 MB
-//       toast.error("File size must not exceed 1MB");
-//       fileInputRef.current.value = ""; // reset input
-//       setFileName("No file chosen");
-//       return;
-//     }
-//     setFileName(file.name);
-//   } else {
-//     setFileName("No file chosen");
-//   }
-// };
-
-//   const handleButtonClick = () => {
-//     fileInputRef.current?.click()
-//   }
-//   return (
-//     <ModalComponent isOpen={isOpen} onClose={onClose} title="Add Project">
-//       <div className="max-w-xl mx-auto bg-white">
-//         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-//           <div>
-//             <label className="block font-medium mb-1">
-//               Title<span className="text-red-500">*</span>
-//             </label>
-//             <input
-//               type="text"
-//               // {...register("title", { required: "This field is required" })}
-//               {...register("title", { required: "This field is required" })}
-//               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-//               placeholder="Enter Project Title"
-//             />
-//             {errors.title && (
-//               <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
-//             )}
-//           </div>
-
-//           {/* Description */}
-//           <div>
-//             <label className="block font-medium mb-1">
-//               Description<span className="text-red-500">*</span>
-//             </label>
-//             <textarea
-//               {...register("description", { required: "This field is required" })}
-//               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-//               placeholder="Enter Project Description"
-//               rows={1}
-//             />
-//             {errors.description && (
-//               <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-//             )}
-//           </div>
-
-//           <div>
-//             <div className="w-full max-w-md">
-//               <div className="text-sm mb-2">Upload Image</div>
-//               <div className="flex items-center border border-gray-200 rounded-md bg-gray-50 p-1">
-//                 <button
-//                   type="button"
-//                   onClick={handleButtonClick}
-//                   className="bg-green-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-green-200 focus:outline-none"
-//                 >
-//                   Choose File
-//                 </button>
-//                 <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
-//                 <span className="ml-3 text-sm text-gray-500">{fileName}</span>
-//               </div>
-//             </div>
-//           </div>
-//           {/* Save Button */}
-//           <button
-//             type="submit"
-//             disabled={isSubmitting}
-//             className="w-full bg-[#5DA05D] text-white py-2 rounded hover:bg-[#4C904C] transition disabled:bg-[#8BC08B] disabled:cursor-not-allowed"
-//           >
-//             {isSubmitting ? "Saving..." : "Save"}
-//           </button>
-//         </form>
-//       </div>
-//     </ModalComponent>
-//   )
-// }
 export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = null }) => {
-  const [fileName, setFileName] = useState("No file chosen");
+  const [imageFileName, setImageFileName] = useState("No file chosen");
+  const [downloadFileName, setDownloadFileName] = useState("No file chosen");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const fileInputRef = useRef(null);
+
+  const imageInputRef = useRef(null);
+  const downloadInputRef = useRef(null);
 
   const {
     register,
@@ -834,15 +720,18 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
   // Pre-populate form when editing
   useEffect(() => {
     if (itemToEdit) {
-      // Fill in form with existing project values
       setValue("title", itemToEdit.title || "");
       setValue("description", itemToEdit.description || "");
       if (itemToEdit.image) {
-        setFileName(itemToEdit.image.split("/").pop()); // show file name from URL if editing
+        setImageFileName(itemToEdit.image.split("/").pop());
+      }
+      if (itemToEdit.download_material) {
+        setDownloadFileName(itemToEdit.download_material.split("/").pop());
       }
     } else {
       reset();
-      setFileName("No file chosen");
+      setImageFileName("No file chosen");
+      setDownloadFileName("No file chosen");
     }
   }, [itemToEdit, setValue, reset]);
 
@@ -850,25 +739,29 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
     try {
       setIsSubmitting(true);
 
-      // Add image file if selected
-      if (fileInputRef.current?.files?.[0]) {
-        data.image = fileInputRef.current.files[0];
+      // Add image if selected
+      if (imageInputRef.current?.files?.[0]) {
+        data.image = imageInputRef.current.files[0];
+      }
+
+      // Add downloadable file if selected
+      if (downloadInputRef.current?.files?.[0]) {
+        data.download_material = downloadInputRef.current.files[0];
       }
 
       let response;
       if (itemToEdit) {
-        // Update existing project
         response = await ExperienceService.updateProject(itemToEdit.id, data);
         toast.success("Project updated successfully");
       } else {
-        // Add new project
         response = await ExperienceService.addProject(data);
         toast.success("Project added successfully");
       }
 
       reset();
-      setFileName("No file chosen");
-      onClose(); // close modal after saving
+      setImageFileName("No file chosen");
+      setDownloadFileName("No file chosen");
+      onClose();
     } catch (error) {
       console.error("Failed to save project:", error);
       toast.error(itemToEdit ? "Failed to update project" : "Failed to add project");
@@ -876,24 +769,35 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
       setIsSubmitting(false);
     }
   };
-
-  const handleFileChange = (e) => {
+  
+const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 1024 * 1024) {
-        toast.error("File size must not exceed 1MB");
-        fileInputRef.current.value = "";
-        setFileName("No file chosen");
+        toast.error("Image size must not exceed 1MB");
+        imageInputRef.current.value = "";
+        setImageFileName("No file chosen");
         return;
       }
-      setFileName(file.name);
+      setImageFileName(file.name);
     } else {
-      setFileName("No file chosen");
+      setImageFileName("No file chosen");
     }
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
+  const handleDownloadChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("File size must not exceed 5MB");
+        downloadInputRef.current.value = "";
+        setDownloadFileName("No file chosen");
+        return;
+      }
+      setDownloadFileName(file.name);
+    } else {
+      setDownloadFileName("No file chosen");
+    }
   };
 
   return (
@@ -905,6 +809,7 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
       <div className="max-w-xl mx-auto bg-white">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
+          {/* Title */}
           <div>
             <label className="block font-medium mb-1">
               Title<span className="text-red-500">*</span>
@@ -912,19 +817,20 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
             <input
               type="text"
               {...register("title", { required: "This field is required" })}
-              className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+              className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg bg-[#FAFAFA]"
               placeholder="Enter Project Title"
             />
             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
           </div>
 
+          {/* Description */}
           <div>
             <label className="block font-medium mb-1">
               Description<span className="text-red-500">*</span>
             </label>
             <textarea
               {...register("description", { required: "This field is required" })}
-              className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+              className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg bg-[#FAFAFA]"
               placeholder="Enter Project Description"
               rows={1}
             />
@@ -933,29 +839,51 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
             )}
           </div>
 
+          {/* Upload Image */}
           <div>
-            <div className="w-full max-w-md">
-              <div className="text-sm mb-2">Upload Image</div>
-              <div className="flex items-center border border-gray-200 rounded-md bg-gray-50 p-1">
-                <button
-                  type="button"
-                  onClick={handleButtonClick}
-                  className="bg-green-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-green-200 focus:outline-none"
-                >
-                  Choose File
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
-                <span className="ml-3 text-sm text-gray-500">{fileName}</span>
-              </div>
+            <div className="text-sm mb-2">Upload Image</div>
+            <div className="flex items-center border border-gray-200 rounded-md bg-gray-50 p-1">
+              <button
+                type="button"
+                onClick={() => imageInputRef.current?.click()}
+                className="bg-green-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-green-200"
+              >
+                Choose File
+              </button>
+              <input
+                ref={imageInputRef}
+                type="file"
+                className="hidden"
+                onChange={handleImageChange}
+                accept=".png,.jpg,.jpeg"
+              />
+              <span className="ml-3 text-sm text-gray-500">{imageFileName}</span>
             </div>
           </div>
 
+          {/* Downloadable File */}
+          <div>
+            <div className="text-sm mb-2">Downloadable File</div>
+            <div className="flex items-center border border-gray-200 rounded-md bg-gray-50 p-1">
+              <button
+                type="button"
+                onClick={() => downloadInputRef.current?.click()}
+                className="bg-green-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-green-200"
+              >
+                Choose File
+              </button>
+              <input
+                ref={downloadInputRef}
+                type="file"
+                className="hidden"
+                onChange={handleDownloadChange}
+                accept=".pdf,.txt,.doc,.docx"
+              />
+              <span className="ml-3 text-sm text-gray-500">{downloadFileName}</span>
+            </div>
+          </div>
+
+          {/* Submit */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -967,4 +895,5 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
       </div>
     </ModalComponent>
   );
-}
+};
+

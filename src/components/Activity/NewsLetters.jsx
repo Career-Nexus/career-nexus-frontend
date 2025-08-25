@@ -77,7 +77,7 @@ function NewsLetters({ data }) {
           <div className="flex flex-col gap-2 w-full h-52">
             <div className="flex items-center gap-3">
               <img
-                src={recent.image || "images/sportlight.png"}
+                src={recent.image || "/images/sportlight.png"}
                 alt="spotlight"
               // className="w-12 h-12 object-cover rounded"
               />
@@ -96,7 +96,7 @@ function NewsLetters({ data }) {
           </div>
           <div className="flex flex-col gap-2 w-full h-52">
             <img
-              src={recent.image || "images/profile4.png"}
+              src={recent.image || "/images/profile4.png"}
               alt="News letter"
               className="w-full h-full object-cover"
             />
@@ -114,7 +114,7 @@ function NewsLetters({ data }) {
           >
             <div className="flex flex-col gap-2 w-1/3">
               <img
-                src={item.image || "images/profile4.png"}
+                src={item.image || "/images/profile4.png"}
                 alt="Newsletter"
                 className="w-full h-full object-cover rounded"
               />

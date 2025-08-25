@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import FloatingMessageIcon from "../home/FloatingMessage"
+import FloatingMessageIcon from "../chat/FloatingMessage"
 import { NetworkService } from "../../../api/NetworkService"
 import { Box, Spinner } from "@chakra-ui/react"
 import { Link } from "react-router-dom";

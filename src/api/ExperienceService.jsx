@@ -112,6 +112,9 @@ export const ExperienceService = {
       if (formData.image) {
         projectFormData.append("image", formData.image)
       }
+      if (formData.download_material) {
+        projectFormData.append("download_material", formData.download_material)
+      }
 
       const response = await api.post("/project/", projectFormData, {
         headers: {
@@ -126,27 +129,6 @@ export const ExperienceService = {
       throw new Error(error.response?.data?.message || "Failed to add project")
     }
   },
-  // async getProjects() {
-  //   try {
-  //     const response = await api.get("project/")
-  //     console.log("Fetched Projects response:", response.data)
-  //     return response.data
-  //   } catch (error) {
-  //     console.error("Get Projects Error:", error.response || error.message)
-  //     throw new Error(error.response?.data?.message || "Failed to fetch projects")
-  //   }
-  // },
-  //project catalog
-  // async createProject(catalog) {
-  //   console.log("Api payload", catalog)
-  //   try {
-  //     const response = await api.post("/project/", catalog);
-  //     console.log("project posted", response.data);
-  //     return ({ success: true, data: response.data })
-  //   } catch (error) {
-  //     console.log("Project created");
-  //   }
-  // },
   async getProjects(params = {}) {
     try {
       const response = await api.get("/project/", { params });

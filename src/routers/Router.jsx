@@ -25,7 +25,6 @@ import Jobs from '../pages/jobs/Jobs'
 import PersonalizedJob from '../pages/jobs/PersonalizeJobs'
 import Notification from '../pages/notification/Notification'
 import Network from '../pages/network/Network'
-import ChatComponent from '../pages/dashboard/Chat'
 import ConnectionsInYourIndustry from '../pages/network/ConnectionsInYourIndustry'
 import { MentorProfileSetup } from '../pages/auth/mentors/MentorProfileSetup'
 import MentorOtpVerification from '../pages/auth/mentors/MentorOtp'
@@ -37,6 +36,14 @@ import AllSaved from '../pages/dashboard/SavedPosts'
 import Library from '../pages/dashboard/Library'
 import NewsletterPage from "../pages/activities/NewsLetter"
 import Setting from "../pages/activities/Setting"
+import ChatSection from '../pages/chat/ChatSection'
+import Chat from '../pages/chat/Chat'
+import NewChats from '../pages/chat/NewChats'
+import HelpCenter from '../pages/activities/HelpCenter'
+import TroubleShoot from '../pages/activities/TroubleShoot'
+import VideoTutorials from '../pages/activities/VideoTutorials'
+import Glossarys from '../pages/activities/Glossarys'
+import GetStarted from '../pages/activities/GetStarted'
 
 
 
@@ -56,7 +63,7 @@ const ProtectedRoute = ({ children }) => {
   return (
     <UserProvider>
       <MainNavbar />
-        {children}
+      {children}
     </UserProvider>
   )
 
@@ -322,10 +329,26 @@ const Router = () => {
           }
         />
         <Route
-          path='/chat'
+          path='/chat/:id'
           element={
             <ProtectedRoute>
-              <ChatComponent />
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/chatsection'
+          element={
+            <ProtectedRoute>
+              <ChatSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/newchat'
+          element={
+            <ProtectedRoute>
+              <NewChats />
             </ProtectedRoute>
           }
         />
@@ -361,6 +384,32 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/help'
+          element={
+            <ProtectedRoute>
+              <HelpCenter />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/help/started' element={<ProtectedRoute><GetStarted /></ProtectedRoute>} />
+        <Route path='/help/shooting' element={<ProtectedRoute><TroubleShoot /></ProtectedRoute>} />
+        <Route path='/help/tutorial' element={<ProtectedRoute><VideoTutorials /></ProtectedRoute>} />
+        <Route path='/help/glossary' element={<ProtectedRoute><Glossarys /></ProtectedRoute>} />
+        {/* <Route
+          path="/help"
+          element={
+            <ProtectedRoute>
+              <HelpCenter />
+            </ProtectedRoute>
+          }
+        >
+          <Route path='help' element={<SubmitTicket />} />
+          <Route path='started' element={<GettingStarted />} />
+          <Route path="shooting" element={<TroubleShooting />} />
+          <Route path="tutorial" element={<VideoTutorial />} />
+          <Route path="glossary" element={<Glossary />} />
+        </Route> */}
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
 

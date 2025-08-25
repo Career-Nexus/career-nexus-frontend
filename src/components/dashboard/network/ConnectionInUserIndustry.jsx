@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { NetworkService } from "../../../api/NetworkService"
-import FloatingMessageIcon from "../home/FloatingMessage"
+import FloatingMessageIcon from "../chat/FloatingMessage"
 import { Alert, AlertIcon, Box, Spinner } from "@chakra-ui/react"
 import RecomentToFollow from "./RecomentToFollow"
 import { toast } from "react-toastify";

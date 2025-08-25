@@ -13,12 +13,12 @@ const Profile = () => {
 
 
     const data = [
-        { id: 1, icon: <a href='#'><Video /></a>, name: 'Learning' },
-        { id: 2, icon: <a href='#'><Bulb /></a>, name: 'Insights' },
-        { id: 3, icon: <a href='/saved'><Bookmark /></a>, name: <a href='/saved'>Saved</a> },
-        { id: 4, icon: <a href='/library'><Library /></a>, name: <a href='/library'>Library</a> },
-        { id: 5, icon: <a href='/newsletter'><Newsletter /></a>, name: <a href='/newsletter'>Newsletter</a> },
-        // { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
+        { id: 1, icon: <Link to='#'><Video /></Link>, name: <Link to='#'>Learning</Link> },
+        { id: 2, icon: <Link to='#'><Bulb /></Link>, name: <Link to='#'>Insights</Link> },
+        { id: 3, icon: <Link to='/saved'><Bookmark /></Link>, name: <Link to='/saved'>Saved</Link> },
+        { id: 4, icon: <Link to='/library'><Library /></Link>, name: <Link to='/library'>Library</Link> },
+        { id: 5, icon: <Link to='/newsletter'><Newsletter /></Link>, name: <Link to='/newsletter'>Newsletter</Link> },
+        // { id: 6, icon: <Link to='/settings'><Setting /></Link>, name: <Link to='/settings'>Settings</Link> },
     ]
     const trend = [
         { id: 1, type: 'RemoteWork', post: '15.2' },
@@ -48,18 +48,12 @@ const Profile = () => {
                             {data.map(item => {
                                 const isActive = activeId === item.id;
                                 return (
-                                    // <div key={item.id} className='flex items-center gap-4'>
-                                    //     <div>{item.icon}</div>
-                                    //     <div>
-                                    //         <h3 className='text-lg'>{item.name}</h3>
-                                    //     </div>
-                                    // </div>
                                     <div key={item.id}>
                                         <a
                                             href={item.href}
                                             onClick={() => setActiveId(item.id)}
                                             className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors
-                                            ${isActive ? "bg-[#5DA05D] text-white " : "hover:bg-[#5DA05D] hover:text-white"}`}
+                                            ${isActive ? "bg-[#D9FFDB]" : "hover:bg-[#D9FFDB]"}`}
                                         >
                                             {item.icon}
                                             <span className="text-sm font-medium">{item.name}</span>

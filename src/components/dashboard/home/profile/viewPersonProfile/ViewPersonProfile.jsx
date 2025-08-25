@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Company1, Company2, Like, VideoIcon } from '../../../../../icons/icon'
-import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus,ChevronDown, Building, Calendar, ChevronUp } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Building, Calendar, ChevronUp, Ellipsis } from 'lucide-react'
 import { EditComponent } from '../AllModal'
 import EventsHome from '../../EventsHome'
 import { UserContext } from '../../../../../context/UserContext'
@@ -9,6 +9,8 @@ import PersonsPosts from './PersonsPosts'
 import ProfessionalSummary from './ProfessionalSummary'
 import ProjectCatalog from './ProjectCatalog'
 import AnalyticsDashboard from './AnalyticsDashboard'
+import Videos from './Videos'
+import VideoTabs from './Videos'
 
 const ViewPersonProfile = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -73,27 +75,33 @@ const ViewPersonProfile = () => {
                                 {userwithid.first_name} {userwithid.last_name}
                             </h1>
                             <p className='text-xs md:text-sm my-3'>
-                               {userwithid.bio}
+                                {userwithid.bio}
                             </p>
                             <p className='text-slate-500 font-thin flex items-center gap-2'>
-                                <MapPin className='w-4 h-4' /> {userwithid.location} 
+                                <MapPin className='w-4 h-4' /> {userwithid.location}
                                 <BriefcaseBusiness className='w-4 h-4' /> {userwithid.current_job}
                             </p>
                             <p className='text-slate-500 font-thin flex items-center gap-2'>
                                 <GraduationCap className='w-4 h-4' /> {userwithid.qualification}
                             </p>
-                            <p className='my-3'>
-                                <span className='text-[#5DA05D] mr-2'>{userwithid.followings}</span> Following
-                                <span className='text-[#5DA05D] mx-2'>{userwithid.followers}</span> Followers
+                            <p className='my-3 flex'>
+                                <div><span className='text-[#5DA05D] mr-2'>{userwithid.followings}</span> Following</div>
+                                <div><span className='text-[#5DA05D] mx-2'>{userwithid.followers}</span> Followers</div>
                             </p>
                             <div className='flex gap-2 mb-2'>
-                                <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
-                                    <UserPlus className='w-4 h-4' />
-                                    <span>Follow</span>
-                                </button>
-                                {/* <button className='border border-[#5DA05D] text-[#5DA05D] rounded-lg px-2 text-sm'>
-                                    <span className='text-black text-lg mx-1'> ...</span>More
-                                </button> */}
+                                {userwithid.user_type === "learner" ? (
+                                    <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
+                                        <UserPlus className='w-4 h-4' />
+                                        <span>Follow</span>
+                                    </button>
+                                ) : (
+                                    <div className='flex items-center'>
+                                        <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button>
+                                        <div className='border border-[#5DA05D] rounded-lg px-4 py-2 text-sm ml-3'>
+                                            <Ellipsis size={20}/>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className='flex items-center justify-center' >
@@ -101,11 +109,11 @@ const ViewPersonProfile = () => {
                                 {userwithid?.intro_video ? (
                                     <div className='w-full h-44'>
                                         <video
-                                        src={userwithid.intro_video}
-                                        controls
-                                        // className="rounded-lg max-w-xs w-80 h-36"
-                                        className='h-full rounded-lg mt-16 mr-8 max-w-2xl bg-cover'
-                                    />
+                                            src={userwithid.intro_video}
+                                            controls
+                                            // className="rounded-lg max-w-xs w-80 h-36"
+                                            className='h-full rounded-lg mt-16 mr-8 max-w-2xl bg-cover'
+                                        />
                                     </div>
                                 ) : (
                                     <div>
@@ -135,6 +143,7 @@ const ViewPersonProfile = () => {
 function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("professional")
     const tabsRef = useRef(null)
+    const {userwithid} = useContext(UserContext)
 
     // Scroll tabs horizontally on smaller screens
     const scrollTabs = (direction) => {
@@ -160,7 +169,7 @@ function ProfileTabs() {
                 </button>
 
                 <div ref={tabsRef} className="my-3 gap-3 flex overflow-x-auto scrollbar-hide px-6 md:px-0 md:overflow-visible">
-                    
+
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "professional" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -169,21 +178,8 @@ function ProfileTabs() {
                         {/* <User className="h-3.5 w-3.5" /> */}
                         Professional Portfolio
                     </button>
-                    {/* <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "gallery" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("gallery")}
-                    >
-                        Virtual Gallery
-                    </button> */}
-                    <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("projects")}
-                    >
-                        {/* <Briefcase className="h-3.5 w-3.5" /> */}
-                        Project Catalog
-                    </button>
+                    {userwithid.user_type === "learner"?(
+                        
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "analytics" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -192,6 +188,25 @@ function ProfileTabs() {
                         {/* <PieChart className="h-3.5 w-3.5" /> */}
                         Analytics Dashboard
                     </button>
+                    
+                    ):(
+                       <button
+                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "video" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                            }`}
+                        onClick={() => setActiveTab("video")}
+                    >
+                        Video
+                    </button> 
+                    )}
+                    <button
+                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                            }`}
+                        onClick={() => setActiveTab("projects")}
+                    >
+                        {/* <Briefcase className="h-3.5 w-3.5" /> */}
+                        Project Catalog
+                    </button>
+                    
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}
@@ -218,6 +233,7 @@ function ProfileTabs() {
                 {/* {activeTab === "gallery" && <PortfolioGalleryTemplate />} */}
                 {activeTab === "projects" && <ProjectCatalog />}
                 {activeTab === "analytics" && <AnalyticsDashboard />}
+                {activeTab === "video" && <VideoTabs />}
             </div>
         </div>
     )

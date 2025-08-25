@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react"
 import { MessageSquare } from "lucide-react"
-import ChatModal from "./ChatModal"
 import { Link } from "react-router-dom"
 
 export default function FloatingMessageIcon() {
@@ -49,7 +48,7 @@ export default function FloatingMessageIcon() {
           isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
         }`}
       >
-        <Link to={'/chat'}>
+        <Link to={'/chatsection'}>
             <button
           onClick={handleClick}
           className="relative flex items-center justify-center w-12 h-12 bg-[#5DA05D] rounded-full shadow-lg hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"

@@ -13,7 +13,7 @@ import logo4 from "../../../assets/images/job-data-science.svg";
 import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { JobServices } from "../../../api/JobServices";
-import FloatingMessageIcon from "../home/FloatingMessage";
+import FloatingMessageIcon from "../chat/FloatingMessage";
 import { Box, Spinner } from "@chakra-ui/react";
 
 export const JobCard = ({ hideCard }) => {
