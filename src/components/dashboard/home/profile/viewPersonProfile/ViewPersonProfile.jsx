@@ -36,8 +36,12 @@ const ViewPersonProfile = () => {
                         className="relative w-full h-48"
                     >
                         <div className='flex items-center justify-center'>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg'>
-                                <img src={userwithid?.cover_photo || "/images/bg-profile.png"} alt="cover photo" className='w-full md:h-48 ' />
+                            <div className='relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg'>
+                                <img src={userwithid?.cover_photo || "/images/bg-profile.png"}
+                                    alt="cover photo"
+                                    className="w-full h-full object-cover object-center"
+                                    onError={(e) => (e.target.src = "/images/bg-profile.png")}
+                                />
                             </div>
                             {/* <div onClick={() => setOpenModal(true)} className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
                                 <Camera className="text-white w-10 h-10" />
@@ -69,7 +73,7 @@ const ViewPersonProfile = () => {
                         </div>
                     </div>
                     <hr className='my-3' />
-                    <div className='mt-6 flex items-center gap-32'>
+                    <div className='mt-6 flex items-center gap-32 p-2'>
                         <div>
                             <h1 className='text-xl font-bold'>
                                 {userwithid.first_name} {userwithid.last_name}
@@ -92,13 +96,13 @@ const ViewPersonProfile = () => {
                                 {userwithid.user_type === "learner" ? (
                                     <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
                                         <UserPlus className='w-4 h-4' />
-                                        <span>Follow</span>
+                                        <span className='px-2 py-1'>Follow</span>
                                     </button>
                                 ) : (
                                     <div className='flex items-center'>
                                         <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button>
                                         <div className='border border-[#5DA05D] rounded-lg px-4 py-2 text-sm ml-3'>
-                                            <Ellipsis size={20}/>
+                                            <Ellipsis size={20} />
                                         </div>
                                     </div>
                                 )}
@@ -106,7 +110,7 @@ const ViewPersonProfile = () => {
                         </div>
                         <div className='flex items-center justify-center' >
                             <div className='relative'>
-                                {userwithid?.intro_video ? (
+                                {userwithid.user_type === "learner" ? (
                                     <div className='w-full h-44'>
                                         <video
                                             src={userwithid.intro_video}
@@ -143,7 +147,7 @@ const ViewPersonProfile = () => {
 function ProfileTabs() {
     const [activeTab, setActiveTab] = useState("professional")
     const tabsRef = useRef(null)
-    const {userwithid} = useContext(UserContext)
+    const { userwithid } = useContext(UserContext)
 
     // Scroll tabs horizontally on smaller screens
     const scrollTabs = (direction) => {
@@ -178,25 +182,25 @@ function ProfileTabs() {
                         {/* <User className="h-3.5 w-3.5" /> */}
                         Professional Portfolio
                     </button>
-                    {userwithid.user_type === "learner"?(
-                        
-                    <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "analytics" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("analytics")}
-                    >
-                        {/* <PieChart className="h-3.5 w-3.5" /> */}
-                        Analytics Dashboard
-                    </button>
-                    
-                    ):(
-                       <button
-                        className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "video" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
-                            }`}
-                        onClick={() => setActiveTab("video")}
-                    >
-                        Video
-                    </button> 
+                    {userwithid.user_type === "learner" ? (
+
+                        <button
+                            className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "analytics" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                                }`}
+                            onClick={() => setActiveTab("analytics")}
+                        >
+                            {/* <PieChart className="h-3.5 w-3.5" /> */}
+                            Analytics Dashboard
+                        </button>
+
+                    ) : (
+                        <button
+                            className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "video" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
+                                }`}
+                            onClick={() => setActiveTab("video")}
+                        >
+                            Video
+                        </button>
                     )}
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "projects" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
@@ -206,7 +210,7 @@ function ProfileTabs() {
                         {/* <Briefcase className="h-3.5 w-3.5" /> */}
                         Project Catalog
                     </button>
-                    
+
                     <button
                         className={`px-4 py-2 rounded-lg text-xs whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeTab === "posts" ? "border border-[#5DA05D] text-[#5DA05D]" : "border border-gray-300 hover:bg-gray-100"
                             }`}

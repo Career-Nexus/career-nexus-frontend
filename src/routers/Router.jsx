@@ -44,6 +44,9 @@ import TroubleShoot from '../pages/activities/TroubleShoot'
 import VideoTutorials from '../pages/activities/VideoTutorials'
 import Glossarys from '../pages/activities/Glossarys'
 import GetStarted from '../pages/activities/GetStarted'
+import Booked from '../pages/mentorship/Booked'
+import PaymentSuccess from '../components/dashboard/mentorship/PaymentSuccess'
+import PaymentFailure from '../components/dashboard/mentorship/PaymentFailure'
 
 
 
@@ -264,6 +267,30 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+         <Route
+          path='/booked'
+          element={
+            <ProtectedRoute>
+              <Booked />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/payment-success'
+          element={
+            <ProtectedRoute>
+              <PaymentSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/payment-failed'
+          element={
+            <ProtectedRoute>
+              <PaymentFailure />
+            </ProtectedRoute>
+          }
+        />
         {/* <Route
           path='/mentordetails/:id'
           element={
@@ -417,7 +444,15 @@ const Router = () => {
         {/* <Route path="*" element={<RootRedirect />} /> */}
 
         {/* Error page */}
-        <Route path="*" element={<ErrorPage />} />
+        {/* <Route path="*" element={<ErrorPage />} /> */}
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <ErrorPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )

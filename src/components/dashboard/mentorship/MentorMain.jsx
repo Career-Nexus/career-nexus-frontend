@@ -152,6 +152,9 @@ const MentorCard = ({ mentor }) => {
             ))}
             <span className="text-black mt-[-6px]">{rating}</span>
           </div>
+          <div className="flex gap-1 text-sm text-gray-500">
+            <span>{mentor.session_rate}</span>
+          </div>
         </div>
         <div className="flex flex-wrap items-center justify-between mt-2 p-4">
           {mentor.technical_skills?.slice(0, 4).map((skill, idx) => (

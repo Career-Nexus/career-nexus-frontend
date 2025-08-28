@@ -1,15 +1,15 @@
-import { Outlet } from "react-router-dom"
+// import { Outlet } from "react-router-dom"
 // import SubmitTicket from "../../components/Activity/Help"
 import HelpSidebar from "../../components/Activity/HelpSidebar"
 import SubmitTicket from "../../components/Activity/Help"
 
-function HelpCenter({ children }) {
+function HelpCenter() {
     return (
         <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5  lg:px-12 md:py-8'>
-            <div className='md:col-span-4 lg:col-span-3'>
+            <div className='col-span-12 md:col-span-4 lg:col-span-3 mb-5'>
                 <HelpSidebar />
             </div>
-            <div className='col-span-12 md:col-span-8 lg:col-span-9'>
+            <div className='col-span-12 md:col-span-8 lg:col-span-9 mb-12'>
                 {/* <Outlet /> */}
                 <SubmitTicket />
             </div>

@@ -12,7 +12,9 @@ const ProfilePage = () => {
         </ProfileProvider>
       </div>
       <div className='col-span-3'>
-        <EventsHome/>
+        <div className="sticky top-20">
+          <EventsHome/>
+        </div>
       </div>
     </div>
   )

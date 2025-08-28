@@ -6,60 +6,6 @@ import { MentorServices } from "../../../api/MentorServices";
 import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
 
-// const bookingData = [
-//     {
-//         id: "1",
-//         title: "TechCorp Solutions",
-//         attendees: ["/images/profile.png", "/images/profile2.png", "/images/profile4.png"],
-//         attendeeCount: 3,
-//         type: "Group Session",
-//         status: "Pending",
-//         date: "2025-07-15",
-//         time: "2:00 PM (1.5 hours)",
-//         category: "Team Development Workshop",
-//         description:
-//             "Hi! We're looking for a group mentoring session for our development team. We want to discuss best practices for transitioning from frontend to full-stack development and...",
-//     },
-//     {
-//         id: "2",
-//         title: "Michael Chen",
-//         attendees: ["/images/profile.png"],
-//         type: "Individual",
-//         status: "Pending",
-//         date: "2025-07-18",
-//         time: "10:00 AM (45 minutes)",
-//         category: "Resume Review",
-//         description:
-//             "I'm a recent CS graduate looking for feedback on my resume and interview preparation tips. Your background in tech leadership would be incredibly valuable.",
-//     },
-//     {
-//         id: "3",
-//         title: "Innovation Labs",
-//         attendees: ["/images/profile2.png", "/images/profile4.png"],
-//         attendeeCount: 2,
-//         type: "Group Session",
-//         status: "Accepted",
-//         date: "2025-07-12",
-//         time: "3:30 PM (1 hours)",
-//         category: "Resume Review",
-//         description:
-//             "Hi! We're looking for a group mentoring session for our development team. We want to discuss best practices for transitioning from frontend to full-stack development and...",
-//     },
-//     {
-//         id: "4",
-//         title: "Innovation Labs",
-//         attendees: ["/images/profile.png", "/images/profile2.png"],
-//         attendeeCount: 2,
-//         type: "Group Session",
-//         status: "Pending",
-//         date: "2025-07-12",
-//         time: "3:30 PM (1 hours)",
-//         category: "Resume Review",
-//         description:
-//             "Hi! We're looking for a group mentoring session for our development team. We want to discuss best practices for transitioning from frontend to full-stack development and...",
-//     },
-// ];
-
 export function BookingRequests() {
     const [requestedSession, setRequestedSession] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -86,7 +32,10 @@ export function BookingRequests() {
                 date: session.session_at?.date,
                 time: session.session_at?.time,
                 category: session.discourse,
-                description: `Session between ${session.mentor?.first_name} and ${session.mentee?.first_name} about ${session.discourse}`
+                description: `Session between ${session.mentor?.first_name} and ${session.mentee?.first_name} about ${session.discourse}`,
+                amount: session.amount,
+                is_paid: session.is_paid,
+                join: session.join,
             }));
 
             setRequestedSession(mappedData);
@@ -171,6 +120,9 @@ export function BookingRequests() {
                             >
                                 {booking.status}
                             </span>
+                            <div className="ml-auto font-bold text-lg text-[#5DA05D]">
+                                {booking.amount}
+                            </div>
                         </div>
 
                         {/* Toggleable dropdown */}

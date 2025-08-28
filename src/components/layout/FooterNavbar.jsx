@@ -28,11 +28,11 @@ export default function MobileFooterNav() {
       href: "/jobs",
       icon: Briefcase,
     },
-    {
-      name: "Notifications",
-      href: "/notifications",
-      icon: Bell,
-    },
+    // {
+    //   name: "Notifications",
+    //   href: "/notifications",
+    //   icon: Bell,
+    // },
   ]
 
   return (

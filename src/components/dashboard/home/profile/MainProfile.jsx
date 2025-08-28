@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Edit } from '../../../../icons/icon'
 import ProfileTabs from './ProfileTab'
 import ReusableModal from './ModalDesign'
-import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Check, UserCircle2, ArrowRight, Pencil, NotepadText, VideoIcon } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Check, UserCircle2, ArrowRight, Pencil, NotepadText, VideoIcon, Ellipsis, Info } from 'lucide-react'
 import { EditComponent } from './AllModal'
 import { UserContext } from '../../../../context/UserContext'
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { PostService } from '../../../../api/PostService'
 import { Link } from 'react-router-dom'
 import { ProfileContext } from '../../../../context/ProfileContext'
+import IntroVideoModal from './IntroVideo'
 
 const ProfileCover = () => {
   const { user, updateUser } = useContext(UserContext);
@@ -61,8 +62,6 @@ const ProfileCover = () => {
       {/* Cover */}
       <div
         className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
-        onMouseEnter={() => setIsCoverHovered(true)}
-        onMouseLeave={() => setIsCoverHovered(false)}
       >
         <img
           src={previewCover || user.cover_photo || "/images/bg-profile.png"}
@@ -90,8 +89,6 @@ const ProfileCover = () => {
       {/* Profile */}
       <div
         className="relative w-32 h-32"
-        onMouseEnter={() => setIsProfileHovered(true)}
-        onMouseLeave={() => setIsProfileHovered(false)}
       >
         <img
           src={previewProfile || user.profile_photo || "/images/profile.png"}
@@ -126,6 +123,7 @@ const MainProfile = () => {
   const { user, loading } = useContext(UserContext);
   //const [profileCompletion, setProfileCompletion] = useState(0);
   const { profileCompletion, setProfileCompletion } = useContext(ProfileContext);
+  const [openIntroVideo, setOpenIntroVideo] = useState(false);
 
   //  const handleCompletionChange = (completion) => {
   //     setProfileCompletion(completion);
@@ -181,27 +179,35 @@ const MainProfile = () => {
             </p>
           </div>
 
-          <div className='flex justify-between float-end'>
-            {user?.intro_video ? (
-              <video
-                src={user.intro_video}
-                controls
-                className="rounded-lg max-w-xs"
-              />
-            ) : (
-              <img
-                src="/images/video1.png"
-                alt="video stream"
-                className="rounded-lg max-w-xs"
-              />
-            )}
+          <div className='flex flex-col'>
+
+            <div className='flex justify-end mb-2 ml-auto'>
+              {user?.intro_video ? (
+                <video
+                  src={user.intro_video}
+                  controls
+                  className="rounded-lg max-w-xs w-[90%]"
+                />
+              ) : (
+                <div>
+                  <div className='flex justify-end mb-2'>
+                    <Info onClick={() => setOpenIntroVideo(true)} className='w-5 h-5 cursor-pointer text-[#5DA05D]' />
+                  </div>
+                  <img
+                    src="/images/video1.png"
+                    alt="video stream"
+                    className="rounded-lg max-w-xs w-[90%]"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* {profileCompletion < 100 && <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />} */}
       <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />
-      
+
       <ProfileTabs />
 
       <EditComponent
@@ -209,6 +215,8 @@ const MainProfile = () => {
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       />
+
+      <IntroVideoModal open={openIntroVideo} onClose={() => setOpenIntroVideo(false)} />
     </div>
   );
 };

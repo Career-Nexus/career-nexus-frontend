@@ -11,18 +11,6 @@ export default function MentorshipRequests() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Search */}
-      {/* <div className="flex items-center mb-6 max-w-7xl">
-        <input
-          type="text"
-          placeholder="Search mentorship requests"
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-md shadow-sm focus:ring-[#5DA05D]"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#5DA05D] text-white hover:bg-[#5DA05D] h-10 px-4 py-2 ml-4">
-          <SearchIcon className="w-4 h-4 mr-2" /> Search
-        </button>
-      </div> */}
       <div className="mb-6 flex gap-5">
         <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
           <div className="flex items-center pl-3">
@@ -79,23 +67,6 @@ export default function MentorshipRequests() {
     </div>
   )
 }
-// SVG Icons
-const SearchIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.3-4.3" />
-  </svg>
-)
 
 export const ChevronDownIcon = () => (
   <svg

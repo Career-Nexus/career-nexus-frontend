@@ -1,9 +1,8 @@
 import React from 'react'
-//import Profile from '../../components/dashboard/home/Profile'
-import MentorMain from '../../components/dashboard/mentorship/MentorMain'
 import Profile from '../../components/dashboard/mentorship/Profile'
+import BookedSession from '../../components/dashboard/mentorship/BookedSession'
 
-const MentorshipHome = () => {
+const Booked = () => {
   return (
     <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5  lg:px-12 md:py-8'>
       <div className='col-span-12 md:col-span-4 lg:col-span-3'>
@@ -12,10 +11,10 @@ const MentorshipHome = () => {
         </div>
       </div>
       <div className='col-span-12 md:col-span-8 lg:col-span-9'>
-        <MentorMain />
+        <BookedSession />
       </div>
     </div>
   )
 }
 
-export default MentorshipHome
+export default Booked

@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { NetworkService } from '../../../api/NetworkService';
 import { toast } from "react-toastify";
+import { Link } from 'react-router-dom';
 
 function ConnectionsByLocation() {
     const [bylocation, setBylocation] = useState([]);

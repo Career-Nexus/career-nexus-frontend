@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Booked, Bookmark, Bulb, Library, Mentorship, Newsletter, Recomended, Setting, Video } from '../../../icons/icon'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../../context/UserContext'
-import { GraduationCap, TrendingUp } from 'lucide-react'
+import { ArrowRight, GraduationCap, TrendingUp } from 'lucide-react'
 
 const Profile = () => {
     const { user, loading, error, } = useContext(UserContext)
@@ -18,11 +18,7 @@ const Profile = () => {
         { id: 6, image: '/images/profile2.png', name: 'Devon Lane' },
     ]
     const data = [
-        { id: 1, icon: <a href='#'><Mentorship /></a>, name: 'My Mentors' },
-        { id: 2, icon: <a href='#'><Bookmark /></a>, name: 'Saved Videos' },
-        { id: 3, icon: <a href='#'><Booked /></a>, name: 'Booked Sessions' },
-        { id: 4, icon: <a href='#'><Recomended /></a>, name: 'Recomended' },
-        { id: 6, icon: <a href='#'><Setting /></a>, name: 'Settings' },
+        { id: 3, icon: <Link to={'/booked'}><Booked /></Link>, name: <Link to={'/booked'}>Booked Sessions</Link> },
     ]
     const category = [
         { id: 1, cat: 'Technology', num: 48 },
@@ -57,21 +53,21 @@ const Profile = () => {
                             </Link>
                         </div>
                         <div className='border border-gray rounded-lg my-5'>
-                            <h1 className='p-3 font-semibold'>Activity</h1>
                             <div className='flex flex-col gap-4 p-3'>
                                 {data.map(item => (
-                                    <div key={item.id} className='flex items-center gap-4 flex-wrap'>
+                                    <div key={item.id} className='flex items-center gap-4'>
                                         <div className='w-3 h-3'>{item.icon}</div>
                                         <div>
                                             <h3 className='text-sm md:text-lg'>{item.name}</h3>
                                         </div>
+                                        <Link to={'/booked'}><ArrowRight className='text-[#5DA05D]' /></Link>
                                     </div>
                                 ))}
                             </div>
                             {/* <a href='#' className='text-[#5DA05D] p-3'>See more...</a> */}
                         </div>
                         <div className='border border-gray rounded-lg my-5'>
-                            <h1 className='p-3 font-semibold'>Categories</h1>
+                            <h1 className='p-3 font-bold'>Top Categories</h1>
                             <div className='flex flex-col gap-4 p-3'>
                                 {category.map(item => (
                                     <div key={item.id} className='flex items-center gap-4'>
@@ -84,9 +80,9 @@ const Profile = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className='border border-gray rounded-lg my-5'>
-                            <h1 className='p-3 font-semibold'>Mentors</h1>
-                            <div className='flex flex-col gap-4 p-3'>
+                        <div className='border border-gray rounded-lg my-5 p-4'>
+                            <h1 className='p-3 font-semibold'>Mentors to follow</h1>
+                            <div className='flex flex-col gap-4'>
                                 {mentors.map(item => (
                                     <div key={item.id} className='flex items-center gap-4 flex-wrap'>
                                         <img src={item.image} alt={item.name} className='w-5 md:w-8 h-5 md:h-8 rounded-full' />
@@ -97,7 +93,12 @@ const Profile = () => {
                                     </div>
                                 ))}
                             </div>
-                            <a href='#' className='text-[#5DA05D] p-3'>See more...</a>
+                            <div className='border border-[#5DA05D] w-full items-center rounded-lg p-2 mt-3'>
+                                <Link to={'/mentorship'} className='text-[#5DA05D] hover:text-[#5DA05D] flex gap-2 items-center justify-center font-medium text-sm'>
+                                    <span>See more...</span>
+                                </Link>
+                            </div>
+
                         </div>
 
                     </div>

@@ -9,14 +9,12 @@ import { emojis } from './Emoji'
 import ImageCropper from './ImageCropper'
 import VideoTrimmer from './VideoTrimmer'
 import { ProfileContext } from '../../../context/ProfileContext'
-// import { Button, InputGroup, RadioGroup, Textarea } from '@chakra-ui/react'
 
 
 const MainSection = () => {
   const { user } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [ModalOpen, setModalOpen] = useState(false);
-  //const [profileCompletion, setProfileCompletion] = useState(0);
   const { profileCompletion } = useContext(ProfileContext);
   
 
