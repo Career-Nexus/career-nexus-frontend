@@ -8,6 +8,7 @@ import { Bell, ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, 
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
 import { useNotifications } from '../../context/NotificationContext';
+import { GetNotifications } from '../dashboard/jobs/JobNotification';
 
 
 const MainNavbar = () => {
@@ -126,9 +127,9 @@ const MainNavbar = () => {
                         </div>
                     </div>
                     {/* notify test */}
-                    <div className=''>
-                        <Navbar />
-                    </div>
+                    {/* <div className=''>
+                        <Notify />
+                    </div> */}
                     {/* Navigation Links for Medium Screens and Up */}
                     {
                         user.user_type === "learner" ? (
@@ -259,10 +260,12 @@ const MainNavbar = () => {
                         </div>
                     )}
                     <Link
-                        to='/notifications'
+                        to='#'
+                        // to='/notifications'
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
                     >
-                        <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
+                        {/* <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} /> */}
+                        <Notify className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
                         <div className='h-3 w-3 rounded-full bg-red-600 absolute top-4 ml-3 p-1'></div>
                         <span className='absolute font-bold top-[14px] ml-3 text-white' style={{ fontSize: "9px" }}>2</span>
                     </Link>
@@ -384,13 +387,12 @@ const MainNavbar = () => {
 
 export default MainNavbar
 
-function Navbar() {
+function Notify() {
   const { notifications } = useNotifications();
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow px-6 py-3 flex justify-between items-center">
-      <h1 className="text-xl font-bold">Career Nexus</h1>
+    <nav className="">
 
       <div className="relative">
         <button
@@ -409,7 +411,8 @@ function Navbar() {
           <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50">
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <p className="p-4 text-gray-600 text-sm">No notifications</p>
+                <p className="p-4 text-gray-600 text-sm"></p>
+                // <p className="p-4 text-gray-600 text-sm">No notifications</p>
               ) : (
                 notifications.map((n) => (
                   <div key={n.id} className="p-3 border-b hover:bg-gray-50">
@@ -422,6 +425,7 @@ function Navbar() {
                 ))
               )}
             </div>
+            <GetNotifications />
             <div className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
               View all notifications
             </div>

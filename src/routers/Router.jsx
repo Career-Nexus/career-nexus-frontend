@@ -65,13 +65,12 @@ const ProtectedRoute = ({ children }) => {
   //   </>
   // )
   return (
-    <NotificationProvider>
-      <UserProvider>
+    <UserProvider>
+      <NotificationProvider>
         <MainNavbar />
         {children}
-      </UserProvider>
-    </NotificationProvider>
-
+      </NotificationProvider>
+    </UserProvider>
   )
 
 }
