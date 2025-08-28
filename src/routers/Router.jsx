@@ -47,6 +47,7 @@ import GetStarted from '../pages/activities/GetStarted'
 import Booked from '../pages/mentorship/Booked'
 import PaymentSuccess from '../components/dashboard/mentorship/PaymentSuccess'
 import PaymentFailure from '../components/dashboard/mentorship/PaymentFailure'
+import { NotificationProvider } from '../context/NotificationContext'
 
 
 
@@ -64,10 +65,13 @@ const ProtectedRoute = ({ children }) => {
   //   </>
   // )
   return (
-    <UserProvider>
-      <MainNavbar />
-      {children}
-    </UserProvider>
+    <NotificationProvider>
+      <UserProvider>
+        <MainNavbar />
+        {children}
+      </UserProvider>
+    </NotificationProvider>
+
   )
 
 }
@@ -267,7 +271,7 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path='/booked'
           element={
             <ProtectedRoute>

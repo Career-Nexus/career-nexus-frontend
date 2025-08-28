@@ -82,17 +82,6 @@ export const MentorServices = {
             console.log("couldn't retrieve scheduled mentorship session")
         }
     },
-    // async acceptOrrejectrequest(action){
-    //     try {
-    //         const response = await api.post("/mentor/sessions/accept-reject/",action)
-    //         if(response.data){
-    //             console.log('Action completed successfully',response.data)
-    //             return { success: true, data: response.data }
-    //         }
-    //     } catch (error) {
-    //         console.log("Couln't complete this action")
-    //     }
-    // },
     async acceptOrRejectRequest(sessionId, decision) {
         try {
             const payload = {
@@ -114,10 +103,10 @@ export const MentorServices = {
             return { success: false, error };
         }
     },
-    async SaveMentor(save){
+    async SaveMentor(save) {
         try {
-            console.log("Api payload",save)
-            const response = await api.post("/mentor/save/",save)
+            console.log("Api payload", save)
+            const response = await api.post("/mentor/save/", save)
             if (response.data) {
                 console.log("retrieved scheduled mentorship session")
                 return { success: true, data: response.data }
@@ -126,9 +115,9 @@ export const MentorServices = {
             console.log("Could not save this mentor")
         }
     },
-    async getSavedMentors(params={}){
+    async getSavedMentors(params = {}) {
         try {
-            const response = await api.get("/mentor/save/",{params})
+            const response = await api.get("/mentor/save/", { params })
             if (response.data) {
                 console.log("retrieve saved mentors")
                 return { success: true, data: response.data }
@@ -138,7 +127,7 @@ export const MentorServices = {
         }
 
     },
-    async removeSavedMentor(id){
+    async removeSavedMentor(id) {
         try {
             const response = await api.delete(`/mentor/save/?mentor=${id}`)
             if (response.data) {
@@ -149,4 +138,35 @@ export const MentorServices = {
             console.log("Could not remove saved mentor")
         }
     },
+    // payment with stripe
+    async initiatesessionpaymentwithstripe(sessionId) {
+        try {
+            const response = await api.post("/payments/stripe/initiate/", { session: sessionId });
+            if (response.data) {
+                console.log("Payment initiated successfully");
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.error("Could not initiate payment", error);
+            return { success: false, error };
+        }
+    },
+    // payment with flutterwave
+    async initiatesessionpaymentwithflutterwave(sessionId) {
+        try {
+            const response = await api.post("/payments/flutterwave/initiate/", { session: sessionId });
+
+            if (response.data) {
+                console.log("Payment initiated successfully", response.data);
+
+                // Extract the correct field
+                const paymentLink = response.data["payment link"];
+
+                return { success: true, data: { url: paymentLink } };
+            }
+        } catch (error) {
+            console.error("Could not initiate payment", error);
+            return { success: false, error };
+        }
+    }
 }

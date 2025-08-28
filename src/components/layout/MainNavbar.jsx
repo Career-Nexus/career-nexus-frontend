@@ -4,9 +4,10 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Home, Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle } from 'lucide-react';
+import { Bell, ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle } from 'lucide-react';
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
+import { useNotifications } from '../../context/NotificationContext';
 
 
 const MainNavbar = () => {
@@ -123,6 +124,10 @@ const MainNavbar = () => {
                     <div className='hidden md:block h-16 w-16 md:h-20 md:w-20 object-center item-center '>
                         <div className='hidden md:block bg-cover items-center mt-2' style={{ backgroundImage: "url('/images/cnlogonew.png')", height: "60px", width: "80px" }}>
                         </div>
+                    </div>
+                    {/* notify test */}
+                    <div className=''>
+                        <Navbar />
                     </div>
                     {/* Navigation Links for Medium Screens and Up */}
                     {
@@ -379,3 +384,50 @@ const MainNavbar = () => {
 
 export default MainNavbar
 
+function Navbar() {
+  const { notifications } = useNotifications();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <nav className="bg-white shadow px-6 py-3 flex justify-between items-center">
+      <h1 className="text-xl font-bold">Career Nexus</h1>
+
+      <div className="relative">
+        <button
+          onClick={() => setOpen(!open)}
+          className="relative p-2 rounded-full hover:bg-gray-100"
+        >
+          <Bell className="w-6 h-6 text-gray-700" />
+          {notifications.length > 0 && (
+            <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+              {notifications.length}
+            </span>
+          )}
+        </button>
+
+        {open && (
+          <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+            <div className="max-h-80 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <p className="p-4 text-gray-600 text-sm">No notifications</p>
+              ) : (
+                notifications.map((n) => (
+                  <div key={n.id} className="p-3 border-b hover:bg-gray-50">
+                    <p className="text-sm font-medium text-gray-800">
+                      {n.type === "job" ? "New Job Alert!" : `${n.user} mentioned you`}
+                    </p>
+                    <p className="text-xs text-gray-600">{n.message}</p>
+                    <p className="text-[10px] text-gray-400">{n.time || new Date().toLocaleTimeString()}</p>
+                  </div>
+                ))
+              )}
+            </div>
+            <div className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
+              View all notifications
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}

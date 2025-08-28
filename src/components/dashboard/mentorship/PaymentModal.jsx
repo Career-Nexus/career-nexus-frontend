@@ -1,42 +1,96 @@
 import { CalendarDays, Clock, X } from 'lucide-react';
 import React, { useState } from 'react'
+import { MentorServices } from '../../../api/MentorServices';
+import { toast } from 'react-toastify'
 
-const paymentData = [
-  {
-    user: {
-      name: "Sarah Johnson",
-      role: "Senior Product Manager",
-      avatar: "/images/avatar.png",
-    },
-    session: {
-      date: "August 16, 2025",
-      time: "2:00 PM - 3:00 PM",
-      duration: "1 hour",
-      fee: 8.0,
-    },
-    fees: [
-      { label: "Platform fee", amount: 0.8 },
-      { label: "Payment processing", amount: 0.25 },
-    ],
-  },
-];
+function PaymentModal({ isOpen, booking, onClose }) {
+  const [method, setMethod] = useState("stripe");
 
-function PaymentModal({ isOpen, onClose, onPayment }) {
-  const [method, setMethod] = useState("paystack");
+  if (!isOpen || !booking) return null;
 
-  const { user, session, fees } = paymentData[0];
-  const total = session.fee + fees.reduce((acc, item) => acc + item.amount, 0);
+  // Build payment details from booking
+  const user = {
+    name: `${booking.mentor?.first_name} ${booking.mentor?.last_name}`,
+    role: booking.mentor?.current_job || "Mentor",
+    avatar: booking.mentor?.profile_photo,
+  };
 
-  if (!isOpen) return null;
+  const session = {
+    id: booking.id,
+    date: booking.date,
+    time: booking.time,
+    duration: "1 hour", // you can calculate if available in API
+    fee: booking.amount,
+  };
 
+  // const fees = [
+  //   { label: "Platform fee", amount: 0.8 },
+  //   { label: "Payment processing", amount: 0.25 },
+  // ];
+  const fees = [
+    { label: "Platform fee", amount: 0 },
+    { label: "Payment processing", amount: 0 },
+  ];
+
+  // const total = session.fee + fees.reduce((acc, item) => acc + item.amount, 0);
+  const total = session.fee;
+
+  const payWithStripe = async () => {
+    try {
+      const response = await MentorServices.initiatesessionpaymentwithstripe(session.id);
+      if (response.success) {
+        const { url } = response.data;
+        window.location.href = url;
+      } else {
+        toast.error("Payment initiation failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Stripe payment failed", error);
+      toast.error("Something went wrong. Try again later.");
+    }
+  };
+
+  // const payWithFlutterwave = async () => {
+  //   try {
+  //     const response = await MentorServices.initiatesessionpaymentwithflutterwave(session.id);
+  //     if (response.success) {
+  //       const { url } = response.data;
+  //       window.location.href = url;
+  //     } else {
+  //       toast.error("Payment initiation failed. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Flutterwave payment failed", error);
+  //     toast.error("Something went wrong. Try again later.");
+  //   }
+  // };
+  const payWithFlutterwave = async () => {
+  try {
+    const response = await MentorServices.initiatesessionpaymentwithflutterwave(session.id);
+
+    if (response.success) {
+      const { url } = response.data;
+      if (url) {
+        window.location.href = url;
+      } else {
+        toast.error("No payment link returned.");
+      }
+    } else {
+      toast.error("Payment initiation failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Flutterwave payment failed", error);
+    toast.error("Something went wrong. Try again later.");
+  }
+};
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      onClick={onClose} // clicking backdrop closes
+      onClick={onClose}
     >
       <div
         className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg relative"
-        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
@@ -46,7 +100,6 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
           <X className="w-6 h-6" />
         </button>
 
-        {/* Title */}
         <h2 className="text-xl font-bold mb-3">Review & Pay</h2>
 
         {/* User Info */}
@@ -63,7 +116,7 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
         </div>
 
         {/* Date & Time */}
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-gray-600 mb-2">
             <CalendarDays className="w-5 h-5" />
             <span>{session.date}</span>
@@ -79,7 +132,7 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
             <span>Session ({session.duration})</span>
-            <span className="font-medium">${session.fee.toFixed(2)}</span>
+            <span className="font-medium">${session.fee}</span>
           </div>
           {fees.map((fee, index) => (
             <div key={index} className="flex justify-between">
@@ -91,7 +144,7 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
         <hr className="my-3" />
         <div className="flex justify-between font-bold text-[#5DA05D]">
           <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+          <span>${total}</span>
         </div>
 
         {/* Payment Method */}
@@ -115,9 +168,9 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
             <input
               type="radio"
               name="payment"
-              value="paystack"
-              checked={method === "paystack"}
-              onChange={() => setMethod("paystack")}
+              value="stripe"
+              checked={method === "stripe"}
+              onChange={() => setMethod("stripe")}
               className="accent-[#5DA05D] text-[#5DA05D] focus:ring-0 focus:outline-none ml-auto"
             />
           </label>
@@ -150,14 +203,22 @@ function PaymentModal({ isOpen, onClose, onPayment }) {
 
         {/* Book Button */}
         <button
-          onClick={() => onPayment(method)}
+          onClick={() => {
+            if (method === "stripe") {
+              payWithStripe();
+            } else {
+              payWithFlutterwave();
+            }
+          }}
           className="w-full mt-6 bg-[#5DA05D] text-white font-medium py-2 rounded-lg hover:bg-[#4CAF50] transition"
         >
-          Book & Pay ${total.toFixed(2)}
+          Book & Pay ${total}
         </button>
       </div>
     </div>
+
   );
 }
+
 export default PaymentModal
 

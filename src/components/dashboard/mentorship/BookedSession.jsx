@@ -160,21 +160,6 @@ export default function BookedSession() {
                                             {booking.category}
                                         </div>
                                         <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
-
-                                        {/* <div className="flex space-x-3 mt-auto">
-                                <button
-                                    onClick={() => handleAccept(booking.id)}
-                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    onClick={() => handleReject(booking.id)}
-                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                >
-                                    Cancel
-                                </button>
-                            </div> */}
                                     </div>
                                 </div>
                             </div>

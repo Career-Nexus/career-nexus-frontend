@@ -11,8 +11,8 @@ function AcceptedBookings() {
     const [openDropdown, setOpenDropdown] = useState(null); // Track which dropdown is open
     const [acceptedBookings, setAcceptedBookings] = useState([]);
 
-    const [openPayModal, setOpenPayModal] = useState(null); // track which booking's modal is open
-    const openModal = (id) => setOpenPayModal(id);
+    const [openPayModal, setOpenPayModal] = useState(null);
+    const openModal = (booking) => setOpenPayModal(booking); // store full booking object
     const closeModal = () => setOpenPayModal(null);
 
     const acceptedSessions = async () => {
@@ -162,19 +162,29 @@ function AcceptedBookings() {
                                 <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
 
                                 <div className="flex space-x-3 mt-auto">
+                                    {/* <button
+                                        onClick={() => openModal(booking.id)}  // pass the whole booking object
+                                        className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                    >
+                                        Pay Now
+                                    </button> */}
                                     {/* pay button */}
                                     {booking.is_paid === false ? (
                                         <button
-                                            onClick={() => openModal(booking.id)}
+                                            onClick={() => openModal(booking)}
                                             className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
                                         >
                                             Pay Now
                                         </button>
                                     ) : (
                                         booking.join === true ? (
-                                            <span className="text-sm text-gray-500">Join Session</span>
+                                            <span 
+                                               className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                            >Join Session</span>
                                         ) : (
-                                            <span className="text-sm text-gray-500">Not yet time</span>
+                                            <span 
+                                               className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                            >Not yet time</span>
                                         )
                                     )}
                                     <button
@@ -197,13 +207,24 @@ function AcceptedBookings() {
             )}
 
             {/* Payment Modal (simplified for this example) */}
-            {openPayModal && (
+            {/* {openPayModal && (
                 <PaymentModal
                     isOpen={!!openPayModal}   //  send true/false
                     bookingId={openPayModal}  // optional if you want to know which booking
                     onClose={closeModal}
                     onPayment={(method) => {
                         console.log(`User chose ${method} for booking ${openPayModal}`);
+                        closeModal();
+                    }}
+                />
+            )} */}
+            {openPayModal && (
+                <PaymentModal
+                    isOpen={!!openPayModal}
+                    booking={openPayModal}   // send whole booking object
+                    onClose={closeModal}
+                    onPayment={(method) => {
+                        console.log(`User chose ${method} for booking ${openPayModal.id}`);
                         closeModal();
                     }}
                 />

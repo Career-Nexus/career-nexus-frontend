@@ -147,10 +147,10 @@ const MentorCard = ({ mentor }) => {
             </div>
           </Link>
           <div className="flex gap-1 text-sm text-yellow-300">
-            {Array.from({ length: Math.floor(rating) }).map((_, i) => (
+            {Array.from({ length: Math.floor(mentor.rating) }).map((_, i) => (
               <Star className="fill-yellow-300" size={12} key={i} />
             ))}
-            <span className="text-black mt-[-6px]">{rating}</span>
+            <span className="text-black mt-[-6px]">{mentor.rating}</span>
           </div>
           <div className="flex gap-1 text-sm text-gray-500">
             <span>{mentor.session_rate}</span>
@@ -286,7 +286,7 @@ const MentorMain = () => {
     setLoading(true)
     try {
       const { success, data } = await MentorServices.recommendedmentors({ page })
-      const isArray = Array.isArray(data) ? data : []
+      const isArray = Array.isArray(data?.results) ? data.results : []
       setRecommendmentor((prev) => (page === 1 ? isArray : [...prev, ...isArray]))
 
       if (data?.next) {
@@ -331,7 +331,7 @@ const MentorMain = () => {
       console.log("Search params:", params)
 
       const { success, data } = await MentorServices.searchmentors(params)
-      setSearchMentor(success ? data : [])
+      setSearchMentor(success ? data.results : [])
     } catch (error) {
       console.error("Search failed", error)
       setSearchMentor([])
@@ -354,6 +354,11 @@ const MentorMain = () => {
     getRecommendedMentors()
   }, [])
 
+  const handleLoadMore = () => {
+    if (hasMore) {
+      fetchPosts(nextPage);
+    }
+  };
   if (loading && recommendmentor.length === 0) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="200px">
