@@ -49,21 +49,6 @@ function PaymentModal({ isOpen, booking, onClose }) {
       toast.error("Something went wrong. Try again later.");
     }
   };
-
-  // const payWithFlutterwave = async () => {
-  //   try {
-  //     const response = await MentorServices.initiatesessionpaymentwithflutterwave(session.id);
-  //     if (response.success) {
-  //       const { url } = response.data;
-  //       window.location.href = url;
-  //     } else {
-  //       toast.error("Payment initiation failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Flutterwave payment failed", error);
-  //     toast.error("Something went wrong. Try again later.");
-  //   }
-  // };
   const payWithFlutterwave = async () => {
   try {
     const response = await MentorServices.initiatesessionpaymentwithflutterwave(session.id);

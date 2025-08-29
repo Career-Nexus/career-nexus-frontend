@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import { MentorServices } from "../../../api/MentorServices";
 import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
+import JitsiMeeting from "./JoinSession";
 
 export function BookingRequests() {
     const [requestedSession, setRequestedSession] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(null); // Track which dropdown is open
+    const [activeSessionId, setActiveSessionId] = useState(null); //jitsi session id
 
     const requestedSessions = async () => {
         setLoading(true);
@@ -181,29 +183,57 @@ export function BookingRequests() {
                                 {booking.category}
                             </div>
                             <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
-                            {/* <div className="flex space-x-3 mt-auto">
-                                <button className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1">
-                                    Accept
-                                </button>
-                                <button className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1">
-                                    Cancel
-                                </button>
-                            </div> */}
+                            
                             <div className="flex space-x-3 mt-auto">
-                                <button
-                                    onClick={() => handleAccept(booking.id)}
-                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    onClick={() => handleReject(booking.id)}
-                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                >
-                                    Cancel
-                                </button>
+                                {booking.status === "PENDING" ? (
+                                    <>
+                                        <button
+                                            onClick={() => handleAccept(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            onClick={() => handleReject(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : booking.status === "ACCEPTED" && booking.is_paid === false ? (
+                                    <>
+                                        <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-yellow-500 text-white h-10 px-4 py-2 flex-1">
+                                            Pending Payment
+                                        </span>
+                                        <button
+                                            onClick={() => handleReject(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : booking.is_paid === true && booking.join === true ? (
+                                    <button
+                                        onClick={() => setActiveSessionId(booking.id)}
+                                        className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                    >
+                                        Join Session
+                                    </button>
+                                ) : booking.is_paid === true && booking.join === false ? (
+                                    <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-gray-400 text-white h-10 px-4 py-2 flex-1">
+                                        Not Yet Time
+                                    </span>
+                                ) : null}
                             </div>
                         </div>
+                        {/* Show Jitsi meeting below the card if active */}
+                        {activeSessionId === booking.id && (
+                            <JitsiMeeting
+                                sessionId={booking.id}
+                                isOpen={!!activeSessionId}
+                                onClose={() => setActiveSessionId(null)}
+                            />
+                        )}
                     </div>
                 ))
             )}

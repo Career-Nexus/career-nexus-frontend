@@ -168,5 +168,18 @@ export const MentorServices = {
             console.error("Could not initiate payment", error);
             return { success: false, error };
         }
+    },
+    //join mentorship session
+    async joinmentorshipsession(sessionId) {
+        try {
+            const response = await api.get(`/mentor/session/join/?session=${sessionId}`);
+            if (response.data) {
+                console.log("Joined mentorship session successfully");
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.error("Could not join mentorship session", error);
+            return { success: false, error };
+        }
     }
 }
