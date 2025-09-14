@@ -1,3 +1,4 @@
+"use client"
 import { useForm } from "react-hook-form";
 import { useContext, useRef, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
@@ -224,7 +225,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
 
           {/* Bio */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Professional Headline</label>
             <textarea
               rows={3}
               {...register("bio")}
@@ -264,43 +265,46 @@ export const ExperienceModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
     formState: { errors, isSubmitting },
     reset,
     setValue,
+    watch
   } = useForm()
 
-  // Pre-populate form when editing an existing experience
   useEffect(() => {
     if (itemToEdit) {
-      // Find the experience item in the user's experience array
       const experienceItem = user.experience.find((item) => item.id === itemToEdit)
 
       if (experienceItem) {
-        // Set form values with existing experience data
         setValue("title", experienceItem.title || "")
         setValue("organization", experienceItem.organization || "")
         setValue("start_date", experienceItem.start_date ? experienceItem.start_date.split("T")[0] : "")
-        setValue("end_date", experienceItem.end_date ? experienceItem.end_date.split("T")[0] : "")
+
+        if (experienceItem.end_date === "Present") {
+          setValue("is_present", true)
+          setValue("end_date", "")
+        } else {
+          setValue("is_present", false)
+          setValue("end_date", experienceItem.end_date ? experienceItem.end_date.split("T")[0] : "")
+        }
+
         setValue("location", experienceItem.location || "")
         setValue("employment_type", experienceItem.employment_type || "")
         setValue("detail", experienceItem.detail || "")
       }
     } else {
-      // Clear form when adding new experience
       reset()
     }
   }, [itemToEdit, setValue, reset, user.experience])
 
   const onSubmit = async (data) => {
+    if (data.is_present) {
+      delete data.end_date
+      delete data.is_present
+    }
     try {
       let response
-
       if (itemToEdit) {
-        // Update existing experience
-        console.log("Updating experience with ID:", itemToEdit)
-        console.log("Update data:", data)
-
         response = await ExperienceService.updateExperience(itemToEdit, data)
         toast.success("Experience updated successfully")
       } else {
-        // Add new experience
         response = await ExperienceService.addExperience(data)
         toast.success("Experience added successfully")
       }
@@ -309,12 +313,6 @@ export const ExperienceModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
       onClose()
     } catch (error) {
       console.error("Experience Modal Error:", error.message, error.response)
-
-      // More detailed error logging
-      if (error.response && error.response.data) {
-        console.error("Error response data:", error.response.data)
-      }
-
       const errorMessage =
         error.response?.data?.message ||
         error.response?.data?.non_field_errors?.[0] ||
@@ -360,15 +358,23 @@ export const ExperienceModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
               placeholder="e.g Aug 2018"
             />
           </div>
-
           <div>
             <label className="block font-medium mb-1">End Date</label>
             <input
               type="date"
               {...register("end_date")}
               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-              placeholder="e.g Aug 2018"
+              disabled={watch("is_present")}
             />
+
+            <div className="flex items-center mt-2">
+              <input
+                type="checkbox"
+                {...register("is_present")}
+                className="mr-2"
+              />
+              <span className="text-sm">I currently work here</span>
+            </div>
           </div>
 
           <div>
@@ -382,12 +388,18 @@ export const ExperienceModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
           </div>
           <div>
             <label className="block font-medium mb-1">Employment Type</label>
-            <input
-              type="text"
+            <select
               {...register("employment_type")}
               className="w-full px-3 py-2 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-              placeholder="Onsite"
-            />
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select employment type
+              </option>
+              <option value="Onsite">Onsite</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
           </div>
           <div>
             <label className="block font-medium mb-1">Description</label>
@@ -769,8 +781,8 @@ export const AddProjectModal = ({ ModalComponent, isOpen, onClose, itemToEdit = 
       setIsSubmitting(false);
     }
   };
-  
-const handleImageChange = (e) => {
+
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 1024 * 1024) {

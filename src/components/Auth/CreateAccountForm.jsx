@@ -31,6 +31,7 @@ const CreateAccountForm = () => {
   })
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   useEffect(() => {
     console.log("Form State:", {
@@ -163,8 +164,55 @@ const CreateAccountForm = () => {
     }
   }
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked")
+  const handleGoogleSignup = () => {
+    const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
+    const redirectUri = "http://127.0.0.1:5173/signup/"
+    const scope = "openid email profile"
+    const responseType = "code"
+    const accessType = "offline"
+    const prompt = "consent"
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=${responseType}&scope=${encodeURIComponent(
+      scope
+    )}&access_type=${accessType}&prompt=${prompt}`
+
+    window.location.href = googleAuthUrl
+  }
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const code = urlParams.get("code")
+
+  if (code) {
+    setGoogleLoading(true)
+
+    const handleGoogleAuth = async () => {
+      try {
+        const response = await authService.googleSignup(code)
+        if (response.access) {
+          toast.success("Google sign-up is succesfull")
+          navigate("/success")
+        } else {
+          setErrors({ general: "Google sign-up failed. No token received." })
+        }
+      } catch (err) {
+        console.error("Google Signin Error:", err)
+        setErrors({ general: "Google sign-in failed. Please try again." })
+      } finally {
+        setGoogleLoading(false)
+      }
+    }
+
+    handleGoogleAuth()
+  }
+}, [navigate])
+  // Render
+  if (googleLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Signing you up with Google...</p>
+      </div>
+    )
   }
 
   const handleLinkedInLogin = () => {
@@ -174,7 +222,7 @@ const CreateAccountForm = () => {
   const showPasswordRequirements = isPassword1Focused && formData.password1.length > 0
 
   return (
-    <div className="max-w-md w-full mx-auto bg-white aspect-[7.8/6]">
+    <div className="max-w-2xl w-full mx-auto bg-white aspect-[7.8/6]">
       <form className="space-y-6" onSubmit={handleSubmit}>
         {apiError && (
           <Alert status="error" variant="subtle" className="rounded-md">
@@ -367,15 +415,15 @@ const CreateAccountForm = () => {
             )}
           </button>
         </div>
-
+        </form>
         {/* Social Login Options */}
         <div className="flex items-center justify-center" style={{marginTop:"0.7rem"}}>
           <span className="text-sm text-gray-500">Or continue with</span>
         </div>
         <button
           style={{marginTop:"0.7rem"}}
-          type="button"
-          onClick={handleGoogleLogin}
+          type="submit"
+          onClick={handleGoogleSignup}
           className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
         >
           <Google className="h-6 w-6 mr-2" />
@@ -401,7 +449,7 @@ const CreateAccountForm = () => {
           </p>
         </div>
         <TermsAndPrivacyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Terms and Conditions" />
-      </form>
+      
     </div>
   )
 }

@@ -106,7 +106,7 @@ export default function AllTemplate() {
   }
 
   return (
-    <div>
+    <div className="mb-16">
       {posts.map((post) => {
         const userId = post.profile.id;
         const isSelf = post.is_self;
@@ -231,12 +231,12 @@ export default function AllTemplate() {
                 {/* Parent images */}
                 <div className="mt-3 grid grid-cols-12 gap-1 overflow-hidden">
                   {post.parent.pic1 && post.parent.pic1 !== "N/A" && (
-                    <div className="col-span-6">
+                    <div className="col-span-12">
                       <img src={post.parent.pic1} alt="Parent Post Image 1" className="w-full max-h-[300px] object-cover rounded-md" />
                     </div>
                   )}
                   {(post.parent.pic2 || post.parent.pic3) && (
-                    <div className="col-span-6 flex flex-col gap-1">
+                    <div className="col-span-12 md:flex gap-1">
                       {post.parent.pic2 && post.parent.pic2 !== "N/A" && (
                         <img src={post.parent.pic2} alt="Parent Post Image 2" className="w-full h-[148px] object-cover rounded-md" />
                       )}
@@ -259,12 +259,12 @@ export default function AllTemplate() {
             {/* MAIN POST IMAGES */}
             <div className="mt-3 grid grid-cols-12 gap-1 overflow-hidden">
               {post.pic1 && post.pic1 !== "N/A" && (
-                <div className="col-span-6">
+                <div className="col-span-12">
                   <img src={post.pic1} alt="Post Image 1" className="w-full max-h-[300px] object-cover rounded-md" />
                 </div>
               )}
               {(post.pic2 || post.pic3) && (
-                <div className="col-span-6 flex flex-col gap-1">
+                <div className="col-span-12 md:flex gap-1">
                   {post.pic2 && post.pic2 !== "N/A" && (
                     <img src={post.pic2} alt="Post Image 2" className="w-full h-[148px] object-cover rounded-md" />
                   )}
@@ -287,146 +287,6 @@ export default function AllTemplate() {
           </div>
         );
       })}
-      {/* {posts.map((post) => {
-        const userId = post.profile.id;
-        const isSelf = post.is_self;
-        const canFollow = post.can_follow;
-        const isFollowing = !canFollow && !isSelf;
-        const showFollowButton = !isSelf && (canFollow || isFollowing);
-
-        return (
-          <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
-            <div className="flex gap-3 mb-2 items-center">
-              <Link to={`/person-profile/${post.profile.id}`} className="flex gap-3 mb-2 items-center">
-                <img
-                  src={post.profile?.profile_photo || "/images/profile.png"}
-                  alt="profile"
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="flex flex-col justify-center">
-                  <h3 className="font-semibold text-sm">
-                    {post.profile?.first_name || "User"} {post.profile?.last_name}
-                  </h3>
-                  <p className="font-light text-sm">{post.profile?.qualification || "User"}</p>
-                  <div className="flex items-center gap-1">
-                    <p>{formatTimeAgo(post.time_stamp)}</p>
-                    <Clock className="w-3 h-3" />
-                  </div>
-                </div>
-              </Link>
-              {showFollowButton && (
-                <button
-                  onClick={() => isFollowing ? handleUnfollow(userId) : handleFollow(userId)}
-                  className={`ml-auto px-3 py-1 text-xs rounded border flex items-center gap-1
-                  ${isFollowing
-                      ? "text-gray-500 border-gray-500 bg-gray-50"
-                      : "text-[#5DA05D] border-[#5DA05D] hover:bg-[#5DA05D] hover:text-white"
-                    }
-                `}
-                >
-                  {isFollowing ? "Following" : "Follow"}
-                </button>
-              )}
-            </div>
-
-            <p className="mb-3">
-              {expandedItems[post.post_id]
-                ? post.body
-                : post.body?.length > 200
-                  ? post.body.slice(0, 200) + "..."
-                  : post.body}
-            </p>
-            {post.body && post.body.length > 200 && (
-              <button
-                onClick={() => toggleExpand(post.post_id)}
-                className="text-[#5DA05D] hover:text-[#5DA05D] ml-1 text-sm font-medium inline-flex items-center"
-              >
-                {expandedItems[post.post_id] ? (
-                  <>
-                    <span>Hide</span>
-                    <ChevronUp className="h-3 w-3 ml-0.5" />
-                  </>
-                ) : (
-                  <>
-                    <span>More</span>
-                    <ChevronDown className="h-3 w-3 ml-0.5" />
-                  </>
-                )}
-              </button>
-            )}
-
-            {post.parent && (
-              <>
-                <p className="mb-3">
-                  {expandedItems[`${post.post_id}_parent`]
-                    ? post.parent.body
-                    : post.parent.body?.length > 200
-                      ? post.parent.body.slice(0, 200) + "..."
-                      : post.parent.body}
-                </p>
-                {post.parent.body && post.parent.body.length > 200 && (
-                  <button
-                    onClick={() => toggleExpand(post.post_id, "parent")}
-                    className="text-[#5DA05D] hover:text-[#5DA05D] ml-1 text-sm font-medium inline-flex items-center"
-                  >
-                    {expandedItems[`${post.post_id}_parent`] ? (
-                      <>
-                        <span>Hide</span>
-                        <ChevronUp className="h-3 w-3 ml-0.5" />
-                      </>
-                    ) : (
-                      <>
-                        <span>More</span>
-                        <ChevronDown className="h-3 w-3 ml-0.5" />
-                      </>
-                    )}
-                  </button>
-                )}
-              </>
-            )}
-
-
-            <div className="mt-3 grid grid-cols-12 gap-1 overflow-hidden">
-              <div className="col-span-6">
-                {(post.pic1 && post.pic1 !== "N/A") && (
-                  <img src={post.pic1} alt="Post Image 1" className="w-full max-h-[300px] object-cover rounded-md" />
-                )}
-                {post.parent?.pic1 && post.parent.pic1 !== "N/A" && (
-                  <img src={post.parent.pic1} alt="Parent Post Image 1" className="w-full max-h-[300px] object-cover rounded-md" />
-                )}
-              </div>
-              <div className="col-span-6 flex flex-col gap-1">
-                {(post.pic2 && post.pic2 !== "N/A") && (
-                  <img src={post.pic2} alt="Post Image 2" className="w-full h-[148px] object-cover rounded-md" />
-                )}
-                {(post.pic3 && post.pic3 !== "N/A") && (
-                  <img src={post.pic3} alt="Post Image 3" className="w-full h-[148px] object-cover rounded-md" />
-                )}
-                {(post.parent?.pic2 && post.parent.pic2 !== "N/A") && (
-                  <img src={post.parent.pic2} alt="Parent Post Image 2" className="w-full h-[148px] object-cover rounded-md" />
-                )}
-                {(post.parent?.pic3 && post.parent.pic3 !== "N/A") && (
-                  <img src={post.parent.pic3} alt="Parent Post Image 3" className="w-full h-[148px] object-cover rounded-md" />
-                )}
-              </div>
-            </div>
-
-
-            {(post.video && post.video !== "N/A") && (
-              <div className="mt-3 max-w-lg overflow-hidden rounded-lg border border-gray-200 p-1">
-                <video src={post.video} controls className="w-full h-[200px] object-cover" />
-              </div>
-            )}
-            {(post.parent?.video && post.parent.video !== "N/A") && (
-              <div className="mt-3 max-w-lg overflow-hidden rounded-lg border border-gray-200 p-1">
-                <video src={post.parent.video} controls className="w-full h-[200px] object-cover" />
-              </div>
-            )}
-
-            <SocialBar post={post} fetchPosts={() => fetchPosts(1)} />
-          </div>
-        );
-      })} */}
 
       {hasMore && (
         <div className="text-center my-4">

@@ -54,7 +54,7 @@ function ExperienceSection({ }) {
             <div className="border rounded-lg mb-4 p-4 relative">
                 <div className="flex gap-4">
                     <div className="flex-shrink-0">
-                        <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
+                        <div className="w-8 h-8 bg-[#5DA05D] rounded-md flex items-center justify-center">
                             {logo}
                         </div>
                     </div>
@@ -79,34 +79,16 @@ function ExperienceSection({ }) {
                             <span>{address}</span>
                         </div>
 
-                        <button
-                            onClick={() => toggleExpand(uniqueId)}
-                            className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-                        >
-                            {expandedItems[uniqueId] ? (
-                                <>
-                                    <span className="text-[#5DA05D]">Hide</span>
-                                    <ChevronUp className="h-3 w-3 ml-0.5" />
-                                </>
-                            ) : (
-                                <>
-                                    <span className="text-[#5DA05D]">More</span>
-                                    <ChevronDown className="h-3 w-3 ml-0.5" />
-                                </>
-                            )}
-                        </button>
-
-                        {expandedItems[uniqueId] && (
-                            <div className="mt-2">
-                                {typeof desc === "string" ? (
-                                    <p className="text-sm">{desc}</p>
-                                ) : (
-                                    <ul className="list-disc ml-5 text-sm">
-                                        {desc ? <li>{desc}</li> : null}
-                                    </ul>
-                                )}
-                            </div>
-                        )}
+                        <ul className="list-disc ml-5 text-sm">
+                            {/* {(Array.isArray(desc) ? desc : desc?.split(/[\n*-]/)) // split by newline, * or - */}
+                            {(Array.isArray(desc) ? desc : desc?.split(/[\n]/)) // split by newline
+                                .filter(Boolean) // remove empty strings
+                                .map((point, idx) => (
+                                    <li key={idx} className="mt-1">
+                                        {point.trim()}
+                                    </li>
+                                ))}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -124,7 +106,15 @@ function ExperienceSection({ }) {
                     key={item.id || index}
                     id={item.id || `experience-${index}`} // Pass unique id
                     itemType="experience"
-                    logo={<Company1 />}
+                    logo={
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                            {item.organization
+                                .split(" ")
+                                .map(word => word[0]?.toUpperCase())
+                                .join("")
+                                .slice(0, 2) || "?"}
+                        </div>
+                    }
                     title={item.title}
                     // status1={status2}
                     // status={"RECOMMENDED"}
@@ -146,7 +136,14 @@ function ExperienceSection({ }) {
                             key={item.id || index}
                             itemType={'education'}
                             id={item.id || `education-${index}`}
-                            logo={<Company2 />}
+                            logo={
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                                    {item.school
+                                        .split(" ")
+                                        .map(word => word[0]?.toUpperCase())
+                                        .join("")
+                                        .slice(0, 2) || "?"}
+                                </div>}
                             title={item.course}
                             initialStatus={index % 2 === 1} // Alternating for demo purposes
                             company={item.school}
@@ -166,7 +163,15 @@ function ExperienceSection({ }) {
                             key={item.id || index}
                             itemType={'certificate'}
                             id={item.id || `certification-${index}`}
-                            logo={<Company2 />}
+                            logo={
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                                    {item.title
+                                        .split(" ")
+                                        .map(word => word[0]?.toUpperCase())
+                                        .join("")
+                                        .slice(0, 2) || "?"}
+                                </div>
+                            }
                             title={item.title}
                             initialStatus={index % 2 === 0} // Alternating for demo purposes
                             company={item.school}

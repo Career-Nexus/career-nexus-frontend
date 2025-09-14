@@ -174,7 +174,7 @@ export function GetNotifications() {
       try {
         const token = authService.getAuthToken(); // 🔑 get JWT
         const response = await axios.get(
-          "https://btest.career-nexus.com/notification-chat/notifications/",
+          "https://bprod.career-nexus.com/notification-chat/notifications/",
           {
             headers: {
               Authorization: `Bearer ${token}`, // include auth
@@ -224,7 +224,7 @@ const JobNotification = () => {
 
   const token = authService.getAuthToken();
   console.log("Token used:", token);
-  const wsUrl = `wss://btest.career-nexus.com/ws/notification/?token=${encodeURIComponent(token)}`;
+  const wsUrl = `wss://bprod.career-nexus.com/ws/notification/?token=${encodeURIComponent(token)}`;
 
   useEffect(() => {
     let ws = new WebSocket(wsUrl);

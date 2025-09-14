@@ -1,5 +1,5 @@
 import { Bookmark, Copy, Ellipsis, EyeOff, FlagTriangleRight, Image, MessageCircle, MessageCircleIcon, RefreshCw, Smile, ThumbsUp, Upload, X } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PostService } from "../../../api/PostService";
 import { emojis } from "./Emoji";
 import { UserContext } from "../../../context/UserContext";
@@ -55,10 +55,10 @@ export default function SocialBar({ post, fetchPosts, }) {
             <span className="text-sm font-medium">{post.comment_count}</span>
           </button>
 
-          <button className="flex items-center space-x-2 text-gray-600 hover:text-[#5DA05D] transition-colors">
+          {/* <button className="flex items-center space-x-2 text-gray-600 hover:text-[#5DA05D] transition-colors">
             <Upload />
             <span className="text-sm font-medium">2</span>
-          </button>
+          </button> */}
         </div>
 
         <div className="flex items-center space-x-6 ml-auto">
@@ -107,6 +107,21 @@ const DropdownMenu = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSaved, setIsSaved] = useState(post.is_saved); // ✅ from backend
 
+  const dropdownRef = useRef(null);
+  
+      // Close dropdown on outside click
+      useEffect(() => {
+          function handleClickOutside(event) {
+              if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                  setIsOpen(false);
+              }
+          }
+          document.addEventListener("mousedown", handleClickOutside);
+          return () => {
+              document.removeEventListener("mousedown", handleClickOutside);
+          };
+      }, []);
+
   const handleSave = async () => {
     if (isSaved) {
       // Already saved, do nothing
@@ -134,14 +149,14 @@ const DropdownMenu = ({ post }) => {
         />
       ),
     },
-    { name: "Copy link", icon: <Copy size={18} /> },
-    { name: "Not Interested", icon: <EyeOff size={18} /> },
-    { name: "Unfollow", icon: <X /> },
-    { name: "Report Post", icon: <FlagTriangleRight /> },
+    // { name: "Copy link", icon: <Copy size={18} /> },
+    // { name: "Not Interested", icon: <EyeOff size={18} /> },
+    // { name: "Unfollow", icon: <X /> },
+    // { name: "Report Post", icon: <FlagTriangleRight /> },
   ];
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-full hover:bg-green-100"
@@ -151,7 +166,7 @@ const DropdownMenu = ({ post }) => {
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
-          <ul className="py-1">
+          {/* <ul className="py-1">
             {icons.map((item) => (
               <li key={item.name}>
                 <a
@@ -167,7 +182,32 @@ const DropdownMenu = ({ post }) => {
                 </a>
               </li>
             ))}
-          </ul>
+          </ul> */}
+          <ul className="py-1">
+  {icons.map((item) => (
+    <li key={item.name}>
+      <button
+        type="button"
+        className={`flex items-center gap-3 w-full text-left px-4 py-2 ${
+          isSaved && item.name === "Saved"
+            ? "text-[#5DA05D] cursor-not-allowed"
+            : "text-gray-700 hover:bg-green-100"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation(); // prevent closing immediately
+          if (item.name === "Save" || item.name === "Saved") {
+            handleSave();
+          }
+          setIsOpen(false); // close dropdown after action
+        }}
+        disabled={isSaved && item.name === "Saved"}
+      >
+        {item.icon}
+        {item.name}
+      </button>
+    </li>
+  ))}
+</ul>
         </div>
       )}
     </div>

@@ -177,13 +177,13 @@ export default function ExperienceSection() {
 
         <div className="flex gap-4">
           <div className="flex-shrink-0">
-            <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">{logo}</div>
+            <div className="w-8 h-8 bg-[#5DA05D] rounded-md flex items-center justify-center">{logo}</div>
           </div>
 
           <div className="flex-grow">
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
               <h3 className="font-semibold text-base">{title}</h3>
-              <StatusToggle initialStatus={initialStatus} />
+              {/* <StatusToggle initialStatus={initialStatus} /> */}
             </div>
 
             <div className="flex items-center text-sm text-gray-600 mt-1">
@@ -204,46 +204,25 @@ export default function ExperienceSection() {
                 <span>{address}</span>
               </div>
             )}
-
-            <button
-              onClick={() => toggleExpand(uniqueId)}
-              className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-            >
-              {expandedItems[uniqueId] ? (
-                <>
-                  <span className="text-[#5DA05D]">Hide</span>
-                  <ChevronUp className="h-3 w-3 ml-0.5" />
-                </>
-              ) : (
-                <>
-                  <span className="text-[#5DA05D]">More</span>
-                  <ChevronDown className="h-3 w-3 ml-0.5" />
-                </>
-              )}
-            </button>
-
-            {expandedItems[uniqueId] && (
-              <div className="mt-2">
-                {typeof desc === "string" ? (
-                  <p className="text-sm">{desc}</p>
-                ) : (
-                  <ul className="list-disc ml-5 text-sm">
-                    {desc ? <li>{desc}</li> : null}
-                    <li>Collaborated with cross-functional teams to deliver high-quality software solutions.</li>
-                    <li>Implemented responsive design principles to ensure optimal user experience.</li>
-                    <li>Participated in code reviews and provided constructive feedback.</li>
-                    <li>Utilized agile methodologies to manage workflows efficiently.</li>
-                  </ul>
-                )}
-              </div>
-            )}
+            <ul className="list-disc ml-5 text-sm">
+              {/* {(Array.isArray(desc) ? desc : desc?.split(/[\n*-]/)) // split by newline, * or - */}
+              {(Array.isArray(desc) ? desc : desc?.split(/[\n]/)) // split by newline
+                .filter(Boolean) // remove empty strings
+                .map((point, idx) => (
+                  <li key={idx} className="mt-1">
+                    {point.trim()}
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>
     )
   }
 
+
   return (
+
     <div className="w-full max-w-3xl mx-auto mt-5">
       {/* Experience Section */}
       <SectionHeader
@@ -260,7 +239,15 @@ export default function ExperienceSection() {
               key={item.id || index}
               itemType="experience"
               id={item.id || `experience-${index}`}
-              logo={<Company1 />}
+              logo={
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                  {item.organization
+                    .split(" ")
+                    .map(word => word[0]?.toUpperCase())
+                    .join("")
+                    .slice(0, 2) || "?"}
+                </div>
+              }
               title={item.title || "Unknown Title"}
               initialStatus={index % 2 === 0} // Alternating for demo purposes
               company={item.organization || "Unknown Company"}
@@ -297,7 +284,15 @@ export default function ExperienceSection() {
               key={item.id || index}
               itemType="education"
               id={item.id || `education-${index}`}
-              logo={<Company2 />}
+              logo={
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                  {item.school
+                    .split(" ")
+                    .map(word => word[0]?.toUpperCase())
+                    .join("")
+                    .slice(0, 2) || "?"}
+                </div>
+              }
               title={item.course}
               initialStatus={index % 2 === 1} // Alternating for demo purposes
               company={item.school}
@@ -334,7 +329,15 @@ export default function ExperienceSection() {
               key={item.id || index}
               itemType="certification"
               id={item.id || `certification-${index}`}
-              logo={<Company2 />}
+              logo={
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5DA05D] text-white font-bold">
+                  {item.school
+                    .split(" ")
+                    .map(word => word[0]?.toUpperCase())
+                    .join("")
+                    .slice(0, 2) || "?"}
+                </div>
+              }
               title={item.title}
               initialStatus={index % 2 === 0} // Alternating for demo purposes
               company={item.school}

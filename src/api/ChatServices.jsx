@@ -23,4 +23,14 @@ export const ChatServices = {
             return { success: false, data: [] };
         }
     },
+    async clearChat(){
+        try {
+            const response = await api.delete('/notification-chat/notifications/');
+            console.log("API raw response:", response);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.error("Error clearing chat:", error);
+            return { success: false, data: [] };
+        }
+    }
 }

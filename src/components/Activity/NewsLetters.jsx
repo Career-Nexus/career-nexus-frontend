@@ -7,18 +7,40 @@ function NewsletterPage() {
   const [subscribed, setSubscribed] = useState(false);
   const [newsletterData, setNewsletterData] = useState(null);
 
+  // const fetchSubscriptionStatus = async () => {
+  //   try {
+  //     const response = await ActivityService.getNewsletter();
+  //     console.log("Newsletter API Response:", response);
+
+  //     if (response.success && response.data) {
+  //       const { recent, archive } = response.data;
+
+  //       if (
+  //         (recent && Object.keys(recent).length > 0) ||
+  //         (archive && archive.count > 0)
+  //       ) {
+  //         setSubscribed(true);
+  //         setNewsletterData(response.data);
+  //       } else {
+  //         setSubscribed(false);
+  //       }
+  //     } else {
+  //       setSubscribed(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Newsletter API Error:", error);
+  //     setSubscribed(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchSubscriptionStatus = async () => {
     try {
       const response = await ActivityService.getNewsletter();
-      console.log("Newsletter API Response:", response);
 
       if (response.success && response.data) {
         const { recent, archive } = response.data;
-
-        if (
-          (recent && Object.keys(recent).length > 0) ||
-          (archive && archive.count > 0)
-        ) {
+        if ((recent && Object.keys(recent).length > 0) || (archive && archive.count > 0)) {
           setSubscribed(true);
           setNewsletterData(response.data);
         } else {
@@ -46,7 +68,12 @@ function NewsletterPage() {
   return subscribed ? (
     <NewsLetters data={newsletterData} />
   ) : (
-    <Subscribe />
+    <Subscribe 
+      onSubscribeSuccess={() => {
+        // 👈 After subscribe, refresh data immediately
+        fetchSubscriptionStatus();
+      }}
+    />
   );
 }
 export default NewsletterPage;

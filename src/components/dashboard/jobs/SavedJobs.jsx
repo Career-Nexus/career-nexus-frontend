@@ -7,6 +7,7 @@ import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import Locate from "../../../assets/icons/map-pin.svg"
 import Jobs from "../../../assets/icons/briefcase.svg";
 import Building from "../../../assets/icons/building.svg";
+import AllJobs from "./AllJobs";
 const jobs = [
   {
     companyLogo: <img src={logo} alt="ui/ux" className="w-10 h-10 " />,
@@ -72,7 +73,7 @@ const jobs = [
 const SavedJobs = () => {
   return (
     <div>
-      <div className="container mx-auto">
+      {/* <div className="container mx-auto">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           {jobs.map((job, index) => (
             // <JobCard key={index} {...job} />
@@ -112,7 +113,8 @@ const SavedJobs = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
+      <AllJobs />
     </div>
   )
 }

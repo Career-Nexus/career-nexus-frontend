@@ -27,7 +27,7 @@ const ProfileDetail = () => {
     ]
     return (
         <div className=''>
-            <div className='border border-gray rounded-lg my-5'>
+            <div className='border border-gray rounded-lg mb-5'>
                 <h1 className='p-3 font-semibold'>Activity</h1>
                 <div className='flex flex-col gap-4 p-3'>
                     {data.map(item => (
@@ -41,12 +41,11 @@ const ProfileDetail = () => {
                 </div>
                 {/* <a href='#' className='text-[#5DA05D] p-3'>See more...</a> */}
             </div>
-            <div className='border border-gray rounded-lg my-5'>
+            {/* <div className='border border-gray rounded-lg my-5'>
                 <h1 className='p-3 font-semibold'>Categories</h1>
                 <div className='flex flex-col gap-4 p-3'>
                     {category.map(item => (
                         <div key={item.id} className='flex items-center gap-4'>
-                            {/* <div className='w-2 h-2 bg-[#5DA05D] rounded-full'></div> */}
                             <div className='flex justify-between w-full flex-wrap'>
                                 <h3 className='text-sm md:text-lg'>{item.cat}</h3>
                                 <p className='text-xs md:text-sm'>({item.num})</p>
@@ -69,7 +68,7 @@ const ProfileDetail = () => {
                     ))}
                 </div>
                 <a href='#' className='text-[#5DA05D] p-3'>See more...</a>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Company1, Company2, Like, VideoIcon } from '../../../../../icons/icon'
-import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Building, Calendar, ChevronUp, Ellipsis } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Building, Calendar, ChevronUp, Ellipsis, Info } from 'lucide-react'
 import { EditComponent } from '../AllModal'
 import EventsHome from '../../EventsHome'
 import { UserContext } from '../../../../../context/UserContext'
@@ -13,9 +13,6 @@ import Videos from './Videos'
 import VideoTabs from './Videos'
 
 const ViewPersonProfile = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const [isHovered, setIsHovered] = useState(false)
-    const [hovered, setHovered] = useState(false)
     const { user, userwithid } = useContext(UserContext)
 
 
@@ -43,10 +40,6 @@ const ViewPersonProfile = () => {
                                     onError={(e) => (e.target.src = "/images/bg-profile.png")}
                                 />
                             </div>
-                            {/* <div onClick={() => setOpenModal(true)} className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-200 rounded-tl-lg rounded-tr-lg">
-                                <Camera className="text-white w-10 h-10" />
-                                <span className="text-white text-xl mt-2">Edit</span>
-                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -73,26 +66,30 @@ const ViewPersonProfile = () => {
                         </div>
                     </div>
                     <hr className='my-3' />
-                    <div className='mt-6 flex items-center gap-32 p-2'>
-                        <div>
-                            <h1 className='text-xl font-bold'>
+                    {/* <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between px-3 gap-6"> */}
+                    <div className="mt-6 grid grid-cols-12 md:justify-between gap-2">
+                        <div className="col-span-12 md:col-span-8">
+                            <h1 className='text-3xl font-bold'>
                                 {userwithid.first_name} {userwithid.last_name}
                             </h1>
-                            <p className='text-xs md:text-sm my-3'>
-                                {userwithid.bio}
+                            {userwithid?.bio && (
+                                <p className="text-sm md:text-lg my-3">{userwithid.bio}</p>
+                            )}
+                            <p className="text-slate-500 font-thin flex items-center gap-2">
+                                <MapPin className="w-4 h-4" />
+                                {userwithid?.location}
+                                <BriefcaseBusiness className="w-4 h-4 ml-4" />
+                                {userwithid?.position}
                             </p>
-                            <p className='text-slate-500 font-thin flex items-center gap-2'>
-                                <MapPin className='w-4 h-4' /> {userwithid.location}
-                                <BriefcaseBusiness className='w-4 h-4' /> {userwithid.current_job}
+                            <p className="text-slate-500 font-thin flex items-center gap-2">
+                                <GraduationCap className="w-4 h-4" />
+                                {userwithid?.qualification}
                             </p>
-                            <p className='text-slate-500 font-thin flex items-center gap-2'>
-                                <GraduationCap className='w-4 h-4' /> {userwithid.qualification}
+                            <p className="my-3">
+                                <span className="text-[#5DA05D] mr-2">{userwithid?.followings}</span> Following
+                                <span className="text-[#5DA05D] mx-2">{userwithid?.followers}</span> Followers
                             </p>
-                            <p className='my-3 flex'>
-                                <div><span className='text-[#5DA05D] mr-2'>{userwithid.followings}</span> Following</div>
-                                <div><span className='text-[#5DA05D] mx-2'>{userwithid.followers}</span> Followers</div>
-                            </p>
-                            <div className='flex gap-2 mb-2'>
+                            {/* <div className='flex gap-2 mb-2'>
                                 {userwithid.user_type === "learner" ? (
                                     <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
                                         <UserPlus className='w-4 h-4' />
@@ -106,30 +103,26 @@ const ViewPersonProfile = () => {
                                         </div>
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
-                        <div className='flex items-center justify-center' >
-                            <div className='relative'>
-                                {userwithid.user_type === "learner" ? (
-                                    <div className='w-full h-44'>
-                                        <video
-                                            src={userwithid.intro_video}
-                                            controls
-                                            // className="rounded-lg max-w-xs w-80 h-36"
-                                            className='h-full rounded-lg mt-16 mr-8 max-w-2xl bg-cover'
-                                        />
-                                    </div>
+                        <div className='flex flex-col col-span-12 md:col-span-4'>
+
+                            <div className='md:flex justify-end mb-2 ml-auto'>
+                                {userwithid?.intro_video ? (
+                                    <video
+                                        src={userwithid.intro_video}
+                                        controls
+                                        className="rounded-lg max-w-xs w-[90%]"
+                                    />
                                 ) : (
                                     <div>
-                                        <div className='w-full h-auto'>
-                                            <img src="/images/profile2.png" alt="video stream" className='relative w-80 h-36 rounded-lg mt-16 mr-8' />
-                                        </div>
-                                        <div className='absolute inset-0 flex flex-col items-center justify-center mt-12'>
-                                            <VideoIcon />
-                                        </div>
+                                        <img
+                                            src="/images/video1.png"
+                                            alt="video stream"
+                                            className="rounded-lg max-w-xs w-[90%]"
+                                        />
                                     </div>
-                                )
-                                }
+                                )}
                             </div>
                         </div>
                     </div>
@@ -162,7 +155,7 @@ function ProfileTabs() {
     }
 
     return (
-        <div className="w-full max-w-6xl mx-auto pt-4">
+        <div className="w-full max-w-6xl mx-auto py-4">
             {/* Tabs navigation with scroll buttons for mobile */}
             <div className="relative">
                 <button

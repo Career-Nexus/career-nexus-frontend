@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState } from "react";
+import AllJobs from '../dashboard/jobs/AllJobs';
 
 function VideoTutorial() {
   return (
     <div>
-      <Video />
+      {/* <Video /> */}
+      <AllJobs />
     </div>
   )
 }

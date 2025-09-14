@@ -48,6 +48,7 @@ import Booked from '../pages/mentorship/Booked'
 import PaymentSuccess from '../components/dashboard/mentorship/PaymentSuccess'
 import PaymentFailure from '../components/dashboard/mentorship/PaymentFailure'
 import { NotificationProvider } from '../context/NotificationContext'
+import Vault from '../pages/activities/Vault'
 
 
 
@@ -407,6 +408,14 @@ const Router = () => {
           }
         />
         <Route
+          path='/nexus-vault'
+          element={
+            <ProtectedRoute>
+              <Vault/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/settings'
           element={
             <ProtectedRoute>
@@ -433,12 +442,12 @@ const Router = () => {
               <HelpCenter />
             </ProtectedRoute>
           }
-        >
-          <Route path='help' element={<SubmitTicket />} />
-          <Route path='started' element={<GettingStarted />} />
-          <Route path="shooting" element={<TroubleShooting />} />
-          <Route path="tutorial" element={<VideoTutorial />} />
-          <Route path="glossary" element={<Glossary />} />
+        > */}
+          {/* <Route path='help' element={<SubmitTicket />} /> */}
+          {/* <Route path='started' element={<GetStarted />} />
+          <Route path="shooting" element={<TroubleShoot />} />
+          <Route path="tutorial" element={<VideoTutorials />} />
+          <Route path="glossary" element={<Glossarys />} />
         </Route> */}
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
@@ -446,8 +455,6 @@ const Router = () => {
         {/* Catch all - redirect to home or login */}
         {/* <Route path="*" element={<RootRedirect />} /> */}
 
-        {/* Error page */}
-        {/* <Route path="*" element={<ErrorPage />} /> */}
         <Route
           path="*"
           element={

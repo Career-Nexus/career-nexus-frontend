@@ -37,8 +37,8 @@ const Profile = () => {
             {
                 user.user_type === "learner" ? (
                     <div className=''>
-                        <div className='border border-gray rounded-lg'>
-                            <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
+                        <div className='md:border border-gray rounded-lg'>
+                            <Link to={'/profilepage'} className='md:border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
                                 <div className='flex items-center justify-between min-h-32 mx-2 '>
                                     <div className='mr-2'>
                                         <img src={user.profile_photo} alt="profile picture"
@@ -64,14 +64,12 @@ const Profile = () => {
                                     </div>
                                 ))}
                             </div>
-                            {/* <a href='#' className='text-[#5DA05D] p-3'>See more...</a> */}
                         </div>
-                        <div className='border border-gray rounded-lg my-5'>
+                        {/* <div className='border border-gray rounded-lg my-5'>
                             <h1 className='p-3 font-bold'>Top Categories</h1>
                             <div className='flex flex-col gap-4 p-3'>
                                 {category.map(item => (
                                     <div key={item.id} className='flex items-center gap-4'>
-                                        {/* <div className='w-2 h-2 bg-[#5DA05D] rounded-full'></div> */}
                                         <div className='flex justify-between w-full flex-wrap'>
                                             <h3 className='text-sm md:text-lg'>{item.cat}</h3>
                                             <p className='text-xs md:text-sm'>({item.num})</p>
@@ -99,12 +97,12 @@ const Profile = () => {
                                 </Link>
                             </div>
 
-                        </div>
+                        </div> */}
 
                     </div>
                 ) : (
                     <div className='hidden md:block'>
-                        <Link to={'/profilepage'} className='border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
+                        <Link to={'/profilepage'} className='md:border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                             <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
                             <div className='flex items-center justify-between min-h-24 mx-2 '>
                                 <div className='mr-2'>
@@ -118,7 +116,7 @@ const Profile = () => {
                                 {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                             </div>
                         </Link>
-                        <div className='border border-gray rounded-lg my-5 p-5'>
+                        {/* <div className='border border-gray rounded-lg my-5 p-5'>
                             <h1 className='p-3 font-semibold text-2xl'>My Mentees</h1>
                             <div className='flex flex-col gap-4 mb-5'>
                                 {mentors.map(item => (
@@ -131,13 +129,11 @@ const Profile = () => {
                                     </div>
                                 ))}
                             </div>
-                            {/* <div className='border border-[#5DA05D] w-full items-center rounded-lg'>
-                                <a href='#' className='text-[#5DA05D] p-3'>See more...</a>
-                            </div> */}
+
                             <Link to={'#'} className='text-[#5DA05D] hover:text-[#5DA05D] flex gap-2 items-center justify-center border border-[#5DA05D] rounded-lg p-2 font-medium text-sm'>
                                 <span>See more...</span>
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                 )
             }

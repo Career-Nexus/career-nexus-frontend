@@ -4,11 +4,13 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Business, Email, Home, Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { Bell, ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle } from 'lucide-react';
+import { Bell, ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle, X } from 'lucide-react';
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
 import { useNotifications } from '../../context/NotificationContext';
 import { GetNotifications } from '../dashboard/jobs/JobNotification';
+import { toast } from 'react-toastify';
+import { ChatServices } from '../../api/ChatServices';
 
 
 const MainNavbar = () => {
@@ -62,13 +64,6 @@ const MainNavbar = () => {
         return location.pathname === path;
     }
 
-    // const clearSearch = () => {
-    //     setSearchQuery("")
-    //     setSearchTriggered(false)
-    //     setSearchUser([])
-    // }
-
-
     // 🔒 Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -119,9 +114,9 @@ const MainNavbar = () => {
                     </button>
 
                     {/* Logo for small and medium screens */}
-                    <div className='block md:hidden h-12 w-auto'>
-                        <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-10 w-auto' />
-                    </div>
+                    {/* <div className='block md:hidden h-8 w-auto '>
+                        <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-8 w-auto' />
+                    </div> */}
                     <div className='hidden md:block h-16 w-16 md:h-20 md:w-20 object-center item-center '>
                         <div className='hidden md:block bg-cover items-center mt-2' style={{ backgroundImage: "url('/images/cnlogonew.png')", height: "60px", width: "80px" }}>
                         </div>
@@ -262,18 +257,18 @@ const MainNavbar = () => {
                     <Link
                         to='#'
                         // to='/notifications'
-                        className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''}`}
+                        className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''} hidden md:flex `}
                     >
                         {/* <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} /> */}
                         <Notify className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
                         <div className='h-3 w-3 rounded-full bg-red-600 absolute top-4 ml-3 p-1'></div>
-                        <span className='absolute font-bold top-[14px] ml-3 text-white' style={{ fontSize: "9px" }}>2</span>
+                        {/* <span className='absolute font-bold top-[14px] ml-3 text-white' style={{ fontSize: "9px" }}>2</span> */}
                     </Link>
 
                     {/* User Name and Dropdown Menu */}
                     <div className=" ml-1 md:ml-0  flex items-center">
                         <div className="relative flex gap-2 items-center">
-                            <div>
+                            <div className='hidden md:block'>
                                 <button>
                                     <span className="sr-only">Open user menu</span>
                                     <Link to={'/profilepage'} className="mx-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center text-indigo-800 font-semibold">
@@ -359,19 +354,14 @@ const MainNavbar = () => {
                     {/* Sidebar content */}
                     <div className="relative bg-white w-52 max-w-full h-full shadow-lg p-4 overflow-y-auto">
                         {/* Close button */}
+                        <div className='block md:hidden h-8 w-auto '>
+                            <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-8 w-auto' />
+                        </div>
                         <button
                             className="absolute top-4 right-4"
                             onClick={() => setIsProfileOpen(false)}
                         >
-                            <svg
-                                className="w-6 h-6 text-gray-700"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <X className="w-6 h-6 text-gray-700" />
                         </button>
 
                         {/* Profile Component here */}
@@ -387,51 +377,83 @@ const MainNavbar = () => {
 
 export default MainNavbar
 
-function Notify() {
-  const { notifications } = useNotifications();
-  const [open, setOpen] = useState(false);
+export function Notify() {
+    const { notifications } = useNotifications();
+    const [open, setOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const dropdownRef = useRef(null);
 
-  return (
-    <nav className="">
+    // Detect screen size
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 640); // Tailwind "sm" breakpoint
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-      <div className="relative">
-        <button
-          onClick={() => setOpen(!open)}
-          className="relative p-2 rounded-full hover:bg-gray-100"
-        >
-          <Bell className="w-6 h-6 text-gray-700" />
-          {notifications.length > 0 && (
-            <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-              {notifications.length}
-            </span>
-          )}
-        </button>
+    // Close dropdown on outside click
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
-        {open && (
-          <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50">
-            <div className="max-h-80 overflow-y-auto">
-              {notifications.length === 0 ? (
-                <p className="p-4 text-gray-600 text-sm"></p>
-                // <p className="p-4 text-gray-600 text-sm">No notifications</p>
-              ) : (
-                notifications.map((n) => (
-                  <div key={n.id} className="p-3 border-b hover:bg-gray-50">
-                    <p className="text-sm font-medium text-gray-800">
-                      {n.type === "job" ? "New Job Alert!" : `${n.user} mentioned you`}
-                    </p>
-                    <p className="text-xs text-gray-600">{n.message}</p>
-                    <p className="text-[10px] text-gray-400">{n.time || new Date().toLocaleTimeString()}</p>
-                  </div>
-                ))
-              )}
+    const ClearNotification = async () => {
+        const { success } = await ChatServices.clearChat();
+        if (success) {
+            toast.success("Notifications cleared successfully");
+        }
+    };
+
+    return (
+        <nav>
+            <div className="relative" ref={dropdownRef}>
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="relative p-2 rounded-full hover:md:bg-gray-100"
+                >
+                    <Bell className="w-6 h-6 text-gray-700" />
+                    {notifications.length > 0 && (
+                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                            {notifications.length}
+                        </span>
+                    )}
+                </button>
+
+                {open && (
+                    <div
+                        className={`absolute w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50 
+                        ${isMobile ? "bottom-full mb-2 right-0" : "top-full mt-2 right-0"}`}
+                    >
+                        <div className="max-h-80 overflow-y-auto">
+                            {notifications.length === 0 ? (
+                                <p className="p-4 text-gray-600 text-sm">No notifications</p>
+                            ) : (
+                                notifications.map((n) => (
+                                    <div key={n.id} className="p-3 border-b hover:bg-gray-50">
+                                        <p className="text-sm font-medium text-gray-800">
+                                            {n.type === "job" ? "New Job Alert!" : `${n.user} mentioned you`}
+                                        </p>
+                                        <p className="text-xs text-gray-600">{n.message}</p>
+                                        <p className="text-[10px] text-gray-400">{n.time || new Date().toLocaleTimeString()}</p>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                        <div onClick={ClearNotification} className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
+                            Clear All Notifications
+                        </div>
+                    </div>
+                )}
             </div>
-            <GetNotifications />
-            <div className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
-              View all notifications
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
+        </nav>
+    );
 }

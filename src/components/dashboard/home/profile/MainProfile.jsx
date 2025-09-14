@@ -62,6 +62,8 @@ const ProfileCover = () => {
       {/* Cover */}
       <div
         className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
+        onMouseEnter={() => setIsCoverHovered(true)}
+        onMouseLeave={() => setIsCoverHovered(false)}
       >
         <img
           src={previewCover || user.cover_photo || "/images/bg-profile.png"}
@@ -85,10 +87,11 @@ const ProfileCover = () => {
           </div>
         )}
       </div>
-
       {/* Profile */}
       <div
         className="relative w-32 h-32"
+        onMouseEnter={() => setIsProfileHovered(true)}
+        onMouseLeave={() => setIsProfileHovered(false)}
       >
         <img
           src={previewProfile || user.profile_photo || "/images/profile.png"}
@@ -121,16 +124,9 @@ const ProfileCover = () => {
 const MainProfile = () => {
   const [openModal, setOpenModal] = useState(false);
   const { user, loading } = useContext(UserContext);
-  //const [profileCompletion, setProfileCompletion] = useState(0);
   const { profileCompletion, setProfileCompletion } = useContext(ProfileContext);
   const [openIntroVideo, setOpenIntroVideo] = useState(false);
 
-  //  const handleCompletionChange = (completion) => {
-  //     setProfileCompletion(completion);
-  //     if (completion === 100) {
-  //         setIsModalOpen(false); // Hide WelcomeModal when completion is 100%
-  //     }
-  // };
   const handleCompletionChange = (completion) => {
     setProfileCompletion(completion); // shared state
   };
@@ -139,13 +135,13 @@ const MainProfile = () => {
     <div>
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
         <ProfileCover />
-        <div className="flex justify-end px-3 mt-[-30px]">
+        <div className="flex justify-end px-3 -mt-6">
           <button
             onClick={() => setOpenModal(true)}
-            className="rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 md:px-4 px-2 mt-2 flex items-center gap-1 md:h-10 h-7"
+            className="flex items-center gap-2 rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition"
           >
-            <Edit className="text-[#5DA05D] h-4 w-4" />
-            <p className="text-[#5DA05D] md:text-sm text-xs">Edit Profile</p>
+            <Edit className="text-[#5DA05D] h-5 w-5" />
+            <span className="text-[#5DA05D] md:text-sm text-xs">Edit Profile</span>
           </button>
         </div>
 
@@ -181,7 +177,7 @@ const MainProfile = () => {
 
           <div className='flex flex-col'>
 
-            <div className='flex justify-end mb-2 ml-auto'>
+            <div className='md:flex justify-end mb-2 ml-auto'>
               {user?.intro_video ? (
                 <video
                   src={user.intro_video}
@@ -190,7 +186,7 @@ const MainProfile = () => {
                 />
               ) : (
                 <div>
-                  <div className='flex justify-end mb-2'>
+                  <div className='md:flex justify-end mb-2'>
                     <Info onClick={() => setOpenIntroVideo(true)} className='w-5 h-5 cursor-pointer text-[#5DA05D]' />
                   </div>
                   <img
@@ -205,11 +201,6 @@ const MainProfile = () => {
         </div>
       </div>
 
-      {/* {profileCompletion < 100 && <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />} */}
-      <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />
-
-      <ProfileTabs />
-
       <EditComponent
         ModalComponent={ReusableModal}
         isOpen={openModal}
@@ -217,13 +208,19 @@ const MainProfile = () => {
       />
 
       <IntroVideoModal open={openIntroVideo} onClose={() => setOpenIntroVideo(false)} />
+
+      {profileCompletion < 100 && (
+        <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />
+      )}
+
+      <ProfileTabs />
     </div>
   );
 };
 
 export default MainProfile;
 
-const ProfileProgressDropdown = ({ onCompletionChange }) => {
+export const ProfileProgressDropdown = ({ onCompletionChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [completionData, setCompletionData] = useState({
     completion: 0,

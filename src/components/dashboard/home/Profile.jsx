@@ -45,7 +45,7 @@ const Profile = () => {
                             </div>
                             <div className='flex flex-col'>
                                 <h1 className='font-bold text-xl '>{user.first_name} {user.last_name}</h1>
-                                <p className='text-sm text-gray-400'>{user?.qualification}</p>
+                                <p className='text-sm text-gray-400'>{user?.position}</p>
                             </div>
                             {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                         </div>
@@ -90,7 +90,7 @@ const Profile = () => {
                         </div>
                     </Link>
                     <div className='border border-gray rounded-lg my-5'>
-                        <h1 className='p-3 font-semibold'>Activity</h1>
+                        {/* <h1 className='p-3 font-semibold'>Activity</h1> */}
                         <div className='flex flex-col gap-4 p-3'>
                             {mentorData.map(item => {
                                 const isActive = activeId === item.id;
@@ -111,7 +111,7 @@ const Profile = () => {
                             
                         </div>
                     </div>
-                    <div className='border border-gray rounded-lg my-5'>
+                    {/* <div className='border border-gray rounded-lg my-5'>
                         <h1 className='p-3 font-bold text-2xl'>Trending Topics</h1>
                         <div className='flex flex-col gap-4 p-3'>
                             {trend.map(item => (
@@ -126,7 +126,7 @@ const Profile = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                     
                 </div>
             )}

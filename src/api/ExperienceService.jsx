@@ -138,15 +138,25 @@ export const ExperienceService = {
       console.log("Could not fetch project");
     }
   },
-  async getOthersProjects(productId) {
+  async getPortfolioById(portfolioId) {
     try {
-      const response = await api.get(`/project/?portfolio_id=${productId}`)
+      const response = await api.get(`/project/${portfolioId}/`)
       console.log("Others project fetched", response.data);
       return ({ success: true, data: response.data })
     } catch (error) {
       console.log("Could not fetch others project");
     }
   },
+  async getOthersProjects(userId) {
+  try {
+    const response = await api.get(`/project/?user_id=${userId}`);
+    console.log("Others project fetched", response.data);
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error("Could not fetch others project", error);
+    return { success: false, data: [] };
+  }
+},
   async deleteProject(productId) {
     try {
       const response = await api.delete(`/project/?portfolio_id=${productId}`)

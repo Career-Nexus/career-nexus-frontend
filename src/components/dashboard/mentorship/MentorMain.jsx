@@ -156,17 +156,27 @@ const MentorCard = ({ mentor }) => {
             <span>{mentor.session_rate}</span>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-between mt-2 p-4">
+        {/* <div className="flex flex-wrap items-center justify-between mt-2 p-4">
           {mentor.technical_skills?.slice(0, 4).map((skill, idx) => (
             <span key={idx} className="bg-[#2A0D471A] px-4 rounded-lg">
               {skill}
             </span>
           ))}
+        </div> */}
+        <div className="flex flex-wrap items-center justify-between mt-2 p-4">
+          {(Array.isArray(mentor.technical_skills) ? mentor.technical_skills.slice(0, 4) : []).map(
+            (skill, idx) => (
+              <span key={idx} className="bg-[#2A0D471A] px-4 rounded-lg">
+                {skill}
+              </span>
+            )
+          )}
         </div>
         <div className="flex items-center justify-center gap-5 my-5">
           <button
             onClick={openModal}
-            disabled={mentorSession.includes(mentor.id)}
+            // disabled={mentorSession.includes(mentor.id)}
+            disabled
             className={`py-2 px-4 border ${mentorSession.includes(mentor.id)
               ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
               : "bg-[#5DA05D] text-white"
@@ -174,15 +184,10 @@ const MentorCard = ({ mentor }) => {
           >
             {mentorSession.includes(mentor.id) ? "Pending..." : "Book Session"}
           </button>
-          {/* <button
-            onClick={handleSave}
-           className={`rounded-lg flex gap-2 ${saveMentor ? "py-2 px-4 border-2 border-[#5DA05D] text-[#5DA05D] ":"text-gray-600 cursor-pointer"}`}>
-            <Bookmark />
-            Save
-          </button> */}
           <button
             onClick={handleSave}
-            disabled={saveMentor}
+            // disabled={saveMentor}
+            disabled
             className={`rounded-lg flex gap-2 py-2 px-4 border-2 ${saveMentor
               ? "border-[#5DA05D] text-[#5DA05D] cursor-not-allowed"
               : "border-gray-400 text-gray-600 hover:border-[#5DA05D] hover:text-[#5DA05D]"
@@ -262,6 +267,239 @@ const MentorCard = ({ mentor }) => {
   );
 };
 
+// const MentorMain = () => {
+//   // State management
+//   const [loading, setLoading] = useState(false)
+//   const [recommendmentor, setRecommendmentor] = useState([])
+//   const [searchMentor, setSearchMentor] = useState([])
+//   const [searchTriggered, setSearchTriggered] = useState(false)
+//   const [hasMore, setHasMore] = useState(false)
+//   const [nextPage, setNextPage] = useState(1)
+//   const [error, setError] = useState(null)
+
+//   // Search parameters
+//   const [searchQuery, setSearchQuery] = useState("")
+//   const [availability, setAvailability] = useState("")
+//   const [experienceLevel, setExperienceLevel] = useState("")
+//   const [skills, setSkills] = useState("")
+
+//   // Get user from context
+//   const { userwithid, user } = useContext(UserContext)
+//   // const user = userwithid || { user_type: "mentor" } // fallback
+
+//   const getRecommendedMentors = async (page = 1) => {
+//     setLoading(true)
+//     try {
+//       const { success, data } = await MentorServices.recommendedmentors({ page })
+//       const isArray = Array.isArray(data?.results) ? data.results : []
+//       setRecommendmentor((prev) => (page === 1 ? isArray : [...prev, ...isArray]))
+
+//       if (data?.next) {
+//         const url = new URL(data.next)
+//         const nextPageNumber = url.searchParams.get("page")
+//         setNextPage(Number(nextPageNumber))
+//         setHasMore(true)
+//       } else {
+//         setHasMore(false)
+//       }
+
+//       setError(null)
+//     } catch (error) {
+//       console.log("could not fetch recommended mentors", error)
+//       setError("Error occurred while fetching recommended mentors")
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   const SearchMentors = async () => {
+//     setLoading(true)
+//     setSearchTriggered(true)
+
+//     try {
+//       const params = {}
+
+//       // Build search parameters
+//       if (searchQuery.trim()) {
+//         params.text = searchQuery.trim()
+//       }
+//       if (availability) {
+//         params.availability = availability.toLowerCase()
+//       }
+//       if (experienceLevel) {
+//         params.experience_level = experienceLevel.toLowerCase()
+//       }
+//       if (skills) {
+//         params.skills = skills.toLowerCase()
+//       }
+
+//       console.log("Search params:", params)
+
+//       const { success, data } = await MentorServices.searchmentors(params)
+//       setSearchMentor(success ? data.results : [])
+//     } catch (error) {
+//       console.error("Search failed", error)
+//       setSearchMentor([])
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   // Clear search and return to recommended mentors
+//   const clearSearch = () => {
+//     setSearchQuery("")
+//     setAvailability("")
+//     setExperienceLevel("")
+//     setSkills("")
+//     setSearchTriggered(false)
+//     setSearchMentor([])
+//   }
+
+//   useEffect(() => {
+//     getRecommendedMentors()
+//   }, [])
+
+//   const handleLoadMore = () => {
+//     if (hasMore) {
+//       fetchPosts(nextPage);
+//     }
+//   };
+//   if (loading && recommendmentor.length === 0) {
+//     return (
+//       <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+//         <Spinner size="lg" color="#5DA05D" thickness="4px" />
+//       </Box>
+//     )
+//   }
+
+//   return (
+//     <div className="bg-white p-4">
+//       {user.user_type === "learner" ? (
+//         <div>
+//           {/* Search Section */}
+//           <div className="mb-6">
+//             <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
+//               <div className="flex items-center pl-3">
+//                 <Search className="w-4 h-4 text-gray-400" />
+//               </div>
+//               <input
+//                 type="text"
+//                 placeholder="Search mentors by name or expertise"
+//                 value={searchQuery}
+//                 onChange={(e) => setSearchQuery(e.target.value)}
+//                 className="flex-grow py-2 px-3 border-0 focus:outline-none focus:ring-0 w-full"
+//               />
+//             </div>
+
+//             <div className="flex items-center gap-3 flex-wrap">
+//               <Dropdown
+//                 label="Experience Level"
+//                 options={["entry", "mid", "senior", "executive"]}
+//                 value={experienceLevel}
+//                 onChange={(value) => {
+//                   console.log("Experience selected:", value)
+//                   setExperienceLevel(value)
+//                 }}
+//               />
+
+//               <Dropdown
+//                 label="All Skills"
+//                 options={["tech", "finance", "health"]}
+//                 value={skills}
+//                 onChange={(value) => {
+//                   console.log("Skills selected:", value)
+//                   setSkills(value)
+//                 }}
+//               />
+
+//               <Dropdown
+//                 label="Availability"
+//                 options={["weekdays", "weekends"]}
+//                 value={availability}
+//                 onChange={(value) => {
+//                   console.log("Availability selected:", value)
+//                   setAvailability(value)
+//                 }}
+//               />
+
+//               <button
+//                 onClick={SearchMentors}
+//                 disabled={loading}
+//                 className="px-5 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4a8f4a] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+//               >
+//                 {loading ? "Searching..." : "Search"}
+//               </button>
+
+//               {searchTriggered && (
+//                 <button
+//                   onClick={clearSearch}
+//                   className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm"
+//                 >
+//                   Clear
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//           {recommendmentor.length === 0 ? (
+//             <Box textAlign="center" py={28} className="shadow-lg">
+//               <p className="text-gray-500 text-lg">
+//                 Recommended Mentors based on your interest will be displayed here!
+//               </p>
+//             </Box>
+//           ) : (
+//             <div>
+//               {/* Results Section */}
+//               <div>
+//                 <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+//                   {searchTriggered ? (
+//                     searchMentor.length > 0 ? (
+//                       searchMentor.map((mentor) => (
+//                         <div key={mentor.id} className="col-span-1">
+//                           <MentorCard mentor={mentor} />
+//                         </div>
+//                       ))
+//                     ) : (
+//                       <div className="col-span-2 text-center py-8">
+//                         <p className="text-gray-500 text-lg">No mentors found matching your criteria</p>
+//                         <button onClick={clearSearch} className="mt-2 text-[#5DA05D] hover:underline">
+//                           View all recommended mentors
+//                         </button>
+//                       </div>
+//                     )
+//                   ) : (
+//                     recommendmentor.map((mentor) => (
+//                       <div key={mentor.id} className="col-span-1">
+//                         <MentorCard mentor={mentor} />
+//                       </div>
+//                     ))
+//                   )}
+//                 </div>
+
+//                 {/* Load More Button - only show for recommended mentors */}
+//                 {!searchTriggered && (
+//                   <div className="flex justify-center mt-6">
+//                     {hasMore && (
+//                       <button
+//                         onClick={() => getRecommendedMentors(nextPage)}
+//                         disabled={loading}
+//                         className="px-6 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-[#5DA05D] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+//                       >
+//                         {loading ? "Loading..." : "Load More"}
+//                       </button>
+//                     )}
+//                   </div>
+//                 )}
+//               </div>
+
+//             </div>
+//           )}
+//         </div>
+//       ) : (
+//         <MentorshipRequests />
+//       )}
+//     </div>
+//   )
+// }
 const MentorMain = () => {
   // State management
   const [loading, setLoading] = useState(false)
@@ -279,14 +517,15 @@ const MentorMain = () => {
   const [skills, setSkills] = useState("")
 
   // Get user from context
-  const { userwithid, user } = useContext(UserContext)
-  // const user = userwithid || { user_type: "mentor" } // fallback
+  const { user } = useContext(UserContext)
 
+  // Fetch recommended mentors
   const getRecommendedMentors = async (page = 1) => {
     setLoading(true)
     try {
       const { success, data } = await MentorServices.recommendedmentors({ page })
       const isArray = Array.isArray(data?.results) ? data.results : []
+
       setRecommendmentor((prev) => (page === 1 ? isArray : [...prev, ...isArray]))
 
       if (data?.next) {
@@ -300,38 +539,26 @@ const MentorMain = () => {
 
       setError(null)
     } catch (error) {
-      console.log("could not fetch recommended mentors", error)
+      console.error("could not fetch recommended mentors", error)
       setError("Error occurred while fetching recommended mentors")
     } finally {
       setLoading(false)
     }
   }
 
+  // Search mentors
   const SearchMentors = async () => {
     setLoading(true)
     setSearchTriggered(true)
-
     try {
       const params = {}
-
-      // Build search parameters
-      if (searchQuery.trim()) {
-        params.text = searchQuery.trim()
-      }
-      if (availability) {
-        params.availability = availability.toLowerCase()
-      }
-      if (experienceLevel) {
-        params.experience_level = experienceLevel.toLowerCase()
-      }
-      if (skills) {
-        params.skills = skills.toLowerCase()
-      }
-
-      console.log("Search params:", params)
+      if (searchQuery.trim()) params.text = searchQuery.trim()
+      if (availability) params.availability = availability.toLowerCase()
+      if (experienceLevel) params.experience_level = experienceLevel.toLowerCase()
+      if (skills) params.skills = skills.toLowerCase()
 
       const { success, data } = await MentorServices.searchmentors(params)
-      setSearchMentor(success ? data.results : [])
+      setSearchMentor(success ? data.results ?? [] : [])
     } catch (error) {
       console.error("Search failed", error)
       setSearchMentor([])
@@ -340,7 +567,7 @@ const MentorMain = () => {
     }
   }
 
-  // Clear search and return to recommended mentors
+  // Clear search
   const clearSearch = () => {
     setSearchQuery("")
     setAvailability("")
@@ -354,12 +581,7 @@ const MentorMain = () => {
     getRecommendedMentors()
   }, [])
 
-  const handleLoadMore = () => {
-    if (hasMore) {
-      fetchPosts(nextPage);
-    }
-  };
-  if (loading && recommendmentor.length === 0) {
+  if (loading && !searchTriggered && recommendmentor.length === 0) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="200px">
         <Spinner size="lg" color="#5DA05D" thickness="4px" />
@@ -369,9 +591,9 @@ const MentorMain = () => {
 
   return (
     <div className="bg-white p-4">
-      {user.user_type === "learner" ? (
+      {user?.user_type === "learner" ? (
         <div>
-          {/* Search Section */}
+          {/* 🔍 Search Section */}
           <div className="mb-6">
             <div className="flex items-center w-full max-w-2xl border border-gray-300 rounded-lg overflow-hidden mb-4">
               <div className="flex items-center pl-3">
@@ -391,30 +613,19 @@ const MentorMain = () => {
                 label="Experience Level"
                 options={["entry", "mid", "senior", "executive"]}
                 value={experienceLevel}
-                onChange={(value) => {
-                  console.log("Experience selected:", value)
-                  setExperienceLevel(value)
-                }}
+                onChange={(value) => setExperienceLevel(value)}
               />
-
               <Dropdown
                 label="All Skills"
                 options={["tech", "finance", "health"]}
                 value={skills}
-                onChange={(value) => {
-                  console.log("Skills selected:", value)
-                  setSkills(value)
-                }}
+                onChange={(value) => setSkills(value)}
               />
-
               <Dropdown
                 label="Availability"
                 options={["weekdays", "weekends"]}
                 value={availability}
-                onChange={(value) => {
-                  console.log("Availability selected:", value)
-                  setAvailability(value)
-                }}
+                onChange={(value) => setAvailability(value)}
               />
 
               <button
@@ -435,7 +646,9 @@ const MentorMain = () => {
               )}
             </div>
           </div>
-          {recommendmentor.length === 0 ? (
+
+          {/* Results Section */}
+          {(recommendmentor.length === 0 && !searchTriggered) ? (
             <Box textAlign="center" py={28} className="shadow-lg">
               <p className="text-gray-500 text-lg">
                 Recommended Mentors based on your interest will be displayed here!
@@ -443,49 +656,46 @@ const MentorMain = () => {
             </Box>
           ) : (
             <div>
-              {/* Results Section */}
-              <div>
-                <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {searchTriggered ? (
-                    searchMentor.length > 0 ? (
-                      searchMentor.map((mentor) => (
-                        <div key={mentor.id} className="col-span-1">
-                          <MentorCard mentor={mentor} />
-                        </div>
-                      ))
-                    ) : (
-                      <div className="col-span-2 text-center py-8">
-                        <p className="text-gray-500 text-lg">No mentors found matching your criteria</p>
-                        <button onClick={clearSearch} className="mt-2 text-[#5DA05D] hover:underline">
-                          View all recommended mentors
-                        </button>
-                      </div>
-                    )
-                  ) : (
-                    recommendmentor.map((mentor) => (
+              <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                {searchTriggered ? (
+                  searchMentor.length > 0 ? (
+                    searchMentor.map((mentor) => (
                       <div key={mentor.id} className="col-span-1">
                         <MentorCard mentor={mentor} />
                       </div>
                     ))
-                  )}
-                </div>
-
-                {/* Load More Button - only show for recommended mentors */}
-                {!searchTriggered && (
-                  <div className="flex justify-center mt-6">
-                    {hasMore && (
+                  ) : (
+                    <div className="col-span-2 text-center py-8">
+                      <p className="text-gray-500 text-lg">No mentors found matching your criteria</p>
                       <button
-                        onClick={() => getRecommendedMentors(nextPage)}
-                        disabled={loading}
-                        className="px-6 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-[#5DA05D] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={clearSearch}
+                        className="mt-2 text-[#5DA05D] hover:underline"
                       >
-                        {loading ? "Loading..." : "Load More"}
+                        View all recommended mentors
                       </button>
-                    )}
-                  </div>
+                    </div>
+                  )
+                ) : (
+                  recommendmentor.map((mentor) => (
+                    <div key={mentor.id} className="col-span-1">
+                      <MentorCard mentor={mentor} />
+                    </div>
+                  ))
                 )}
               </div>
 
+              {/* Load More Button */}
+              {!searchTriggered && hasMore && (
+                <div className="flex justify-center mt-6">
+                  <button
+                    onClick={() => getRecommendedMentors(nextPage)}
+                    disabled={loading}
+                    className="px-6 py-2 border border-[#5DA05D] text-[#5DA05D] rounded-lg hover:bg-[#5DA05D] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? "Loading..." : "Load More"}
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -495,6 +705,4 @@ const MentorMain = () => {
     </div>
   )
 }
-
-
 export default MentorMain

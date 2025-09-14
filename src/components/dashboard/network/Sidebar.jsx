@@ -47,26 +47,26 @@ const SideBar = () => {
     }, []);
     return (
         <div className=''>
-            <div className='border border-gray rounded-lg'>
+            <div className='md:border border-gray rounded-lg'>
                 <h1 className='p-3 font-semibold'>My Network</h1>
                 <div className='flex flex-col gap-4 p-3'>
-                    <div className='flex items-center justify-between'>
+                    <div className='flex gap-4 items-center md:justify-between'>
                         <p>Requests Received</p>
                         <p>{pendingInvites.count}</p>
                     </div>
-                    <div className='flex items-center justify-between'>
+                    <div className='flex gap-4 items-center md:justify-between'>
                         <p>Connections</p>
                         <p>{connections.connections_count}</p>
                     </div>
-                    <div className='flex items-center justify-between'>
+                    <div className='flex gap-4 items-center md:justify-between'>
                         <p>Followings</p>
                         <p>{followings['followers count']}</p>
                     </div>
                 </div>
             </div>
-            <div className='mt-5'>
+            {/* <div className='mt-5'>
                 <Premium />
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -10,6 +10,9 @@ import api from '../../../api/ApiServiceThree';
 import { UserContext } from '../../../context/UserContext';
 import ProfessionalSummary from '../home/profile/viewPersonProfile/ProfessionalSummary';
 import PersonsPosts from '../home/profile/viewPersonProfile/PersonsPosts';
+import AllJobs from '../jobs/AllJobs';
+import ProjectCatalog from '../home/profile/viewPersonProfile/ProjectCatalog';
+import AnalyticsDashboard from '../home/profile/viewPersonProfile/AnalyticsDashboard';
 
 function MentorDetail() {
     const [mentorDetails, setMentorDetails] = useState(null);
@@ -47,26 +50,30 @@ function MentorDetail() {
 
     return (
         <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5 lg:px-12 md:py-8'>
-            <div className='col-span-4 md:col-span-4 lg:col-span-3'>
+            <div className='md:col-span-4 lg:col-span-3 hidden md:block'>
                 <ProfileDetail />
             </div>
-            <div className='col-span-8 md:col-span-8 lg:col-span-9 border border-gray-200 p-4 rounded-lg'>
+            <div className='col-span-12 md:col-span-8 lg:col-span-9 border border-gray-200 p-4 rounded-lg'>
                 <div className="col-span-8 rounded-lg shadow-sm">
                     <div className="relative w-full h-48">
-                        <img src={userwithid.cover_photo} alt={userwithid.first_name} className="w-full h-48 object-cover rounded-tl-lg rounded-tr-lg" />
+                        <img src={userwithid.cover_photo} alt={userwithid.first_name} className="w-full h-52 object-cover rounded-tl-lg rounded-tr-lg" />
                     </div>
                     <div className="relative w-32 h-32">
                         <img src={userwithid.profile_photo} alt={userwithid.first_name} className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover" />
                     </div>
-                    <h1 className="text-3xl font-bold mb-2">{userwithid.first_name} {userwithid.last_name}</h1>
-                    <div className='flex items-center justify-between'>
-                        <div>
-                            <p className="text-gray-600 italic mb-4">{userwithid.qualification}</p>
-                            <div className='flex gap-4'>
+                         
+                    <hr className='my-3' />
+                    <div className="mt-6 grid grid-cols-12 md:justify-between gap-2">
+                        <div className="col-span-12 md:col-span-8">
+                            <h1 className="text-2xl md:text-3xl font-bold mb-2">{userwithid.first_name} {userwithid.last_name}</h1>
+                            {userwithid?.bio && (
+                                <p className="text-sm md:text-lg my-3">{userwithid.bio}</p>
+                            )}
+                            <div className='text-slate-500 font-thin flex items-center gap-2 mb-2'>
                                 <p className='flex gap-2'><MapPin />{userwithid.location}</p>
-                                <p className='flex gap-2'><BriefcaseBusiness />{userwithid.current_job}</p>
+                                <p className='flex gap-2'><BriefcaseBusiness />{userwithid.position}</p>
                             </div>
-                            <div className='flex gap-2 my-2'><GraduationCap />{userwithid.position}</div>
+                            <div className='text-slate-500 font-thin flex items-center gap-2'><GraduationCap />{userwithid.qualification}</div>
                             <div className='flex gap-4 my-2'>
                                 <div className='flex gap-2'>
                                     <span className='text-[#5DA05D]'>{userwithid.followings || 0}</span> following
@@ -78,36 +85,49 @@ function MentorDetail() {
                                     <span className='text-[#5DA05D]'>{userwithid.session || 0}</span> sessions
                                 </div>
                             </div>
-                            <div className="flex mt-6 space-x-3">
+                            {/* <div className="flex mt-6 space-x-3">
                                 <button className="bg-[#2A0D47] text-white px-4 py-2 rounded-lg">Book a Session</button>
-                                {/* <button className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg flex gap-2 items-center ">
-                                    <UserPlus className='w-5 h-5' />
-                                    Follow
-                                </button> */}
                                 <button className="border border-[#5DA05D] text-gray-600 px-4 py-2 rounded-lg ">
                                     <Ellipsis />
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
-                        <div className='flex justify-between float-end'>
-                        {userwithid?.intro_video ? (
-                            <video
-                                src={userwithid.intro_video}
-                                controls
-                                className="rounded-lg max-w-xs"
-                            />
-                        ) : (
-                            <img
-                                src="/images/video1.png"
-                                alt="video stream"
-                                className="rounded-lg max-w-xs"
-                            />
-                        )}
-                    </div>
-                    
+                        {/* <div className='flex justify-between float-end'>
+                            {userwithid?.intro_video ? (
+                                <video
+                                    src={userwithid.intro_video}
+                                    controls
+                                    className="rounded-lg max-w-xs"
+                                />
+                            ) : (
+                                <img
+                                    src="/images/video1.png"
+                                    alt="video stream"
+                                    className="rounded-lg max-w-xs"
+                                />
+                            )}
+                        </div> */}
+                        <div className='flex flex-col col-span-12 md:col-span-4'>
+                                {userwithid?.intro_video ? (
+                                    <video
+                                        src={userwithid.intro_video}
+                                        controls
+                                        className="rounded-lg max-w-xs w-[90%]"
+                                    />
+                                ) : (
+                                    <div>
+                                        <img
+                                            src="/images/video1.png"
+                                            alt="video stream"
+                                            className="rounded-lg max-w-xs w-[90%]"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
                     </div>
 
-                    <div className='border-t border-gray-200 my-4'>
+                    {/* <div className='border-t border-gray-200 my-4'>
                         <div className='flex items-center justify-between'>
                             <span>Reviews (10)</span>
                             <Link to={'#'} className='text-[#5DA05D]'>See All</Link>
@@ -115,7 +135,7 @@ function MentorDetail() {
                         <div className='border border-gray-200 rounded-lg p-5 mt-2'>
                             <h1>ggg</h1>
                         </div>
-                    </div>
+                    </div> */}
                     <Link to="/mentorship" className="mt-6 inline-block text-green-600 underline">← Back to mentorship</Link>
                 </div>
                 <MentorDetailsTabs />
@@ -204,8 +224,8 @@ function MentorDetailsTabs() {
             <div className="my-6">
                 <span>{activeTab === "professional" && <ProfSummary />}</span>
                 <span>{activeTab === "gallery" && <PortfolioGallery />}</span>
-                <span>{activeTab === "projects" && <ProjectCatalog />}</span>
-                <span>{activeTab === "analytics" && <AnalyticsDashboard />}</span>
+                <span>{activeTab === "projects" && <ProjectCatalogs />}</span>
+                <span>{activeTab === "analytics" && <AnalyticDashboard />}</span>
                 <span>{activeTab === "posts" && <Posts />}</span>
             </div>
         </div>
@@ -216,32 +236,38 @@ function Posts() {
     return (
         <div>
             {/* <MentorDetailPost/> */}
-            <PersonsPosts/>
+            <PersonsPosts />
         </div>
     )
 }
 function ProfSummary() {
     return (
         <div>
-            <ProfessionalSummary/>
+            <ProfessionalSummary />
             {/* <MentorProfSummary /> */}
             {/* professional summary */}
         </div>
     )
 }
-function ProjectCatalog() {
+function ProjectCatalogs() {
     return (
-        <div>ProjectCatalog</div>
+        <div>
+            <ProjectCatalog />
+        </div>
     )
 }
 
 function PortfolioGallery() {
     return (
-        <div>PortfolioGallery</div>
+        <div>
+            <AllJobs />
+        </div>
     )
 }
-function AnalyticsDashboard() {
+function AnalyticDashboard() {
     return (
-        <div> AnalyticsDashboard</div>
+        <div>
+            <AnalyticsDashboard />
+        </div>
     )
 }

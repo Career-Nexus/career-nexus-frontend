@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AllJobs from "../../../jobs/AllJobs";
 
 // Play SVG Icon
 const PlayIcon = () => (
@@ -54,40 +55,41 @@ export default function VideoTabs() {
   const videos = activeTab === "short" ? shortVideos : longVideos;
 
   return (
-    <div className="p-6">
-      {/* Heading */}
-      <h2 className="text-lg font-bold mb-4">Videos</h2>
+    // <div className="p-6">
+    //   {/* Heading */}
+    //   <h2 className="text-lg font-bold mb-4">Videos</h2>
 
-      {/* Tabs */}
-      <div className="flex gap-6 border-b border-gray-200 mb-6">
-        <button
-          onClick={() => setActiveTab("short")}
-          className={`pb-2 text-sm font-medium ${
-            activeTab === "short"
-              ? "text-black border-b-2 border-green-600"
-              : "text-gray-500"
-          }`}
-        >
-          Short videos
-        </button>
-        <button
-          onClick={() => setActiveTab("long")}
-          className={`pb-2 text-sm font-medium ${
-            activeTab === "long"
-              ? "text-black border-b-2 border-green-600"
-              : "text-gray-500"
-          }`}
-        >
-          Long videos
-        </button>
-      </div>
+    //   {/* Tabs */}
+    //   <div className="flex gap-6 border-b border-gray-200 mb-6">
+    //     <button
+    //       onClick={() => setActiveTab("short")}
+    //       className={`pb-2 text-sm font-medium ${
+    //         activeTab === "short"
+    //           ? "text-black border-b-2 border-green-600"
+    //           : "text-gray-500"
+    //       }`}
+    //     >
+    //       Short videos
+    //     </button>
+    //     <button
+    //       onClick={() => setActiveTab("long")}
+    //       className={`pb-2 text-sm font-medium ${
+    //         activeTab === "long"
+    //           ? "text-black border-b-2 border-green-600"
+    //           : "text-gray-500"
+    //       }`}
+    //     >
+    //       Long videos
+    //     </button>
+    //   </div>
 
-      {/* Video Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {videos.map((video, i) => (
-          <VideoCard key={i} {...video} />
-        ))}
-      </div>
-    </div>
+    //   {/* Video Grid */}
+    //   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    //     {videos.map((video, i) => (
+    //       <VideoCard key={i} {...video} />
+    //     ))}
+    //   </div>
+    // </div>
+    <AllJobs/>
   );
 }

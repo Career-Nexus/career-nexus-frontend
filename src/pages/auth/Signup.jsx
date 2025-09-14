@@ -31,11 +31,11 @@ const Signup = () => {
           {activeTab ==='learner'? <HeroSection />:<MentorHero/>}
         </div>
         {/* Right Column */}
-        <div className="col-span-12 lg:col-span-5 px-8 py-6 bg-white">
+        <div className="col-span-12 lg:col-span-5 py-6 bg-white w-full">
           <h1 className="text-2xl font-bold text-center mb-3 text-[#3a1c64]">
             Create Account
           </h1>
-          <div className="mx-5 px-12">
+          <div className="mx-5 px-6">
             <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
               <button
                 type="button"

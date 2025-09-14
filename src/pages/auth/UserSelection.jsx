@@ -80,8 +80,8 @@ export default function UserTypeSelection() {
               setShowModal(false)
               setLoading(false)
             }
-          }, 20000)
-        }, 30000)
+          }, 2000)
+        }, 3000)
       } else {
         throw new Error(`Unexpected response status: ${response.status}`)
       }
@@ -163,7 +163,7 @@ export default function UserTypeSelection() {
       </div>
 
       {/* Modal Overlay */}
-      {showModal && (
+      {/* {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
             {!isSetupComplete ? (
@@ -177,6 +177,35 @@ export default function UserTypeSelection() {
                   <img src={SetupMarked} alt="setup-marked" className="h-30 w-30 text-[#5B8F4E] flex items-center justify-center" />
                   <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
                 </div>
+              </>
+            )}
+          </div>
+        </div>
+      )} */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
+            {!isSetupComplete ? (
+              <>
+                <img
+                  src={SetupSpin}
+                  alt="setup-spin"
+                  className="animate-spin h-20 w-20 text-[#5B8F4E]"
+                />
+                <p className="mt-4 text-lg font-semibold text-purple-700">
+                  Setting up Profile...
+                </p>
+              </>
+            ) : (
+              <>
+                <img
+                  src={SetupMarked}
+                  alt="setup-marked"
+                  className="h-30 w-30 text-[#5B8F4E]"
+                />
+                <p className="mt-4 text-lg font-semibold text-purple-700">
+                  Setup Complete!
+                </p>
               </>
             )}
           </div>

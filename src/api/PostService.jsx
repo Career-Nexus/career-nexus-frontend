@@ -49,23 +49,22 @@ export const PostService = {
       console.error("Couldn't fetch mentors posts", error)
     }
   },
-  //   async getOtherUserPosts(user) {
-  //   try {
-  //     const id = typeof user === "object" ? user.id : user; // extract just the number
-  //     console.log("user_id value:", id);
-  //     const response = await api.get(`/post/by-user/?user_id=${id}`);
-  //     console.log("other users posts fetched", response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log("couldn't fetch other user posts", error);
-  //   }
-  // },
   async getOtherUserPosts(userId, page = 1) {
     try {
       const response = await api.get(`/post/by-user/?user_id=${userId}&page=${page}`);
       return response.data;
     } catch (error) {
       console.error("Couldn't fetch other user posts", error);
+    }
+  },
+  async deleteOwnPost(postId) {
+    try {
+      const response = await api.delete(`post/delete/?post_id=${postId}`);
+      console.log("Post deleted:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Delete Post Error:", error.response || error.message);
+      throw new Error(error.response?.data?.message || "Failed to delete post");
     }
   },
   async Follow(follow) {
@@ -268,7 +267,17 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch user analytics");
     }
   },
-  
+  async analyticsOfOtherUser(userId) {
+    try {
+      const response = await api.get(`/user/analytics/?user_id=${userId}`);
+      console.log("Other user analytics fetched:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Get Other User Analytics Error:", error.response || error.message);
+      throw new Error(error.response?.data?.message || "Failed to fetch other user analytics");
+    }
+  },
+
   // profile completion api
   async getProfileCompletion() {
     try {

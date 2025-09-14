@@ -9,7 +9,8 @@ import Select from "react-select";
 import { CountryCodes } from './CountryCodes';
 
 const apiNoAuth = axios.create({
-  baseURL: 'https://btest.career-nexus.com/',
+  // baseURL: 'https://btest.career-nexus.com/',
+  baseURL: 'https://bprod.career-nexus.com/',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -4,6 +4,8 @@ import { formatTimeAgo } from "../TabInterface";
 import { PostService } from "../../../../api/PostService";
 import { useEffect, useState } from "react";
 import { Box, Spinner } from "@chakra-ui/react";
+import { Delete } from "../../../../icons/icon";
+import { toast } from "react-toastify";
 
 export default function PostsTemplate() {
   const [expandedItems, setExpandedItems] = useState({});
@@ -41,6 +43,17 @@ export default function PostsTemplate() {
   useEffect(() => {
     fetchPosts(1);
   }, []);
+
+  const handleDeletePost = async (postId) => {
+    try {
+      await PostService.deleteOwnPost(postId);
+      toast.success("Post deleted successfully");
+      setUserPosts((prev) => prev.filter((post) => post.post_id !== postId));
+    } catch (err) {
+      console.error("Error deleting post:", err);
+      setError("Failed to delete post.");
+    }
+  };
 
   const handleLoadMore = () => {
     if (hasMore && !loading) {
@@ -82,7 +95,8 @@ export default function PostsTemplate() {
     <div>
       {userPosts.map((post) => (
         <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
-          <div className="flex gap-3 mb-2 items-center">
+          <div className="flex justify-between">
+            <div className="flex gap-3 mb-2 items-center">
             <img
               src={post.profile?.profile_photo || "/images/profile.png"}
               alt="profile"
@@ -98,6 +112,10 @@ export default function PostsTemplate() {
                 <Clock className="w-3 h-3" />
               </div>
             </div>
+          </div>
+          <button onClick={() => handleDeletePost(post.post_id)} className="mr-2 cursor-pointer">
+            <Delete />
+          </button>
           </div>
 
           <p className="mb-3">

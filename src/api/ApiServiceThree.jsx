@@ -1,9 +1,11 @@
 
 import axios from "axios"
 import Cookies from "js-cookie"
-
+// const BASE_API_URL = import.meta.env.VITE_API_URL
+// console.log("API Base URL:", BASE_API_URL)
 // const baseUrl= 'https://16.16.24.199'
 const baseUrl = 'https://btest.career-nexus.com/'
+// const baseUrl = 'https://bprod.career-nexus.com/'
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
@@ -42,7 +44,7 @@ api.interceptors.response.use(
     // Handle unauthorized errors (401)
     if (error.response && error.response.status === 401) {
       Cookies.remove(TOKEN_COOKIE_NAME)
-      Cookies.remove(USER_COOKIE_NAME) 
+      Cookies.remove(USER_COOKIE_NAME)
       window.location.href = "/login" // Redirect to login page
     }
     return Promise.reject(error)
@@ -125,6 +127,88 @@ export const authService = {
     }
   },
 
+  // signin with google
+  googleSignin: async (code) => {
+  try {
+    const response = await api.post("/user/google/signin/", { code })
+    console.log("Google Signin Response:", response.data)
+
+    if (response.data?.access) {
+      try {
+        Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
+        if (response.data.user) {
+            Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
+          }
+      } catch (cookieError) {
+        console.error("Error setting cookies:", cookieError)
+      }
+    } else {
+      console.error("No token received from server")
+    }
+
+    return response.data
+  } catch (error) {
+    console.error("Couldn't sign in with Google", error)
+    throw error.response ? error.response.data : error.message 
+  }
+},
+//signup with google
+// googleSignup: async (code) => {
+//   try {
+//     const response = await api.post("/user/google/signup/", { code })
+//     console.log("Google Signin Response:", response.data)
+
+//     if (response.data?.access) {
+//       try {
+//         Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
+//         if (response.data.user) {
+//             Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
+//           }
+//       } catch (cookieError) {
+//         console.error("Error setting cookies:", cookieError)
+//       }
+//     } else {
+//       console.error("No token received from server")
+//     }
+
+//     return response.data
+//   } catch (error) {
+//     console.error("Couldn't sign in with Google", error)
+//     throw error.response ? error.response.data : error.message 
+//   }
+// },
+googleSignup: async (code) => {
+  try {
+    const response = await api.post("/user/google/signup/", { code })
+    console.log("Google Signup Response:", response.data)
+
+    if (response.data?.access) {
+      try {
+        Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
+
+        // Handle "user" field properly (it's a string in signup)
+        // if (response.data.user) {
+        //   // If backend returns string email
+        //   if (typeof response.data.user === "string") {
+        //     Cookies.set(USER_COOKIE_NAME, response.data.user, COOKIE_OPTIONS)
+        //   } else {
+        //     // fallback if backend changes it to an object later
+        //     Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
+        //   }
+        // }
+      } catch (cookieError) {
+        console.error("Error setting cookies:", cookieError)
+      }
+    } else {
+      console.error("No token received from server")
+    }
+
+    return response.data
+  } catch (error) {
+    console.error("Couldn't sign up with Google", error)
+    throw error.response ? error.response.data : error.message 
+  }
+},
   // Logout user
   logout: () => {
     Cookies.remove(TOKEN_COOKIE_NAME)

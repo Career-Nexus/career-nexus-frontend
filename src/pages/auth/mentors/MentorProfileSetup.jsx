@@ -11,7 +11,7 @@ import { authService } from '../../../api/ApiServiceThree';
 
 
 const apiNoAuth = axios.create({
-    baseURL: 'https://btest.career-nexus.com/',
+    baseURL: 'https://bprod.career-nexus.com/',
     headers: {
         'Content-Type': 'application/json',
     },

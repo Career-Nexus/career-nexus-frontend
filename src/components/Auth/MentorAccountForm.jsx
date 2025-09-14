@@ -186,7 +186,7 @@ const MentorAccountForm = () => {
   const showPasswordRequirements = isPassword1Focused && formData.password1.length > 0
 
   return (
-    <div className="max-w-md w-full mx-auto bg-white aspect-[7.8/6]">
+    <div className="max-w-2xl w-full mx-auto bg-white aspect-[7.8/6]">
       <form className="space-y-6" onSubmit={handleSubmit}>
         {apiError && (
           <Alert status="error" variant="subtle" className="rounded-md">

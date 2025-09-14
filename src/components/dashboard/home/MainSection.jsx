@@ -9,57 +9,56 @@ import { emojis } from './Emoji'
 import ImageCropper from './ImageCropper'
 import VideoTrimmer from './VideoTrimmer'
 import { ProfileContext } from '../../../context/ProfileContext'
+import { Handemoji } from "../../../icons/icon"
+import { ProfileProgressDropdown } from './profile/MainProfile'
 
 
 const MainSection = () => {
   const { user } = useContext(UserContext);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  const [ModalOpen, setModalOpen] = useState(false);
   const { profileCompletion } = useContext(ProfileContext);
-  
 
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
+  const [isModalOpen, setIsModalOpen] = useState(profileCompletion < 100);
+  const [ModalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setIsModalOpen(false);
+
   useEffect(() => {
     if (profileCompletion === 100) {
-      setIsModalOpen(false);
+      setIsModalOpen(false); // close banner when complete
+    } else {
+      setIsModalOpen(true); // re-open if user drops below 100
     }
   }, [profileCompletion]);
-  
-  // const handleCompletionChange = (completion) => {
-  //   setProfileCompletion(completion);
-  //   if (completion === 100) {
-  //     setIsModalOpen(false); // Hide WelcomeModal when completion is 100%
-  //   }
-  // };
 
   return (
     <div>
       {isModalOpen && profileCompletion < 100 && (
         <WelcomeModal onClose={handleClose} />
       )}
-      {/* <div>{isModalOpen && profileCompletion < 100 && <WelcomeModal onClose={handleClose} />}</div> */}
-      {/* <div>
-        {profileCompletion < 100 && <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />}
-      </div> */}
+
       <div className='border border-gray-200 p-2 rounded-lg flex gap-3'>
-        <img src={user.profile_photo} alt="profile" className='h-12 w-12 rounded-full' />
-        <button onClick={() => setModalOpen(true)} className='w-full rounded-lg border border-gray-200 flex items-center justify-between px-3'>
+        <img
+          src={user.profile_photo}
+          alt="profile"
+          className='h-12 w-12 rounded-full'
+        />
+        <button
+          onClick={() => setModalOpen(true)}
+          className='w-full rounded-lg border border-gray-200 flex items-center justify-between px-3'
+        >
           Share an update...
           <span><Edit className='text-[#5DA05D]' /></span>
         </button>
       </div>
+
       <ModalComponent
         isOpen={ModalOpen}
         onClose={() => setModalOpen(false)}
-      // onPost={handlePost}
       />
       <TabInterface />
     </div>
   );
 };
-
 const WelcomeModal = ({ onClose }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -76,11 +75,14 @@ const WelcomeModal = ({ onClose }) => {
             <X className="w-5 h-5" />
           </button>
           <div className="flex items-center mb-2">
-            <span className="mr-2">👏</span>
-            <h2 className="text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
+            {/* <span className="mr-2">👏</span> */}
+            <span className="mr-2">
+              <Handemoji />
+            </span>
+            <h2 className="text-sm md:text-lg font-bold">WELCOME TO CAREER-NEXUS, {user.first_name?.toUpperCase()}</h2>
           </div>
-          <div className="flex items-center justify-between gap-5">
-            <p className="text-xs">
+          <div className="md:flex items-center justify-between gap-5">
+            <p className="text-xs md:text-sm mb-3 md:mb-0">
               Let's get you started on your professional journey. Complete your profile to unlock the full potential of
               our platform.
             </p>

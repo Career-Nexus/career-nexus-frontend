@@ -92,7 +92,7 @@ const NetworkCards = () => {
             </p>
           </Box>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
             {recommendtofollow.slice(0, 4).map((follow) => (
               // <ProfileCard key={mentor.id} person={mentor} type="mentor" />
               <div key={follow.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
@@ -136,9 +136,9 @@ const NetworkCards = () => {
       <div>
         <PeopleInYourLocation />
       </div>
-      <div>
+      {/* <div>
         <FloatingMessageIcon />
-      </div>
+      </div> */}
     </div>
   );
 };

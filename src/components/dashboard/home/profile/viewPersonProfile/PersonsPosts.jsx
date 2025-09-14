@@ -104,7 +104,6 @@ const handleLoadMore = () => {
               </div>
             </div>
           </div>
-
           <p className="mb-3">
             {expandedItems[post.post_id]
               ? post.body

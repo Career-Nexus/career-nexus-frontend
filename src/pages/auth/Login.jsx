@@ -1,13 +1,15 @@
+
 "use client"
 
 import { useEffect, useState } from "react"
 import { Google, Linkedin, LoadingIcon } from "../../icons/icon"
 import { Link, useNavigate } from "react-router-dom"
 import { Mail, Lock } from "lucide-react"
-import { authService } from "../../api/ApiServiceThree"
+import api, { authService } from "../../api/ApiServiceThree"
 import { checkCookiePermissions, debugCookies } from "../../utils/CookieUtils"
 import HeroSection from "../../components/Auth/HeroSection"
 import { EyeClose, EyeOpen } from "../../icons"
+import {toast} from 'react-toastify'
 
 export default function Login() {
   const [isConnected, setIsConnected] = useState(true)
@@ -20,6 +22,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [cookiesEnabled, setCookiesEnabled] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
   const navigate = useNavigate()
 
   // Check if cookies are enabled on component mount
@@ -40,7 +43,6 @@ export default function Login() {
     const savedEmail = localStorage.getItem("rememberedEmail")
     if (savedEmail) {
       setFormData((prev) => ({ ...prev, email: savedEmail, rememberMe: true }))
-      // Validate email on mount if pre-filled
       validateEmail(savedEmail)
     }
   }, [])
@@ -72,14 +74,12 @@ export default function Login() {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
 
-    // Real-time validation
     if (name === "email") {
       setErrors((prev) => ({ ...prev, email: validateEmail(value) }))
     } else if (name === "password") {
       setErrors((prev) => ({ ...prev, password: validatePassword(value) }))
     }
 
-    // Clear general error when user types
     if (errors.general) {
       setErrors((prev) => ({ ...prev, general: "" }))
     }
@@ -95,16 +95,14 @@ export default function Login() {
       email: validateEmail(formData.email),
       password: validatePassword(formData.password),
     }
-
-    setErrors((prev) => ({ ...prev, email: newErrors.email, password: newErrors.password }))
+    setErrors(newErrors)
     return !newErrors.email && !newErrors.password
   }
 
+  // Normal login submit
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     if (!validateForm()) return
-
     if (!cookiesEnabled) {
       setErrors({
         general: "Cookies are disabled in your browser. Please enable cookies to use this application.",
@@ -120,7 +118,6 @@ export default function Login() {
         rememberMe: formData.rememberMe,
       })
 
-      // Handle remember me functionality
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email)
       } else {
@@ -129,21 +126,70 @@ export default function Login() {
 
       setIsConnected(true)
       console.log("Login successful:", response)
+      debugCookies()
 
-      // Debug cookies after login
-      const cookies = debugCookies()
       if (response.access) {
         navigate("/home")
       }
     } catch (error) {
-      if (error.errors) {
-        setErrors(error.errors)
-      } else {
-        setErrors({ general: error.message || "Invalid email or password" })
-      }
+      setErrors({ general: error.message || "Invalid email or password" })
     } finally {
       setLoading(false)
     }
+  }
+
+  // Google Signin flow
+  const handleGoogleSignin = () => {
+    const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
+    const redirectUri = "http://127.0.0.1:5173/login/"
+    const scope = "openid email profile"
+    const responseType = "code"
+    const accessType = "offline"
+    const prompt = "consent"
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=${responseType}&scope=${encodeURIComponent(
+      scope
+    )}&access_type=${accessType}&prompt=${prompt}`
+
+    window.location.href = googleAuthUrl
+  }
+
+
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const code = urlParams.get("code")
+
+  if (code) {
+    setGoogleLoading(true)
+
+    const handleGoogleAuth = async () => {
+      try {
+        const response = await authService.googleSignin(code)
+        if (response.access) {
+          toast.success("Google sign-in is succesfull")
+          navigate("/home")
+        } else {
+          setErrors({ general: "Google sign-in failed. No token received." })
+        }
+      } catch (err) {
+        console.error("Google Signin Error:", err)
+        setErrors({ general: "Google sign-in failed. Please try again." })
+      } finally {
+        setGoogleLoading(false)
+      }
+    }
+
+    handleGoogleAuth()
+  }
+}, [navigate])
+  // Render
+  if (googleLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Signing you in with Google...</p>
+      </div>
+    )
   }
 
   return (
@@ -154,13 +200,16 @@ export default function Login() {
       <div className="col-span-12 lg:col-span-5 md:px-8 p-0 mb-0 md:max-h-[70vh]">
         <div className="flex flex-col items-center justify-center min-h-screen bg-white px-12">
           <div className="w-full max-w-md">
-            <h1 className="md:text-2xl font-bold text-center text-[#3a1c64] mt-0 mb-5" style={{ marginTop: "-2rem" }}>Welcome Back</h1>
+            <h1 className="md:text-2xl font-bold text-center text-[#3a1c64] mt-0 mb-5" style={{ marginTop: "-2rem" }}>
+              Welcome Back
+            </h1>
 
             {errors.general && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <span className="block sm:inline">{errors.general}</span>
               </div>
             )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Input */}
               <div className="relative">
@@ -175,8 +224,9 @@ export default function Login() {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.email ? "border-red-500" : "border-gray-200"
-                    }`}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${
+                    errors.email ? "border-red-500" : "border-gray-200"
+                  }`}
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
@@ -194,8 +244,9 @@ export default function Login() {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${errors.password ? "border-red-500" : "border-gray-200"
-                    }`}
+                  className={`w-full pl-10 pr-10 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#5b9a68] focus:border-[#5b9a68] ${
+                    errors.password ? "border-red-500" : "border-gray-200"
+                  }`}
                 />
                 <button
                   type="button"
@@ -232,9 +283,10 @@ export default function Login() {
                   type="submit"
                   disabled={loading || errors.email || errors.password || !formData.email.trim() || !formData.password.trim()}
                   className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md 
-                    ${loading
-                      ? "bg-[#5b9a68] text-white"
-                      : errors.email || errors.password || !formData.email.trim() || !formData.password.trim()
+                    ${
+                      loading
+                        ? "bg-[#5b9a68] text-white"
+                        : errors.email || errors.password || !formData.email.trim() || !formData.password.trim()
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                         : "bg-[#5b9a68] hover:bg-[#4e8559] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5b9a68]"
                     }`}
@@ -249,29 +301,32 @@ export default function Login() {
                   )}
                 </button>
               </div>
-
-              {/* Or continue with */}
-              <div className="flex items-center justify-center mt-6 mb-4">
-                <span className="text-sm text-gray-500">Or continue with</span>
-              </div>
-
-              {/* Social Login Options */}
-              <div className="md:flex md:flex-col gap-2">
-                <button className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 mb-3 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center">
-                    <Google className="h-5 w-5" />
-                    <span className="ml-2">Google</span>
-                  </div>
-                </button>
-
-                <button className="w-full h-10 flex items-center justify-center border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center">
-                    <Linkedin className="h-5 w-5" />
-                    <span className="ml-2">LinkedIn</span>
-                  </div>
-                </button>
-              </div>
             </form>
+
+            {/* Or continue with */}
+            <div className="flex items-center justify-center mt-6 mb-4">
+              <span className="text-sm text-gray-500">Or continue with</span>
+            </div>
+
+            {/* Social Login Options */}
+            <div className="md:flex md:flex-col gap-2">
+              <button
+                onClick={handleGoogleSignin}
+                className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 mb-3 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center">
+                  <Google className="h-5 w-5" />
+                  <span className="ml-2">Google</span>
+                </div>
+              </button>
+
+              <button className="w-full h-10 flex items-center justify-center border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center">
+                  <Linkedin className="h-5 w-5" />
+                  <span className="ml-2">LinkedIn</span>
+                </div>
+              </button>
+            </div>
 
             {/* Signup Link */}
             <div className="text-center mt-2">

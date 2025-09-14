@@ -7,74 +7,48 @@ import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
 import JitsiMeeting from "./JoinSession";
 
-export function BookingRequests() {
-    const [requestedSession, setRequestedSession] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [openDropdown, setOpenDropdown] = useState(null); // Track which dropdown is open
-    const [activeSessionId, setActiveSessionId] = useState(null); //jitsi session id
-
-    const requestedSessions = async () => {
-        setLoading(true);
-        try {
-            const res = await MentorServices.scheduledmentorship();
-            const rawData = Array.isArray(res?.data) ? res.data : [];
-
-            const mappedData = rawData.map((session) => ({
-                id: session.id,
-                attendees: [
-                    session.mentor?.profile_photo,
-                    session.mentee?.profile_photo
-                ].filter(Boolean),
-                mentor: session.mentor,
-                mentee: session.mentee,
-                title: `${session.mentor?.first_name || ""} ${session.mentor?.last_name || ""}`,
-                attendeeCount: 2,
-                type: session.session_type,
-                status: session.status,
-                date: session.session_at?.date,
-                time: session.session_at?.time,
-                category: session.discourse,
-                description: `Session between ${session.mentor?.first_name} and ${session.mentee?.first_name} about ${session.discourse}`,
-                amount: session.amount,
-                is_paid: session.is_paid,
-                join: session.join,
-            }));
-
-            setRequestedSession(mappedData);
-        } catch (error) {
-            console.log("failed to fetch requested mentor session", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        requestedSessions();
-    }, []);
+export function BookingRequests({ requested, refresh, loading }) {
+    const [openDropdown, setOpenDropdown] = useState(null)
+    const [activeSessionId, setActiveSessionId] = useState(null)
 
     const toggleDropdown = (id) => {
-        setOpenDropdown(openDropdown === id ? null : id);
-    };
+        setOpenDropdown(openDropdown === id ? null : id)
+    }
+
+    // const handleAccept = async (sessionId) => {
+    //     const result = await MentorServices.acceptOrRejectRequest(sessionId, "Accept");
+    //     if (result.success) {
+    //         toast.success("Request accepted succesfully")
+    //         // Optionally refresh the list after accept
+    //         requestedSessions();
+    //     } else {
+    //         toast.error("Error occured")
+    //     }
+    // };
 
     const handleAccept = async (sessionId) => {
-        const result = await MentorServices.acceptOrRejectRequest(sessionId, "Accept");
+        const result = await MentorServices.acceptOrRejectRequest(
+            sessionId,
+            "Accept"
+        );
         if (result.success) {
-            toast.success("Request accepted succesfully")
-            // Optionally refresh the list after accept
-            requestedSessions();
+            toast.success("Request accepted successfully");
+            refresh(); // reload data
         } else {
-            toast.error("Error occured")
+            toast.error("Error occurred");
         }
     };
 
     const handleReject = async (sessionId) => {
-        const result = await MentorServices.acceptOrRejectRequest(sessionId, "Reject");
+        const result = await MentorServices.acceptOrRejectRequest(
+            sessionId,
+            "Reject"
+        );
         if (result.success) {
-            toast.success("Request rejected succesfully")
-            // Optionally refresh the list after reject
-            requestedSessions();
+            toast.success("Request rejected successfully");
+            refresh(); // reload data
         } else {
-            toast.error("Error occured")
+            toast.error("Error occurred");
         }
     };
     return (
@@ -84,12 +58,12 @@ export function BookingRequests() {
                     <Spinner size="lg" color="#5DA05D" thickness="4px" />
                 </Box>
             ) : (
-                requestedSession.map((booking) => (
+                requested.map((booking) => (
                     <div
                         key={booking.id}
-                        className="bg-white p-5 rounded-xl shadow flex flex-col min-h-[350px]"
+                        className="bg-white p-5 rounded-xl shadow flex flex-col min-h-[300px]"
                     >
-                        <div className="flex flex-row gap-8 p-0 mb-2 items-center">
+                        <div className="flex p-0 mb-2 justify-between gap-3">
                             <div className="flex">
                                 {booking.attendees.map((img, index) => (
                                     <img
@@ -115,14 +89,14 @@ export function BookingRequests() {
                                 )}
                             </div>
                             <span
-                                className={`font-medium ml-8 mt-[-40px] ${booking.status === "PENDING"
+                                className={`font-medium ${booking.status === "PENDING"
                                     ? "text-[#E2B607]"
                                     : "text-[#5DA05D]"
                                     }`}
                             >
                                 {booking.status}
                             </span>
-                            <div className="ml-auto font-bold text-lg text-[#5DA05D]">
+                            <div className="font-bold text-lg text-[#5DA05D]">
                                 {booking.amount}
                             </div>
                         </div>
@@ -182,8 +156,12 @@ export function BookingRequests() {
                             <div className="text-xs text-[#2A0D47] bg-[#2A0D471A] px-2 py-1 w-max rounded mb-2">
                                 {booking.category}
                             </div>
-                            <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
-                            
+                            <p className="text-sm text-gray-700 mb-4">
+                                {booking.description.length > 60
+                                    ? booking.description.slice(0, 60) + "..."
+                                    : booking.description}
+                            </p>
+
                             <div className="flex space-x-3 mt-auto">
                                 {booking.status === "PENDING" ? (
                                     <>
