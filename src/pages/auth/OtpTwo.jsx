@@ -81,7 +81,9 @@ const OtpVerification = () => {
       const response = await authService.verifyOtp(payload)
       console.log("OTP Verification Response:", response)
       if (response.access || response.status === "verified") {
+        authService.isAuthenticated(true);
         navigate("/success")
+        // navigate("/profile-setup")
       } else if (response.status === "Otp sent") {
         setError("A new OTP was sent. Please check your email and try again.")
         setOtp(["", "", "", "", "", ""])

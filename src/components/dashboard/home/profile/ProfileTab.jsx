@@ -50,12 +50,12 @@ export default function ProfileTabs() {
         <div className="w-full max-w-6xl mx-auto pt-4">
             {/* Tabs navigation with scroll buttons for mobile */}
             <div className="relative">
-                <button
+                {/* <button
                     onClick={() => scrollTabs("left")}
                     className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-md border md:hidden z-10"
                 >
                     <ChevronLeft className="h-4 w-4" />
-                </button>
+                </button> */}
 
                 <div ref={tabsRef} className="my-3 gap-3 flex overflow-x-auto scrollbar-hide px-6 md:px-0 md:overflow-visible">
 
@@ -101,12 +101,12 @@ export default function ProfileTabs() {
                     </button>
                 </div>
 
-                <button
+                {/* <button
                     onClick={() => scrollTabs("right")}
                     className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-md border md:hidden z-10"
                 >
                     <ChevronRight className="h-4 w-4" />
-                </button>
+                </button> */}
             </div>
 
             {/* Tab content */}
@@ -147,7 +147,7 @@ function ProfessionalSummaryTemplate() {
     };
 
     return (
-        <div className="w-full max-w-3xl">
+        <div className="w-full max-w-4xl">
             <div className="flex justify-between items-center mb-2">
                 <h2 className="text-lg font-bold">Professional Summary</h2>
                 <span className="text-sm text-gray-500">{wordCount}/100 words</span>

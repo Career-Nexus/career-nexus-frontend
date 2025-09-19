@@ -144,7 +144,7 @@ export default function ExperienceSection() {
     const uniqueId = `${itemType}-${id}`
 
     return (
-      <div className="border rounded-lg mb-4 p-4 relative">
+      <div className="border rounded-lg mb-4 p-4 relative max-w-4xl w-full">
         <div className="absolute right-4 top-4 flex space-x-2">
           {itemType === "certification" ? (
             <button
@@ -223,7 +223,7 @@ export default function ExperienceSection() {
 
   return (
 
-    <div className="w-full max-w-3xl mx-auto mt-5">
+    <div className="w-full max-w-4xl mx-auto mt-5">
       {/* Experience Section */}
       <SectionHeader
         title="Experience"

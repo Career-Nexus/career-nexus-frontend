@@ -18,7 +18,7 @@ const Profile = () => {
         { id: 6, image: '/images/profile2.png', name: 'Devon Lane' },
     ]
     const data = [
-        { id: 3, icon: <Link to={'/booked'}><Booked /></Link>, name: <Link to={'/booked'}>Booked Sessions</Link> },
+        { id: 3, icon: <Link to={'/booked'}><Booked /></Link>, name: <Link to={'/booked'} >Booked Sessions</Link> },
     ]
     const category = [
         { id: 1, cat: 'Technology', num: 48 },
@@ -37,7 +37,7 @@ const Profile = () => {
             {
                 user.user_type === "learner" ? (
                     <div className=''>
-                        <div className='md:border border-gray rounded-lg'>
+                        <div className='md:border border-gray rounded-lg hidden md:block'>
                             <Link to={'/profilepage'} className='md:border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
                                 <div className='flex items-center justify-between min-h-32 mx-2 '>
                                     <div className='mr-2'>
@@ -55,10 +55,12 @@ const Profile = () => {
                         <div className='border border-gray rounded-lg my-5'>
                             <div className='flex flex-col gap-4 p-3'>
                                 {data.map(item => (
-                                    <div key={item.id} className='flex items-center gap-4'>
-                                        <div className='w-3 h-3'>{item.icon}</div>
-                                        <div>
-                                            <h3 className='text-sm md:text-lg'>{item.name}</h3>
+                                    <div key={item.id} className='flex items-center justify-between gap-4'>
+                                        <div className='flex items-center gap-5'>
+                                            <div className='w-3 h-3 mt-[-10px]'>{item.icon}</div>
+                                            <div>
+                                                <h3 className='text-sm md:text-lg'>{item.name}</h3>
+                                            </div>
                                         </div>
                                         <Link to={'/booked'}><ArrowRight className='text-[#5DA05D]' /></Link>
                                     </div>

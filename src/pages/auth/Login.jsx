@@ -141,7 +141,8 @@ export default function Login() {
   // Google Signin flow
   const handleGoogleSignin = () => {
     const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
-    const redirectUri = "http://127.0.0.1:5173/login/"
+    // const redirectUri = "http://127.0.0.1:5173/login/"
+    const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/login/"
     const scope = "openid email profile"
     const responseType = "code"
     const accessType = "offline"
@@ -167,8 +168,9 @@ useEffect(() => {
       try {
         const response = await authService.googleSignin(code)
         if (response.access) {
-          toast.success("Google sign-in is succesfull")
-          navigate("/home")
+          authService.isAuthenticated(true)
+          navigate("/home", { replace: true })
+          toast.success("Google sign-in is successful")
         } else {
           setErrors({ general: "Google sign-in failed. No token received." })
         }

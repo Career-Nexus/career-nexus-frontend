@@ -38,13 +38,13 @@ const Profile = () => {
             {user.user_type === "learner" ? (
                 <div className=''>
                     <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
-                        <div className='flex items-center justify-between min-h-32 mx-2 '>
+                        <div className='flex items-center min-h-32 mx-2 '>
                             <div className='mr-2 md:h-12 md:w-12 w-14 h-10'>
                                 <img src={user.profile_photo} alt="profile picture"
-                                    className='h-10 w-14 md:h-12 md:w-12 rounded-full bg-cover' />
+                                    className='h-10 w-10 md:h-12 md:w-12 rounded-full bg-cover' />
                             </div>
                             <div className='flex flex-col'>
-                                <h1 className='font-bold text-xl '>{user.first_name} {user.last_name}</h1>
+                                <h1 className='font-bold text-sm md:text-xl'>{user.first_name} {user.last_name}</h1>
                                 <p className='text-sm text-gray-400'>{user?.position}</p>
                             </div>
                             {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
@@ -77,14 +77,14 @@ const Profile = () => {
                 <div className=''>
                     <Link to={'/profilepage'} className='border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                         <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
-                        <div className='flex items-center justify-between min-h-24 mx-2 '>
-                            <div className='mr-2'>
+                        <div className='flex items-center min-h-32 mx-2 '>
+                            <div className='mr-2 md:h-12 md:w-12 w-14 h-10'>
                                 <img src={user.profile_photo} alt="profile picture"
-                                    className='h-12 w-12 rounded-full' />
+                                    className='h-10 w-10 md:h-12 md:w-12 rounded-full bg-cover' />
                             </div>
                             <div className='flex flex-col'>
-                                <h1 className='font-bold text-xl '>{user.first_name} {user.last_name}</h1>
-                                <p className='text-sm text-gray-400'>{user?.qualification}</p>
+                                <h1 className='font-bold text-sm md:text-xl'>{user.first_name} {user.last_name}</h1>
+                                <p className='text-sm text-gray-400'>{user?.position}</p>
                             </div>
                             {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                         </div>

@@ -7,7 +7,7 @@ import { LoadingIcon } from '../../../icons/icon';
 import { toast } from 'react-toastify';
 import Select from "react-select";
 import { CountryCodes } from '../CountryCodes';
-import { authService } from '../../../api/ApiServiceThree';
+import api, { authService } from '../../../api/ApiServiceThree';
 
 
 const apiNoAuth = axios.create({
@@ -193,11 +193,11 @@ export const MentorProfileSetup = () => {
         }
 
         try {
-            const tempToken = Cookies.get("temp_token");
+            const accessToken = Cookies.get("access_token");
             const headers = {};
-            if (tempToken) headers["Authorization"] = `Bearer ${tempToken}`;
+            if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
 
-            const response = await apiNoAuth.put("/user/profile-update/", formData, {
+            const response = await api.put("/user/profile-update/", formData, {
                 headers: {
                     ...headers,
                     "Content-Type": "multipart/form-data",
@@ -226,11 +226,11 @@ export const MentorProfileSetup = () => {
     const fetchTimezones = async () => {
         setTimezonesLoading(true)
         try {
-            const tempToken = Cookies.get("temp_token")
+            const accessToken = Cookies.get("access_token")
             const headers = {}
-            if (tempToken) headers["Authorization"] = `Bearer ${tempToken}`
+            if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`
 
-            const response = await apiNoAuth.get("/info/choice-data/?field_name=timezones", { headers })
+            const response = await api.get("/info/choice-data/?field_name=timezones", { headers })
             setTimezones(response.data["Valid options"] || [])
         } catch (error) {
             console.error("Error fetching timezones:", error)

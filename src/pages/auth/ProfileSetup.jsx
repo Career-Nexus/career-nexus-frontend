@@ -7,16 +7,7 @@ import { LoadingIcon } from '../../icons/icon';
 import { toast } from 'react-toastify';
 import Select from "react-select";
 import { CountryCodes } from './CountryCodes';
-
-const apiNoAuth = axios.create({
-  // baseURL: 'https://btest.career-nexus.com/',
-  baseURL: 'https://bprod.career-nexus.com/',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-  //    timeout: 10000,
-});
+import api, { authService } from '../../api/ApiServiceThree';
 
 export const ProfileSetup = () => {
   const [firstName, setFirstName] = useState('');
@@ -28,15 +19,29 @@ export const ProfileSetup = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // const countryOptions = CountryCodes.map((country) => ({
+  //   value: country,
+  //   label: (
+  //     <div className="flex items-center gap-1">
+  //       <img src={country.flag || "/placeholder.svg"} alt={`${country.name} Flag`} className="w-5 h-5" />
+  //       <span>{country.dial_code}</span>
+  //     </div>
+  //   ),
+  // }))
   const countryOptions = CountryCodes.map((country) => ({
-      value: country,
-      label: (
-        <div className="flex items-center gap-1">
-          <img src={country.flag || "/placeholder.svg"} alt={`${country.name} Flag`} className="w-5 h-5" />
-          <span>{country.dial_code}</span>
-        </div>
-      ),
-    }))
+  value: country.dial_code, // just keep dial_code as the value
+  label: (
+    <div className="flex items-center gap-1">
+      <img
+        src={country.flag || "/placeholder.svg"}
+        alt={`${country.name} Flag`}
+        className="w-5 h-5"
+      />
+      <span>{country.dial_code}</span>
+    </div>
+  ),
+  //country: country, // keep full country if you want
+}))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,32 +66,33 @@ export const ProfileSetup = () => {
     const updatedData = {
       first_name: firstName,
       last_name: lastName,
-       phone_number: `${countryCode.dial_code}${phoneNumber}`,
+      dial_code: countryCode.dial_code,   // store separately
+      phone_number: phoneNumber,          // just the raw number
     };
 
-    
+
 
     try {
       const cookies = Cookies.get();
       console.log('Cookies sent with request:', cookies);
-
-      const tempToken = Cookies.get('temp_token');
-      console.log('Temporary token:', tempToken || 'None');
+      const accessToken = Cookies.get('access_token');
+      console.log('Access token:', accessToken || 'None');
 
       const headers = {};
-      if (tempToken) headers['Authorization'] = `Bearer ${tempToken}`; // Use Bearer token
+      if (accessToken) headers['Authorization'] = `Bearer ${accessToken}`;
 
       console.log('Submitting data:', updatedData);
       console.log('Request headers:', headers);
 
-      const response = await apiNoAuth.put('/user/profile-update/', updatedData, { headers });
+      const response = await api.put('/user/profile-update/', updatedData, { headers });
 
       console.log('Update response:', { status: response.status, data: response.data });
 
       if ([200, 201, 204].includes(response.status)) {
         console.log('Profile updated successfully:', updatedData);
         toast.success('Profile updated successfully');
-        navigate('/select-type');
+        authService.isAuthenticated(true);
+        navigate('/select-type', { replace: true });
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);
       }
@@ -164,6 +170,7 @@ export const ProfileSetup = () => {
                   className="react-select-container"
                   classNamePrefix="react-select"
                 />
+                
               </div>
               <input
                 type="text"

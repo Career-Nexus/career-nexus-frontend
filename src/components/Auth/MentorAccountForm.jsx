@@ -9,6 +9,7 @@ import { EyeClose, EyeOpen } from "../../icons"
 import { authService } from "../../api/ApiServiceThree"
 import TermsAndPrivacyModal from "../../pages/auth/TermsAndPrivacyModal"
 import { industries } from "../../pages/auth/Industries"
+import { toast } from "react-toastify"
 
 const MentorAccountForm = () => {
   const navigate = useNavigate()
@@ -33,6 +34,7 @@ const MentorAccountForm = () => {
   })
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   useEffect(() => {
     console.log("Form State:", {
@@ -175,8 +177,61 @@ const MentorAccountForm = () => {
     }
   }
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked")
+  const handleMentorGoogleSignup = () => {
+    const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
+    const redirectUri = "http://127.0.0.1:5173/signup/"
+    const scope = "openid email profile"
+    const responseType = "code"
+    const accessType = "offline"
+    const prompt = "consent"
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=${responseType}&scope=${encodeURIComponent(
+      scope
+    )}&access_type=${accessType}&prompt=${prompt}`
+
+    window.location.href = googleAuthUrl
+  }
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const code = urlParams.get("code")
+
+    if (code) {
+      setGoogleLoading(true)
+      const handleGoogleAuth = async () => {
+        try {
+          const response = await authService.googleMentorSignup(
+            {
+              code,
+              user_type: "mentor"
+            }
+          )
+          console.log("Google signup frontend response:", response)
+
+          if (response && response.access) {
+            authService.isAuthenticated(true)
+            navigate("/mentor-success", { replace: true })
+            toast.success("Google sign-up is successful")
+          } else {
+            setErrors({ general: "Google sign-up failed. No token received." })
+          }
+        } catch (err) {
+          console.error("Google Signin Error:", err)
+          setErrors({ general: "Google sign-in failed. Please try again." })
+        } finally {
+          setGoogleLoading(false)
+        }
+      }
+      handleGoogleAuth()
+    }
+  }, [navigate])
+  // Render
+  if (googleLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Signing you up with Google...</p>
+      </div>
+    )
   }
 
   const handleLinkedInLogin = () => {
@@ -328,7 +383,7 @@ const MentorAccountForm = () => {
         </div>
 
         <div className="relative" style={{ marginTop: "1.7rem" }}>
-        {/* <div className="relative mt-6"> */}
+          {/* <div className="relative mt-6"> */}
           <div className="absolute inset-y-3 left-0 pl-3 pointer-events-none">
             <Building className="h-5 w-4 text-gray-400" />
           </div>
@@ -361,7 +416,7 @@ const MentorAccountForm = () => {
             checked={isPrivacyChecked}
             onChange={handleCheckboxChange}
             className="rounded border text-[#5DA05D] border-[#5b9a68] mt-[-1rem] focus:ring-[#5b9a68] h-4 w-4 accent-[#5b9a68]"
-            style={{accentColor:"#15803d"}}
+            style={{ accentColor: "#15803d" }}
             aria-describedby={errors.privacy ? "privacy-error" : undefined}
           />
           <label htmlFor="privacy" className="text-sm text-gray-600 mt-[-1rem]">
@@ -405,41 +460,41 @@ const MentorAccountForm = () => {
             )}
           </button>
         </div>
-
-        {/* Social Login Options */}
-        <div className="flex items-center justify-center" style={{ marginTop: "0.7rem" }}>
-          <span className="text-sm text-gray-500">Or continue with</span>
-        </div>
-        <button
-          style={{ marginTop: "0.7rem" }}
-          type="button"
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
-        >
-          <Google className="h-6 w-6 mr-2" />
-          <span>Google</span>
-        </button>
-        <button
-          style={{ marginTop: "0.9rem" }}
-          type="button"
-          onClick={handleLinkedInLogin}
-          className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
-        >
-          <Linkedin className="h-6 w-6 mr-2" />
-          <span>LinkedIn</span>
-        </button>
-
-        {/* Login Link */}
-        <div className="text-center" style={{ marginTop: "0.7rem" }}>
-          <p className="text-sm text-gray-600">
-            Already have an account?
-            <Link to="/" className="text-[#5b9a68] hover:underline ml-1">
-              Log in
-            </Link>
-          </p>
-        </div>
-        <TermsAndPrivacyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Terms and Conditions" />
       </form>
+      {/* Social Login Options */}
+      <div className="flex items-center justify-center" style={{ marginTop: "0.7rem" }}>
+        <span className="text-sm text-gray-500">Or continue with</span>
+      </div>
+      <button
+        style={{ marginTop: "0.7rem" }}
+        type="button"
+        // onClick={handleMentorGoogleSignup}
+        className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
+      >
+        <Google className="h-6 w-6 mr-2" />
+        <span>Google</span>
+      </button>
+      <button
+        style={{ marginTop: "0.9rem" }}
+        type="button"
+        onClick={handleLinkedInLogin}
+        className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
+      >
+        <Linkedin className="h-6 w-6 mr-2" />
+        <span>LinkedIn</span>
+      </button>
+
+      {/* Login Link */}
+      <div className="text-center" style={{ marginTop: "0.7rem" }}>
+        <p className="text-sm text-gray-600">
+          Already have an account?
+          <Link to="/" className="text-[#5b9a68] hover:underline ml-1">
+            Log in
+          </Link>
+        </p>
+      </div>
+      <TermsAndPrivacyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Terms and Conditions" />
+
     </div>
   )
 }

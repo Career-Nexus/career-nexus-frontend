@@ -9,8 +9,8 @@ function ProfileCompleted() {
 
   const handleComplete = () => {
     authService.isAuthenticated(true);
-    authService.setAuthCookies(Cookies.get('temp_token'));
-    Cookies.remove('temp_token');
+    authService.setAuthCookies(Cookies.get('access_token'));
+    // Cookies.remove('access_token');
     navigate('/home');
   };
 

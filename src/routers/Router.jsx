@@ -134,17 +134,14 @@ const Router = () => {
         <Route
           path="/success"
           element={
-            <RedirectIfAuthenticated>
-              <SuccessPage />
-            </RedirectIfAuthenticated>
+            <SuccessPage />
           }
         />
+        {/* <Route path="/success" element={<SuccessPage />} /> */}
         <Route
           path="/mentor-success"
           element={
-            <RedirectIfAuthenticated>
-              <MentorSuccessPage />
-            </RedirectIfAuthenticated>
+            <MentorSuccessPage />
           }
         />
 
@@ -188,37 +185,32 @@ const Router = () => {
             </RedirectIfAuthenticated>
           }
         />
+
         <Route
           path="/profile-setup"
           element={
-            <RedirectIfAuthenticated>
-              <ProfileSetup />
-            </RedirectIfAuthenticated>
+            <ProfileSetup />
           }
         />
+
         <Route
-          path='/select-type'
+          path="/select-type"
           element={
-            <RedirectIfAuthenticated>
-              <UserTypeSelection />
-            </RedirectIfAuthenticated>
+            <UserTypeSelection />
           }
         />
+
         {/* Mentors */}
         <Route
           path="/mentor-profile"
           element={
-            <RedirectIfAuthenticated>
-              <MentorProfileSetup />
-            </RedirectIfAuthenticated>
+            <MentorProfileSetup />
           }
         />
         <Route
           path="/complete"
           element={
-            <RedirectIfAuthenticated>
-              <ProfileCompleted />
-            </RedirectIfAuthenticated>
+            <ProfileCompleted />
           }
         />
 
@@ -411,7 +403,7 @@ const Router = () => {
           path='/nexus-vault'
           element={
             <ProtectedRoute>
-              <Vault/>
+              <Vault />
             </ProtectedRoute>
           }
         />
@@ -443,8 +435,8 @@ const Router = () => {
             </ProtectedRoute>
           }
         > */}
-          {/* <Route path='help' element={<SubmitTicket />} /> */}
-          {/* <Route path='started' element={<GetStarted />} />
+        {/* <Route path='help' element={<SubmitTicket />} /> */}
+        {/* <Route path='started' element={<GetStarted />} />
           <Route path="shooting" element={<TroubleShoot />} />
           <Route path="tutorial" element={<VideoTutorials />} />
           <Route path="glossary" element={<Glossarys />} />

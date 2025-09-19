@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "@chakra-ui/react"
 import { EyeClose, EyeOpen } from "../../icons"
 import { authService } from "../../api/ApiServiceThree"
 import TermsAndPrivacyModal from "../../pages/auth/TermsAndPrivacyModal"
+import {toast} from 'react-toastify'
 
 const CreateAccountForm = () => {
   const navigate = useNavigate()
@@ -166,7 +167,8 @@ const CreateAccountForm = () => {
 
   const handleGoogleSignup = () => {
     const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
-    const redirectUri = "http://127.0.0.1:5173/signup/"
+    // const redirectUri = "http://127.0.0.1:5173/signup/"
+    const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/signup/"
     const scope = "openid email profile"
     const responseType = "code"
     const accessType = "offline"
@@ -185,13 +187,15 @@ useEffect(() => {
 
   if (code) {
     setGoogleLoading(true)
-
     const handleGoogleAuth = async () => {
       try {
         const response = await authService.googleSignup(code)
-        if (response.access) {
-          toast.success("Google sign-up is succesfull")
-          navigate("/success")
+        console.log("Google signup frontend response:", response)
+
+        if (response && response.access) {
+          authService.isAuthenticated(true)
+          navigate("/success", { replace: true })
+          toast.success("Google sign-up is successful")
         } else {
           setErrors({ general: "Google sign-up failed. No token received." })
         }
@@ -202,19 +206,17 @@ useEffect(() => {
         setGoogleLoading(false)
       }
     }
-
     handleGoogleAuth()
   }
 }, [navigate])
-  // Render
-  if (googleLoading) {
-    return (
+// Render
+if (googleLoading) {
+  return (
       <div className="flex items-center justify-center h-screen">
         <p>Signing you up with Google...</p>
       </div>
     )
-  }
-
+}
   const handleLinkedInLogin = () => {
     console.log("LinkedIn login clicked")
   }

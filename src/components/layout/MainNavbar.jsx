@@ -1,10 +1,10 @@
 
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Business, Email, Home, Jobs, Mentorship, Network, Notification, Search, } from '../../icons/icon';
+import { Home, Jobs, Mentorship, Network, Notification, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { Bell, ChevronDown, Ellipsis, HelpCircle, LoaderIcon, LogOut, Settings, UserCircle, X } from 'lucide-react';
+import { Bell, EllipsisVertical, HelpCircle, LoaderIcon, LogOut, Search, Settings, UserCircle, X } from 'lucide-react';
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
 import { useNotifications } from '../../context/NotificationContext';
@@ -91,40 +91,14 @@ const MainNavbar = () => {
         <nav className='sticky top-0 z-50'>
             <div className='bg-white shadow w-full'>
                 <div className='flex items-center justify-between md:mx-5 lg:mx-12 p-1 md:p-0'>
-                    {/* Hamburger only on mobile */}
-                    <button
-                        className="md:hidden p-2"
-                        onClick={() => setIsProfileOpen(true)}
-                    >
-                        {/* SVG Hamburger */}
-                        <svg
-                            className="w-6 h-6 text-gray-700"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4 6h16M4 12h16M4 18h16"
-                            />
-                        </svg>
-
-                    </button>
-
-                    {/* Logo for small and medium screens */}
-                    {/* <div className='block md:hidden h-8 w-auto '>
+                    <div className='block md:hidden h-8 w-auto '>
                         <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-8 w-auto' />
-                    </div> */}
+                    </div>
                     <div className='hidden md:block h-16 w-16 md:h-20 md:w-20 object-center item-center '>
                         <div className='hidden md:block bg-cover items-center mt-2' style={{ backgroundImage: "url('/images/cnlogonew.png')", height: "60px", width: "80px" }}>
                         </div>
                     </div>
-                    {/* notify test */}
-                    {/* <div className=''>
-                        <Notify />
-                    </div> */}
+
                     {/* Navigation Links for Medium Screens and Up */}
                     {
                         user.user_type === "learner" ? (
@@ -222,14 +196,14 @@ const MainNavbar = () => {
                         )
                     }
                     {/* Search Box */}
-                    <div className="flex items-center border border-gray-300 rounded-lg flex-grow mx-1 lg:mx-4">
-                        <div className="flex items-center pl-3">
-                            <Search />
+                    <div className="flex items-center bg-[#FAFAFA] border border-gray-400 rounded-full flex-grow mx-1 lg:mx-4">
+                        <div className="flex items-center pl-2">
+                            <Search className="h-4 w-4 md:w-5 md:h-5 text-gray-500" />
                         </div>
                         <input
                             type="text"
-                            placeholder="Search for Jobs, Skills, people..."
-                            className="flex-grow py-2 px-1 border-0 focus:outline-none focus:ring-0 w-full"
+                            placeholder="Search mentors by name or skill..."
+                            className="flex-grow bg-[#FAFAFA] rounded-full py-1 md:py-2 px-1 border-0 focus:outline-none focus:ring-0 text-sm w-full"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -278,16 +252,37 @@ const MainNavbar = () => {
                             </div>
 
                             <div className="relative" ref={menuRef}>
-                                {/* Toggle button */}
+                                <div className='hidden md:block '>
+                                    <button
+                                        type="button"
+                                        className="bg-white rounded-full flex text-sm "
+                                        id="user-menu-button"
+                                        aria-expanded={isProfileMenuOpen}
+                                        aria-haspopup="true"
+                                        onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                                    >
+                                        <EllipsisVertical className="w-6 h-6 cursor-pointer hover:bg-gray-200 rounded-full" />
+                                    </button>
+                                </div>
                                 <button
-                                    type="button"
-                                    className="bg-white rounded-full flex text-sm"
-                                    id="user-menu-button"
-                                    aria-expanded={isProfileMenuOpen}
-                                    aria-haspopup="true"
-                                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                                    className="md:hidden p-2"
+                                    onClick={() => setIsProfileOpen(true)}
                                 >
-                                    <Ellipsis className="w-6 h-6 cursor-pointer" />
+                                    {/* SVG Hamburger */}
+                                    <svg
+                                        className="w-6 h-6 text-gray-700"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+
                                 </button>
 
                                 {/* Dropdown menu */}
@@ -334,8 +329,6 @@ const MainNavbar = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Hamburger Menu for Small Screens */}
                 </div>
             </div>
             {/* Sidebar for small screens */}
@@ -345,14 +338,11 @@ const MainNavbar = () => {
             {/* 🔥 Sidebar Drawer for Profile */}
             {isProfileOpen && (
                 <div className="fixed inset-0 z-50 flex">
-                    {/* Overlay */}
                     <div
                         className="fixed inset-0 bg-black bg-opacity-50"
                         onClick={() => setIsProfileOpen(false)}
                     ></div>
-
-                    {/* Sidebar content */}
-                    <div className="relative bg-white w-52 max-w-full h-full shadow-lg p-4 overflow-y-auto">
+                    <div className="relative bg-white w-64 max-w-full h-full shadow-lg p-4 overflow-y-auto">
                         {/* Close button */}
                         <div className='block md:hidden h-8 w-auto '>
                             <img src="/images/c-nicon2.png" alt="Career-nexus icon" className='h-8 w-auto' />
@@ -368,6 +358,33 @@ const MainNavbar = () => {
                         <div className='mt-8'>
                             <Profile />
                         </div>
+
+                        <div className='border border-gray-200 p-2 rounded-lg'>
+                            <Link
+                                to="/help"
+                                className="flex gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
+                            >
+                                <HelpCircle /> Help
+                            </Link>
+                            <Link
+                                to="/settings"
+                                className="flex gap-4 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
+                                onClick={() => setIsProfileMenuOpen(false)}
+                            >
+                                <Settings /> Setting
+                            </Link>
+
+                        </div>
+
+                        <button
+                            className="flex gap-4 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 mt-6"
+                            role="menuitem"
+                            onClick={handleLogout}
+                        >
+                            <LogOut /> Sign out
+                        </button>
                     </div>
                 </div>
             )}

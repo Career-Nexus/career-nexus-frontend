@@ -209,7 +209,7 @@ const MainProfile = () => {
 
       <IntroVideoModal open={openIntroVideo} onClose={() => setOpenIntroVideo(false)} />
 
-      {profileCompletion < 100 && (
+      {profileCompletion && (
         <ProfileProgressDropdown onCompletionChange={handleCompletionChange} />
       )}
 
@@ -220,15 +220,6 @@ const MainProfile = () => {
 
 export default MainProfile;
 
-export const ProfileProgressDropdown = ({ onCompletionChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [completionData, setCompletionData] = useState({
-    completion: 0,
-    complete_items: [],
-    incomplete_items: []
-  });
-
-  // Define profile items with mapping to API response keys
   const profileItems = [
     {
       id: 1,
@@ -274,43 +265,34 @@ export const ProfileProgressDropdown = ({ onCompletionChange }) => {
     },
   ];
 
-  useEffect(() => {
-    const fetchProfileCompletion = async () => {
-      try {
-        const result = await PostService.getProfileCompletion();
-        console.log("Profile completion response:", result);
-        setCompletionData(result);
-        onCompletionChange(result.completion); // Notify parent of completion percentage
-      } catch (error) {
-        console.error("Error fetching profile completion:", error);
-        onCompletionChange(0); // Fallback to 0% on error
-      }
-    };
-    fetchProfileCompletion();
-  }, [onCompletionChange]);
+export const ProfileProgressDropdown = () => {
+  const { profileCompletion, completionData } = useContext(ProfileContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Hide dropdown if completion is 100%
-  if (completionData.completion === 100) {
-    return null;
-  }
+  const headerText =
+    profileCompletion === 100
+      ? "PROFILE COMPLETED 🎉"
+      : `COMPLETE YOUR PROFILE (${profileCompletion}%)`;
 
   return (
-    <div className="relative w-full max-w-3xl my-3">
+    <div className="relative w-full max-w-4xl my-3">
       <div
         className="flex items-center justify-between p-4 bg-white border rounded-lg shadow cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>COMPLETE YOUR PROFILE ({completionData.completion}%)</span>
+        <span className={profileCompletion === 100 ? "text-[#5DA05D] font-bold" : ""}>
+          {headerText}
+        </span>
         <svg
-          className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
+
       {isOpen && (
         <div className="w-full mt-1 bg-white border rounded-lg shadow-lg">
           <ul className="py-2">

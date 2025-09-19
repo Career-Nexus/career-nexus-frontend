@@ -1,9 +1,19 @@
 import React from 'react'
 import HeroSection from '../../components/Auth/HeroSection'
 import { SuccessIcon, SuccessIconBase } from '../../icons'
-import { Link, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { authService } from '../../api/ApiServiceThree';
+import Cookies from 'js-cookie';
 
 function SuccessPage() {
+    const navigate = useNavigate();
+    
+    const handleSuccess = () => {
+        authService.isAuthenticated(true);
+        authService.setAuthCookies(Cookies.get('access_token'));
+        // Cookies.remove('access_token');
+        navigate('/profile-setup');
+      };
   return (
     <div>
         <div className="grid grid-cols-12 min-h-screen">
@@ -23,8 +33,8 @@ function SuccessPage() {
                         </div>
                     </div>
                 </div>
-                <button className='flex items-center justify-center mt-10 md:mt-[-1rem] w-full'>
-                    <Link to="/profile-setup" className='w-[50%] px-4 py-2 bg-[#5DA05D] text-white text-center rounded-md mx-auto border-0'>Setup Your Profile</Link>
+                <button onClick={handleSuccess} className='flex items-center justify-center mt-10 md:mt-[-1rem] w-full'>
+                    <div className='w-[50%] px-4 py-2 bg-[#5DA05D] text-white text-center rounded-md mx-auto border-0'>Setup Your Profile</div>
                 </button>
             </div>
             

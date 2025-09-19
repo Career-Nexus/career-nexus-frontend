@@ -1,6 +1,7 @@
 
 import axios from "axios"
 import Cookies from "js-cookie"
+import { Navigate } from "react-router-dom"
 // const BASE_API_URL = import.meta.env.VITE_API_URL
 // console.log("API Base URL:", BASE_API_URL)
 // const baseUrl= 'https://16.16.24.199'
@@ -20,7 +21,8 @@ const COOKIE_OPTIONS = {
   sameSite: "strict",
 }
 // Cookie names
-const TOKEN_COOKIE_NAME = "auth_token"
+// const TOKEN_COOKIE_NAME = "auth_token"
+const TOKEN_COOKIE_NAME = "access_token"
 const USER_COOKIE_NAME = "user_data"
 
 
@@ -57,8 +59,9 @@ export const authService = {
     try {
       const response = await api.post('/user/signup/', userData);
       console.log('Signup response:', response.data);
-      if (response.data.tempToken || response.data.access) {
-        Cookies.set('temp_token', response.data.tempToken || response.data.access, COOKIE_OPTIONS);
+      if (response.data.access || response.data.tempToken) {
+        // Cookies.set('temp_token', response.data.tempToken || response.data.access, COOKIE_OPTIONS);
+        Cookies.set('access_token', response.data.tempToken || response.data.access, COOKIE_OPTIONS);
       }
       if (response.data.user?.id) {
         Cookies.set('user_id', response.data.user.id, COOKIE_OPTIONS);
@@ -89,8 +92,9 @@ export const authService = {
       console.log('Calling verifyOtp with:', data);
       const response = await api.post('/user/signup/', data);
       console.log('Verify OTP Response:', response.data);
-      if (response.data.tempToken || response.data.access) {
-        Cookies.set('temp_token', response.data.tempToken || response.data.access, COOKIE_OPTIONS);
+      if (response.data.access) {
+        // Cookies.set('temp_token', response.data.tempToken || response.data.access, COOKIE_OPTIONS);
+        Cookies.set('access_token', response.data.access, COOKIE_OPTIONS);
       }
       if (response.data.user?.id) {
         Cookies.set('user_id', response.data.user.id, COOKIE_OPTIONS);
@@ -129,87 +133,77 @@ export const authService = {
 
   // signin with google
   googleSignin: async (code) => {
-  try {
-    const response = await api.post("/user/google/signin/", { code })
-    console.log("Google Signin Response:", response.data)
+    try {
+      const response = await api.post("/user/google/signin/", { code })
+      console.log("Google Signin Response:", response.data)
 
-    if (response.data?.access) {
-      try {
-        Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
-        if (response.data.user) {
+      if (response.data?.access) {
+        try {
+          Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
+          Cookies.set("refresh_token", response.data.refresh, COOKIE_OPTIONS)
+          Cookies.set("user_email", response.data.user, COOKIE_OPTIONS)
+          if (response.data.user) {
             Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
           }
-      } catch (cookieError) {
-        console.error("Error setting cookies:", cookieError)
+        } catch (cookieError) {
+          console.error("Error setting cookies:", cookieError)
+        }
+      } else {
+        console.error("No token received from server")
       }
-    } else {
-      console.error("No token received from server")
+
+      return response.data
+    } catch (error) {
+      console.error("Couldn't sign in with Google", error)
+      throw error.response ? error.response.data : error.message
     }
+  },
+  //google signup
+  googleSignup: async (code) => {
+    try {
+      const response = await api.post("/user/google/signup/", { code })
+      console.log("Google signup response:", response.data)
 
-    return response.data
-  } catch (error) {
-    console.error("Couldn't sign in with Google", error)
-    throw error.response ? error.response.data : error.message 
-  }
-},
-//signup with google
-// googleSignup: async (code) => {
-//   try {
-//     const response = await api.post("/user/google/signup/", { code })
-//     console.log("Google Signin Response:", response.data)
-
-//     if (response.data?.access) {
-//       try {
-//         Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
-//         if (response.data.user) {
-//             Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
-//           }
-//       } catch (cookieError) {
-//         console.error("Error setting cookies:", cookieError)
-//       }
-//     } else {
-//       console.error("No token received from server")
-//     }
-
-//     return response.data
-//   } catch (error) {
-//     console.error("Couldn't sign in with Google", error)
-//     throw error.response ? error.response.data : error.message 
-//   }
-// },
-googleSignup: async (code) => {
-  try {
-    const response = await api.post("/user/google/signup/", { code })
-    console.log("Google Signup Response:", response.data)
-
-    if (response.data?.access) {
-      try {
-        Cookies.set(TOKEN_COOKIE_NAME, response.data.access, COOKIE_OPTIONS)
-
-        // Handle "user" field properly (it's a string in signup)
-        // if (response.data.user) {
-        //   // If backend returns string email
-        //   if (typeof response.data.user === "string") {
-        //     Cookies.set(USER_COOKIE_NAME, response.data.user, COOKIE_OPTIONS)
-        //   } else {
-        //     // fallback if backend changes it to an object later
-        //     Cookies.set(USER_COOKIE_NAME, JSON.stringify(response.data.user), COOKIE_OPTIONS)
-        //   }
-        // }
-      } catch (cookieError) {
-        console.error("Error setting cookies:", cookieError)
+      if (response.data?.access) {
+        Cookies.set("access_token", response.data.access, COOKIE_OPTIONS)
+        Cookies.set("refresh_token", response.data.refresh, COOKIE_OPTIONS)
+        Cookies.set("user_email", response.data.user, COOKIE_OPTIONS)
       }
-    } else {
-      console.error("No token received from server")
-    }
 
-    return response.data
-  } catch (error) {
-    console.error("Couldn't sign up with Google", error)
-    throw error.response ? error.response.data : error.message 
-  }
-},
-  // Logout user
+      if (response.data.user) {
+        const userData = { email: response.data.user }
+        Cookies.set(USER_COOKIE_NAME, JSON.stringify(userData), COOKIE_OPTIONS)
+      }
+
+      return response.data
+    } catch (error) {
+      console.error("Google signup error:", error.response?.data || error.message)
+      throw error.response ? error.response.data : error.message
+    }
+  },
+  googleMentorSignup: async ({ code, user_type }) => {
+    try {
+      const response = await api.post("/user/google/signup/", { code, user_type })
+      console.log("Google signup response:", response.data)
+
+      if (response.data?.access) {
+        Cookies.set("access_token", response.data.access, COOKIE_OPTIONS)
+        Cookies.set("refresh_token", response.data.refresh, COOKIE_OPTIONS)
+        Cookies.set("user_email", response.data.user, COOKIE_OPTIONS)
+      }
+
+      if (response.data.user) {
+        const userData = { email: response.data.user }
+        Cookies.set(USER_COOKIE_NAME, JSON.stringify(userData), COOKIE_OPTIONS)
+      }
+
+      return response.data
+    } catch (error) {
+      console.error("Google signup error:", error.response?.data || error.message)
+      throw error.response ? error.response.data : error.message
+    }
+  },
+
   logout: () => {
     Cookies.remove(TOKEN_COOKIE_NAME)
     Cookies.remove(USER_COOKIE_NAME)
@@ -275,8 +269,9 @@ googleSignup: async (code) => {
   verifyResetOtp: async (data) => {
     try {
       console.log('Calling verifyResetOtp with:', data);
-      const tempToken = Cookies.get('temp_token');
-      const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
+      // const tempToken = Cookies.get('temp_token');
+      const accessToken = Cookies.get('access_token');
+      const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
       const response = await api.post('/user/forget-password/', data, { headers });
       console.log('Verify Reset OTP Response:', response.data);
       return response.data;
@@ -291,8 +286,9 @@ googleSignup: async (code) => {
         throw new Error('Email, password1, and password2 are required');
       }
       console.log('Calling resetPassword with:', data);
-      const tempToken = Cookies.get('temp_token');
-      const headers = tempToken ? { Authorization: `Bearer ${tempToken}` } : {};
+      // const tempToken = Cookies.get('temp_token');
+      const accessToken = Cookies.get('access_token');
+      const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
       const response = await api.post('/user/forget-password/', data, { headers });
       console.log('Reset Password Response:', response.data);
       return response.data;

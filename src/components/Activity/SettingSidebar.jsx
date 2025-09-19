@@ -30,7 +30,7 @@ export default function SettingSidebar() {
             {user.user_type === "learner" ? (
             <div>
                 <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
-                    <div className='flex items-center justify-between min-h-32 mx-2 '>
+                    <div className='flex items-center gap-3 min-h-32 mx-2 '>
                         <div className='mr-2'>
                             <img src={user.profile_photo} alt="profile picture"
                                 className='h-12 w-12 rounded-full' />
@@ -47,7 +47,7 @@ export default function SettingSidebar() {
             <div>
                 <Link to={'/profilepage'} className='border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                         <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
-                        <div className='flex items-center justify-between min-h-24 mx-2 '>
+                        <div className='flex items-center gap-3 min-h-24 mx-2 '>
                             <div className='mr-2'>
                                 <img src={user.profile_photo} alt="profile picture"
                                     className='h-12 w-12 rounded-full' />

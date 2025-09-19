@@ -42,19 +42,14 @@ export default function UserTypeSelection() {
       const cookies = Cookies.get();
       console.log('Cookies sent with request:', cookies);
 
-      const tempToken = Cookies.get('temp_token');
-      console.log('Temporary token:', tempToken || 'None');
-
-      if (!tempToken) {
+      const accessToken = Cookies.get('access_token');
+      if (!accessToken) {
         throw new Error('No authentication token found. Please complete signup and OTP verification.');
       }
-      console.log(tempToken)
+      console.log(accessToken)
       const headers = {
-        Authorization: `Bearer ${tempToken}`,
+        Authorization: `Bearer ${accessToken}`,
       };
-
-      console.log('Submitting data:', payload);
-      console.log('Request headers:', headers);
       const response = await api.patch('/user/profile-update/', payload, { headers });
 
       console.log('Update response:', { status: response.status, data: response.data });
@@ -65,14 +60,12 @@ export default function UserTypeSelection() {
           setIsSetupComplete(true)
           setTimeout(async () => {
             try {
-              if (response.data.token || response.data.access) {
-                const permanentToken = response.data.token || response.data.access
-                authService.setAuthCookies(permanentToken)
-              } else {
-                authService.setAuthCookies(tempToken)
+              if(response.data.access){
+                authService.setAuthCookies(accessToken)
               }
-              Cookies.remove("temp_token")
+              // Cookies.remove("access_token")
               setShowModal(false)
+              authService.isAuthenticated(true);
               navigate("/home", { replace: true })
             } catch (authError) {
               console.error("Authentication setup failed:", authError)
@@ -81,7 +74,7 @@ export default function UserTypeSelection() {
               setLoading(false)
             }
           }, 2000)
-        }, 3000)
+        }, 2000)
       } else {
         throw new Error(`Unexpected response status: ${response.status}`)
       }
@@ -162,53 +155,32 @@ export default function UserTypeSelection() {
         </div>
       </div>
 
-      {/* Modal Overlay */}
-      {/* {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
-            {!isSetupComplete ? (
-              <>
-                <img src={SetupSpin} alt="setup-spin" className="animate-spin h-20 w-20 text-[#5B8F4E]" />
-                <p className="mt-4 text-lg font-semibold text-purple-700">Setting up Profile...</p>
-              </>
-            ) : (
-              <>
-                <div className="flex flex-col items-center mt-20">
-                  <img src={SetupMarked} alt="setup-marked" className="h-30 w-30 text-[#5B8F4E] flex items-center justify-center" />
-                  <p className="mt-4 text-lg font-semibold text-purple-700">Setup Complete!</p>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )} */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
-            {!isSetupComplete ? (
-              <>
-                <img
-                  src={SetupSpin}
-                  alt="setup-spin"
-                  className="animate-spin h-20 w-20 text-[#5B8F4E]"
-                />
-                <p className="mt-4 text-lg font-semibold text-purple-700">
-                  Setting up Profile...
-                </p>
-              </>
-            ) : (
-              <>
-                <img
-                  src={SetupMarked}
-                  alt="setup-marked"
-                  className="h-30 w-30 text-[#5B8F4E]"
-                />
-                <p className="mt-4 text-lg font-semibold text-purple-700">
-                  Setup Complete!
-                </p>
-              </>
-            )}
-          </div>
+          {!isSetupComplete ? (
+            <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
+              <img
+                src={SetupSpin}
+                alt="setup-spin"
+                className="animate-spin h-20 w-20 text-[#5B8F4E]"
+              />
+              <p className="mt-4 text-lg font-semibold text-purple-700">
+                Setting up Profile...
+              </p>
+            </div>
+          ) : (
+            <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center w-64 h-48 border border-gray-300">
+              <img
+                src="/images/setup.png"
+                alt="setup-marked"
+                // className="h-20 w-20 text-[#5B8F4E]"
+                className="w-60 h-36 text-[#5B8F4E]"
+              />
+              <p className="mt-4 text-lg font-semibold text-purple-700">
+                Setup Complete!
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>
