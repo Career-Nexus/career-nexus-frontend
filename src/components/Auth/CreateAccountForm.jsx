@@ -168,7 +168,8 @@ const CreateAccountForm = () => {
   const handleGoogleSignup = () => {
     const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
     // const redirectUri = "http://127.0.0.1:5173/signup/"
-    const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/signup/"
+    // const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/signup/"
+    const redirectUri = "https://www.career-nexus.com/signup/"
     const scope = "openid email profile"
     const responseType = "code"
     const accessType = "offline"
@@ -431,7 +432,7 @@ if (googleLoading) {
           <Google className="h-6 w-6 mr-2" />
           <span>Google</span>
         </button>
-        <button
+        {/* <button
           style={{marginTop:"0.9rem"}}
           type="button"
           onClick={handleLinkedInLogin}
@@ -439,7 +440,7 @@ if (googleLoading) {
         >
           <Linkedin className="h-6 w-6 mr-2" />
           <span>LinkedIn</span>
-        </button>
+        </button> */}
 
         {/* Login Link */}
         <div className="text-center" style={{marginTop:"0.7rem"}}>

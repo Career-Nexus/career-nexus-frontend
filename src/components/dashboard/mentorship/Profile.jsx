@@ -39,7 +39,7 @@ const Profile = () => {
                     <div className=''>
                         <div className='md:border border-gray rounded-lg hidden md:block'>
                             <Link to={'/profilepage'} className='md:border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
-                                <div className='flex items-center justify-between min-h-32 mx-2 '>
+                                <div className='flex items-center gap-3 min-h-32 mx-2 '>
                                     <div className='mr-2'>
                                         <img src={user.profile_photo} alt="profile picture"
                                             className='h-12 w-12 rounded-full' />
@@ -106,7 +106,7 @@ const Profile = () => {
                     <div className='hidden md:block'>
                         <Link to={'/profilepage'} className='md:border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                             <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
-                            <div className='flex items-center justify-between min-h-24 mx-2 '>
+                            <div className='flex items-center gap-3 min-h-24 mx-2 '>
                                 <div className='mr-2'>
                                     <img src={user.profile_photo} alt="profile picture"
                                         className='h-12 w-12 rounded-full' />

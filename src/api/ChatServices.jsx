@@ -23,7 +23,18 @@ export const ChatServices = {
             return { success: false, data: [] };
         }
     },
-    async clearChat(){
+
+    async getNotifications() {
+        try {
+            const response = await api.get('/notification-chat/notifications/');
+            console.log("Notification fetched:", response);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+            return { success: false, data: [] };
+        }
+    },
+    async clearNotifications(){
         try {
             const response = await api.delete('/notification-chat/notifications/');
             console.log("API raw response:", response);

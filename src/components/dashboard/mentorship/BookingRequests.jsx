@@ -51,6 +51,13 @@ export function BookingRequests({ requested, refresh, loading }) {
             toast.error("Error occurred");
         }
     };
+    if (requested.length === 0 && !loading) {
+        return (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+                <p className="text-gray-500">No pending requests</p>
+            </div>
+        )
+    }
     return (
         <div className="grid md:grid-cols-2 gap-6">
             {loading ? (

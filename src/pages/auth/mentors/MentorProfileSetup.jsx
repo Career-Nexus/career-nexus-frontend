@@ -8,16 +8,17 @@ import { toast } from 'react-toastify';
 import Select from "react-select";
 import { CountryCodes } from '../CountryCodes';
 import api, { authService } from '../../../api/ApiServiceThree';
+import { ChevronsUpDown } from 'lucide-react';
 
 
-const apiNoAuth = axios.create({
-    baseURL: 'https://bprod.career-nexus.com/',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    withCredentials: true,
-    //    timeout: 10000,
-});
+// const apiNoAuth = axios.create({
+//     baseURL: 'https://bprod.career-nexus.com/',
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+//     withCredentials: true,
+//     //    timeout: 10000,
+// });
 
 export const MentorProfileSetup = () => {
     const [currentStep, setCurrentStep] = useState(1)
@@ -38,6 +39,7 @@ export const MentorProfileSetup = () => {
     const [selectedMentoringStyle, setSelectedMentoringStyle] = useState([])
     const [technicalSkills, setTechnicalSkills] = useState("")
     const [selectedTimezone, setSelectedTimezone] = useState("")
+    const [rate, setRate] = useState(1);
 
     const [timezones, setTimezones] = useState([])
     const [timezonesLoading, setTimezonesLoading] = useState(false)
@@ -187,6 +189,7 @@ export const MentorProfileSetup = () => {
         formData.append("technical_skills", JSON.stringify(technicalSkillsArray));
         formData.append("mentorship_styles", JSON.stringify(selectedMentoringStyle));
         formData.append("timezone", selectedTimezone);
+        formData.append("session_rate", rate);
         formData.append("linkedin_url", linkedinProfileUrl);
         if (resumeCvUpload) {
             formData.append("resume", resumeCvUpload);
@@ -412,37 +415,68 @@ export const MentorProfileSetup = () => {
                             ))}
                         </div>
                     </div>
+
                 </div>
             </div>
 
             {/* Timezone Selection */}
-            <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Preferred Time Zone
-                    <span className="text-red-500">*</span>
-                </h3>
-                <select
-                    value={selectedTimezone}
-                    onChange={(e) => setSelectedTimezone(e.target.value)}
-                    disabled={timezonesLoading}
-                    className="w-1/2 px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B8F4E] focus:border-[#5B8F4E] outline-none transition-colors appearance-none disabled:opacity-50"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                        backgroundPosition: "right 0.5rem center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "1.5em 1.5em",
-                        paddingRight: "2.5rem",
-                    }}
-                >
-                    <option value="" disabled>
-                        {timezonesLoading ? "Loading timezones..." : "Select your preferred time zone"}
-                    </option>
-                    {timezones.map((timezone) => (
-                        <option key={timezone} value={timezone}>
-                            {timezone.replace(/_/g, " ")}
+            <div className='max-w-4xl w-full mt-8 flex gap-8'>
+                <div className="max-w-sm w-full">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                        Preferred Time Zone
+                        <span className="text-red-500">*</span>
+                    </h3>
+                    <select
+                        value={selectedTimezone}
+                        onChange={(e) => setSelectedTimezone(e.target.value)}
+                        disabled={timezonesLoading}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B8F4E] focus:border-[#5B8F4E] outline-none transition-colors appearance-none disabled:opacity-50"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                            backgroundPosition: "right 0.5rem center",
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "1.5em 1.5em",
+                            paddingRight: "2.5rem",
+                        }}
+                    >
+                        <option value="" disabled>
+                            {timezonesLoading ? "Loading timezones..." : "Select your preferred time zone"}
                         </option>
-                    ))}
-                </select>
+                        {timezones.map((timezone) => (
+                            <option key={timezone} value={timezone}>
+                                {timezone.replace(/_/g, " ")}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="max-w-sm w-full pl-12 pr-4">
+                    <label className="block text-gray-900 font-medium mb-2">
+                        Select Your Session Rate / Hr ($1-$10)
+                    </label>
+
+                    <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600">
+                            $
+                        </span>
+                        <select
+                            value={rate}
+                            onChange={(e) => setRate(Number(e.target.value))}
+                            className="w-full pl-7 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-[#5B8F4E] focus:border-[#5B8F4E] outline-none appearance-none"
+                        >
+                            {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
+                                <option key={value} value={value}>
+                                    {value}
+                                </option>
+                            ))}
+                        </select>
+                        {/* <ChevronsUpDown className="absolute right-3  text-gray-500 w-5 h-5 pointer-events-none" /> */}
+                    </div>
+
+                    <p className="text-gray-500 text-sm mt-2">
+                        Our $5-$10 range makes mentorship accessible globally while ensuring
+                        fair compensation for your expertise.
+                    </p>
+                </div>
             </div>
 
             {/* Navigation Buttons */}
@@ -573,3 +607,36 @@ export const MentorProfileSetup = () => {
         </div>
     )
 }
+
+
+// export default function SessionRate() {
+//     const [rate, setRate] = useState(1);
+
+//     return (
+//         <div className="max-w-xs w-full">
+//             <label className="block text-gray-900 font-medium mb-2">
+//                 Select Your Session Rate / Hr ($1-$10)
+//             </label>
+
+//             <div className="relative">
+//                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600">
+//                     $
+//                 </span>
+//                 <input
+//                     type="number"
+//                     min={1}
+//                     max={10}
+//                     value={rate}
+//                     onChange={(e) => setRate(e.target.value)}
+//                     className="w-full pl-7 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-[#5B8F4E] focus:border-[#5B8F4E] outline-none"
+//                 />
+//                 <ChevronsUpDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
+//             </div>
+
+//             <p className="text-gray-500 text-sm mt-2">
+//                 Our $5-$10 range makes mentorship accessible globally while ensuring
+//                 fair compensation for your expertise.
+//             </p>
+//         </div>
+//     );
+// }

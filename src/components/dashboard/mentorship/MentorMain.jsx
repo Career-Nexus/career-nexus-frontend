@@ -477,8 +477,8 @@ const MentorCard = ({ mentor }) => {
         <div className="flex items-center justify-center gap-5 my-5">
           <button
             onClick={openModal}
-            disabled
-            // disabled={mentorSession.includes(mentor.id)}
+            //disabled
+            disabled={mentorSession.includes(mentor.id)}
             className={`py-2 px-4 border ${mentorSession.includes(mentor.id)
                 ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
                 : "bg-[#5DA05D] text-white"

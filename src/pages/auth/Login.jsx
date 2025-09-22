@@ -142,7 +142,8 @@ export default function Login() {
   const handleGoogleSignin = () => {
     const googleClientId = "186321207697-u97pq79ijbig0b4095eabijjjej9hm22.apps.googleusercontent.com"
     // const redirectUri = "http://127.0.0.1:5173/login/"
-    const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/login/"
+    // const redirectUri = "https://master.dnoqikexgmm2j.amplifyapp.com/login/"
+    const redirectUri = "https://www.career-nexus.com/login/"
     const scope = "openid email profile"
     const responseType = "code"
     const accessType = "offline"
@@ -322,12 +323,12 @@ useEffect(() => {
                 </div>
               </button>
 
-              <button className="w-full h-10 flex items-center justify-center border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors">
+              {/*<button className="w-full h-10 flex items-center justify-center border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center">
                   <Linkedin className="h-5 w-5" />
                   <span className="ml-2">LinkedIn</span>
                 </div>
-              </button>
+              </button>*/}
             </div>
 
             {/* Signup Link */}

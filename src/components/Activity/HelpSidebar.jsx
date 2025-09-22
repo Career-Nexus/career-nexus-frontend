@@ -28,7 +28,7 @@ export default function HelpSidebar() {
     return (
         <div>
             {user.user_type === "learner" ? (
-                <div>
+                <div className="hidden md:block">
                     <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
                         <div className='flex items-center gap-3 min-h-32 mx-2 '>
                             <div className='mr-2'>
@@ -44,7 +44,7 @@ export default function HelpSidebar() {
                     </Link>
                 </div>
             ) : (
-                <div>
+                <div className="hidden md:block">
                     <Link to={'/profilepage'} className='border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                         <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
                         <div className='flex items-center gap-3 min-h-24 mx-2 '>

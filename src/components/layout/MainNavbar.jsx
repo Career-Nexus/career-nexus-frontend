@@ -230,13 +230,10 @@ const MainNavbar = () => {
                     )}
                     <Link
                         to='#'
-                        // to='/notifications'
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''} hidden md:flex `}
                     >
-                        {/* <Notification className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} /> */}
                         <Notify className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
-                        <div className='h-3 w-3 rounded-full bg-red-600 absolute top-4 ml-3 p-1'></div>
-                        {/* <span className='absolute font-bold top-[14px] ml-3 text-white' style={{ fontSize: "9px" }}>2</span> */}
+                        
                     </Link>
 
                     {/* User Name and Dropdown Menu */}
@@ -395,10 +392,10 @@ const MainNavbar = () => {
 export default MainNavbar
 
 export function Notify() {
-    const { notifications } = useNotifications();
     const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const dropdownRef = useRef(null);
+    const [allNotifications, setAllNotifications] = useState([])
 
     // Detect screen size
     useEffect(() => {
@@ -423,13 +420,31 @@ export function Notify() {
         };
     }, []);
 
+    const getNotifications = async () => {
+        try {
+            const { success, data } = await ChatServices.getNotifications();
+            if (success) {
+                setAllNotifications(data.results || []); // ✅ always set an array
+                console.log("Notifications fetched:", data.results);
+            } else {
+                setAllNotifications([]);
+            }
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+            setAllNotifications([]);
+        }
+    };
+    useEffect(() => {
+        getNotifications();
+    }, []);
+
     const ClearNotification = async () => {
-        const { success } = await ChatServices.clearChat();
+        const { success } = await ChatServices.clearNotifications();
         if (success) {
             toast.success("Notifications cleared successfully");
         }
     };
-
+    console.log("All Notifications:", allNotifications);
     return (
         <nav>
             <div className="relative" ref={dropdownRef}>
@@ -438,9 +453,9 @@ export function Notify() {
                     className="relative p-2 rounded-full hover:md:bg-gray-100"
                 >
                     <Bell className="w-6 h-6 text-gray-700" />
-                    {notifications.length > 0 && (
-                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                            {notifications.length}
+                    {allNotifications.length > 0 && (
+                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
+                            {allNotifications.length}
                         </span>
                     )}
                 </button>
@@ -451,19 +466,22 @@ export function Notify() {
                         ${isMobile ? "bottom-full mb-2 right-0" : "top-full mt-2 right-0"}`}
                     >
                         <div className="max-h-80 overflow-y-auto">
-                            {notifications.length === 0 ? (
+                            {allNotifications.length === 0 ? (
                                 <p className="p-4 text-gray-600 text-sm">No notifications</p>
                             ) : (
-                                notifications.map((n) => (
+                                allNotifications.map((n) => (
                                     <div key={n.id} className="p-3 border-b hover:bg-gray-50">
                                         <p className="text-sm font-medium text-gray-800">
-                                            {n.type === "job" ? "New Job Alert!" : `${n.user} mentioned you`}
+                                            Notification
                                         </p>
-                                        <p className="text-xs text-gray-600">{n.message}</p>
-                                        <p className="text-[10px] text-gray-400">{n.time || new Date().toLocaleTimeString()}</p>
+                                        <p className="text-xs text-gray-600">{n.text}</p>
+                                        <p className="text-[10px] text-gray-400">
+                                            {new Date(n.timestamp).toLocaleString()}
+                                        </p>
                                     </div>
                                 ))
                             )}
+
                         </div>
                         <div onClick={ClearNotification} className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
                             Clear All Notifications
