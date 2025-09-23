@@ -11,7 +11,8 @@ export const NotificationProvider = ({ children }) => {
   const wsRef = useRef(null)
 
   const token = authService.getAuthToken();
-  const wsUrl = `wss://bprod.career-nexus.com/ws/notification/?token=${encodeURIComponent(token)}`;
+  // const wsUrl = `wss://bprod.career-nexus.com/ws/notification/?token=${encodeURIComponent(token)}`;
+  const wsUrl = `wss://btest.career-nexus.com/ws/notification/?token=${encodeURIComponent(token)}`;
 
   useEffect(() => {
     let ws = new WebSocket(wsUrl);
