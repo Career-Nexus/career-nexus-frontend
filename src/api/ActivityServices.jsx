@@ -107,18 +107,7 @@ export const ActivityService = {
             console.log("Could not update user settings");
         }
     },
-    // async UserCreateDispute(create){
-    //     try {
-    //         console.log("Api payload",create)
-    //         const response = await api.post("/user/disputes/",create)
-    //         if (response.data) {
-    //             console.log("Dispute created", response.data);
-    //             return { success: true, data: response.data }
-    //         }
-    //     } catch (error) {
-    //         console.log("Could not create dispute")
-    //     }
-    // },
+
     async UserCreateDispute(create) {
         try {
             console.log("Api payload", create);
@@ -143,6 +132,17 @@ export const ActivityService = {
             }
         } catch (error) {
             console.log("Could not fetch dispute")
+        }
+    },
+    async GetVaultData(params = {}) {
+        try {
+            const response = await api.get("/mentor/vault/", { params })
+            if (response.data) {
+                console.log("Vault data fetched", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not fetch vault data")
         }
     }
 }

@@ -23,7 +23,27 @@ export const ChatServices = {
             return { success: false, data: [] };
         }
     },
+    async getChatSessions() {
+        try {
+            const response = await api.get("/notification-chat/chats/");
+            console.log("API raw response (sessions):", response);
 
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.error("Error fetching chat sessions:", error);
+            return { success: false, data: [] };
+        }
+    },
+    async getChatHistory(chat_id) {
+        try {
+            const response = await api.get(`/notification-chat/chat/messages/?chat_id=${chat_id}`);
+            console.log("API raw response:", response);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.error("Error fetching chat history:", error);
+            return { success: false, data: [] };
+        }
+    },
     async getNotifications() {
         try {
             const response = await api.get('/notification-chat/notifications/');
@@ -34,7 +54,7 @@ export const ChatServices = {
             return { success: false, data: [] };
         }
     },
-    async clearNotifications(){
+    async clearNotifications() {
         try {
             const response = await api.delete('/notification-chat/notifications/');
             console.log("API raw response:", response);

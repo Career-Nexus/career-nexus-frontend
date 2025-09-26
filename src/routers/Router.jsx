@@ -352,7 +352,7 @@ const Router = () => {
           }
         />
         <Route
-          path='/chat/:id'
+          path='/chat/:chat_id'
           element={
             <ProtectedRoute>
               <Chat />

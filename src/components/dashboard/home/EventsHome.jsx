@@ -259,9 +259,9 @@ const EventsHome = () => {
             {/* mentor */}
 
             <div>
-                {/* <div>
+                <div>
                     <FloatingMessageIcon />
-                </div> */}
+                </div>
                 {/* <div>
                     <PremiumWrapper />
                 </div> */}
