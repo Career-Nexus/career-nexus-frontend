@@ -5,8 +5,8 @@ import { Navigate } from "react-router-dom"
 // const BASE_API_URL = import.meta.env.VITE_API_URL
 // console.log("API Base URL:", BASE_API_URL)
 // const baseUrl= 'https://16.16.24.199'
-const baseUrl = 'https://btest.career-nexus.com/'
-//const baseUrl = 'https://bprod.career-nexus.com/'
+//const baseUrl = 'https://btest.career-nexus.com/'
+const baseUrl = 'https://bprod.career-nexus.com/'
 const api = axios.create({
   baseURL: baseUrl,
   headers: {

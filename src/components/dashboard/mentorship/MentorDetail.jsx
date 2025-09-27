@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { Bookmark, BriefcaseBusiness, ChevronLeft, ChevronRight, Ellipsis, GraduationCap, MapPin, MessageCircle, RefreshCw, ThumbsUp, Upload, UserPlus } from 'lucide-react';
 // import { mentors } from './MentorMain';
-import ProfileDetail from './ProfileDetail';
-import { Playbutton } from '../../../icons';
-import MentorDetailPost from './MentorDetailPost';
+import ProfileDetail from './ProfileDetail';;
 // import MentorProfSummary from './MentorProfSummary';
 import api from '../../../api/ApiServiceThree';
 import { UserContext } from '../../../context/UserContext';
@@ -13,6 +11,7 @@ import PersonsPosts from '../home/profile/viewPersonProfile/PersonsPosts';
 import AllJobs from '../jobs/AllJobs';
 import ProjectCatalog from '../home/profile/viewPersonProfile/ProjectCatalog';
 import AnalyticsDashboard from '../home/profile/viewPersonProfile/AnalyticsDashboard';
+import { ChatMentorModal } from '../chat/InitiateChatModal';
 
 function MentorDetail() {
     const [mentorDetails, setMentorDetails] = useState(null);
@@ -46,7 +45,7 @@ function MentorDetail() {
         );
     }
 
-    const mentor = mentorDetails;
+    // const mentor = mentorDetails;
 
     return (
         <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5 lg:px-12 md:py-8'>
@@ -84,7 +83,16 @@ function MentorDetail() {
                                 <div className='flex gap-2'>
                                     <span className='text-[#5DA05D]'>{userwithid.session || 0}</span> sessions
                                 </div>
+                                {/* {userwithid.can_message === true?(
+                                    <div className='text-white bg-[#5DA05D] py-1 px-3 rounded-lg'><ChatMentorModal userwithid={userwithid} /></div>
+                                ):("")} */}
+                                {/* <div><ChatMentorModal userwithid={userwithid} /></div> */}
+                                
                             </div>
+                            <div className='flex gap-5 border-b border-[#5DA05D] pb-2'>
+                                <p>Session rate: <span className='font-semibold'>{userwithid.session_rate}</span></p>
+                            </div>
+                            
                             {/* <div className="flex mt-6 space-x-3">
                                 <button className="bg-[#2A0D47] text-white px-4 py-2 rounded-lg">Book a Session</button>
                                 <button className="border border-[#5DA05D] text-gray-600 px-4 py-2 rounded-lg ">
@@ -92,21 +100,7 @@ function MentorDetail() {
                                 </button>
                             </div> */}
                         </div>
-                        {/* <div className='flex justify-between float-end'>
-                            {userwithid?.intro_video ? (
-                                <video
-                                    src={userwithid.intro_video}
-                                    controls
-                                    className="rounded-lg max-w-xs"
-                                />
-                            ) : (
-                                <img
-                                    src="/images/video1.png"
-                                    alt="video stream"
-                                    className="rounded-lg max-w-xs"
-                                />
-                            )}
-                        </div> */}
+                        
                         <div className='flex flex-col col-span-12 md:col-span-4'>
                                 {userwithid?.intro_video ? (
                                     <video
@@ -144,6 +138,60 @@ function MentorDetail() {
     );
 }
 export default MentorDetail
+
+// function ChatMentorModal({ userwithid }) {
+//   const [isOpen, setIsOpen] = useState(false)
+
+//   return (
+//     <>
+//       {userwithid?.can_message === true && (
+//         <button
+//           onClick={() => setIsOpen(true)}
+//           className="text-white bg-[#5DA05D] py-1 px-3 rounded-lg hover:bg-[#4a834a] transition"
+//         >
+//           Chat Mentor
+//         </button>
+//       )}
+
+//       {/* Modal Overlay */}
+//       {isOpen && (
+//         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+//           {/* Modal Box */}
+//           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+//             {/* Header */}
+//             <div className="flex justify-between items-center border-b pb-2">
+//               <h2 className="text-lg font-semibold">Chat with Mentor</h2>
+//               <button
+//                 onClick={() => setIsOpen(false)}
+//                 className="text-gray-500 hover:text-gray-700"
+//               >
+//                 ✕
+//               </button>
+//             </div>
+
+//             {/* Chat Body */}
+//             <div className="mt-4 h-64 overflow-y-auto border rounded-md p-3 space-y-2 bg-gray-50">
+//               <div className="text-gray-600 text-sm">Mentor: Hello 👋</div>
+//               <div className="text-blue-600 text-sm text-right">You: Hi!</div>
+//             </div>
+
+//             {/* Input box */}
+//             <div className="mt-4 flex gap-2">
+//               <input
+//                 type="text"
+//                 placeholder="Type your message..."
+//                 className="flex-1 rounded-lg text-black border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]/50"
+//               />
+//               <button className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg hover:bg-[#4a834a]">
+//                 Send
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   )
+// }
 
 
 function MentorDetailsTabs() {

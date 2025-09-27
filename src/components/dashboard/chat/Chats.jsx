@@ -4,7 +4,7 @@
 
 import { useState, useRef, useContext, useEffect } from "react";
 import { emojis } from "../home/Emoji";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import { authService } from "../../../api/ApiServiceThree"; // adjust if needed
 import { toast } from "react-toastify";
@@ -96,8 +96,13 @@ export default function Chats() {
 
   // Build WebSocket URL
   const token = authService.getAuthToken();
-  const wsUrl = contributorId
-    ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+  // const wsUrl = contributorId
+  //   ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+  //     token
+  //   )}`
+  //   : null;
+    const wsUrl = contributorId
+    ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
       token
     )}`
     : null;
@@ -197,7 +202,7 @@ export default function Chats() {
     <div className="flex flex-col h-full">
       {/* Header with contributor info */}
       {contributor && (
-        <div className="flex items-center gap-3 p-4 border-b border-gray-200 bg-white">
+        <div className="flex items-center gap-3 p-4 border-b border-gray-200 bg-white sticky top-10 md:top-20">
           <img
             src={contributor.profile_photo || "/placeholder.svg"}
             alt={contributor.first_name}
@@ -211,6 +216,7 @@ export default function Chats() {
               {contributor.qualification || ""}
             </p>
           </div>
+          <Link to={"/chatsection"} className="ml-auto bg-[#5DA05D] text-white rounded-lg py-1 px-3">back</Link>
         </div>
       )}
 

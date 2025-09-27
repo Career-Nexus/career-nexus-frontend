@@ -42,25 +42,14 @@ import { ChatServices } from "../../api/ChatServices"
 function NewChats() {
   const { userwithid } = useContext(UserContext);
   const { contributorId } = useParams(); // from /chat/:contributorId
-
-  // useEffect(() => {
-  //   const fetchChatSessions = () => {
-  //     const res = ChatServices.getChatSessions();
-  //     if (res.success) {
-  //       setChatSessions(res.data);
-  //     }
-  //   };
-  //   fetchChatSessions();
-  // }, []);
-  // console.log("All chat sessions:", chatSessions);
   return (
-    <div className="grid grid-cols-12 md:gap-8 p-4 md:px-5 lg:px-12 md:py-8">
-      <div className="col-span-4 md:col-span-4 lg:col-span-3">
+    <div className='grid grid-cols-12 md:gap-8 p-4 md:px-5  lg:px-12 md:py-8'>
+      <div className='md:col-span-4 lg:col-span-3 hidden md:block'>
         <div className="sticky top-20">
           <Profile />
         </div>
       </div>
-      <div className="col-span-8 md:col-span-8 lg:col-span-9">
+      <div className='col-span-12 md:col-span-8 lg:col-span-9'>
         <ChatProvider contributorId={contributorId}>
           <EmptyChatRoom />
         </ChatProvider>

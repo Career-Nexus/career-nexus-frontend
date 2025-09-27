@@ -4,11 +4,10 @@ import { UpcomingSessions } from "./UpcomingSessions"
 import { CompletedSessions } from "./CompletedSessions"
 import { Search } from "lucide-react"
 import { MentorServices } from "../../../api/MentorServices"
-import AllJobs from "../jobs/AllJobs"
 
 export default function MentorshipRequests() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [activeTab, setActiveTab] = useState("booking-requests")
+  const [activeTab, setActiveTab] = useState("upcoming-sessions")
   const [requested, setRequested] = useState([])   // store booking requests
   const [loading, setLoading] = useState(false)
   const [scheduled, setScheduled] = useState([])   // store upcoming sessions
@@ -121,14 +120,6 @@ export default function MentorshipRequests() {
         </div>
 
         <div>
-          {activeTab === "booking-requests" && (
-            <BookingRequests
-              requested={filteredRequested}
-              refresh={fetchRequests}
-              loading={loading}
-            />
-          )}
-
           {activeTab === "upcoming-sessions" && (
             <BookingRequests
               requested={filteredScheduled}
@@ -136,7 +127,13 @@ export default function MentorshipRequests() {
               loading={loading}
             />
           )}
-
+          {activeTab === "booking-requests" && (
+            <BookingRequests
+              requested={filteredRequested}
+              refresh={fetchRequests}
+              loading={loading}
+            />
+          )}
           {activeTab === "completed-sessions" && <CompletedSessions />}
         </div>
       </div>
