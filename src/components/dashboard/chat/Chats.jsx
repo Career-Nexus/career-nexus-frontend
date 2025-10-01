@@ -1,15 +1,14 @@
-
-
 "use client";
 
-import { useState, useRef, useContext, useEffect } from "react";
-import { emojis } from "../home/Emoji";
+import { useState, useRef, useContext, useEffect, useMemo } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { UserContext } from "../../../context/UserContext";
-import { authService } from "../../../api/ApiServiceThree"; // adjust if needed
 import { toast } from "react-toastify";
+import { UserContext } from "../../../context/UserContext";
+import { authService } from "../../../api/ApiServiceThree";
 import { ChatServices } from "../../../api/ChatServices";
+import { emojis } from "../home/Emoji";
 
+// ---------------- Emoji Picker ----------------
 function EmojiPicker({ isOpen, onClose, onEmojiSelect }) {
   if (!isOpen) return null;
   return (
@@ -62,11 +61,11 @@ function ChatInput({ onSend }) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Type a message..."
-        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]"
       />
       <button
         onClick={handleSend}
-        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+        className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg hover:bg-green-700"
       >
         Send
       </button>
@@ -83,10 +82,9 @@ function ChatInput({ onSend }) {
 // ---------------- Main Chats ----------------
 export default function Chats() {
   const location = useLocation();
-  const contributor = location.state?.contributor; // ✅ contributor payload
+  const contributor = location.state?.contributor; // contributor payload
   const contributorId = contributor?.id;
-
-  const { chat_id } = useParams(); // from /chat/:chat_id
+  const { chat_id } = useParams();
 
   const [messages, setMessages] = useState([]);
   const { user } = useContext(UserContext);
@@ -94,26 +92,21 @@ export default function Chats() {
   const wsRef = useRef(null);
   const [wsStatus, setWsStatus] = useState("Idle");
 
-  // Build WebSocket URL
-  const token = authService.getAuthToken();
-  // const wsUrl = contributorId
-  //   ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
-  //     token
-  //   )}`
-  //   : null;
-    const wsUrl = contributorId
-    ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
-      token
-    )}`
-    : null;
+  // Build WebSocket URL once
+  const wsUrl = useMemo(() => {
+    const token = authService.getAuthToken();
+    return contributorId
+      ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+        token
+      )}`
+      : null;
+  }, [contributorId]);
 
   // ---------------- WebSocket setup ----------------
   useEffect(() => {
-    //if (!contributorId || !wsUrl) return;
+    if (!wsUrl) return;
 
     let ws;
-    let pingInterval;
-
     const connect = () => {
       ws = new WebSocket(wsUrl);
       wsRef.current = ws;
@@ -121,19 +114,65 @@ export default function Chats() {
       ws.onopen = () => {
         console.log("✅ Chat WebSocket opened");
         setWsStatus("Connected");
-
-        pingInterval = setInterval(() => {
-          if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ type: "ping" }));
-          }
-        }, 30000);
       };
+
+      // ws.onmessage = (event) => {
+      //   try {
+      //     const data = JSON.parse(event.data);
+      //     console.log("💬 WS message:", data);
+      //     if (data.type === "pong") return;
+
+      //     if (window.location.pathname !== `/chat/${chat_id}`) {
+      //       toast.info(
+      //         <div>
+      //           <p className="font-medium">Message from {contributor?.first_name}</p>
+      //           <p className="text-sm">{data.message}</p>
+      //         </div>,
+      //         { autoClose: 8000 }
+      //       )
+      //     }
+
+      //     setMessages((prev) => {
+      //       const senderId = data.user_id ?? data.person?.id;
+      //       const uniqueKey = `${senderId}-${data.message}-${data.timestamp}`;
+
+      //       const exists = prev.some(
+      //         (msg) =>
+      //           (msg.user_id ?? msg.person?.id) === senderId &&
+      //           msg.message === data.message &&
+      //           msg.timestamp === data.timestamp
+      //       );
+
+      //       return exists ? prev : [...prev, { ...data, uniqueKey }];
+      //     });
+      //   } catch (err) {
+      //     console.error("Error parsing WS message", err);
+      //   }
+      // };
       ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
           console.log("💬 WS message:", data);
+
+          // Ignore pings
           if (data.type === "pong") return;
 
+          // ✅ If user is outside this chat, show toast only (don't append to chat state)
+          if (window.location.pathname !== `/chat/${chat_id}`) {
+            toast.info(
+              <div>
+                <p className="font-medium">Message from {contributor?.first_name}</p>
+                <p className="text-sm">{data.message}</p>
+              </div>,
+              {
+                autoClose: 8000,
+                toastId: `chat-${chat_id}`, // 👈 ensures only one toast per chat
+              }
+            );
+            return; // stop here → no double notifications
+          }
+
+          // ✅ Inside chat: update messages normally
           setMessages((prev) => {
             const senderId = data.user_id ?? data.person?.id;
             const uniqueKey = `${senderId}-${data.message}-${data.timestamp}`;
@@ -158,11 +197,10 @@ export default function Chats() {
       };
 
       ws.onclose = (event) => {
-        clearInterval(pingInterval);
         console.log("WebSocket closed:", event.code, event.reason);
         setWsStatus("Disconnected");
         if (event.code !== 1000) {
-          setTimeout(connect, 10000);
+          setTimeout(connect, 10000); // auto reconnect
         }
       };
     };
@@ -170,10 +208,11 @@ export default function Chats() {
     connect();
 
     return () => {
-      clearInterval(pingInterval);
       ws?.close();
     };
-  }, [wsUrl, contributorId]);
+  // }, [wsUrl, chat_id, location.pathname, contributor]);
+  }, [wsUrl, chat_id]);
+
   // ---------------- Send Message ----------------
   const handleSendMessage = (text) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
@@ -181,22 +220,25 @@ export default function Chats() {
       wsRef.current.send(JSON.stringify(payload));
     }
   };
+
+  // ---------------- Fetch history ----------------
   const fetchChatHistory = async () => {
     try {
       const res = await ChatServices.getChatHistory(chat_id);
       if (res.success) {
         setMessages(res.data);
       }
-
     } catch (error) {
-
+      console.error("Failed to fetch chat history", error);
     }
-  }
+  };
+
   useEffect(() => {
     if (chat_id) {
       fetchChatHistory();
     }
   }, [chat_id]);
+
   // ---------------- Render ----------------
   return (
     <div className="flex flex-col h-full">
@@ -216,7 +258,12 @@ export default function Chats() {
               {contributor.qualification || ""}
             </p>
           </div>
-          <Link to={"/chatsection"} className="ml-auto bg-[#5DA05D] text-white rounded-lg py-1 px-3">back</Link>
+          <Link
+            to={"/chatsection"}
+            className="ml-auto bg-[#5DA05D] text-white rounded-lg py-1 px-3"
+          >
+            back
+          </Link>
         </div>
       )}
 
@@ -227,8 +274,6 @@ export default function Chats() {
         ) : (
           messages.map((msg, index) => {
             const senderId = msg.user_id ?? msg.person?.id;
-
-            // if sender is the contributor => it's them, else it's me
             const isMe = String(senderId) !== String(contributorId);
 
             return (
@@ -236,7 +281,6 @@ export default function Chats() {
                 key={index}
                 className={`flex ${isMe ? "justify-end" : "justify-start"} mb-2`}
               >
-                {/* Show avatar + name only if it's the contributor */}
                 {!isMe && (
                   <div className="flex items-center mr-2">
                     <img
@@ -247,17 +291,21 @@ export default function Chats() {
                   </div>
                 )}
 
-                {/* Message bubble */}
                 <div
-                  className={`max-w-xs p-3 rounded-lg ${isMe ? "bg-[#5DA05D] text-white" : "bg-gray-100 text-gray-900"
+                  className={`max-w-xs p-3 rounded-lg ${isMe
+                    ? "bg-[#5DA05D] text-white"
+                    : "bg-gray-100 text-gray-900"
                     }`}
                 >
                   <p className="text-sm">{msg.message}</p>
                   <p className="text-[10px] mt-1 opacity-70">
-                    {new Date(msg.timestamp || Date.now()).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {new Date(msg.timestamp || Date.now()).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}
                   </p>
                 </div>
               </div>
@@ -267,7 +315,9 @@ export default function Chats() {
       </div>
 
       {/* Chat Input */}
-      <ChatInput onSend={handleSendMessage} />
+      <div className="sticky bottom-0">
+        <ChatInput onSend={handleSendMessage} />
+      </div>
     </div>
   );
 }

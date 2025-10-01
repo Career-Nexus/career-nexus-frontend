@@ -4,17 +4,19 @@ import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Buildi
 import { EditComponent } from '../AllModal'
 import EventsHome from '../../EventsHome'
 import { UserContext } from '../../../../../context/UserContext'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PersonsPosts from './PersonsPosts'
 import ProfessionalSummary from './ProfessionalSummary'
 import ProjectCatalog from './ProjectCatalog'
 import AnalyticsDashboard from './AnalyticsDashboard'
 import Videos from './Videos'
 import VideoTabs from './Videos'
+import { ChatServices } from '../../../../../api/ChatServices'
+import { toast } from 'react-toastify'
 
 const ViewPersonProfile = () => {
     const { user, userwithid } = useContext(UserContext)
-
+    const navigate = useNavigate()
 
     const { id } = useParams();
     const { getUserById } = useContext(UserContext); // make sure getUserById is exposed in the context
@@ -24,6 +26,24 @@ const ViewPersonProfile = () => {
             getUserById(id); // fetch and store in context
         }
     }, [id]);
+
+    const InitiateChatSession = async () => {
+        if (!id) {
+            toast.error("Mentor ID not found");
+            return;
+        }
+        const result = await ChatServices.initiateChatSession(id);
+
+        if (result.success) {
+            toast.success("Chat session initiated successfully");
+            console.log(result.data);
+            navigate(`/chat/${result.data.chat_id}`, {
+                state: { contributor: result.data.contributor },
+            });
+        } else {
+            toast.error("Failed to initiate chat session");
+        }
+    };
 
     function ProfilePicture() {
         return (
@@ -67,8 +87,8 @@ const ViewPersonProfile = () => {
                     </div>
                     <hr className='my-3' />
                     {/* <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between px-3 gap-6"> */}
-                    <div className="mt-6 grid grid-cols-12 md:justify-between gap-2">
-                        <div className="col-span-12 md:col-span-8">
+                    <div className="mt-6 grid grid-cols-12 md:justify-between gap-2 w-full">
+                        <div className="col-span-12 md:col-span-8 w-full">
                             <h1 className='text-3xl font-bold'>
                                 {userwithid.first_name} {userwithid.last_name}
                             </h1>
@@ -89,23 +109,33 @@ const ViewPersonProfile = () => {
                                 <span className="text-[#5DA05D] mr-2">{userwithid?.followings}</span> Following
                                 <span className="text-[#5DA05D] mx-2">{userwithid?.followers}</span> Followers
                             </p>
-                            {/* <div className='flex gap-2 mb-2'>
+                            <div className='mb-2'>
                                 {userwithid.user_type === "learner" ? (
-                                    <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
-                                        <UserPlus className='w-4 h-4' />
-                                        <span className='px-2 py-1'>Follow</span>
-                                    </button>
+                                    <div className='flex items-center justify-between'>
+                                        <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
+                                            <UserPlus className='w-4 h-4' />
+                                            <span className='px-2 py-2'>Follow</span>
+                                        </button>
+                                        <div className=''>
+                                            {userwithid.can_message === true ? (
+                                                <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Chat User</button>
+                                            ) : ("")}
+                                        </div>
+                                    </div>
                                 ) : (
-                                    <div className='flex items-center'>
+                                    <div className='flex items-center justify-between'>
                                         <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button>
-                                        <div className='border border-[#5DA05D] rounded-lg px-4 py-2 text-sm ml-3'>
-                                            <Ellipsis size={20} />
+                                        <div className=''>
+                                            {userwithid.can_message === true ? (
+                                                <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Chat Mentor</button>
+                                            ) : ("")}
                                         </div>
                                     </div>
                                 )}
-                            </div> */}
+                            </div>
+
                         </div>
-                        <div className='flex flex-col col-span-12 md:col-span-4'>
+                        <div className='flex flex-col col-span-12 md:col-span-4 w-full'>
 
                             <div className='md:flex justify-end mb-2 ml-auto'>
                                 {userwithid?.intro_video ? (
@@ -235,363 +265,5 @@ function ProfileTabs() {
         </div>
     )
 }
-
-// function PostsTemplate() {
-//     const [expandedItems, setExpandedItems] = useState({
-//         walmart: false,
-//         apple: false
-//     });
-
-//     const toggleExpand = (key) => {
-//         setExpandedItems(prev => ({
-//             ...prev,
-//             [key]: !prev[key]
-//         }));
-//     };
-//     const profile = [
-//         {
-//             id: 1, image: "/images/profile3.png", name: "Matthew Kunle",
-//             description: "Ux Mentor, Google certified Ux designer", days: "8d", timeIcon: <Clock className='w-3 h-3' />,
-//             disc2: "If you always stay in your comfort zone, how will you know what you're capable of?Most people don't fail because they lack talent or intelligence............................. ",
-//             image2: "/images/image1.png"
-//         },
-//         {
-//             id: 2, image: "/images/profile4.png", name: "Cole Kingsman",
-//             description: "Ceo texile rebound, Strategic Business man", days: "12hrs", timeIcon: <Clock className='w-3 h-3' />,
-//             disc2: "🔍 Why Do So Many Finance Apps Look the Same? Ever noticed how most fintech apps follow the same blue-and-white theme.... ",
-//             image2: "/images/image2.png"
-//         }
-//     ]
-//     return (
-//         <div className='grid grid-cols-12'>
-//             <div className='col-span-9'>
-//                 {profile.map(p => (
-//                     <div key={p.id} className='border border-gray-300 rounded-lg p-4 my-5'>
-//                         <div className='flex gap-3 mb-2 items-center'>
-//                             <img src={p.image} alt="profile" className='w-12 h-12 rounded-full' />
-//                             <div className='flex flex-col justify-center'>
-//                                 <h3 className='font-semibold text-sm'>{p.name}</h3>
-//                                 <p className='font-light text-sm'>{p.description}</p>
-//                                 <div className='flex items-center gap-1'>
-//                                     <p>{p.days}</p>
-//                                     <p>{p.timeIcon}</p>
-//                                 </div>
-//                             </div>
-//                             <button className='ml-auto px-4 pb-1 rounded-lg font-bold text-2xl'>...</button>
-//                         </div>
-//                         <ul className="list-disc ml-5 mt-3 text-sm">
-
-//                             <span className=" ">
-
-//                                 <span className='mb-3'>{p.disc2}</span>
-//                                 {!expandedItems.walmart && "..."}
-//                                 <button
-//                                     onClick={() => toggleExpand("walmart")}
-//                                     className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-//                                 >
-//                                     {expandedItems.walmart ? (
-//                                         <>
-//                                             <span className='text-[#5DA05D]'>Hide</span>
-//                                             <ChevronUp className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     ) : (
-//                                         <>
-//                                             <span className='text-[#5DA05D]'>More</span>
-//                                             <ChevronDown className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     )}
-//                                 </button>
-//                             </span>
-//                             {expandedItems.walmart && (
-//                                 <>
-//                                     <li className="mt-2">
-//                                         Collaborated with cross-functional teams to deliver high-quality software solutions on time and
-//                                         within budget.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Implemented responsive design principles to ensure optimal user experience across various devices
-//                                         and screen sizes.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Participated in code reviews and provided constructive feedback to improve code quality and
-//                                         maintainability.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
-//                                     </li>
-//                                 </>
-//                             )}
-//                         </ul>
-//                         <div>
-//                             <img src={p.image2} alt="profile" className='w-full h-[348px]' />
-//                         </div>
-//                         <SocialInteractionBar
-//                             likes={125}
-//                             comments={25}
-//                             shares={2}
-//                             views={true}
-//                             events={true}
-//                         />
-//                     </div>
-
-//                 ))}
-
-//             </div>
-//         </div>
-//     )
-// }
-
-// function ProfessionalSummaryTemplate() {
-//     return (
-//         <div>
-//             <div>
-//                 <h2 className='font-bold text-xl mb-3'>Professional Summary</h2>
-//                 <p className='text-sm'>
-//                     With a strong background in software development, Sarah Johnson is a Senior Software Engineer at SEECS - National University of Minneapolis with years of experience building scalable and efficient tech solutions. She specializes in backend development, system architecture, and cloud computing, working across various industries to develop high-performance applications. <br />
-//                     As an experienced mentor, Sarah has helped aspiring engineers land roles in top tech companies, guiding them through coding interviews, system design, and career transitions. She is passionate about helping developers grow, whether through technical coaching, portfolio reviews, or mock interview prep. <br />
-//                     If you and your friends are looking for group sessions on coding interviews, system design, or career guidance, create a group of 5 and reach out via direct message. Discounted sessions are available! 🚀
-//                 </p>
-//             </div>
-
-//             {/* have it */}
-//             <ExperienceSection />
-//         </div>
-//     )
-// }
-
-// function ExperienceSection({ }) {
-//     const [expandedItems, setExpandedItems] = useState({
-//         walmart: false,
-//         apple: false
-//     });
-
-//     const toggleExpand = (key) => {
-//         setExpandedItems(prev => ({
-//             ...prev,
-//             [key]: !prev[key]
-//         }));
-//     };
-//     const Experience = ({ logo, title, company, duration, address, desc }) => {
-//         return (
-//             <div className="border rounded-lg mb-4 p-4 relative">
-//                 <div className="flex gap-4">
-//                     <div className="flex-shrink-0">
-//                         <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
-//                             {logo}
-//                         </div>
-//                     </div>
-
-//                     <div className="flex-grow">
-//                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-//                             <h3 className="font-semibold text-base">{title}</h3>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <Building className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>{company}</span>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <Calendar className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>{duration}</span>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <MapPin className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>{address}</span>
-//                         </div>
-
-//                         <ul className="list-disc ml-5 mt-3 text-sm">
-//                             <li>
-//                                 {desc}
-//                             </li>
-//                             <li>
-//                                 Enhanced project comprehension with use case scenarios and diagrams
-//                                 {!expandedItems.walmart && "..."}
-//                                 <button
-//                                     onClick={() => toggleExpand("walmart")}
-//                                     className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-//                                 >
-//                                     {expandedItems.walmart ? (
-//                                         <>
-//                                             Hide <ChevronUp className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     ) : (
-//                                         <>
-//                                             Show More <ChevronDown className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     )}
-//                                 </button>
-//                             </li>
-//                             {expandedItems.walmart && (
-//                                 <>
-//                                     <li className="mt-2">
-//                                         Collaborated with cross-functional teams to deliver high-quality software solutions on time and
-//                                         within budget.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Implemented responsive design principles to ensure optimal user experience across various devices
-//                                         and screen sizes.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Participated in code reviews and provided constructive feedback to improve code quality and
-//                                         maintainability.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Utilized agile methodologies to manage project workflows and ensure continuous delivery of features.
-//                                     </li>
-//                                 </>
-//                             )}
-//                         </ul>
-//                     </div>
-//                 </div>
-//             </div>
-//         )
-//     }
-//     return (
-//         <div className="w-full max-w-3xl mt-5">
-//             <div className="flex items-center justify-between mb-4">
-//                 <h2 className="text-xl font-bold">Experience</h2>
-//             </div>
-
-//             {/* Walmart Experience */}
-//             <Experience
-//                 logo={<Company1 />}
-//                 title={"Software Engineer"}
-//                 // status1={status2}
-//                 // status={"RECOMMENDED"}
-//                 company={"Walmart"}
-//                 duration={"Aug 2018 - Dec 2019"}
-//                 address={"Dallas, Texas, United States - On-site"}
-//                 desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-//             />
-//             {/* Apple Experience */}
-//             <Experience
-//                 logo={<Company2 />}
-//                 title={"Software Engineer"}
-//                 // status1={status3}
-//                 company={"Apple"}
-//                 duration={"Aug 2018 - Dec 2019"}
-//                 address={"Dallas, Texas, United States - On-site"}
-//                 desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-//             />
-
-//             <div className="border rounded-lg mb-4 p-4 relative">
-//                 <div className="flex gap-4">
-//                     <div className="flex-shrink-0">
-//                         <div className="w-8 h-8 bg-black rounded-md flex items-center justify-center">
-//                             <Company2 />
-//                         </div>
-//                     </div>
-
-//                     <div className="flex-grow">
-//                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-//                             <h3 className="font-semibold text-base">Software Engineer</h3>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <Building className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>Apple</span>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <Calendar className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>Aug 2018 - Dec 2019</span>
-//                         </div>
-
-//                         <div className="flex items-center text-sm text-gray-600 mt-1">
-//                             <MapPin className="h-4 w-4 mr-1 text-[#5DA05D]" />
-//                             <span>Dallas, Texas, United States - On-site</span>
-//                         </div>
-
-//                         <ul className="list-disc ml-5 mt-3 text-sm">
-//                             <li>
-//                                 Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and
-//                                 JavaScript.
-//                             </li>
-//                             <li>
-//                                 Enhanced project comprehension with use case scenarios and diagrams
-//                                 {!expandedItems.apple && "..."}
-//                                 <button
-//                                     onClick={() => toggleExpand("apple")}
-//                                     className="text-[#5DA05D] hover:text-blue-700 ml-1 text-sm font-medium inline-flex items-center"
-//                                 >
-//                                     {expandedItems.apple ? (
-//                                         <>
-//                                             Hide <ChevronUp className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     ) : (
-//                                         <>
-//                                             Show More <ChevronDown className="h-3 w-3 ml-0.5" />
-//                                         </>
-//                                     )}
-//                                 </button>
-//                             </li>
-//                             {expandedItems.apple && (
-//                                 <>
-//                                     <li className="mt-2">
-//                                         Developed and maintained iOS applications using Swift and Objective-C, ensuring compatibility with
-//                                         the latest iOS versions.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Optimized application performance by implementing efficient algorithms and data structures.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Integrated third-party APIs and services to enhance application functionality and user experience.
-//                                     </li>
-//                                     <li className="mt-2">
-//                                         Conducted thorough testing and debugging to identify and resolve software defects before release.
-//                                     </li>
-//                                 </>
-//                             )}
-//                         </ul>
-//                     </div>
-//                 </div>
-//             </div>
-//             {/* education modal */}
-//             <div>
-//                 <div className="flex items-center justify-between mb-4">
-//                     <h2 className="text-xl font-bold">Education</h2>
-//                 </div>
-//                 <Experience
-//                     edit={true}
-//                     logo={<Company2 />}
-//                     title={"Computer Science"}
-//                     // status1={status3}
-//                     company={"Apple"}
-//                     duration={"Aug 2018 - Dec 2019"}
-//                     address={"Dallas, Texas, United States - On-site"}
-//                     desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-//                 />
-//             </div>
-//             <div>
-//                 <div className="flex items-center justify-between mb-4">
-//                     <h2 className="text-xl font-bold">Licenses & Certifications</h2>
-//                 </div>
-//                 <Experience
-//                     edit={true}
-//                     logo={<Company2 />}
-//                     title={"Beginner Python"}
-//                     // status1={status2}
-//                     company={"Apple"}
-//                     duration={"Aug 2018 - Dec 2019"}
-//                     address={"Dallas, Texas, United States - On-site"}
-//                     desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-//                 />
-//                 <Experience
-//                     edit={true}
-//                     logo={<Company2 />}
-//                     title={"Python Intermediate"}
-//                     // status1={status3}
-//                     company={"Apple"}
-//                     duration={"Aug 2018 - Dec 2019"}
-//                     address={"Dallas, Texas, United States - On-site"}
-//                     desc={"Designed and implemented user-friendly interfaces for e-commerce websites using HTML, CSS, and JavaScript."}
-//                 />
-//             </div>
-//         </div>
-//     )
-// }
-
 
 export default ViewPersonProfile

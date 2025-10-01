@@ -26,7 +26,7 @@ export const ChatServices = {
     async getChatSessions() {
         try {
             const response = await api.get("/notification-chat/chats/");
-            console.log("API raw response (sessions):", response);
+            console.log("Chat sessions fetched:", response);
 
             return { success: true, data: response.data };
         } catch (error) {
@@ -37,13 +37,26 @@ export const ChatServices = {
     async getChatHistory(chat_id) {
         try {
             const response = await api.get(`/notification-chat/chat/messages/?chat_id=${chat_id}`);
-            console.log("API raw response:", response);
+            console.log("Chat history fetched", response);
             return { success: true, data: response.data };
         } catch (error) {
             console.error("Error fetching chat history:", error);
             return { success: false, data: [] };
         }
     },
+    async initiateChatSession(contributorId) {
+    try {
+        const response = await api.post(
+            "/notification-chat/chats/initiate/",
+            { user: contributorId } // must be in this shape
+        );
+        console.log("chat session initiated", response.data);
+        return { success: true, data: response.data };
+    } catch (error) {
+        console.error("Couldn't initiate chat session", error.response?.data || error);
+        return { success: false, data: [] };
+    }
+},
     async getNotifications() {
         try {
             const response = await api.get('/notification-chat/notifications/');

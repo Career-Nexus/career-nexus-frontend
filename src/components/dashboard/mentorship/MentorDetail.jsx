@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Bookmark, BriefcaseBusiness, ChevronLeft, ChevronRight, Ellipsis, GraduationCap, MapPin, MessageCircle, RefreshCw, ThumbsUp, Upload, UserPlus } from 'lucide-react';
 // import { mentors } from './MentorMain';
 import ProfileDetail from './ProfileDetail';;
@@ -11,13 +11,16 @@ import PersonsPosts from '../home/profile/viewPersonProfile/PersonsPosts';
 import AllJobs from '../jobs/AllJobs';
 import ProjectCatalog from '../home/profile/viewPersonProfile/ProjectCatalog';
 import AnalyticsDashboard from '../home/profile/viewPersonProfile/AnalyticsDashboard';
-import { ChatMentorModal } from '../chat/InitiateChatModal';
+import { ChatServices } from '../../../api/ChatServices';
+import { toast } from 'react-toastify'
+import { Button } from '@chakra-ui/react';
 
 function MentorDetail() {
     const [mentorDetails, setMentorDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const { user, userwithid, getUserById } = useContext(UserContext)
     const { id } = useParams();
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (id) {
@@ -45,6 +48,33 @@ function MentorDetail() {
         );
     }
 
+    const InitiateChatSession = async () => {
+        if (!id) {
+            toast.error("Mentor ID not found");
+            return;
+        }
+
+        // prevent starting chat with yourself
+        // if (user?.id === userwithid.id) {
+        //     toast.error("You cannot initiate a chat session with yourself");
+        //     return;
+        // }
+
+        const result = await ChatServices.initiateChatSession(id);
+
+        if (result.success) {
+            toast.success("Chat session initiated successfully");
+            console.log(result.data);
+            // navigate(`/chat/${result.data.chat_id}`); 
+            navigate(`/chat/${result.data.chat_id}`, {
+                state: { contributor: result.data.contributor },
+            });
+        } else {
+            toast.error("Failed to initiate chat session");
+        }
+    };
+
+
     // const mentor = mentorDetails;
 
     return (
@@ -60,7 +90,7 @@ function MentorDetail() {
                     <div className="relative w-32 h-32">
                         <img src={userwithid.profile_photo} alt={userwithid.first_name} className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover" />
                     </div>
-                         
+
                     <hr className='my-3' />
                     <div className="mt-6 grid grid-cols-12 md:justify-between gap-2">
                         <div className="col-span-12 md:col-span-8">
@@ -83,16 +113,16 @@ function MentorDetail() {
                                 <div className='flex gap-2'>
                                     <span className='text-[#5DA05D]'>{userwithid.session || 0}</span> sessions
                                 </div>
-                                {/* {userwithid.can_message === true?(
-                                    <div className='text-white bg-[#5DA05D] py-1 px-3 rounded-lg'><ChatMentorModal userwithid={userwithid} /></div>
-                                ):("")} */}
+                                {userwithid.can_message === true ? (
+                                    <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Chat Mentor</button>
+                                ) : ("")}
                                 {/* <div><ChatMentorModal userwithid={userwithid} /></div> */}
-                                
+
                             </div>
                             <div className='flex gap-5 border-b border-[#5DA05D] pb-2'>
                                 <p>Session rate: <span className='font-semibold'>{userwithid.session_rate}</span></p>
                             </div>
-                            
+
                             {/* <div className="flex mt-6 space-x-3">
                                 <button className="bg-[#2A0D47] text-white px-4 py-2 rounded-lg">Book a Session</button>
                                 <button className="border border-[#5DA05D] text-gray-600 px-4 py-2 rounded-lg ">
@@ -100,24 +130,24 @@ function MentorDetail() {
                                 </button>
                             </div> */}
                         </div>
-                        
+
                         <div className='flex flex-col col-span-12 md:col-span-4'>
-                                {userwithid?.intro_video ? (
-                                    <video
-                                        src={userwithid.intro_video}
-                                        controls
+                            {userwithid?.intro_video ? (
+                                <video
+                                    src={userwithid.intro_video}
+                                    controls
+                                    className="rounded-lg max-w-xs w-[90%]"
+                                />
+                            ) : (
+                                <div>
+                                    <img
+                                        src="/images/video1.png"
+                                        alt="video stream"
                                         className="rounded-lg max-w-xs w-[90%]"
                                     />
-                                ) : (
-                                    <div>
-                                        <img
-                                            src="/images/video1.png"
-                                            alt="video stream"
-                                            className="rounded-lg max-w-xs w-[90%]"
-                                        />
-                                    </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
+                        </div>
 
                     </div>
 
