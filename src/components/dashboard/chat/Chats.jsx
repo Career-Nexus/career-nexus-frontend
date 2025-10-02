@@ -48,21 +48,34 @@ function ChatInput({ onSend }) {
     setMessage("");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // prevent newline
+      handleSend();
+    }
+  };
+
   return (
     <div className="relative flex items-center gap-2 border-t border-gray-200 p-3 bg-white">
+      {/* Emoji Toggle */}
       <button
         className="text-xl"
         onClick={() => setIsEmojiOpen((prev) => !prev)}
       >
         😀
       </button>
-      <input
-        type="text"
+
+      {/* Textarea for messages */}
+      <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Type a message..."
-        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]"
+        rows={1}
+        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5DA05D] resize-none"
       />
+
+      {/* Send Button */}
       <button
         onClick={handleSend}
         className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg hover:bg-green-700"
@@ -70,6 +83,7 @@ function ChatInput({ onSend }) {
         Send
       </button>
 
+      {/* Emoji Picker */}
       <EmojiPicker
         isOpen={isEmojiOpen}
         onClose={() => setIsEmojiOpen(false)}

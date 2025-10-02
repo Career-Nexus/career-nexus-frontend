@@ -71,6 +71,30 @@ export const MentorServices = {
             console.log("couldn't retrieve accepted mentorship session")
         }
     },
+    async completedmentorship(params = {}) {
+        try {
+            const response = await api.get("/mentor/sessions/?status=completed", { params })
+            if (response.data) {
+                console.log("retrieved completed mentorship session")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("couldn't retrieve completed mentorship session")
+        }
+    },
+    async markascompleted(completed) {
+        console.log("API response", completed);
+        try {
+            const response = await api.post("/mentor/annotate/", completed);
+            if (response.data) {
+                console.log("Session marked as completed");
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.log("Couldn't mark session as completed", error);
+            return { success: false, error };
+        }
+    },
     async scheduledmentorship(params = {}) {
         try {
             const response = await api.get("/mentor/sessions/?status=scheduled", { params })

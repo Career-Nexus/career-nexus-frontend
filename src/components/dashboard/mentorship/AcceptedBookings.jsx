@@ -7,6 +7,7 @@ import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
 import PaymentModal from './PaymentModal';
 import JitsiMeeting from './JoinSession';
+import RatingModal from './RatingModal';
 function AcceptedBookings() {
     const [loading, setLoading] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(null); // Track which dropdown is open
@@ -17,6 +18,7 @@ function AcceptedBookings() {
     const [openPayModal, setOpenPayModal] = useState(null);
     const openModal = (booking) => setOpenPayModal(booking); // store full booking object
     const closeModal = () => setOpenPayModal(null);
+    const [openRatingModal, setOpenRatingModal] = useState(null);
 
     const acceptedSessions = async () => {
         setLoading(true);
@@ -55,6 +57,38 @@ function AcceptedBookings() {
     useEffect(() => {
         acceptedSessions();
     }, []);
+
+
+    const handleRatingSubmit = async ({ sessionId, rating, feedback }) => {
+        try {
+            const payload = {
+                session: sessionId,
+                mark_completed: true,
+                rating: rating, // must be 1–5
+            };
+
+            const res = await MentorServices.markascompleted(payload);
+
+            if (res.success) {
+                toast.success("Session marked as completed and rated!");
+                // optionally update state so card shows "COMPLETED"
+                setAcceptedBookings((prev) =>
+                    prev.map((b) =>
+                        b.id === sessionId ? { ...b, status: "COMPLETED" } : b
+                    )
+                );
+            } else {
+                toast.error("Failed to mark as completed. Please try again.");
+            }
+        } catch (err) {
+            toast.error("Something went wrong");
+        } finally {
+            setOpenRatingModal(null);
+        }
+    };
+    const handleMarkAsCompleted = (booking) => {
+        setOpenRatingModal(booking);
+    };
     const toggleDropdown = (id) => {
         setOpenDropdown(openDropdown === id ? null : id);
     };
@@ -184,15 +218,40 @@ function AcceptedBookings() {
                                                 >Not yet time</button>
                                             )
                                         )}
-                                        <button
+                                        {/* <button
 
                                             className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
                                         >
                                             Cancel
-                                        </button>
+                                        </button> */}
+                                        {/* Second leg: Cancel OR Mark as Completed */}
+                                        {booking.join === true ? (
+                                            <button
+                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-[#5DA05D] text-[#5DA05D] h-10 px-4 py-2 flex-1"
+                                                // onClick={() => console.log(`Mark session ${booking.id} as completed`)}
+                                                onClick={() => setOpenRatingModal(booking)}
+                                            >
+                                                Mark as Completed
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
+                                                onClick={() => console.log(`Cancel booking ${booking.id}`)}
+                                            >
+                                                Cancel
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
+                            {openRatingModal && (
+                                <RatingModal
+                                    isOpen={!!openRatingModal}
+                                    onClose={() => setOpenRatingModal(null)}
+                                    onSubmit={handleRatingSubmit}
+                                    session={openRatingModal}
+                                />
+                            )}
                             {/* Show Jitsi meeting below the card if active */}
                             {activeSessionId === booking.id && (
                                 <JitsiMeeting
