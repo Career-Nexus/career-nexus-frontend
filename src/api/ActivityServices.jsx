@@ -144,5 +144,14 @@ export const ActivityService = {
         } catch (error) {
             console.log("Could not fetch dispute")
         }
+    },
+    // /user/admin/disputes/
+    async AdminGetDispute() {
+        try {
+            const res = await api.get("/user/admin/disputes/" )
+            return res.data;
+        } catch (error) {
+            console.error("Disputes unavailable")
+        }
     }
 }

@@ -49,6 +49,8 @@ import PaymentSuccess from '../components/dashboard/mentorship/PaymentSuccess'
 import PaymentFailure from '../components/dashboard/mentorship/PaymentFailure'
 import { NotificationProvider } from '../context/NotificationContext'
 import Vault from '../pages/activities/Vault'
+import AdminLogin from "../pages/admin/AdminLogin"
+import Dashboard from "../pages/admin/Dashboard";
 
 
 
@@ -112,6 +114,22 @@ const Router = () => {
             <RedirectIfAuthenticated>
               <Signup />
             </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/Admin"
+          element={
+            // <RedirectIfAuthenticated>
+              <AdminLogin />
+            // </RedirectIfAuthenticated>
+          }
+        />
+         <Route
+          path="/dashboard"
+          element={
+            // <RedirectIfAuthenticated>
+              <Dashboard />
+            // </RedirectIfAuthenticated>
           }
         />
         <Route
