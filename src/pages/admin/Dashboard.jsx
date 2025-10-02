@@ -11,12 +11,18 @@ import {
 } from "lucide-react";
 import { ActivityService } from "../../api/ActivityServices";
 import {toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 
 export default function Dashboard() {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [disputeData, setDisputesData] = useState([]);
+
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
     const fetchDisputesData = async () => {
       try {
@@ -31,6 +37,11 @@ export default function Dashboard() {
   useEffect(() => {
     fetchDisputesData();
   }, [])
+
+   const handleLogout = () => {
+        logout();
+        navigate("/admin")
+    }
   
   const accountIssues = disputeData.filter(d => d.category === "account").length;
   const billingTickets = disputeData.filter(d => d.category === "billing").length;
@@ -77,7 +88,10 @@ export default function Dashboard() {
 
         {/* Logout */}
         <div className="p-6">
-          <button className="flex items-center gap-2 text-red-600 font-medium">
+          <button
+            className="flex items-center gap-2 text-red-600 font-medium"
+            onClick={handleLogout}
+          >
             <LogOut className="w-5 h-5" />
             LOGOUT
           </button>
