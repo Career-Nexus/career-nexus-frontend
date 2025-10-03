@@ -205,5 +205,17 @@ export const MentorServices = {
             console.error("Could not join mentorship session", error);
             return { success: false, error };
         }
-    }
+    },
+    async cancelMentorshipSession(sessionId) {
+        try {
+            const response = await api.post("/mentor/session/cancel/", { session: sessionId });
+            if (response.data) {
+                console.log("Mentorship session cancelled successfully");
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.error("Could not cancel mentorship session", error);
+            return { success: false, error };
+        }
+    },
 }
