@@ -3,7 +3,7 @@ import React from 'react'
 function TroubleShooting() {
   return (
     <div>
-      <h1 className='text-3xl font-bold'>Troubleshooting Walkthrough</h1>
+      <h1 className='text-3xl font-bold text-center'>Troubleshooting Walkthrough</h1>
       <h2 className='text-xl font-semibold my-2'>Login Issues</h2>
       <p>Step-by-step solutions for common login problems including password resets, account lockouts, and verification issues.</p>
       <h2 className='text-xl font-semibold my-2'>Upload Problems</h2>

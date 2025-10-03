@@ -10,16 +10,6 @@ import { CountryCodes } from '../CountryCodes';
 import api, { authService } from '../../../api/ApiServiceThree';
 import { ChevronsUpDown } from 'lucide-react';
 
-
-// const apiNoAuth = axios.create({
-//     baseURL: 'https://bprod.career-nexus.com/',
-//     headers: {
-//         'Content-Type': 'application/json',
-//     },
-//     withCredentials: true,
-//     //    timeout: 10000,
-// });
-
 export const MentorProfileSetup = () => {
     const [currentStep, setCurrentStep] = useState(1)
     const [loading, setLoading] = useState(false)
@@ -607,36 +597,3 @@ export const MentorProfileSetup = () => {
         </div>
     )
 }
-
-
-// export default function SessionRate() {
-//     const [rate, setRate] = useState(1);
-
-//     return (
-//         <div className="max-w-xs w-full">
-//             <label className="block text-gray-900 font-medium mb-2">
-//                 Select Your Session Rate / Hr ($1-$10)
-//             </label>
-
-//             <div className="relative">
-//                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600">
-//                     $
-//                 </span>
-//                 <input
-//                     type="number"
-//                     min={1}
-//                     max={10}
-//                     value={rate}
-//                     onChange={(e) => setRate(e.target.value)}
-//                     className="w-full pl-7 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-[#5B8F4E] focus:border-[#5B8F4E] outline-none"
-//                 />
-//                 <ChevronsUpDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
-//             </div>
-
-//             <p className="text-gray-500 text-sm mt-2">
-//                 Our $5-$10 range makes mentorship accessible globally while ensuring
-//                 fair compensation for your expertise.
-//             </p>
-//         </div>
-//     );
-// }

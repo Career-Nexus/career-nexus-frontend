@@ -3,7 +3,7 @@ import React from 'react'
 function GettingStarted() {
   return (
     <div className='space-y-4 ml-5'>
-      <h1 className='text-3xl font-bold'>Getting Started Guides</h1>
+      <h1 className='text-3xl font-bold text-center'>Getting Started Guides</h1>
       <ol>
         <li type='1'>
           <h2 className='text-xl font-semibold my-2'>Creating Your Profile</h2>

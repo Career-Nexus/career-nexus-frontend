@@ -11,6 +11,7 @@ import VideoTrimmer from './VideoTrimmer'
 import { ProfileContext } from '../../../context/ProfileContext'
 import { Handemoji } from "../../../icons/icon"
 import { ProfileProgressDropdown } from './profile/MainProfile'
+import FloatingMessageIcon from '../chat/FloatingMessage'
 
 
 const MainSection = () => {
@@ -56,6 +57,9 @@ const MainSection = () => {
         onClose={() => setModalOpen(false)}
       />
       <TabInterface />
+      <div className='lg:hidden block mb-8'>
+        <FloatingMessageIcon/>
+      </div>
     </div>
   );
 };

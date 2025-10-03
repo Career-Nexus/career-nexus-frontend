@@ -32,13 +32,12 @@ export default function SubmitTicket() {
         }
     }
     return (
-        <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Help Center</h1>
+        <div className="max-w-7xl mx-auto mb-6">
+            <h1 className="text-2xl font-bold mb-4 text-center">Help Center</h1>
             {/* Search Bar */}
-            <div className="flex items-center mb-6">
+            {/* <div className="flex items-center mb-6">
                 <div className="flex w-full border border-gray-300 rounded-lg overflow-hidden">
                     <div className="flex items-center pl-3 text-gray-500">
-                        {/* Search Icon */}
                         <Search />
                     </div>
                     <input
@@ -59,7 +58,7 @@ export default function SubmitTicket() {
                         <option value="account">Account</option>
                         <option value="technical">Technical</option>
                     </select>
-                    {/* Dropdown Icon */}
+
                     <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-200">
                         <ChevronDown className="w-5 h-5" />
                     </div>
@@ -67,7 +66,7 @@ export default function SubmitTicket() {
                 <button className="mx-3 bg-[#5DA05D] text-white px-4 py-2 rounded-lg">
                     Search
                 </button>
-            </div>
+            </div> */}
 
             {/* Form */}
             <h2 className="text-xl font-semibold mb-4">Submit A Ticket</h2>

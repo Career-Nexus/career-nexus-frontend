@@ -6,13 +6,14 @@ import { Trash2, Video } from "lucide-react";
 import { ExperienceService } from "../../../../api/ExperienceService";
 import { VideoModal } from "./VideoModal";
 import { toast } from "react-toastify";
-
+import { industries } from "../../../../pages/auth/Industries";
 export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   const { user, updateUser, loading, error } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false)
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(user.intro_video || null);
+  const [selectedIndustry, setSelectedIndustry] = useState('Technology');
   const fileInputRef = useRef(null)
 
   const {
@@ -21,16 +22,6 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // defaultValues: {
-    //   first_name: user.first_name || "",
-    //   last_name: user.last_name || "",
-    //   middle_name: user.midle_name || "",
-    //   location: user.location || "",
-    //   bio: user.bio || "",
-    //   position: user.position || "",
-    //   qualification: user.qualification || "",
-    //   intro_video: user.intro_video || ""
-    // },
   });
   useEffect(() => {
     if (user) {
@@ -42,6 +33,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       setValue("position", user.position || "");
       setValue("qualification", user.qualification || "");
       setValue("intro_video", user.intro_video || "");
+      setValue("industry", user.industry?.toLowerCase() || "");
     }
   }, [user, setValue]);
 
@@ -55,6 +47,10 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       if (data.bio !== user.bio) updatedData.bio = data.bio;
       if (data.position !== user.position) updatedData.position = data.position;
       if (data.qualification !== user.qualification) updatedData.qualification = data.qualification;
+      // if (data.industry !== user.industry) updatedData.industry = data.industry;
+      if (data.industry) {
+        updatedData.industry = data.industry.toLowerCase();
+      }
 
       let formData = null;
       if (videoFile) {
@@ -222,6 +218,54 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
               className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
             />
           </div>
+          {/* industry */}
+          {/* <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Industry
+            </label>
+            <select
+              {...register("industry")}
+              className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+            >
+              <option value="">Select industry</option>
+              <option value="technology">Technology</option>
+              <option value="agric">Agriculture</option>
+              <option value="sports">Sports</option>
+              <option value="marketing">Marketing</option>
+              <option value="sales">Sales</option>
+            </select>
+          </div> */}
+          {/* Industry */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Industry
+            </label>
+            <select
+              {...register("industry")}
+              className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+            >
+              <option value="">Select industry</option>
+              {industries.map((industry, index) => (
+                <option key={index} value={industry.toLowerCase()}>
+                  {industry}
+                </option>
+              ))}
+               {/* <option value="Technology">Technology</option>
+               <option value="health">Health</option>
+               <option value="media">Media</option> */}
+            </select>
+          </div>
+
+          {/* time zone */}
+          {/* <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Time Zone</label>
+            <input
+              type="text"
+              {...register("position")}
+              placeholder="Enter position"
+              className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
+            />
+          </div> */}
 
           {/* Bio */}
           <div className="md:col-span-2">

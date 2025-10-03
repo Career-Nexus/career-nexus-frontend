@@ -110,32 +110,91 @@ export const UserProvider = ({ children }) => {
   // };
 
   // Fetch user data when the component mounts
- const updateUser = async (updatedData) => {
+//  const updateUser = async (updatedData) => {
+//   try {
+//     setLoading(true);
+
+//     let response;
+//     // If any file is present, we must send FormData
+//     const hasFile = Object.values(updatedData).some(
+//       (val) => val instanceof File
+//     );
+
+//     if (hasFile) {
+//       const formData = new FormData();
+//       Object.keys(updatedData).forEach((key) => {
+//         const value = updatedData[key];
+//         if (value !== null && value !== "" && value !== undefined) {
+//           formData.append(key, value);
+//         }
+//       });
+
+//       response = await api.put("/user/profile-update/", formData, {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       });
+//     } else {
+//       // Only send non-empty values
+//       const cleanedData = {};
+//       Object.keys(updatedData).forEach((key) => {
+//         const value = updatedData[key];
+//         if (value !== null && value !== "" && value !== undefined) {
+//           cleanedData[key] = value;
+//         }
+//       });
+
+//       response = await api.put("/user/profile-update/", cleanedData);
+//     }
+
+//     console.log("Update response:", response.status, response.data);
+
+//     if ([200, 201, 204].includes(response.status)) {
+//       await fetchUser();
+//       setError(null);
+//       return response.data;
+//     } else {
+//       throw new Error("Unexpected response status: " + response.status);
+//     }
+//   } catch (err) {
+//     const errorMessage = err.response
+//       ? err.response.data.message || JSON.stringify(err.response.data)
+//       : err.message || "Failed to update user data";
+
+//     setError(errorMessage);
+//     console.error("Error updating user data:", errorMessage, err);
+//     throw new Error(errorMessage);
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+const updateUser = async (updatedData) => {
   try {
     setLoading(true);
 
     let response;
-    // If any file is present, we must send FormData
-    const hasFile = Object.values(updatedData).some(
-      (val) => val instanceof File
-    );
+    const formData = new FormData();
+
+    let hasFile = false;
+
+    // Append all fields
+    Object.keys(updatedData).forEach((key) => {
+      const value = updatedData[key];
+      if (value !== null && value !== "" && value !== undefined) {
+        if (value instanceof File) {
+          hasFile = true;
+        }
+        formData.append(key, value);
+      }
+    });
 
     if (hasFile) {
-      const formData = new FormData();
-      Object.keys(updatedData).forEach((key) => {
-        const value = updatedData[key];
-        if (value !== null && value !== "" && value !== undefined) {
-          formData.append(key, value);
-        }
-      });
-
+      // send as multipart if any file is present
       response = await api.put("/user/profile-update/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
     } else {
-      // Only send non-empty values
+      // if no files, send as JSON
       const cleanedData = {};
       Object.keys(updatedData).forEach((key) => {
         const value = updatedData[key];

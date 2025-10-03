@@ -2,8 +2,8 @@ import React from 'react'
 
 function Glossary() {
   return (
-    <div>
-      <h1 className='text-3xl font-bold'>Glossary</h1>
+    <div className='mb-6'>
+      <h1 className='text-3xl font-bold text-center'>Glossary</h1>
       <h2 className='text-xl font-semibold my-2'>Career Score</h2>
       <p>A personalized rating that reflects your profile completeness, activity level, and market appeal to employers.</p>
       <h2 className='text-xl font-semibold my-2'>Smart Match</h2>

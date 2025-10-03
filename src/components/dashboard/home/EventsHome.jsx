@@ -205,7 +205,7 @@ const EventsHome = () => {
             ) : (
                 <>
                     <div className=' hidden md:block border border-gray-300 rounded-lg p-2 mb-5 flex-col'>
-                        <h1 className='mb-2 text-lg font-semibold'>Other Mentors</h1>
+                        <h1 className='mb-2 text-lg font-bold text-center'>Other Mentors</h1>
                         {otherMentors.length === 0 ? (
                             <div className='flex justify-center items-center h-20'>
                                 <p className='text-gray-500'>No mentor recommendations available</p>
@@ -218,9 +218,9 @@ const EventsHome = () => {
                                             <img src={item.profile_photo} alt={item.first_name} className='w-10 h-10 rounded-full mb-2' />
                                         </Link>
                                         <div className='md:col-span-12 lg:col-span-6 mb-2'>
-                                            <h3 className='font-bold'>{item.first_name} {item.last_name}</h3>
+                                            <h3 className='font-semibold'>{item.first_name} {item.last_name}</h3>
                                             <p className='text-xs font-thin'>{item.current_job}</p>
-                                            <p className='text-xs font-thin'>{item.followers} Followers</p>
+                                            {/* <p className='text-xs font-thin'>{item.followers} Followers</p> */}
                                         </div>
                                 {/* <button
                                                 onClick={() => handleFollow(item.id)}
@@ -247,9 +247,9 @@ const EventsHome = () => {
                                         </div> */}
                                     </div>
                                 ))}
-                                <div className="flex">
+                                {/* <div className="flex">
                                     <Link to={'/mentorship'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more</Link>
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </div>
