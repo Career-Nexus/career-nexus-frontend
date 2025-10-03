@@ -4,14 +4,14 @@ import { UpcomingSessions } from "./UpcomingSessions"
 import { CompletedSessions } from "./CompletedSessions"
 import { Search } from "lucide-react"
 import { MentorServices } from "../../../api/MentorServices"
-import AllJobs from "../jobs/AllJobs"
 
 export default function MentorshipRequests() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [activeTab, setActiveTab] = useState("booking-requests")
+  const [activeTab, setActiveTab] = useState("upcoming-sessions")
   const [requested, setRequested] = useState([])   // store booking requests
   const [loading, setLoading] = useState(false)
   const [scheduled, setScheduled] = useState([])   // store upcoming sessions
+  const [completed, setCompleted]= useState([])
 
 
   const fetchRequests = async () => {
@@ -19,6 +19,7 @@ export default function MentorshipRequests() {
     try {
       const res = await MentorServices.requestedmentorship()
       const scheduledRes = await MentorServices.scheduledmentorship()
+      const completedRes = await MentorServices.completedmentorship()
 
       // map function reused
       const mapSession = (session) => ({
@@ -40,10 +41,12 @@ export default function MentorshipRequests() {
         amount: session.amount,
         is_paid: session.is_paid,
         join: session.join,
+        rating: session.rating,
       })
 
       setRequested(Array.isArray(res?.data) ? res.data.map(mapSession) : [])
       setScheduled(Array.isArray(scheduledRes?.data) ? scheduledRes.data.map(mapSession) : [])
+      setCompleted(Array.isArray(completedRes?.data) ? completedRes.data.map(mapSession) : [])
     } catch (error) {
       console.error("Failed to fetch mentor sessions", error)
     } finally {
@@ -65,6 +68,7 @@ export default function MentorshipRequests() {
 
   const filteredRequested = getFilteredSessions(requested)
   const filteredScheduled = getFilteredSessions(scheduled)
+  const filteredCompleted = getFilteredSessions(completed)
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -116,19 +120,11 @@ export default function MentorshipRequests() {
             className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'completed-sessions' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'
               }`}
           >
-            COMPLETED SESSION (3)
+            COMPLETED SESSION ({filteredCompleted.length})
           </button>
         </div>
 
         <div>
-          {activeTab === "booking-requests" && (
-            <BookingRequests
-              requested={filteredRequested}
-              refresh={fetchRequests}
-              loading={loading}
-            />
-          )}
-
           {activeTab === "upcoming-sessions" && (
             <BookingRequests
               requested={filteredScheduled}
@@ -136,8 +132,20 @@ export default function MentorshipRequests() {
               loading={loading}
             />
           )}
-
-          {activeTab === "completed-sessions" && <CompletedSessions />}
+          {activeTab === "booking-requests" && (
+            <BookingRequests
+              requested={filteredRequested}
+              refresh={fetchRequests}
+              loading={loading}
+            />
+          )}
+          {activeTab === "completed-sessions" &&(
+            <BookingRequests
+              requested={filteredCompleted}
+              refresh={fetchRequests}
+              loading={loading}
+            />
+            )}
         </div>
       </div>
     </div>

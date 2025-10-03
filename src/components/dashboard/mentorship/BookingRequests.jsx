@@ -1,5 +1,5 @@
 
-import { CalendarIcon, ClockIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, Star } from "lucide-react";
 import { ChevronDownIcon } from "./MentorshipRequests";
 import { useEffect, useState } from "react";
 import { MentorServices } from "../../../api/MentorServices";
@@ -68,7 +68,7 @@ export function BookingRequests({ requested, refresh, loading }) {
                 requested.map((booking) => (
                     <div
                         key={booking.id}
-                        className="bg-white p-5 rounded-xl shadow flex flex-col min-h-[300px]"
+                        className="bg-white p-5 rounded-xl shadow flex flex-col min-h-[300px] mb-20"
                     >
                         <div className="flex p-0 mb-2 justify-between gap-3">
                             <div className="flex">
@@ -95,17 +95,35 @@ export function BookingRequests({ requested, refresh, loading }) {
                                     </span>
                                 )}
                             </div>
-                            <span
-                                className={`font-medium ${booking.status === "PENDING"
-                                    ? "text-[#E2B607]"
-                                    : "text-[#5DA05D]"
-                                    }`}
-                            >
-                                {booking.status}
-                            </span>
-                            <div className="font-bold text-lg text-[#5DA05D]">
-                                {booking.amount}
-                            </div>
+                            {booking.status === "COMPLETED" ? (
+                                <div className="flex items-center space-x-2">
+                                    <div className="flex">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <Star
+                                                key={star}
+                                                className={`w-5 h-5 ${star <= booking.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300 fill-gray-300"
+                                                    }`}
+                                                fill={star <= booking.rating ? "currentColor" : "currentColor"}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex gap-1 items-center">
+                                    <span
+                                        className={`font-medium ${booking.status === "PENDING"
+                                            ? "text-[#E2B607]"
+                                            : "text-[#5DA05D]"
+                                            }`}
+                                    >
+                                        {booking.status}
+                                    </span>
+                                    <div className="font-bold text-lg text-[#5DA05D]">
+                                        {booking.amount}
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
 
                         {/* Toggleable dropdown */}
@@ -157,9 +175,16 @@ export function BookingRequests({ requested, refresh, loading }) {
                             <div className="flex items-center text-sm text-gray-600 mb-2">
                                 <CalendarIcon className="w-5 h-5" />
                                 <span className="ml-2">{booking.date}</span>
-                                <ClockIcon className="w-5 h-5 ml-4" />
-                                <span className="ml-2">{booking.time}</span>
+                                {
+                                    booking.status !== "COMPLETED" ? (
+                                        <div className="flex gap-1">
+                                            <ClockIcon className="w-5 h-5 ml-4" />
+                                            <span className="ml-2">{booking.time}</span>
+                                        </div>
+                                    ) : ""
+                                }
                             </div>
+
                             <div className="text-xs text-[#2A0D47] bg-[#2A0D471A] px-2 py-1 w-max rounded mb-2">
                                 {booking.category}
                             </div>
@@ -169,7 +194,7 @@ export function BookingRequests({ requested, refresh, loading }) {
                                     : booking.description}
                             </p>
 
-                            <div className="flex space-x-3 mt-auto">
+                            {/* <div className="flex space-x-3 mt-auto">
                                 {booking.status === "PENDING" ? (
                                     <>
                                         <button
@@ -209,7 +234,58 @@ export function BookingRequests({ requested, refresh, loading }) {
                                         Not Yet Time
                                     </span>
                                 ) : null}
+                            </div> */}
+                            <div className="flex space-x-3 mt-auto">
+                                {booking.status === "PENDING" ? (
+                                    <>
+                                        <button
+                                            onClick={() => handleAccept(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            onClick={() => handleReject(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : booking.status === "ACCEPTED" && booking.is_paid === false ? (
+                                    <>
+                                        <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-yellow-500 text-white h-10 px-4 py-2 flex-1">
+                                            Pending Payment
+                                        </span>
+                                        <button
+                                            onClick={() => handleReject(booking.id)}
+                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : booking.status === "COMPLETED" ? (
+                                    // <div className="flex items-center space-x-2">
+                                    //   <div className="flex">
+                                    //     {[1, 2, 3, 4, 5].map((star) => (
+                                    //     <Star className={`${star <= booking.rating ? "fill-yellow-300" : "fill-gray-200"} text-gray-200`}/>
+                                    //     ))}
+                                    //   </div>
+                                    // </div>
+                                    null
+                                ) : booking.is_paid === true && booking.join === true ? (
+                                    <button
+                                        onClick={() => setActiveSessionId(booking.id)}
+                                        className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                    >
+                                        Join Session
+                                    </button>
+                                ) : booking.is_paid === true && booking.join === false ? (
+                                    <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-gray-400 text-white h-10 px-4 py-2 flex-1">
+                                        Not Yet Time
+                                    </span>
+                                ) : null}
                             </div>
+
                         </div>
                         {/* Show Jitsi meeting below the card if active */}
                         {activeSessionId === booking.id && (

@@ -233,7 +233,7 @@ const MainNavbar = () => {
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''} hidden md:flex `}
                     >
                         <Notify className={`${isActive('/notifications') ? activebg : ''} mx-auto relative`} />
-                        
+
                     </Link>
 
                     {/* User Name and Dropdown Menu */}
@@ -466,14 +466,17 @@ export function Notify() {
                         ${isMobile ? "bottom-full mb-2 right-0" : "top-full mt-2 right-0"}`}
                     >
                         <div className="max-h-80 overflow-y-auto">
+                            <p className="text-sm font-medium text-gray-800 p-3 border-b text-center bg-gray-50">
+                                Notifications
+                            </p>
                             {allNotifications.length === 0 ? (
                                 <p className="p-4 text-gray-600 text-sm">No notifications</p>
                             ) : (
                                 allNotifications.map((n) => (
                                     <div key={n.id} className="p-3 border-b hover:bg-gray-50">
-                                        <p className="text-sm font-medium text-gray-800">
+                                        {/* <p className="text-sm font-medium text-gray-800">
                                             Notification
-                                        </p>
+                                        </p> */}
                                         <p className="text-xs text-gray-600">{n.text}</p>
                                         <p className="text-[10px] text-gray-400">
                                             {new Date(n.timestamp).toLocaleString()}

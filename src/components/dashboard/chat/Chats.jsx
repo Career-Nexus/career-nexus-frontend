@@ -1,382 +1,336 @@
+"use client";
 
-"use client"
+import { useState, useRef, useContext, useEffect, useMemo } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { UserContext } from "../../../context/UserContext";
+import { authService } from "../../../api/ApiServiceThree";
+import { ChatServices } from "../../../api/ChatServices";
+import { emojis } from "../home/Emoji";
 
-import { useState, useRef, useContext, useEffect } from "react"
-import { emojis } from "../home/Emoji"
-import { useNavigate, useParams } from "react-router-dom"
-import { UserContext } from "../../../context/UserContext"
+// ---------------- Emoji Picker ----------------
 function EmojiPicker({ isOpen, onClose, onEmojiSelect }) {
-    if (!isOpen) return null
-
-    return (
-        <>
-            {/* Backdrop */}
-            <div className="fixed inset-0 bg-black bg-opacity-25 z-40" onClick={onClose} />
-
-            {/* Emoji Modal */}
-            <div className="absolute bottom-16 right-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-4 z-50 w-80 max-h-64 overflow-y-auto">
-                <div className="grid grid-cols-8 gap-2">
-                    {emojis.map((emoji, index) => (
-                        <button
-                            key={index}
-                            onClick={() => {
-                                onEmojiSelect(emoji)
-                                onClose()
-                            }}
-                            className="text-2xl hover:bg-gray-100 rounded-lg p-2 transition-colors"
-                        >
-                            {emoji}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </>
-    )
+  if (!isOpen) return null;
+  return (
+    <>
+      <div
+        className="fixed inset-0 bg-black bg-opacity-25 z-40"
+        onClick={onClose}
+      />
+      <div className="absolute bottom-16 right-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-4 z-50 w-80 max-h-64 overflow-y-auto">
+        <div className="grid grid-cols-8 gap-2">
+          {emojis.map((emoji, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                onEmojiSelect(emoji);
+                onClose();
+              }}
+              className="text-2xl hover:bg-gray-100 rounded-lg p-2 transition-colors"
+            >
+              {emoji}
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
-// export default function Chats() {
-//     // const { id } = useParams();
-//     const [messages, setMessages] = useState([
-//         {
-//             id: 1,
-//             text: "Hey PrisGirl! 👋 I saw your post about getting into freelance UI/UX. Mind if I ask how you got your first client?",
-//             sender: "other",
-//             timestamp: "5:36",
-//         },
-//         {
-//             id: 2,
-//             text: "Hey Daniel! Not at all 😊\nI actually started on Upwork — created a niche portfolio and focused on landing page designs.",
-//             sender: "user",
-//             timestamp: "12:35",
-//         },
-//         {
-//             id: 3,
-//             text: "Ohh nice! How long did it take before you got your first gig?",
-//             sender: "other",
-//             timestamp: "5:36",
-//         },
-//         {
-//             id: 4,
-//             text: "About 2 weeks. I sent personalized proposals and made sure my Behance was solid.\nAlso joined a few Discord design groups — super helpful!",
-//             sender: "user",
-//             timestamp: "12:35",
-//         },
-//         {
-//             id: 5,
-//             text: "That's really encouraging, thanks!",
-//             sender: "other",
-//             timestamp: "",
-//         },
-//     ])
+// ---------------- Chat Input ----------------
+function ChatInput({ onSend }) {
+  const [message, setMessage] = useState("");
+  const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 
-//     const [newMessage, setNewMessage] = useState("")
-//     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false)
-//     const [selectedFile, setSelectedFile] = useState(null)
-//     const fileInputRef = useRef(null)
+  const handleSend = () => {
+    if (message.trim() === "") return;
+    onSend(message);
+    setMessage("");
+  };
 
-//     const handleEmojiSelect = (emoji) => {
-//         setNewMessage((prev) => prev + emoji)
-//     }
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // prevent newline
+      handleSend();
+    }
+  };
 
-//     const handleFileSelect = (event) => {
-//         const file = event.target.files?.[0]
-//         if (file) {
-//             setSelectedFile(file)
-//         }
-//     }
+  return (
+    <div className="relative flex items-center gap-2 border-t border-gray-200 p-3 bg-white">
+      {/* Emoji Toggle */}
+      <button
+        className="text-xl"
+        onClick={() => setIsEmojiOpen((prev) => !prev)}
+      >
+        😀
+      </button>
 
-//     const handleSendMessage = () => {
-//         if (newMessage.trim() || selectedFile) {
-//             const message = {
-//                 id: messages.length + 1,
-//                 text: newMessage,
-//                 sender: "user",
-//                 timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-//                 file: selectedFile
-//                     ? {
-//                         name: selectedFile.name,
-//                         type: selectedFile.type,
-//                         url: URL.createObjectURL(selectedFile),
-//                     }
-//                     : undefined,
-//             }
-//             setMessages([...messages, message])
-//             setNewMessage("")
-//             setSelectedFile(null)
-//             if (fileInputRef.current) {
-//                 fileInputRef.current.value = ""
-//             }
-//         }
-//     }
+      {/* Textarea for messages */}
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Type a message..."
+        rows={1}
+        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5DA05D] resize-none"
+      />
 
-//     const handleKeyPress = (e) => {
-//         if (e.key === "Enter" && !e.shiftKey) {
-//             e.preventDefault()
-//             handleSendMessage()
-//         }
-//     }
-//     // const message2 = messages.find((m) => m.id === parseInt(id));
-//     return (
-//         <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow w-full">
-//             {/* Header */}
-//             <div className="flex items-center justify-between p-4 border-b border-gray-100">
-//                 <div className="flex items-center space-x-3">
-//                     <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
-//                         <img
-//                             src="/placeholder.svg?height=40&width=40"
-//                             alt="Dianne Russell"
-//                             className="w-full h-full object-cover"
-//                         />
-//                     </div>
-//                     <h2 className="font-semibold text-gray-900">Dianne Russell</h2>
-//                 </div>
-//                 <div className="flex space-x-2">
-//                     {/* Phone Icon */}
-//                     <button className="p-2 rounded-full border border-gray-200 hover:bg-gray-50">
-//                         <svg className="w-5 h-5 text-[#5DA05D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                             <path
-//                                 strokeLinecap="round"
-//                                 strokeLinejoin="round"
-//                                 strokeWidth={2}
-//                                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-//                             />
-//                         </svg>
-//                     </button>
-//                     {/* Video Icon */}
-//                     <button className="p-2 rounded-full border border-gray-200 hover:bg-gray-50">
-//                         <svg className="w-5 h-5 text-[#5DA05D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                             <path
-//                                 strokeLinecap="round"
-//                                 strokeLinejoin="round"
-//                                 strokeWidth={2}
-//                                 d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-//                             />
-//                         </svg>
-//                     </button>
-//                 </div>
-//             </div>
+      {/* Send Button */}
+      <button
+        onClick={handleSend}
+        className="bg-[#5DA05D] text-white px-4 py-2 rounded-lg hover:bg-green-700"
+      >
+        Send
+      </button>
 
-//             {/* Messages */}
-//             <div className="h-80 overflow-y-auto p-4 space-y-2">
-//                 {/* Today Divider */}
-//                 <div className="flex justify-center">
-//                     <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Today</span>
-//                 </div>
+      {/* Emoji Picker */}
+      <EmojiPicker
+        isOpen={isEmojiOpen}
+        onClose={() => setIsEmojiOpen(false)}
+        onEmojiSelect={(emoji) => setMessage((prev) => prev + emoji)}
+      />
+    </div>
+  );
+}
 
-//                 {messages.map((message) => (
-//                     <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
-//                         <div className="max-w-xs">
-//                             <div
-//                                 className={`p-3 rounded-2xl ${message.sender === "user"
-//                                     ? "bg-[#D9FFDB] rounded-br-md"
-//                                     : "bg-gray-100 text-gray-900 rounded-bl-md"
-//                                     }`}
-//                             >
-//                                 {message.file && (
-//                                     <div className="mb-2">
-//                                         {message.file.type.startsWith("image/") ? (
-//                                             <img
-//                                                 src={message.file.url || "/placeholder.svg"}
-//                                                 alt={message.file.name}
-//                                                 className="max-w-full h-auto rounded-lg"
-//                                             />
-//                                         ) : (
-//                                             <div
-//                                                 className={`flex items-center space-x-2 p-2 rounded-lg ${message.sender === "user" ? "bg-[#D9FFDB]" : "bg-gray-200"
-//                                                     }`}
-//                                             >
-//                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                                                     <path
-//                                                         strokeLinecap="round"
-//                                                         strokeLinejoin="round"
-//                                                         strokeWidth={2}
-//                                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-//                                                     />
-//                                                 </svg>
-//                                                 <span className="text-sm truncate">{message.file.name}</span>
-//                                             </div>
-//                                         )}
-//                                     </div>
-//                                 )}
-//                                 {message.text && <p className="text-sm whitespace-pre-line">{message.text}</p>}
-//                             </div>
-//                             {message.timestamp && (
-//                                 <p className={`text-xs text-gray-500 mt-1 ${message.sender === "user" ? "text-right" : "text-left"}`}>
-//                                     {message.timestamp}
-//                                 </p>
-//                             )}
-//                         </div>
-//                     </div>
-//                 ))}
-//             </div>
-
-//             {/* Input Area */}
-//             <div className="p-4 border-t border-gray-100">
-//                 {/* Selected File Preview */}
-//                 {selectedFile && (
-//                     <div className="mb-3 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
-//                         <div className="flex items-center space-x-2">
-//                             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                                 <path
-//                                     strokeLinecap="round"
-//                                     strokeLinejoin="round"
-//                                     strokeWidth={2}
-//                                     d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-//                                 />
-//                             </svg>
-//                             <span className="text-sm text-gray-700 truncate">{selectedFile.name}</span>
-//                         </div>
-//                         <button
-//                             onClick={() => {
-//                                 setSelectedFile(null)
-//                                 if (fileInputRef.current) {
-//                                     fileInputRef.current.value = ""
-//                                 }
-//                             }}
-//                             className="text-gray-400 hover:text-gray-600"
-//                         >
-//                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-//                             </svg>
-//                         </button>
-//                     </div>
-//                 )}
-
-//                 <div className="flex items-center space-x-3">
-//                     {/* Hidden File Input */}
-//                     <input
-//                         ref={fileInputRef}
-//                         type="file"
-//                         onChange={handleFileSelect}
-//                         className="hidden"
-//                         accept="image/*,.pdf,.doc,.docx,.txt"
-//                     />
-
-//                     {/* Attachment Button */}
-//                     <button onClick={() => fileInputRef.current?.click()} className="p-2 hover:bg-gray-100 rounded-full">
-//                         <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                             <path
-//                                 strokeLinecap="round"
-//                                 strokeLinejoin="round"
-//                                 strokeWidth={2}
-//                                 d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-//                             />
-//                         </svg>
-//                     </button>
-
-//                     {/* Input Field */}
-//                     <div className="flex-1 relative">
-//                         <input
-//                             type="text"
-//                             value={newMessage}
-//                             onChange={(e) => setNewMessage(e.target.value)}
-//                             onKeyPress={handleKeyPress}
-//                             placeholder="Write a Message..."
-//                             className="w-full px-4 py-2 bg-gray-50 rounded-full border-none outline-none focus:ring-2 focus:ring-[#5DA05D] focus:bg-white"
-//                         />
-//                     </div>
-
-//                     {/* Emoji Button */}
-//                     <div className="relative">
-//                         <button
-//                             onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-//                             className="p-2 hover:bg-gray-100 rounded-full"
-//                         >
-//                             🙂
-//                         </button>
-
-//                         <EmojiPicker
-//                             isOpen={isEmojiPickerOpen}
-//                             onClose={() => setIsEmojiPickerOpen(false)}
-//                             onEmojiSelect={handleEmojiSelect}
-//                         />
-//                     </div>
-
-//                     {/* Send Button */}
-//                     <button
-//                         onClick={handleSendMessage}
-//                         disabled={!newMessage.trim() && !selectedFile}
-//                         className="p-2 bg-[#5DA05D] hover:bg-[#5DA05F] disabled:bg-gray-300 disabled:cursor-not-allowed rounded-full text-white transition-colors"
-//                     >
-//                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-//                         </svg>
-//                     </button>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
+// ---------------- Main Chats ----------------
 export default function Chats() {
-  const [chatList, setChatList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const { user, userwithid, getUserById } = useContext(UserContext) // current logged-in user
- 
+  const location = useLocation();
+  const contributor = location.state?.contributor; // contributor payload
+  const contributorId = contributor?.id;
+  const { chat_id } = useParams();
 
-  // Fetch chat list
-  const fetchChats = async () => {
+  const [messages, setMessages] = useState([]);
+  const { user } = useContext(UserContext);
+
+  const wsRef = useRef(null);
+  const [wsStatus, setWsStatus] = useState("Idle");
+
+  // Build WebSocket URL once
+  const wsUrl = useMemo(() => {
+    const token = authService.getAuthToken();
+    return contributorId
+      ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+        token
+      )}`
+      : null;
+  }, [contributorId]);
+
+  // ---------------- WebSocket setup ----------------
+  useEffect(() => {
+    if (!wsUrl) return;
+
+    let ws;
+    const connect = () => {
+      ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("✅ Chat WebSocket opened");
+        setWsStatus("Connected");
+      };
+
+      // ws.onmessage = (event) => {
+      //   try {
+      //     const data = JSON.parse(event.data);
+      //     console.log("💬 WS message:", data);
+      //     if (data.type === "pong") return;
+
+      //     if (window.location.pathname !== `/chat/${chat_id}`) {
+      //       toast.info(
+      //         <div>
+      //           <p className="font-medium">Message from {contributor?.first_name}</p>
+      //           <p className="text-sm">{data.message}</p>
+      //         </div>,
+      //         { autoClose: 8000 }
+      //       )
+      //     }
+
+      //     setMessages((prev) => {
+      //       const senderId = data.user_id ?? data.person?.id;
+      //       const uniqueKey = `${senderId}-${data.message}-${data.timestamp}`;
+
+      //       const exists = prev.some(
+      //         (msg) =>
+      //           (msg.user_id ?? msg.person?.id) === senderId &&
+      //           msg.message === data.message &&
+      //           msg.timestamp === data.timestamp
+      //       );
+
+      //       return exists ? prev : [...prev, { ...data, uniqueKey }];
+      //     });
+      //   } catch (err) {
+      //     console.error("Error parsing WS message", err);
+      //   }
+      // };
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("💬 WS message:", data);
+
+          // Ignore pings
+          if (data.type === "pong") return;
+
+          // ✅ If user is outside this chat, show toast only (don't append to chat state)
+          if (window.location.pathname !== `/chat/${chat_id}`) {
+            toast.info(
+              <div>
+                <p className="font-medium">Message from {contributor?.first_name}</p>
+                <p className="text-sm">{data.message}</p>
+              </div>,
+              {
+                autoClose: 8000,
+                toastId: `chat-${chat_id}`, // 👈 ensures only one toast per chat
+              }
+            );
+            return; // stop here → no double notifications
+          }
+
+          // ✅ Inside chat: update messages normally
+          setMessages((prev) => {
+            const senderId = data.user_id ?? data.person?.id;
+            const uniqueKey = `${senderId}-${data.message}-${data.timestamp}`;
+
+            const exists = prev.some(
+              (msg) =>
+                (msg.user_id ?? msg.person?.id) === senderId &&
+                msg.message === data.message &&
+                msg.timestamp === data.timestamp
+            );
+
+            return exists ? prev : [...prev, { ...data, uniqueKey }];
+          });
+        } catch (err) {
+          console.error("Error parsing WS message", err);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        setWsStatus("Error");
+      };
+
+      ws.onclose = (event) => {
+        console.log("WebSocket closed:", event.code, event.reason);
+        setWsStatus("Disconnected");
+        if (event.code !== 1000) {
+          setTimeout(connect, 10000); // auto reconnect
+        }
+      };
+    };
+
+    connect();
+
+    return () => {
+      ws?.close();
+    };
+  // }, [wsUrl, chat_id, location.pathname, contributor]);
+  }, [wsUrl, chat_id]);
+
+  // ---------------- Send Message ----------------
+  const handleSendMessage = (text) => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      const payload = { type: "chat_message", message: text };
+      wsRef.current.send(JSON.stringify(payload));
+    }
+  };
+
+  // ---------------- Fetch history ----------------
+  const fetchChatHistory = async () => {
     try {
-      const res = await ChatServices.getChats();
+      const res = await ChatServices.getChatHistory(chat_id);
       if (res.success) {
-        // Map chat list to always show "other person"
-        const chats = res.data.map(chat => {
-          const otherPerson =
-            chat.initiator.id === userwithid ? chat.contributor : chat.initiator;
-          return {
-            chat_id: chat.chat_id,
-            person: otherPerson,
-          };
-        });
-        setChatList(chats);
+        setMessages(res.data);
       }
     } catch (error) {
-      console.error("Error fetching chats:", error);
-    } finally {
-      setLoading(false);
+      console.error("Failed to fetch chat history", error);
     }
   };
 
   useEffect(() => {
-    if (userwithid) {
-      fetchChats();
+    if (chat_id) {
+      fetchChatHistory();
     }
-  }, [userwithid]);
+  }, [chat_id]);
 
-  if (loading) {
-    return <p className="p-4 text-gray-500">Loading chats...</p>;
-  }
-
-  if (chatList.length === 0) {
-    return <p className="p-4 text-gray-500">No chats available</p>;
-  }
-
+  // ---------------- Render ----------------
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4">Chats</h2>
-      <div className="space-y-3">
-        {chatList.map(chat => (
-          <div
-            key={chat.chat_id}
-            onClick={() => navigate(`/chats/${chat.chat_id}`)}
-            className="flex items-center p-3 bg-white rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition"
-          >
-            {/* Profile photo */}
-            <img
-              src={chat.person.profile_photo}
-              alt={chat.person.first_name}
-              className="w-12 h-12 rounded-full object-cover border"
-            />
-
-            {/* Chat Info */}
-            <div className="ml-3 flex-1">
-              <p className="font-medium text-gray-900">
-                {chat.person.first_name} {chat.person.last_name}
-              </p>
-              <p className="text-sm text-gray-500">{chat.person.qualification}</p>
-            </div>
+    <div className="flex flex-col h-full">
+      {/* Header with contributor info */}
+      {contributor && (
+        <div className="flex items-center gap-3 p-4 border-b border-gray-200 bg-white sticky top-10 md:top-20">
+          <img
+            src={contributor.profile_photo || "/placeholder.svg"}
+            alt={contributor.first_name}
+            className="w-10 h-10 rounded-full"
+          />
+          <div>
+            <p className="font-semibold text-gray-900">
+              {contributor.first_name} {contributor.last_name}
+            </p>
+            <p className="text-sm text-gray-500">
+              {contributor.qualification || ""}
+            </p>
           </div>
-        ))}
+          <Link
+            to={"/chatsection"}
+            className="ml-auto bg-[#5DA05D] text-white rounded-lg py-1 px-3"
+          >
+            back
+          </Link>
+        </div>
+      )}
+
+      {/* Messages */}
+      <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+        {messages.length === 0 ? (
+          <p className="text-gray-500">No messages yet</p>
+        ) : (
+          messages.map((msg, index) => {
+            const senderId = msg.user_id ?? msg.person?.id;
+            const isMe = String(senderId) !== String(contributorId);
+
+            return (
+              <div
+                key={index}
+                className={`flex ${isMe ? "justify-end" : "justify-start"} mb-2`}
+              >
+                {!isMe && (
+                  <div className="flex items-center mr-2">
+                    <img
+                      src={contributor?.profile_photo || "/placeholder.svg"}
+                      alt={contributor?.first_name}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </div>
+                )}
+
+                <div
+                  className={`max-w-xs p-3 rounded-lg ${isMe
+                    ? "bg-[#5DA05D] text-white"
+                    : "bg-gray-100 text-gray-900"
+                    }`}
+                >
+                  <p className="text-sm">{msg.message}</p>
+                  <p className="text-[10px] mt-1 opacity-70">
+                    {new Date(msg.timestamp || Date.now()).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}
+                  </p>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Chat Input */}
+      <div className="sticky bottom-0">
+        <ChatInput onSend={handleSendMessage} />
       </div>
     </div>
   );

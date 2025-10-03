@@ -38,7 +38,6 @@ import NewsletterPage from "../pages/activities/NewsLetter"
 import Setting from "../pages/activities/Setting"
 import ChatSection from '../pages/chat/ChatSection'
 import Chat from '../pages/chat/Chat'
-import NewChats from '../pages/chat/NewChats'
 import HelpCenter from '../pages/activities/HelpCenter'
 import TroubleShoot from '../pages/activities/TroubleShoot'
 import VideoTutorials from '../pages/activities/VideoTutorials'
@@ -370,7 +369,7 @@ const Router = () => {
           }
         />
         <Route
-          path='/chat/:id'
+          path='/chat/:chat_id'
           element={
             <ProtectedRoute>
               <Chat />
@@ -382,14 +381,6 @@ const Router = () => {
           element={
             <ProtectedRoute>
               <ChatSection />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/newchat'
-          element={
-            <ProtectedRoute>
-              <NewChats />
             </ProtectedRoute>
           }
         />

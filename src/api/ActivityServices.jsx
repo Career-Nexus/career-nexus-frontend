@@ -107,18 +107,7 @@ export const ActivityService = {
             console.log("Could not update user settings");
         }
     },
-    // async UserCreateDispute(create){
-    //     try {
-    //         console.log("Api payload",create)
-    //         const response = await api.post("/user/disputes/",create)
-    //         if (response.data) {
-    //             console.log("Dispute created", response.data);
-    //             return { success: true, data: response.data }
-    //         }
-    //     } catch (error) {
-    //         console.log("Could not create dispute")
-    //     }
-    // },
+
     async UserCreateDispute(create) {
         try {
             console.log("Api payload", create);
@@ -156,7 +145,6 @@ export const ActivityService = {
             console.log("Could not fetch vault data")
         }
     },
-    // /user/admin/disputes/
     async AdminGetDispute() {
         try {
             const res = await api.get("/user/admin/disputes/" )

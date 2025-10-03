@@ -69,47 +69,106 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.log("failed to fetch user by id details")
     }
-  }
-  const updateUser = async (updatedData, formData) => {
-    try {
-      setLoading(true);
-      let response;
-      if (formData instanceof FormData) {
-        // Append non-file fields to FormData
-        Object.keys(updatedData).forEach((key) => {
-          formData.append(key, updatedData[key]);
-        });
-        response = await api.put("/user/profile-update/", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } else {
-        response = await api.put("/user/profile-update/", updatedData);
-      }
-      console.log("Update response:", { status: response.status, data: response.data });
-
-      if ([200, 201, 204].includes(response.status)) {
-        // Fetch updated user data to ensure consistency
-        await fetchUser();
-        setError(null);
-        return response.data;
-      } else {
-        throw new Error("Unexpected response status: " + response.status);
-      }
-    } catch (err) {
-      const errorMessage = err.response
-        ? err.response.data.message || JSON.stringify(err.response.data)
-        : err.message || "Failed to update user data";
-      setError(errorMessage);
-      console.error("Error updating user data:", errorMessage, err);
-      throw new Error(errorMessage);
-    } finally {
-      setLoading(false);
-    }
   };
+  // const updateUser = async (updatedData, formData) => {
+  //   try {
+  //     setLoading(true);
+  //     let response;
+  //     if (formData instanceof FormData) {
+  //       // Append non-file fields to FormData
+  //       Object.keys(updatedData).forEach((key) => {
+  //         formData.append(key, updatedData[key]);
+  //       });
+  //       response = await api.put("/user/profile-update/", formData, {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       });
+  //     } else {
+  //       response = await api.put("/user/profile-update/", updatedData);
+  //     }
+  //     console.log("Update response:", { status: response.status, data: response.data });
+
+  //     if ([200, 201, 204].includes(response.status)) {
+  //       // Fetch updated user data to ensure consistency
+  //       await fetchUser();
+  //       setError(null);
+  //       return response.data;
+  //     } else {
+  //       throw new Error("Unexpected response status: " + response.status);
+  //     }
+  //   } catch (err) {
+  //     const errorMessage = err.response
+  //       ? err.response.data.message || JSON.stringify(err.response.data)
+  //       : err.message || "Failed to update user data";
+  //     setError(errorMessage);
+  //     console.error("Error updating user data:", errorMessage, err);
+  //     throw new Error(errorMessage);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // Fetch user data when the component mounts
+ const updateUser = async (updatedData) => {
+  try {
+    setLoading(true);
+
+    let response;
+    // If any file is present, we must send FormData
+    const hasFile = Object.values(updatedData).some(
+      (val) => val instanceof File
+    );
+
+    if (hasFile) {
+      const formData = new FormData();
+      Object.keys(updatedData).forEach((key) => {
+        const value = updatedData[key];
+        if (value !== null && value !== "" && value !== undefined) {
+          formData.append(key, value);
+        }
+      });
+
+      response = await api.put("/user/profile-update/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else {
+      // Only send non-empty values
+      const cleanedData = {};
+      Object.keys(updatedData).forEach((key) => {
+        const value = updatedData[key];
+        if (value !== null && value !== "" && value !== undefined) {
+          cleanedData[key] = value;
+        }
+      });
+
+      response = await api.put("/user/profile-update/", cleanedData);
+    }
+
+    console.log("Update response:", response.status, response.data);
+
+    if ([200, 201, 204].includes(response.status)) {
+      await fetchUser();
+      setError(null);
+      return response.data;
+    } else {
+      throw new Error("Unexpected response status: " + response.status);
+    }
+  } catch (err) {
+    const errorMessage = err.response
+      ? err.response.data.message || JSON.stringify(err.response.data)
+      : err.message || "Failed to update user data";
+
+    setError(errorMessage);
+    console.error("Error updating user data:", errorMessage, err);
+    throw new Error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
+
   useEffect(() => {
     fetchUser();
   }, []);

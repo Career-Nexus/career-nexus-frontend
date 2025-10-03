@@ -7,7 +7,6 @@ import { EditComponent } from './AllModal'
 import { UserContext } from '../../../../context/UserContext'
 import { useForm } from 'react-hook-form'
 import { toast } from "react-toastify";
-import { PostService } from '../../../../api/PostService'
 import { Link } from 'react-router-dom'
 import { ProfileContext } from '../../../../context/ProfileContext'
 import IntroVideoModal from './IntroVideo'
@@ -173,6 +172,12 @@ const MainProfile = () => {
               <span className="text-[#5DA05D] mr-2">{user?.followings}</span> Following
               <span className="text-[#5DA05D] mx-2">{user?.followers}</span> Followers
             </p>
+            {/* session rate */}
+            {
+              user.user_type==="mentor"?(
+                <SessionRate/>
+              ):("")
+            }
           </div>
 
           <div className='flex flex-col'>
@@ -217,7 +222,73 @@ const MainProfile = () => {
     </div>
   );
 };
+function SessionRate() {
+  const { user, updateUser } = useContext(UserContext)
+  const [isOpen, setIsOpen] = useState(false)
+  const [tempRate, setTempRate] = useState(user.session_rate)
 
+const handleSave = async () => {
+  try {
+    await updateUser({ session_rate: tempRate })
+    setIsOpen(false)
+    toast.success("Session rate updated sucessfully")
+  } catch (err) {
+    console.error("Failed to update session rate:", err)
+  }
+}
+
+  return (
+    <div>
+      {/* Display row */}
+      <div className="flex gap-5 border-b border-[#5DA05D] pb-2">
+        <p>
+          Session rate:{" "}
+          <span className="font-semibold">{user.session_rate}</span>
+        </p>
+        <span
+          className="ml-auto cursor-pointer"
+          onClick={() => {
+            setTempRate(user.session_rate) // pre-fill input
+            setIsOpen(true)
+          }}
+        >
+          <Edit />
+        </span>
+      </div>
+
+      {/* Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Edit Session Rate</h2>
+
+            <input
+              type="number"
+              value={tempRate}
+              onChange={(e) => setTempRate(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-[#5DA05D]"
+            />
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 rounded-lg bg-[#5DA05D] text-white hover:bg-[#4A874A]"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 export default MainProfile;
 
   const profileItems = [

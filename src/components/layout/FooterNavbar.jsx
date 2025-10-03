@@ -57,10 +57,10 @@ export default function MobileFooterNav() {
             )
           })}
         </div>
-        <div className="relative mr-10">
+        <div className="relative mr-10 flex flex-col items-center justify-center px-3 py-2 text-gray-500 hover:text-gray-900">
           <Notify className="absolute" />
           <p className="text-xs font-medium text-gray-500 -mt-2">Notifications</p>
-          <div className='absolute h-3 w-3 rounded-full bg-red-600 top-0 right-9 p-1'></div>
+          {/* <div className='absolute h-3 w-3 rounded-full bg-red-600 top-0 right-9 p-1'></div> */}
           
         </div>
       </div>
