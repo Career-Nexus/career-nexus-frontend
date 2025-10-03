@@ -4,6 +4,7 @@ import AllJobs from "../dashboard/jobs/AllJobs";
 import { Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ActivityService } from "../../api/ActivityServices";
+import FloatingMessageIcon from "../dashboard/chat/FloatingMessage";
 
 export default function SubmitTicket() {
     const [billing, setBilling] = useState("");
@@ -133,6 +134,9 @@ export default function SubmitTicket() {
                 <button onClick={UserCreateDispute} className="bg-[#5DA05D] text-white p-3 rounded-lg font-medium hover:bg-[#4CAF50] transition">
                     Submit Ticket
                 </button>
+            </div>
+            <div>
+                <FloatingMessageIcon />
             </div>
         </div>
 

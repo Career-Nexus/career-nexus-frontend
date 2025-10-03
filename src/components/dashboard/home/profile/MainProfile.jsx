@@ -167,7 +167,7 @@ const MainProfile = () => {
               <GraduationCap className="w-4 h-4" />
               {user?.qualification}
             </p>
-              <p className='text-slate-500 font-thin mt-3'>Industry:{user?.industry}</p>
+              <p className='text-slate-500 font-thin mt-1'>Your industry is {user?.industry}</p>
             <p className="my-3">
               <span className="text-[#5DA05D] mr-2">{user?.followings}</span> Following
               <span className="text-[#5DA05D] mx-2">{user?.followers}</span> Followers

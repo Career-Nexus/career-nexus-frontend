@@ -9,6 +9,7 @@ import { UserContext } from "../../../context/UserContext"
 import { Box, Spinner } from "@chakra-ui/react"
 import MentorshipRequests from "./MentorshipRequests"
 import { toast } from "react-toastify";
+import FloatingMessageIcon from "../chat/FloatingMessage"
 
 const Dropdown = ({ label, options, value, onChange }) => {
   const [open, setOpen] = useState(false)
@@ -196,8 +197,8 @@ const MentorCard = ({ mentor }) => {
             //disabled
             disabled={mentorSession.includes(mentor.id)}
             className={`py-2 px-4 border ${mentorSession.includes(mentor.id)
-                ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                : "bg-[#5DA05D] text-white"
+              ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+              : "bg-[#5DA05D] text-white"
               } rounded-lg transition-colors duration-200 font-medium text-sm`}
           >
             {mentorSession.includes(mentor.id) ? "Pending..." : "Book Session"}
@@ -208,8 +209,8 @@ const MentorCard = ({ mentor }) => {
             // disabled={saveMentor}
             disabled
             className={`rounded-lg flex gap-2 py-2 px-4 border-2 ${saveMentor
-                ? "border-[#5DA05D] text-[#5DA05D] cursor-not-allowed"
-                : "border-gray-400 text-gray-600 hover:border-[#5DA05D] hover:text-[#5DA05D]"
+              ? "border-[#5DA05D] text-[#5DA05D] cursor-not-allowed"
+              : "border-gray-400 text-gray-600 hover:border-[#5DA05D] hover:text-[#5DA05D]"
               }`}
           >
             <Bookmark />
@@ -254,8 +255,8 @@ const MentorCard = ({ mentor }) => {
                         type="button"
                         onClick={() => setFormData({ ...formData, session_type: opt.value })}
                         className={`w-full border rounded-xl p-4 flex justify-between items-center ${formData.session_type === opt.value
-                            ? "border-[#5DA05D] bg-green-50"
-                            : "border-gray-300"
+                          ? "border-[#5DA05D] bg-green-50"
+                          : "border-gray-300"
                           }`}
                       >
                         <div>
@@ -264,8 +265,8 @@ const MentorCard = ({ mentor }) => {
                         </div>
                         <span
                           className={`w-5 h-5 rounded-full border flex items-center justify-center ${formData.session_type === opt.value
-                              ? "border-[#5DA05D]"
-                              : "border-gray-400"
+                            ? "border-[#5DA05D]"
+                            : "border-gray-400"
                             }`}
                         >
                           {formData.session_type === opt.value && (
@@ -320,8 +321,8 @@ const MentorCard = ({ mentor }) => {
                         key={topic}
                         onClick={() => setFormData({ ...formData, discourse: topic })}
                         className={`px-3 py-1 rounded border text-sm ${formData.discourse === topic
-                            ? "bg-green-50 border-[#5DA05D] text-[#5DA05D]"
-                            : "border-gray-300 text-gray-600"
+                          ? "bg-green-50 border-[#5DA05D] text-[#5DA05D]"
+                          : "border-gray-300 text-gray-600"
                           }`}
                       >
                         {topic}
@@ -648,6 +649,9 @@ const MentorMain = () => {
       ) : (
         <MentorshipRequests />
       )}
+      <div>
+        <FloatingMessageIcon />
+      </div>
     </div>
   )
 }

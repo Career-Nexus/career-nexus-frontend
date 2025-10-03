@@ -7,6 +7,7 @@ import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
 import AcceptedBookings from "./AcceptedBookings";
 import AllJobs from "../jobs/AllJobs";
+import FloatingMessageIcon from "../chat/FloatingMessage";
 
 export default function BookedSession() {
     const [requestedSession, setRequestedSession] = useState([]);
@@ -44,7 +45,7 @@ export default function BookedSession() {
             setLoading(false);
         }
     };
-    
+
     useEffect(() => {
         requestedSessions();
     }, []);
@@ -169,6 +170,9 @@ export default function BookedSession() {
             </div>
             {/* accepted bookings */}
             <AcceptedBookings />
+            <div>
+                <FloatingMessageIcon />
+            </div>
         </div>
     );
 
