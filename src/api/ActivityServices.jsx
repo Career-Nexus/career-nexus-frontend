@@ -145,6 +145,17 @@ export const ActivityService = {
             console.log("Could not fetch dispute")
         }
     },
+    async GetVaultData(params = {}) {
+        try {
+            const response = await api.get("/mentor/vault/", { params })
+            if (response.data) {
+                console.log("Vault data fetched", response.data);
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Could not fetch vault data")
+        }
+    },
     // /user/admin/disputes/
     async AdminGetDispute() {
         try {
