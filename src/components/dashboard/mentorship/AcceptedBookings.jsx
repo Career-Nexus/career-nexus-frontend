@@ -92,6 +92,19 @@ function AcceptedBookings() {
     const toggleDropdown = (id) => {
         setOpenDropdown(openDropdown === id ? null : id);
     };
+    const handleCancelSession = async (sessionId) => {
+        const res = await MentorServices.cancelMentorshipSession(sessionId);
+        console.log(res.message);
+        if (res.success) {
+            toast.success("Mentorship session cancelled successfully");
+            // Optionally update state to remove the cancelled session
+            setAcceptedBookings((prev) =>
+                prev.filter((booking) => booking.id !== sessionId)
+            );
+        } else {
+            toast.error("Failed to cancel mentorship session");
+        }
+    };
     return (
         <div>
             <h2 className=" my-6 text-xl font-bold">Accepted Bookings</h2>
@@ -194,7 +207,7 @@ function AcceptedBookings() {
                                         <span className="ml-2">{booking.time}</span>
                                     </div>
                                     <div className="text-xs text-[#2A0D47] bg-[#2A0D471A] px-2 py-1 w-max rounded mb-2">
-                                        {booking.category}
+                                        {booking.category} 
                                     </div>
                                     <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
 
@@ -236,7 +249,7 @@ function AcceptedBookings() {
                                         ) : (
                                             <button
                                                 className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                                onClick={() => console.log(`Cancel booking ${booking.id}`)}
+                                                onClick={() => handleCancelSession(booking.id)}
                                             >
                                                 Cancel
                                             </button>

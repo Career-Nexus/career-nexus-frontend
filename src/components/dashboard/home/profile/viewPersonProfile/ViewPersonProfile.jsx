@@ -12,10 +12,16 @@ import AnalyticsDashboard from './AnalyticsDashboard'
 import Videos from './Videos'
 import VideoTabs from './Videos'
 import { ChatServices } from '../../../../../api/ChatServices'
+import { PostService } from '../../../../../api/PostService';
 import { toast } from 'react-toastify'
 
 const ViewPersonProfile = () => {
     const { user, userwithid } = useContext(UserContext)
+    console.log("userwithid", userwithid);    
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [followersCount, setFollowersCount] = useState(0);
+
+
     const navigate = useNavigate()
 
     const { id } = useParams();
@@ -26,6 +32,14 @@ const ViewPersonProfile = () => {
             getUserById(id); // fetch and store in context
         }
     }, [id]);
+
+    useEffect(() => {
+        if (userwithid) {
+            setIsFollowing(!userwithid.can_follow); 
+            // if can_follow is false => user already followed
+            setFollowersCount(userwithid.followers);
+        }
+    }, [userwithid]);
 
     const InitiateChatSession = async () => {
         if (!id) {
@@ -44,6 +58,31 @@ const ViewPersonProfile = () => {
             toast.error("Failed to initiate chat session");
         }
     };
+
+    const handleFollow = async () => {
+        try {
+            const newFollowState = !isFollowing;
+
+            // Optimistic update
+            setIsFollowing(newFollowState);
+            setFollowersCount(prev => newFollowState ? prev + 1 : prev - 1);
+
+            if (newFollowState) {
+            await PostService.Follow({ user_following: id });
+            toast.success("You are now following this user");
+            } else {
+                await PostService.Unfollow({ user_following: id });
+                toast.success("You unfollowed this user");
+            }
+        } catch (err) {
+            console.error(err);
+            // revert on error
+            setIsFollowing(!isFollowing);
+            setFollowersCount(prev => isFollowing ? prev + 1 : prev - 1);
+            toast.error("Failed to update follow state");
+        }
+    };
+
 
     function ProfilePicture() {
         return (
@@ -107,15 +146,20 @@ const ViewPersonProfile = () => {
                             </p>
                             <p className="my-3">
                                 <span className="text-[#5DA05D] mr-2">{userwithid?.followings}</span> Following
-                                <span className="text-[#5DA05D] mx-2">{userwithid?.followers}</span> Followers
+                                <span className="text-[#5DA05D] mx-2">{followersCount}</span> Followers
                             </p>
                             <div className='mb-2'>
                                 {userwithid.user_type === "learner" ? (
                                     <div className='flex items-center justify-between'>
-                                        <button className='flex items-center justify-center gap-1 rounded-lg bg-[#5DA05D] text-white px-2 text-sm'>
-                                            <UserPlus className='w-4 h-4' />
-                                            <span className='px-2 py-2'>Follow</span>
+                                        <button
+                                            onClick={handleFollow}
+                                            className={`flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-sm 
+                                            ${isFollowing ? "bg-gray-300 text-black" : "bg-[#5DA05D] text-white"}`}
+                                        >
+                                            <UserPlus className="w-4 h-4" />
+                                            {isFollowing ? "Following" : "Follow"}
                                         </button>
+
                                         <div className=''>
                                             {userwithid.can_message === true ? (
                                                 <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Message</button>
