@@ -1,6 +1,4 @@
-
 "use client"
-
 import { useEffect, useState } from "react"
 import { Google, Linkedin, LoadingIcon } from "../../icons/icon"
 import { Link, useNavigate } from "react-router-dom"

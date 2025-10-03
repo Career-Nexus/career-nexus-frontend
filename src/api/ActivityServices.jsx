@@ -144,5 +144,13 @@ export const ActivityService = {
         } catch (error) {
             console.log("Could not fetch vault data")
         }
+    },
+    async AdminGetDispute() {
+        try {
+            const res = await api.get("/user/admin/disputes/" )
+            return res.data;
+        } catch (error) {
+            console.error("Disputes unavailable")
+        }
     }
 }
