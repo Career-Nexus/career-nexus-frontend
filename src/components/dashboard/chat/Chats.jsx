@@ -110,7 +110,10 @@ export default function Chats() {
   const wsUrl = useMemo(() => {
     const token = authService.getAuthToken();
     return contributorId
-      ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+      // ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+      //   token
+      // )}`
+      ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
         token
       )}`
       : null;
@@ -130,39 +133,6 @@ export default function Chats() {
         setWsStatus("Connected");
       };
 
-      // ws.onmessage = (event) => {
-      //   try {
-      //     const data = JSON.parse(event.data);
-      //     console.log("💬 WS message:", data);
-      //     if (data.type === "pong") return;
-
-      //     if (window.location.pathname !== `/chat/${chat_id}`) {
-      //       toast.info(
-      //         <div>
-      //           <p className="font-medium">Message from {contributor?.first_name}</p>
-      //           <p className="text-sm">{data.message}</p>
-      //         </div>,
-      //         { autoClose: 8000 }
-      //       )
-      //     }
-
-      //     setMessages((prev) => {
-      //       const senderId = data.user_id ?? data.person?.id;
-      //       const uniqueKey = `${senderId}-${data.message}-${data.timestamp}`;
-
-      //       const exists = prev.some(
-      //         (msg) =>
-      //           (msg.user_id ?? msg.person?.id) === senderId &&
-      //           msg.message === data.message &&
-      //           msg.timestamp === data.timestamp
-      //       );
-
-      //       return exists ? prev : [...prev, { ...data, uniqueKey }];
-      //     });
-      //   } catch (err) {
-      //     console.error("Error parsing WS message", err);
-      //   }
-      // };
       ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);

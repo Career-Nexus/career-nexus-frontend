@@ -102,7 +102,7 @@ const ConnectionInUserIndustry = () => {
                         </p>
                     </Box>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
                         {byindustry.map((suggestion) => (
                             <div key={suggestion.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
                                 <Link to={`/person-profile/${suggestion.id}`}>

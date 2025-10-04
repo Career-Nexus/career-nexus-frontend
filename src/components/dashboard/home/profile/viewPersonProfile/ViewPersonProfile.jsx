@@ -168,7 +168,7 @@ const ViewPersonProfile = () => {
                                     </div>
                                 ) : (
                                     <div className='flex items-center justify-between'>
-                                        <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button>
+                                        {/* <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button> */}
                                         <div className=''>
                                             {userwithid.can_message === true ? (
                                                 <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Message</button>
