@@ -110,12 +110,12 @@ export default function Chats() {
   const wsUrl = useMemo(() => {
     const token = authService.getAuthToken();
     return contributorId
-      // ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
-      //   token
-      // )}`
-      ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+      ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
         token
       )}`
+      // ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+      //   token
+      // )}`
       : null;
   }, [contributorId]);
 

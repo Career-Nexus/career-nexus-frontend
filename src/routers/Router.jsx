@@ -50,6 +50,7 @@ import { NotificationProvider } from '../context/NotificationContext'
 import Vault from '../pages/activities/Vault'
 import AdminLogin from "../pages/admin/AdminLogin"
 import Dashboard from "../pages/admin/Dashboard";
+import SharePage from '../components/dashboard/home/SharePost'
 
 
 
@@ -239,6 +240,18 @@ const Router = () => {
               <Home />
             </ProtectedRoute>
           }
+        />
+        {/* <Route
+          path="/share"
+          element={
+              <SharePage />
+          }
+        /> */}
+        <Route 
+          path="/share/:hash"
+          element={
+              <SharePage />
+          } 
         />
         <Route
           path="/profilepage"
