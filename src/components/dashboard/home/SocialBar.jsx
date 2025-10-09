@@ -41,7 +41,7 @@ export default function SocialBar({ post, fetchPosts, postId }) {
       const baseUrls = appUrl || window.location.origin;
       
       const link = `${baseUrls}/share/${hash}`;
-      // const link = `${window.location.origin}/share/${hash}`;
+      //const link = `${window.location.origin}/share/${hash}`;
       //setShareLink(link);
       navigator.clipboard.writeText(link);
       toast.success("Share link copied to clipboard!");
