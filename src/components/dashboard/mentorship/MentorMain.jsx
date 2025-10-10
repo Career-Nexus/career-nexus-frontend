@@ -459,6 +459,7 @@ const MentorMain = () => {
       if (skills) params.skills = skills.toLowerCase()
 
       const { success, data } = await MentorServices.searchmentors(params)
+      console.log(data.results)
       setSearchMentor(success ? data.results ?? [] : [])
     } catch (error) {
       console.error("Search failed", error)

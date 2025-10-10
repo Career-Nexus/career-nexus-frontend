@@ -13,25 +13,28 @@ import Videos from './Videos'
 import VideoTabs from './Videos'
 import { ChatServices } from '../../../../../api/ChatServices'
 import { PostService } from '../../../../../api/PostService';
+import { MentorServices } from '../../../../../api/MentorServices';
 import { toast } from 'react-toastify'
 
 const ViewPersonProfile = () => {
     const { user, userwithid } = useContext(UserContext)
-    console.log("userwithid", userwithid);    
+    // console.log("userwithid", userwithid);    
     const [isFollowing, setIsFollowing] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
-
+    const [mentorSession, setMentorSession] = useState([])
 
     const navigate = useNavigate()
+    // console.log(userwithid)
 
     const { id } = useParams();
     const { getUserById } = useContext(UserContext); // make sure getUserById is exposed in the context
+    // console.log(id)
 
     useEffect(() => {
         if (id) {
             getUserById(id); // fetch and store in context
         }
-    }, [id]);
+    }, [id]);    
 
     useEffect(() => {
         if (userwithid) {
@@ -82,6 +85,52 @@ const ViewPersonProfile = () => {
             toast.error("Failed to update follow state");
         }
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalStep, setModalStep] = useState(1);
+    const [formData, setFormData] = useState({
+    session_type: "individual",
+    date: "",
+    time: "",
+    discourse: "",
+    });
+
+    const openModal = () => {
+    setModalStep(1);
+    setIsModalOpen(true);
+    };
+    const closeModal = () => setIsModalOpen(false);
+
+    const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleContinue = () => {
+    if (!formData.date || !formData.time || !formData.discourse) {
+        toast.error("Please fill in all fields");
+        return;
+    }
+    setModalStep(2);
+    };
+
+    const submitBooking = async () => {
+    const payload = {
+        mentor: id,
+        ...formData,
+    };
+    setMentorSession((prev) => [...prev, id])
+    try {
+        const response = await MentorServices.bookmentorsession(payload);
+        if (response) {
+        toast.success("Mentor booking initiated successfully");
+        closeModal();
+        }
+    } catch (err) {
+        toast.error("Failed to book session");
+    }
+    };
+
+    const handleConfirmBooking = () => submitBooking();
 
 
     function ProfilePicture() {
@@ -168,11 +217,26 @@ const ViewPersonProfile = () => {
                                     </div>
                                 ) : (
                                     <div className='flex items-center justify-between'>
-                                        <button className='bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4'>Book Session</button>
+                                        <button
+                                            onClick={openModal}
+                                            //disabled
+                                            disabled={mentorSession.includes(id)}
+                                            className={`py-2 px-4 border ${mentorSession.includes(id)
+                                                ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+                                                : "bg-[#5DA05D] text-white"
+                                            } rounded-lg transition-colors duration-200 font-medium text-sm`}
+                                        >
+                                            {mentorSession.includes(id) ? "Pending..." : "Book Session"}
+                                        </button>
                                         <div className=''>
                                             {userwithid.can_message === true ? (
                                                 <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Message</button>
                                             ) : ("")}
+                                            {/* <button
+                                            className="bg-[#5DA05D] text-white rounded-lg py-2 text-sm px-4"
+                                            >
+                                                Book Session
+                                            </button> */}
                                         </div>
                                     </div>
                                 )}
@@ -207,6 +271,183 @@ const ViewPersonProfile = () => {
             <div className='col-span-3'>
                 <EventsHome />
             </div>
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+                {/* scrollable content */}
+                <div className="bg-white p-6 rounded-lg w-[420px] max-h-[90vh] overflow-y-auto shadow-lg">
+                    <h2 className="text-xl font-bold mb-4">Book Mentorship Session</h2>
+
+                    {/* Mentor Info */}
+                    <div className="flex items-center gap-3 mb-6">
+                    <img
+                        src={userwithid?.profile_photo|| "/placeholder.svg"}
+                        alt={`${userwithid?.first_name} ${userwithid?.last_name}`}
+                        className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div>
+                        <h3 className="font-semibold text-lg">{userwithid?.first_name} {userwithid?.last_name}</h3>
+                        <p className="text-sm text-gray-500">{userwithid?.current_job}</p>
+                    </div>
+                    </div>
+
+                    {/* Step 1: Form */}
+                    {modalStep === 1 && (
+                    <>
+                        {/* Session Type */}
+                        <div className="mb-6">
+                            <h4 className="font-medium mb-3">Select Session Type</h4>
+                            <div className="space-y-3">
+                                {[
+                                { value: "individual", label: "Individual Session", desc: "1-on-1 mentorship session" },
+                                { value: "group", label: "Group Session", desc: "Multiple participants (2–6 people)" },
+                                ].map((opt) => (
+                                <button
+                                    key={opt.value}
+                                    type="button"
+                                    onClick={() => setFormData({ ...formData, session_type: opt.value })}
+                                    className={`w-full border rounded-xl p-4 flex justify-between items-center ${formData.session_type === opt.value
+                                        ? "border-[#5DA05D] bg-green-50"
+                                        : "border-gray-300"
+                                    }`}
+                                >
+                                    <div>
+                                    <p className="font-medium">{opt.label}</p>
+                                    <p className="text-sm text-gray-500">{opt.desc}</p>
+                                    </div>
+                                    <span
+                                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${formData.session_type === opt.value
+                                        ? "border-[#5DA05D]"
+                                        : "border-gray-400"
+                                        }`}
+                                    >
+                                    {formData.session_type === opt.value && (
+                                        <span className="w-3 h-3 bg-[#5DA05D] rounded-full"></span>
+                                    )}
+                                    </span>
+                                </button>
+                                ))}
+                            </div>
+                            </div>
+
+                            {/* Date & Time */}
+                            <div className="mb-6">
+                            <h4 className="font-medium mb-3">Select Date & Time</h4>
+                            <p className="mt-2 text-xs text-gray-500 bg-green-50 p-2 rounded mb-3">
+                                Mentor is available Mon–Fri 9AM–6PM EST. Times shown are in your timezone (WAT).
+                            </p>
+                            <div className="grid grid-cols-2 gap-3">
+                                <input
+                                type="date"
+                                name="date"
+                                value={formData.date}
+                                onChange={handleChange}
+                                className="w-full border p-2 rounded"
+                                />
+                                <input
+                                type="time"
+                                name="time"
+                                value={formData.time}
+                                onChange={handleChange}
+                                className="w-full border p-2 rounded"
+                                />
+                            </div>
+
+                            </div>
+
+                            {/* Discussion Topics */}
+                            <div className="mb-6">
+                            <h4 className="font-medium mb-3">What would you like to discuss?</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {[
+                                "Interview Prep",
+                                "Career Path",
+                                "Architecture Review",
+                                "Skill Building",
+                                "Leadership",
+                                "Portfolio",
+                                "Others",
+                                ].map((topic) => (
+                                <button
+                                    type="button"
+                                    key={topic}
+                                    onClick={() => setFormData({ ...formData, discourse: topic })}
+                                    className={`px-3 py-1 rounded border text-sm ${formData.discourse === topic
+                                        ? "bg-green-50 border-[#5DA05D] text-[#5DA05D]"
+                                        : "border-gray-300 text-gray-600"
+                                    }`}
+                                >
+                                    {topic}
+                                </button>
+                                ))}
+                            </div>
+                            </div>
+
+                            {/* Extra Notes */}
+                            <textarea
+                            name="extra"
+                            placeholder="Add any specific details (e.g. role, areas of focus)"
+                            className="w-full border border-gray-300 rounded p-2 mb-6 text-sm resize-none focus:ring-0 focus:border-gray-400"
+                            />
+
+                            {/* Actions */}
+                            <div className="flex justify-end gap-3">
+                            <button
+                                onClick={closeModal}
+                                className="px-4 py-2 bg-gray-200 rounded"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleContinue}
+                                className="px-4 py-2 bg-[#5DA05D] text-white rounded disabled:opacity-50"
+                                disabled={!formData.date || !formData.time || !formData.discourse}
+                            >
+                                Continue
+                            </button>
+                            </div>
+                        </>
+                        )}
+
+                        {/* Step 2: Summary */}
+                        {modalStep === 2 && (
+                        <>
+                            <div className="mb-6">
+                            <h4 className="font-medium mb-3">Confirm Your Booking</h4>
+                            <ul className="text-sm text-gray-700 space-y-2">
+                                <li>
+                                <strong>Session Type:</strong> {formData.session_type}
+                                </li>
+                                <li>
+                                <strong>Date:</strong> {formData.date}
+                                </li>
+                                <li>
+                                <strong>Time:</strong> {formData.time}
+                                </li>
+                                <li>
+                                <strong>Topic:</strong> {formData.discourse}
+                                </li>
+                            </ul>
+                            </div>
+
+                            <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setModalStep(1)}
+                                className="px-4 py-2 bg-gray-200 rounded"
+                            >
+                                Back
+                            </button>
+                            <button
+                                onClick={handleConfirmBooking}
+                                className="px-4 py-2 bg-[#5DA05D] text-white rounded"
+                            >
+                                Confirm Booking
+                            </button>
+                            </div>
+                        </>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
