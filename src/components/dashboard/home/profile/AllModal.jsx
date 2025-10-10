@@ -7,6 +7,7 @@ import { ExperienceService } from "../../../../api/ExperienceService";
 import { VideoModal } from "./VideoModal";
 import { toast } from "react-toastify";
 import { industries } from "../../../../pages/auth/Industries";
+import api from "../../../../api/ApiServiceThree";
 export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   const { user, updateUser, loading, error } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
@@ -16,6 +17,26 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   const [selectedIndustry, setSelectedIndustry] = useState('Technology');
   const fileInputRef = useRef(null)
 
+  // time zone
+  const [timezones, setTimezones] = useState([])
+  const [timezonesLoading, setTimezonesLoading] = useState(false)
+  const [selectedTimezone, setSelectedTimezone] = useState("")
+
+  const fetchTimezones = async () => {
+    setTimezonesLoading(true)
+    try {
+      const response = await api.get("/info/choice-data/?field_name=timezones")
+      setTimezones(response.data["Valid options"] || [])
+    } catch (error) {
+      console.error("Error fetching timezones:", error)
+      toast.error("Failed to load timezones")
+    } finally {
+      setTimezonesLoading(false)
+    }
+  }
+  useEffect(() => {
+    fetchTimezones()
+  }, [])
   const {
     register,
     setValue,
@@ -34,6 +55,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       setValue("qualification", user.qualification || "");
       setValue("intro_video", user.intro_video || "");
       setValue("industry", user.industry?.toLowerCase() || "");
+      setSelectedTimezone(user.timezone || "");
     }
   }, [user, setValue]);
 
@@ -51,6 +73,9 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       if (data.industry) {
         updatedData.industry = data.industry.toLowerCase();
       }
+      if (selectedTimezone && selectedTimezone !== user.timezone) {
+      updatedData.timezone = selectedTimezone; // <- use state value
+    }
 
       let formData = null;
       if (videoFile) {
@@ -218,23 +243,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
               className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
             />
           </div>
-          {/* industry */}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Industry
-            </label>
-            <select
-              {...register("industry")}
-              className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-            >
-              <option value="">Select industry</option>
-              <option value="technology">Technology</option>
-              <option value="agric">Agriculture</option>
-              <option value="sports">Sports</option>
-              <option value="marketing">Marketing</option>
-              <option value="sales">Sales</option>
-            </select>
-          </div> */}
+
           {/* Industry */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -250,23 +259,30 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
                   {industry}
                 </option>
               ))}
-               {/* <option value="Technology">Technology</option>
-               <option value="health">Health</option>
-               <option value="media">Media</option> */}
             </select>
           </div>
 
           {/* time zone */}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Time Zone</label>
-            <input
-              type="text"
-              {...register("position")}
-              placeholder="Enter position"
+          <div>
+             <label className="block text-sm font-medium text-gray-700 mb-1">
+              Time Zone
+            </label>
+            <select
+              value={selectedTimezone}
+              onChange={(e) => setSelectedTimezone(e.target.value)}
+              disabled={timezonesLoading}
               className="w-full px-3 py-1 border border-[#EAEAEA] rounded-lg focus:outline-none focus:ring-0 bg-[#FAFAFA]"
-            />
-          </div> */}
-
+            >
+              <option value="" disabled>
+                {timezonesLoading ? "Loading timezones..." : "Select your preferred time zone"}
+              </option>
+              {timezones.map((timezone) => (
+                <option key={timezone} value={timezone}>
+                  {timezone.replace(/_/g, " ")}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* Bio */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Professional Headline</label>

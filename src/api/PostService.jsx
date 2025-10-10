@@ -255,7 +255,27 @@ export const PostService = {
       console.log("error getting saved post", error)
     }
   },
-
+  async sharePost(share){
+    console.log("API payload",share)
+    try {
+      const response = await api.post("/post/share/",share)
+    if(response.data){
+      console.log("Post shared successfully",response.data);
+      return({success:true, data: response.data});
+    }
+    } catch (error) {
+      console.log("error sharing a post",error)
+    }
+  },
+  async retrieveSharedPost(hash){
+    try {
+      const response = await api.get(`/post/share/?hash=${hash}`)
+      console.log("Shared post retrieved", response.data);
+      return({success:true, data: response.data});
+    } catch (error) {
+      console.log("Could not retrieve shared post", error)
+    }
+  },
   //analysis
   async getAnalytics() {
     try {

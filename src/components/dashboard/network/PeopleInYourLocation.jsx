@@ -47,7 +47,7 @@ function PeopleInYourLocation() {
     }, []);
     return (
         <div>
-            <div className="mb-12 border border-gray-200 rounded-lg p-6">
+            <div className="mb-12 border border-gray-200 rounded-lg md:p-6 p-2">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900">People you might know</h2>
                     <Link to="/industry" className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</Link>

@@ -19,7 +19,6 @@ const ProfileCover = () => {
   const [previewProfile, setPreviewProfile] = useState(null);
 
   const { register, reset } = useForm();
-
   const handleFileChange = async (e, field) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -27,23 +26,17 @@ const ProfileCover = () => {
     // Show local preview
     if (field === "cover") {
       setPreviewCover(URL.createObjectURL(file));
-    } else if (field === "profile") {
+    } else {
       setPreviewProfile(URL.createObjectURL(file));
     }
 
     try {
-      const formData = new FormData();
-      if (field === "cover") {
-        formData.append("cover_photo", file);
-      } else {
-        formData.append("profile_photo", file);
-      }
-
-      await updateUser({}, formData);
+      await updateUser({
+        [field === "cover" ? "cover_photo" : "profile_photo"]: file,
+      });
 
       toast.success(`${field === "cover" ? "Cover" : "Profile"} photo updated!`, {
         position: "top-center",
-        // autoClose: 3000,
       });
 
       reset();
@@ -51,7 +44,6 @@ const ProfileCover = () => {
       console.error(err);
       toast.error(err.message || "Error updating image", {
         position: "top-center",
-        //autoClose: 4000,
       });
     }
   };
@@ -167,16 +159,16 @@ const MainProfile = () => {
               <GraduationCap className="w-4 h-4" />
               {user?.qualification}
             </p>
-              <p className='text-slate-500 font-thin mt-3'>Industry:{user?.industry}</p>
+            <p className='text-slate-500 font-thin mt-1'>Your industry is {user?.industry}</p>
             <p className="my-3">
               <span className="text-[#5DA05D] mr-2">{user?.followings}</span> Following
               <span className="text-[#5DA05D] mx-2">{user?.followers}</span> Followers
             </p>
             {/* session rate */}
             {
-              user.user_type==="mentor"?(
-                <SessionRate/>
-              ):("")
+              user.user_type === "mentor" ? (
+                <SessionRate />
+              ) : ("")
             }
           </div>
 
@@ -223,19 +215,27 @@ const MainProfile = () => {
   );
 };
 function SessionRate() {
-  const { user, updateUser } = useContext(UserContext)
-  const [isOpen, setIsOpen] = useState(false)
-  const [tempRate, setTempRate] = useState(user.session_rate)
+  const { user, updateUser } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const [tempRate, setTempRate] = useState("");
 
-const handleSave = async () => {
-  try {
-    await updateUser({ session_rate: tempRate })
-    setIsOpen(false)
-    toast.success("Session rate updated sucessfully")
-  } catch (err) {
-    console.error("Failed to update session rate:", err)
-  }
-}
+  // ✅ Keep tempRate in sync with user.session_rate
+  useEffect(() => {
+    if (user?.session_rate !== undefined && user?.session_rate !== null) {
+      setTempRate(user.session_rate);
+    }
+  }, [user?.session_rate]);
+
+  const handleSave = async () => {
+    try {
+      await updateUser({ session_rate: Number(tempRate) });
+      setIsOpen(false);
+      toast.success("Session rate updated successfully");
+    } catch (err) {
+      console.error("Failed to update session rate:", err);
+      toast.error("Failed to update session rate");
+    }
+  };
 
   return (
     <div>
@@ -243,13 +243,15 @@ const handleSave = async () => {
       <div className="flex gap-5 border-b border-[#5DA05D] pb-2">
         <p>
           Session rate:{" "}
-          <span className="font-semibold">{user.session_rate}</span>
+          <span className="font-semibold">
+            {user?.session_rate ? `${user.session_rate}` : "Not set"}
+          </span>
         </p>
         <span
           className="ml-auto cursor-pointer"
           onClick={() => {
-            setTempRate(user.session_rate) // pre-fill input
-            setIsOpen(true)
+            setTempRate(user?.session_rate || ""); // pre-fill input safely
+            setIsOpen(true);
           }}
         >
           <Edit />
@@ -264,9 +266,10 @@ const handleSave = async () => {
 
             <input
               type="number"
-              value={tempRate}
-              onChange={(e) => setTempRate(Number(e.target.value))}
+              value={tempRate ?? ""}
+              onChange={(e) => setTempRate(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-[#5DA05D]"
+              placeholder="Change your rate here"
             />
 
             <div className="mt-6 flex justify-end gap-3">
@@ -287,54 +290,54 @@ const handleSave = async () => {
         </div>
       )}
     </div>
-  )
+  );
 }
 export default MainProfile;
 
-  const profileItems = [
-    {
-      id: 1,
-      key: 'profile_photo',
-      icon: <UserCircle2 className="w-5 h-5 mr-2" />,
-      text: 'Upload Profile Picture',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 2,
-      key: 'bio',
-      icon: <Pencil className="w-5 h-5 mr-2" />,
-      text: 'Add a Bio Description',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 3,
-      key: 'experience',
-      icon: <NotepadText className="w-5 h-5 mr-2" />,
-      text: 'Add Work Experience',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 4,
-      key: 'education',
-      icon: <GraduationCap className="w-5 h-5 mr-2" />,
-      text: 'Add Educational Background',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 5,
-      key: 'intro_video',
-      icon: <VideoIcon className="w-5 h-5 mr-2" />,
-      text: 'Upload Video Introduction',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-    {
-      id: 6,
-      key: 'certification',
-      icon: <NotepadText className="w-5 h-5 mr-2" />,
-      text: 'Add Certifications',
-      linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
-    },
-  ];
+const profileItems = [
+  {
+    id: 1,
+    key: 'profile_photo',
+    icon: <UserCircle2 className="w-5 h-5 mr-2" />,
+    text: 'Upload Profile Picture',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+  {
+    id: 2,
+    key: 'bio',
+    icon: <Pencil className="w-5 h-5 mr-2" />,
+    text: 'Add a Bio Description',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+  {
+    id: 3,
+    key: 'experience',
+    icon: <NotepadText className="w-5 h-5 mr-2" />,
+    text: 'Add Work Experience',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+  {
+    id: 4,
+    key: 'education',
+    icon: <GraduationCap className="w-5 h-5 mr-2" />,
+    text: 'Add Educational Background',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+  {
+    id: 5,
+    key: 'intro_video',
+    icon: <VideoIcon className="w-5 h-5 mr-2" />,
+    text: 'Upload Video Introduction',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+  {
+    id: 6,
+    key: 'certification',
+    icon: <NotepadText className="w-5 h-5 mr-2" />,
+    text: 'Add Certifications',
+    linkto: <Link to={'/profilepage'}><ArrowRight className="w-5 h-5" /></Link>
+  },
+];
 
 export const ProfileProgressDropdown = () => {
   const { profileCompletion, completionData } = useContext(ProfileContext);

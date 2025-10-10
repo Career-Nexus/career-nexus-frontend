@@ -114,7 +114,7 @@ function MentorDetail() {
                                     <span className='text-[#5DA05D]'>{userwithid.session || 0}</span> sessions
                                 </div>
                                 {userwithid.can_message === true ? (
-                                    <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Chat Mentor</button>
+                                    <button onClick={InitiateChatSession} className='text-white bg-[#5DA05D] py-2 px-3 rounded-lg'>Message</button>
                                 ) : ("")}
                                 {/* <div><ChatMentorModal userwithid={userwithid} /></div> */}
 
@@ -164,6 +164,9 @@ function MentorDetail() {
                 </div>
                 <MentorDetailsTabs />
             </div>
+            {/* <div>
+                <FloatingMessageIcon />
+            </div> */}
         </div>
     );
 }
