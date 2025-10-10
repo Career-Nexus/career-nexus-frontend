@@ -70,7 +70,7 @@ export default function SharePage() {
   return (
     <div>
       <div>
-        <AuthNavbar/>
+        <AuthNavbar />
       </div>
       <div>
         <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
@@ -100,11 +100,36 @@ export default function SharePage() {
             {/* 🧩 If it’s a repost, show “shared post” info */}
             {isRepost && (
               <div className="border-l-4 border-[#5DA05D] pl-3 mb-4 text-sm text-gray-600">
-                <p>
-                  {postData.post.profile.first_name} {postData.post.profile.last_name} Reposted this
-                  post from {displayPost.profile.first_name} {displayPost.profile.last_name}
-                </p>
+                <div className="flex items-center mb-3">
+                  <img
+                    src={postData.post.profile?.profile_photo}
+                    alt="reposter"
+                    className="w-10 h-10 rounded-full mr-3 object-cover"
+                  />
+                  <div>
+                    <h2 className="text-sm font-medium text-gray-800">
+                      {postData.post.profile.first_name} {postData.post.profile.last_name}
+                    </h2>
+                    <p className="text-xs text-gray-500">{postData.post.profile?.qualification}</p>
+                  </div>
+                </div>
+
                 <p>{postData.post.body}</p>
+                {postData.post.pic1 && postData.post.pic1 !== "N/A" && (
+                  <img
+                    src={postData.post.pic1}
+                    alt="post content"
+                    className="rounded-lg w-full object-cover mb-2"
+                  />
+                )}
+
+                {postData.post.video && postData.post.video !== "N/A" && (
+                  <video
+                    src={postData.post.video}
+                    controls
+                    className="rounded-lg w-full object-cover mt-2"
+                  />
+                )}
               </div>
             )}
 

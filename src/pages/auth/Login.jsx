@@ -306,7 +306,7 @@ useEffect(() => {
 
             {/* Or continue with */}
             <div className="flex items-center justify-center mt-6 mb-4">
-              <span className="text-sm text-gray-500">Or continue with</span>
+              <span className="text-sm text-gray-500">Or signin with</span>
             </div>
 
             {/* Social Login Options */}

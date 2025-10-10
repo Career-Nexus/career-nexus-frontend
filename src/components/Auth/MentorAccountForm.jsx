@@ -465,7 +465,7 @@ const MentorAccountForm = () => {
       </form>
       {/* Social Login Options */}
       <div className="flex items-center justify-center" style={{ marginTop: "0.7rem" }}>
-        <span className="text-sm text-gray-500">Or continue with</span>
+        <span className="text-sm text-gray-500">Or signup with</span>
       </div>
       <button
         style={{ marginTop: "0.7rem" }}
