@@ -37,7 +37,7 @@ function NewsletterPage() {
   const fetchSubscriptionStatus = async () => {
     try {
       const response = await ActivityService.getNewsletter();
-
+      
       if (response.success && response.data) {
         const { recent, archive } = response.data;
         if ((recent && Object.keys(recent).length > 0) || (archive && archive.count > 0)) {
@@ -102,7 +102,7 @@ function NewsLetters({ data }) {
       {recent && (
         <div className="flex gap-3 shadow p-2 rounded-lg mb-6">
           <div className="flex flex-col gap-2 w-full h-52">
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <img
                 src={recent.image || "/images/sportlight.png"}
                 alt="spotlight"
@@ -111,15 +111,15 @@ function NewsLetters({ data }) {
               <p className="bg-[#D9FFDB80] text-[#5DA05D] p-2 rounded">
                 {new Date(recent.timestamp).toDateString()}
               </p>
-            </div>
+            </div> */}
             <h2 className="font-bold text-lg">{recent.title}</h2>
             <p className="line-clamp-3">{recent.content}</p>
             <button
-                onClick={() => handleReadMore(recent)}
-                className="text-[#5DA05D] flex items-center gap-3 mt-2"
-              >
-                Read More <ArrowRight size={16} />
-              </button>
+              onClick={() => handleReadMore(recent)}
+              className="text-[#5DA05D] flex items-center gap-3 mt-2"
+            >
+              Read More <ArrowRight size={16} />
+            </button>
           </div>
           <div className="flex flex-col gap-2 w-full h-52">
             <img
