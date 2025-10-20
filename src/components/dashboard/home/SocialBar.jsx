@@ -5,9 +5,14 @@ import { emojis } from "./Emoji";
 import { UserContext } from "../../../context/UserContext";
 import RepostModal from "./Repost";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { appUrl } from "../../../api/ApiServiceThree";
 
-export default function SocialBar({ post, fetchPosts, }) {
+export default function SocialBar({ post, fetchPosts, postId }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
+  //const [shareLink, setShareLink] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const LikePost = async () => {
     try {
@@ -25,6 +30,27 @@ export default function SocialBar({ post, fetchPosts, }) {
       console.log("could not like post");
     }
   }
+  const handleShare = async () => {
+    setLoading(true);
+    // const result = await PostService.sharePost({ post: postId });
+    const result = await PostService.sharePost({ post: post.post_id});
+    setLoading(false);
+
+    if (result.data) {
+      const hash = result.data.post_hash;
+      const baseUrls = appUrl || window.location.origin;
+      
+      const link = `${baseUrls}/share/${hash}`;
+      //const link = `${window.location.origin}/share/${hash}`;
+      //setShareLink(link);
+      navigator.clipboard.writeText(link);
+      toast.success("Share link copied to clipboard!");
+      //navigate(`/share/${hash}`);
+    } else {
+      toast.error("Failed to share post. Please try again.");
+    }
+  };
+
   const toggleComments = () => {
     setIsCommentsOpen(!isCommentsOpen)
   }
@@ -54,11 +80,22 @@ export default function SocialBar({ post, fetchPosts, }) {
             <MessageCircle size={18} />
             <span className="text-sm font-medium">{post.comment_count}</span>
           </button>
-
-          {/* <button className="flex items-center space-x-2 text-gray-600 hover:text-[#5DA05D] transition-colors">
+          {/* share post */}
+          {/* <Link to={'/share'} className="flex items-center space-x-2 text-gray-600 hover:text-[#5DA05D] transition-colors">
             <Upload />
             <span className="text-sm font-medium">2</span>
-          </button> */}
+          
+          </Link> */}
+          <button
+            onClick={handleShare}
+            disabled={loading}
+            className="flex items-center space-x-2 text-gray-600 hover:text-[#5DA05D] transition-colors"
+          >
+            <Upload className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              {loading ? "Sharing..." : "Share"}
+            </span>
+          </button>
         </div>
 
         <div className="flex items-center space-x-6 ml-auto">
@@ -108,19 +145,19 @@ const DropdownMenu = ({ post }) => {
   const [isSaved, setIsSaved] = useState(post.is_saved); // ✅ from backend
 
   const dropdownRef = useRef(null);
-  
-      // Close dropdown on outside click
-      useEffect(() => {
-          function handleClickOutside(event) {
-              if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                  setIsOpen(false);
-              }
-          }
-          document.addEventListener("mousedown", handleClickOutside);
-          return () => {
-              document.removeEventListener("mousedown", handleClickOutside);
-          };
-      }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSave = async () => {
     if (isSaved) {
@@ -184,30 +221,29 @@ const DropdownMenu = ({ post }) => {
             ))}
           </ul> */}
           <ul className="py-1">
-  {icons.map((item) => (
-    <li key={item.name}>
-      <button
-        type="button"
-        className={`flex items-center gap-3 w-full text-left px-4 py-2 ${
-          isSaved && item.name === "Saved"
-            ? "text-[#5DA05D] cursor-not-allowed"
-            : "text-gray-700 hover:bg-green-100"
-        }`}
-        onClick={(e) => {
-          e.stopPropagation(); // prevent closing immediately
-          if (item.name === "Save" || item.name === "Saved") {
-            handleSave();
-          }
-          setIsOpen(false); // close dropdown after action
-        }}
-        disabled={isSaved && item.name === "Saved"}
-      >
-        {item.icon}
-        {item.name}
-      </button>
-    </li>
-  ))}
-</ul>
+            {icons.map((item) => (
+              <li key={item.name}>
+                <button
+                  type="button"
+                  className={`flex items-center gap-3 w-full text-left px-4 py-2 ${isSaved && item.name === "Saved"
+                      ? "text-[#5DA05D] cursor-not-allowed"
+                      : "text-gray-700 hover:bg-green-100"
+                    }`}
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent closing immediately
+                    if (item.name === "Save" || item.name === "Saved") {
+                      handleSave();
+                    }
+                    setIsOpen(false); // close dropdown after action
+                  }}
+                  disabled={isSaved && item.name === "Saved"}
+                >
+                  {item.icon}
+                  {item.name}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

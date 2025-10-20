@@ -4,19 +4,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ActivityService } from "../../api/ActivityServices";
 import { toast } from "react-toastify";
+import FloatingMessageIcon from "../dashboard/chat/FloatingMessage";
 
 // Simple toggle switch component
 const Toggle = ({ enabled, setEnabled }) => (
   <button
     onClick={() => setEnabled(!enabled)}
-    className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
-      enabled ? "bg-[#5DA05D]" : "bg-gray-300"
-    }`}
+    className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${enabled ? "bg-[#5DA05D]" : "bg-gray-300"
+      }`}
   >
     <div
-      className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-        enabled ? "translate-x-5" : ""
-      }`}
+      className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${enabled ? "translate-x-5" : ""
+        }`}
     />
   </button>
 );
@@ -246,7 +245,7 @@ export default function Settings() {
             </select>
           </div>
 
-          {[ 
+          {[
             { label: "Show Email", state: showEmail, setState: setShowEmail },
             { label: "Show Location", state: showLocation, setState: setShowLocation },
             { label: "Allow Messaging", state: allowMessaging, setState: setAllowMessaging },
@@ -280,7 +279,7 @@ export default function Settings() {
               <option>German</option>
             </select>
           </div>
-          <div className="flex justify-between items-center border p-3 rounded-lg">
+          {/* <div className="flex justify-between items-center border p-3 rounded-lg">
             <p className="font-medium">Time Zone</p>
             <select
               value={timeZone}
@@ -292,9 +291,12 @@ export default function Settings() {
               <option>Central Time</option>
               <option>GMT</option>
             </select>
-          </div>
+          </div> */}
         </div>
       </section>
+      <div>
+        <FloatingMessageIcon />
+      </div>
     </div>
   );
 }

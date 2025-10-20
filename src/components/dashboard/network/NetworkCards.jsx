@@ -78,7 +78,7 @@ const NetworkCards = () => {
         <PendingInvitations />
       </div>
       {/* people you can follow */}
-      <div className="mb-6 border border-gray-200 rounded-lg p-6">
+      <div className="mb-6 border border-gray-200 rounded-lg md:p-6 p-2">
 
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-gray-900">People you can follow</h2>
@@ -136,9 +136,9 @@ const NetworkCards = () => {
       <div>
         <PeopleInYourLocation />
       </div>
-      {/* <div>
+      <div>
         <FloatingMessageIcon />
-      </div> */}
+      </div>
     </div>
   );
 };

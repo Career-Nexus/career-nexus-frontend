@@ -193,48 +193,6 @@ export function BookingRequests({ requested, refresh, loading }) {
                                     ? booking.description.slice(0, 60) + "..."
                                     : booking.description}
                             </p>
-
-                            {/* <div className="flex space-x-3 mt-auto">
-                                {booking.status === "PENDING" ? (
-                                    <>
-                                        <button
-                                            onClick={() => handleAccept(booking.id)}
-                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                        >
-                                            Accept
-                                        </button>
-                                        <button
-                                            onClick={() => handleReject(booking.id)}
-                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : booking.status === "ACCEPTED" && booking.is_paid === false ? (
-                                    <>
-                                        <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-yellow-500 text-white h-10 px-4 py-2 flex-1">
-                                            Pending Payment
-                                        </span>
-                                        <button
-                                            onClick={() => handleReject(booking.id)}
-                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : booking.is_paid === true && booking.join === true ? (
-                                    <button
-                                        onClick={() => setActiveSessionId(booking.id)}
-                                        className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                    >
-                                        Join Session
-                                    </button>
-                                ) : booking.is_paid === true && booking.join === false ? (
-                                    <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-gray-400 text-white h-10 px-4 py-2 flex-1">
-                                        Not Yet Time
-                                    </span>
-                                ) : null}
-                            </div> */}
                             <div className="flex space-x-3 mt-auto">
                                 {booking.status === "PENDING" ? (
                                     <>
@@ -256,21 +214,14 @@ export function BookingRequests({ requested, refresh, loading }) {
                                         <span className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-yellow-500 text-white h-10 px-4 py-2 flex-1">
                                             Pending Payment
                                         </span>
-                                        <button
+                                        {/* <button
                                             onClick={() => handleReject(booking.id)}
                                             className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
                                         >
                                             Cancel
-                                        </button>
+                                        </button> */}
                                     </>
                                 ) : booking.status === "COMPLETED" ? (
-                                    // <div className="flex items-center space-x-2">
-                                    //   <div className="flex">
-                                    //     {[1, 2, 3, 4, 5].map((star) => (
-                                    //     <Star className={`${star <= booking.rating ? "fill-yellow-300" : "fill-gray-200"} text-gray-200`}/>
-                                    //     ))}
-                                    //   </div>
-                                    // </div>
                                     null
                                 ) : booking.is_paid === true && booking.join === true ? (
                                     <button

@@ -90,7 +90,7 @@ const ConnectionInUserIndustry = () => {
             {/* people to follow */}
             <RecomentToFollow />
             {/* Mentors Section */}
-            <div className="mb-6 border border-gray-200 rounded-lg p-6">
+            <div className="mb-6 border border-gray-200 rounded-lg md:p-6 p-2">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900">People in your Industry</h2>
                     {/* <button className="text-[#5DA05D] hover:text-[#5DA05D] font-medium text-sm">See all</button> */}
@@ -102,7 +102,7 @@ const ConnectionInUserIndustry = () => {
                         </p>
                     </Box>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
                         {byindustry.map((suggestion) => (
                             <div key={suggestion.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
                                 <Link to={`/person-profile/${suggestion.id}`}>
