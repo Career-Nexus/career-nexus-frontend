@@ -51,6 +51,7 @@ import Vault from '../pages/activities/Vault'
 import AdminLogin from "../pages/admin/AdminLogin"
 import Dashboard from "../pages/admin/Dashboard";
 import SharePage from '../components/dashboard/home/SharePost'
+import ProfileView from "../coporate/ProfileView"
 
 
 
@@ -124,11 +125,19 @@ const Router = () => {
             // </RedirectIfAuthenticated>
           }
         />
-         <Route
+        <Route
           path="/dashboard"
           element={
             // <RedirectIfAuthenticated>
               <Dashboard />
+            // </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/coporate"
+          element={
+            // <RedirectIfAuthenticated>
+              <ProfileView />
             // </RedirectIfAuthenticated>
           }
         />
