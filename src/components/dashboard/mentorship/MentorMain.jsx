@@ -461,7 +461,7 @@ const MentorMain = () => {
 
       const { success, data } = await MentorServices.searchmentors(params)
       console.log(data.results)
-      setSearchMentor(success ? data.results ?? [] : [])
+      setSearchMentor(success ? (data.results ?? data ?? []) : [])
     } catch (error) {
       console.error("Search failed", error)
       setSearchMentor([])
