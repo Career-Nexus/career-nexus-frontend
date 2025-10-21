@@ -51,12 +51,8 @@ import Vault from '../pages/activities/Vault'
 import AdminLogin from "../pages/admin/AdminLogin"
 import Dashboard from "../pages/admin/Dashboard";
 import SharePage from '../components/dashboard/home/SharePost'
-<<<<<<< HEAD
 import LandingPage from '../landingpage/LandingPage'
-=======
 import ProfileView from "../coporate/ProfileView"
->>>>>>> d7de938c4f605c157191e65fa69ab5f8d894646b
-
 
 
 const ProtectedRoute = ({ children }) => {
