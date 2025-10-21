@@ -36,7 +36,15 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
   }
   useEffect(() => {
     fetchTimezones()
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setVideoFile(null)
+      setVideoPreview(user.intro_video || null)
+    }
+  }, [isOpen, user.intro_video])
+  
   const {
     register,
     setValue,
@@ -69,21 +77,22 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
       if (data.bio !== user.bio) updatedData.bio = data.bio;
       if (data.position !== user.position) updatedData.position = data.position;
       if (data.qualification !== user.qualification) updatedData.qualification = data.qualification;
-      // if (data.industry !== user.industry) updatedData.industry = data.industry;
       if (data.industry) {
         updatedData.industry = data.industry.toLowerCase();
       }
       if (selectedTimezone && selectedTimezone !== user.timezone) {
-      updatedData.timezone = selectedTimezone; // <- use state value
-    }
-
-      let formData = null;
-      if (videoFile) {
-        formData = new FormData();
-        formData.append("intro_video", videoFile);
+        updatedData.timezone = selectedTimezone; // <- use state value
       }
+      if (videoFile) {
+        updatedData.intro_video = videoFile
+      }
+      // let formData = null;
+      // if (videoFile) {
+      //   formData = new FormData();
+      //   formData.append("intro_video", videoFile);
+      // }
 
-      await updateUser(updatedData, formData);
+      await updateUser(updatedData);
       setSuccess("Profile updated successfully");
       toast.success("Profile updated successfully");
       setTimeout(() => {
@@ -109,6 +118,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
               {videoPreview ? (
                 <video
                   src={videoPreview}
+                  {...register}
                   controls
                   className="w-60 rounded border"
                 />
@@ -264,7 +274,7 @@ export const EditComponent = ({ ModalComponent, isOpen, onClose }) => {
 
           {/* time zone */}
           <div>
-             <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Time Zone
             </label>
             <select

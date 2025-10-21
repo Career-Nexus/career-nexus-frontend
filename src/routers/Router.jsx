@@ -51,6 +51,7 @@ import Vault from '../pages/activities/Vault'
 import AdminLogin from "../pages/admin/AdminLogin"
 import Dashboard from "../pages/admin/Dashboard";
 import SharePage from '../components/dashboard/home/SharePost'
+import LandingPage from '../landingpage/LandingPage'
 
 
 
@@ -120,15 +121,15 @@ const Router = () => {
           path="/Admin"
           element={
             // <RedirectIfAuthenticated>
-              <AdminLogin />
+            <AdminLogin />
             // </RedirectIfAuthenticated>
           }
         />
-         <Route
+        <Route
           path="/dashboard"
           element={
             // <RedirectIfAuthenticated>
-              <Dashboard />
+            <Dashboard />
             // </RedirectIfAuthenticated>
           }
         />
@@ -247,11 +248,11 @@ const Router = () => {
               <SharePage />
           }
         /> */}
-        <Route 
+        <Route
           path="/share/:hash"
           element={
-              <SharePage />
-          } 
+            <SharePage />
+          }
         />
         <Route
           path="/profilepage"
@@ -468,7 +469,12 @@ const Router = () => {
 
         {/* Catch all - redirect to home or login */}
         {/* <Route path="*" element={<RootRedirect />} /> */}
-
+        <Route
+          path='/landing'
+          element={
+            <LandingPage />
+          }
+        />
         <Route
           path="*"
           element={

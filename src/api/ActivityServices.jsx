@@ -152,5 +152,18 @@ export const ActivityService = {
         } catch (error) {
             console.error("Disputes unavailable")
         }
+    },
+    async LeadRegister(lead){
+        console.log("API Payload",lead)
+        try {
+            const response =await api.post("/user/lead/register/",lead)
+             if (response.data) {
+                console.log("Lead registered successful", response.data);
+                return { success: true, data: response.data, status: response.status }
+            }
+        } catch (error) {
+            console.log("Error occured when registering a lead",error)
+            return { success: false, error };
+        }
     }
 }

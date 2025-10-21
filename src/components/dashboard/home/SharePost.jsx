@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Share2, Twitter, Facebook, Mail, Heart, MessageCircle, Repeat2 } from "lucide-react";
 import { PostService } from "../../../api/PostService";
-import { appUrl } from "../../../api/ApiServiceThree";
+import { appUrl, prodUrl } from "../../../api/ApiServiceThree";
 import AuthNavbar from "../../layout/AuthNavbar";
 
 
@@ -19,6 +19,7 @@ export default function SharePage() {
 
   //const shareLink = `${window.location.origin}/share/${hash}`;
   const baseUrls = appUrl || window.location.origin;
+  //const baseUrls = prodUrl || window.location.origin;
 
   const shareLink = `${baseUrls}/share/${hash}`;
 

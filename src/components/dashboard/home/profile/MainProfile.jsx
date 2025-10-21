@@ -125,8 +125,8 @@ const MainProfile = () => {
   return (
     <div>
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
-        <ProfileCover />
-        <div className="flex justify-end px-3 -mt-6">
+        <div><ProfileCover /></div>
+        <div className="flex justify-end px-3">
           <button
             onClick={() => setOpenModal(true)}
             className="flex items-center gap-2 rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition"

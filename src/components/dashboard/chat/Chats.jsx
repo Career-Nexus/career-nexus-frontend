@@ -4,7 +4,7 @@ import { useState, useRef, useContext, useEffect, useMemo } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../../../context/UserContext";
-import { authService } from "../../../api/ApiServiceThree";
+import { authService, wsTestUrl } from "../../../api/ApiServiceThree";
 import { ChatServices } from "../../../api/ChatServices";
 import { emojis } from "../home/Emoji";
 
@@ -110,7 +110,7 @@ export default function Chats() {
   const wsUrl = useMemo(() => {
     const token = authService.getAuthToken();
     return contributorId
-      ? `wss://btest.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
+      ? `${wsTestUrl}/chat/${contributorId}/?token=${encodeURIComponent(
         token
       )}`
       // ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(

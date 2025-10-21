@@ -96,39 +96,6 @@ const EventsHome = () => {
         }
     };
 
-    // const handleFollow = async (userId) => {
-    //     try {
-    //         // Optimistically mark as following in local state
-    //         setWhoToFollow((prev) =>
-    //             prev.map((mentor) =>
-    //                 mentor.id === userId ? { ...mentor, following: true } : mentor
-    //             )
-    //         );
-    //         await PostService.Follow({ user_following: userId });
-    //         toast.success("You are now following this user");
-    //     } catch (err) {
-    //         console.error(err);
-    //         // Roll back if failed:
-    //         setWhoToFollow((prev) =>
-    //             prev.map((mentor) =>
-    //                 mentor.id === userId ? { ...mentor, following: false } : mentor
-    //             )
-    //         );
-    //     }
-    // }
-
-    // console.log("Other mentors:", otherMentors);
-    // const otherMentor = [
-    //     {
-    //         id: 1, image: "/images/mentor-cover1.png", name: 'Emily Rodriguez', work: 'Product Designer...', followers: '121,344'
-    //     },
-    //     {
-    //         id: 2, image: "/images/mentor-cover1.png", name: 'David Park', work: 'Marketing Lead ...', followers: '121,344'
-    //     },
-    //     {
-    //         id: 3, image: "/images/mentor-cover1.png", name: 'Eric Moore', work: 'Ux Mentor, Google ...', followers: '121,344'
-    //     }
-    // ]
     return (
         <div>
             {user.user_type === "learner" ? (

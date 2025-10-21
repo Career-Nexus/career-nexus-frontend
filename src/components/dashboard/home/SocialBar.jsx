@@ -6,7 +6,7 @@ import { UserContext } from "../../../context/UserContext";
 import RepostModal from "./Repost";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { appUrl } from "../../../api/ApiServiceThree";
+import { appUrl, prodUrl } from "../../../api/ApiServiceThree";
 
 export default function SocialBar({ post, fetchPosts, postId }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
@@ -39,13 +39,13 @@ export default function SocialBar({ post, fetchPosts, postId }) {
     if (result.data) {
       const hash = result.data.post_hash;
       const baseUrls = appUrl || window.location.origin;
+      //const baseUrls = prodUrl || window.location.origin;
       
+    
       const link = `${baseUrls}/share/${hash}`;
       //const link = `${window.location.origin}/share/${hash}`;
-      //setShareLink(link);
       navigator.clipboard.writeText(link);
       toast.success("Share link copied to clipboard!");
-      //navigate(`/share/${hash}`);
     } else {
       toast.error("Failed to share post. Please try again.");
     }
