@@ -4,7 +4,7 @@ import { useState, useRef, useContext, useEffect, useMemo } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../../../context/UserContext";
-import { authService, wsTestUrl } from "../../../api/ApiServiceThree";
+import { authService, wsProdUrl, wsTestUrl } from "../../../api/ApiServiceThree";
 import { ChatServices } from "../../../api/ChatServices";
 import { emojis } from "../home/Emoji";
 
@@ -106,16 +106,16 @@ export default function Chats() {
   const wsRef = useRef(null);
   const [wsStatus, setWsStatus] = useState("Idle");
 
+  // const wsBase = wsTestUrl;
+  const wsBase = wsProdUrl;
+
   // Build WebSocket URL once
   const wsUrl = useMemo(() => {
     const token = authService.getAuthToken();
     return contributorId
-      ? `${wsTestUrl}/chat/${contributorId}/?token=${encodeURIComponent(
+      ? `${wsBase}/chat/${contributorId}/?token=${encodeURIComponent(
         token
       )}`
-      // ? `wss://bprod.career-nexus.com/ws/chat/${contributorId}/?token=${encodeURIComponent(
-      //   token
-      // )}`
       : null;
   }, [contributorId]);
 
