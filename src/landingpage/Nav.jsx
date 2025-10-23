@@ -25,7 +25,7 @@ export default function Nav() {
           <Link to="/about" className="hover:text-[#5DA05D] transition">About</Link>
           <Link to="/consult" className="hover:text-[#5DA05D] transition">Consult</Link>
           <Link to="/pricing" className="hover:text-[#5DA05D] transition">Pricing</Link>
-          <Link to="/signup" className="bg-[#5DA05D] px-3 py-1 rounded-lg text-white hover:bg-green-700 transition">
+          <Link to="/signup" className="bg-[#5DA05D] px-3 py-2 rounded-lg text-white hover:bg-green-700 transition">
             Sign Up
           </Link>
         </div>
@@ -49,7 +49,7 @@ export default function Nav() {
           <Link
             to="/signup"
             onClick={() => setIsOpen(false)}
-            className="bg-[#5DA05D] px-3 py-1 rounded-lg text-white"
+            className="bg-[#5DA05D] px-3 py-2 rounded-lg text-white"
           >
             Sign Up
           </Link>

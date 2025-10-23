@@ -1,5 +1,5 @@
 import React from 'react'
-import { PGreen } from '../icons'
+import { PGreen, PPink, VGreen } from '../icons'
 
 export default function Hero() {
     return (
@@ -15,18 +15,16 @@ export default function Hero() {
                 {/* Centered text overlay */}
                 <div className='absolute inset-0 flex flex-col items-center justify-center text-center px-4'>
                     <div>
-                        <h1 className='text-4xl font-bold mb-2'>Bringing Dreams to Reality,</h1>
-                        {/* <div className='flex w-full justify-center items-center gap-4 mb-4'>
-                            <img src={PGreen} alt="heart" className='w-60 h-60' />
-                            <h1 className='text-4xl font-bold'>One Connection at a Time.</h1>
-                        </div> */}
-                        <h1 className='text-4xl font-bold'>One Connection at a Time.</h1>
+                        <h1 className='text-2xl md:text-5xl font-bold mb-2 flex'>Bringing Dreams to <span className='text-[#5DA05D] ml-1' style={{fontStyle: 'italic'}}> Reality</span>,<img src={VGreen} alt="heart" className='w-14 md:w-28 mt-7 md:mt-11 ml-[-5rem] md:ml-[-10rem]' /></h1>
+                        <h1 className='text-2xl md:text-5xl font-bold'>One Connection at a Time.</h1>
+                        <img src="/images/landing/landing-10.png" alt="heart" className='w-9 h-9 md:w-16 md:h-16 md:mt-[-3rem] md:ml-[-4rem] ml-[-0.5rem] mt-[-1rem]' />
+                        <img src="/images/landing/landing-11.png" alt="heart" className='w-7 h-7 md:w-16 md:h-14 ml-[2rem] mt-[-1rem]' />
                         <p className='max-w-xl mb-6 text-lg'>
                             Transition seamlessly from education to employment with real-world skills.
                         </p>
                     </div>
-                    <button onClick={() => window.location.href = '#get-started'} className='bg-[#5DA05D] px-6 py-3 rounded-lg text-white hover:bg-[#4b8b4b] transition'>
-                        Get Started
+                    <button onClick={() => window.location.href = '/signup'} className='bg-[#5DA05D] px-6 py-3 rounded-lg text-white hover:bg-[#4b8b4b] transition'>
+                        Sign Up
                     </button>
                 </div>
             </div>

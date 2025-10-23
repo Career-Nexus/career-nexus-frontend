@@ -1,37 +1,45 @@
 "use client"
 
 import { useState } from "react"
-
+import { PrivacyPolicy } from "./PrivacyPolicy"
+import { TermsOfService } from "./TermsOfService"
+import ContactUs from "./ContactUs"
+import { Facebook, Instagram, Linkedins, X } from '../icons/icon'
 export default function Footer() {
-  const [email, setEmail] = useState("")
-
-  const handleSubscribe = (e) => {
-    e.preventDefault()
-    // Handle subscription logic here
-    console.log("Subscribed with email:", email)
-    setEmail("")
-  }
+  const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false)
+  const [isTermsOfServiceOpen, setIsTermsOfServiceOpen] = useState(false)
+  const [isContactUsOpen, setIsContactUsOpen] = useState(false)
 
   const footerSections = [
     {
       title: "Services",
       links: [
-        "Workforce Upskilling",
-        "Career Advancement",
-        "Talent Acquisition & Freelancing",
-        "Enterprise Consulting",
-        "Professional Networking",
+        { name: "Workforce Upskilling", url: "#" },
+        { name: "Career Advancement", url: "#" },
+        { name: "Talent Acquisition & Freelancing", url: "#" },
+        { name: "Enterprise Consulting", url: "#" },
+        { name: "Professional Networking", url: "#" },
       ],
     },
     {
       title: "Company",
-      links: ["About us", "Contact", "Jobs"],
+      links: [
+        { name: "About us", url: "#" },
+        { name: "Contact", onClick: () => setIsContactUsOpen(true) },
+        { name: "Jobs", url: "#" },
+      ],
     },
     {
       title: "Social",
-      links: ["Privacy Policy", "Terms of Service", "Refund Policy", "Cookie Policy"],
+      links: [
+        { name: "Privacy Policy", onClick: () => setIsPrivacyPolicyOpen(true) },
+        { name: "Terms of Service", onClick: () => setIsTermsOfServiceOpen(true) },
+        { name: "Refund Policy", url: "#" },
+        { name: "Cookie Policy", url: "#" },
+      ],
     },
   ]
+
 
   return (
     <footer className="bg-black text-white">
@@ -43,13 +51,28 @@ export default function Footer() {
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
               {footerSections.map((section) => (
                 <div key={section.title}>
-                  <h3 className="text-base font-semibold leading-6">{section.title}</h3>
+                  <h3 className="text-base font-bold leading-6">{section.title}</h3>
                   <ul className="mt-6 space-y-4">
                     {section.links.map((link) => (
-                      <li key={link}>
-                        <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">
-                          {link}
-                        </a>
+                      <li key={link.name}>
+                        {/* <a href={link.url} className="text-lg text-gray-400 hover:text-white transition-colors">
+                          {link.name}
+                        </a> */}
+                        {link.onClick ? (
+                          <button
+                            onClick={link.onClick}
+                            className="text-lg text-gray-400 hover:text-white transition-colors"
+                          >
+                            {link.name}
+                          </button>
+                        ) : (
+                          <a
+                            href={link.url}
+                            className="text-lg text-gray-400 hover:text-white transition-colors"
+                          >
+                            {link.name}
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -57,25 +80,23 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
-          {/* Newsletter subscription */}
-          <div className="md:col-span-1">
-            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder="enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="rounded-lg bg-white px-4 py-2 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]"
-                required
-              />
-              <button
-                type="submit"
-                className="rounded-lg bg-[#5DA05D] px-4 py-2 text-sm font-medium text-white hover:bg-[#5DA05D] transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
+          {/* social media links */}
+          <div className="col-span-1">
+            <h6 className="footer-title font-bold mb-5">Social</h6>
+            <div className="flex gap-4">
+              <a href='https://x.com/CareerNexusLtd'>
+                <X />
+              </a>
+              <a href='https://www.linkedin.com/company/career-nexus-ltd/'>
+                <Linkedins />
+              </a>
+              <a href='https://www.instagram.com/careernexus.ltd/'>
+                <Instagram />
+              </a>
+              <a href='https://web.facebook.com/profile.php?id=61573074954161'>
+                <Facebook />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -86,6 +107,18 @@ export default function Footer() {
           <p className="text-center text-sm text-gray-400">Copyright © 2025 Career-Nexus Ltd. All rights reserved.</p>
         </div>
       </div>
+      <PrivacyPolicy
+        onOpen={isPrivacyPolicyOpen}
+        onClose={() => setIsPrivacyPolicyOpen(false)}
+      />
+      <TermsOfService
+        onOpen={isTermsOfServiceOpen}
+        onClose={() => setIsTermsOfServiceOpen(false)}
+      />
+      <ContactUs
+        onOpen={isContactUsOpen}
+        onClose={() => setIsContactUsOpen(false)}
+      />
     </footer>
   )
 }

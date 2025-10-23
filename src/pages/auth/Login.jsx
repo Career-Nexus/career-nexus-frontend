@@ -199,8 +199,10 @@ useEffect(() => {
         <HeroSection />
       </div>
       <div className="col-span-12 lg:col-span-5 md:px-8 p-0 mb-0 md:max-h-[70vh]">
+        
         <div className="flex flex-col items-center justify-center min-h-screen bg-white px-12">
-          <div className="w-full max-w-md">
+          
+          <div className="w-full max-w-md mb-8">
             <h1 className="md:text-2xl font-bold text-center text-[#3a1c64] mt-0 mb-5" style={{ marginTop: "-2rem" }}>
               Welcome Back
             </h1>
@@ -339,6 +341,10 @@ useEffect(() => {
               </p>
             </div>
           </div>
+
+          <Link to="/landing" className=" bg-[#E6FFEB] py-2 px-3 rounded-lg mt-10 w-full text-center font-bold text-[#0A0B0A]">
+            Book a Consultation
+          </Link>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-popover": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
+    "aos": "^2.3.4",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
     "flowbite-react": "^0.10.2",
@@ -32,8 +33,10 @@
     "react-player": "^3.3.1",
     "react-router-dom": "^7.3.0",
     "react-select": "^5.10.2",
+    "react-slick": "^0.31.0",
     "react-toastify": "^11.0.5",
-    "recharts": "^3.2.1"
+    "recharts": "^3.2.1",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
