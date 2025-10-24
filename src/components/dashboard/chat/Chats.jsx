@@ -106,8 +106,8 @@ export default function Chats() {
   const wsRef = useRef(null);
   const [wsStatus, setWsStatus] = useState("Idle");
 
-  // const wsBase = wsTestUrl;
-  const wsBase = wsProdUrl;
+  const wsBase = wsTestUrl;
+  //const wsBase = wsProdUrl;
 
   // Build WebSocket URL once
   const wsUrl = useMemo(() => {

@@ -11,8 +11,8 @@ export const NotificationProvider = ({ children }) => {
   const wsRef = useRef(null)
 
   const token = authService.getAuthToken();
-  //const wsBase = wsTestUrl;
-  const wsBase = wsProdUrl;
+  const wsBase = wsTestUrl;
+  //const wsBase = wsProdUrl;
   const wsUrl = `${wsBase}/notification/?token=${encodeURIComponent(token)}`;
 
   useEffect(() => {

@@ -38,8 +38,8 @@ export default function SocialBar({ post, fetchPosts, postId }) {
 
     if (result.data) {
       const hash = result.data.post_hash;
-      //const baseUrls = appUrl || window.location.origin;
-      const baseUrls = prodUrl || window.location.origin;
+      const baseUrls = appUrl || window.location.origin;
+      //const baseUrls = prodUrl || window.location.origin;
       
     
       const link = `${baseUrls}/share/${hash}`;
