@@ -121,7 +121,7 @@ export default function CareerNexusProfile() {
           id: 1,
           name: "Adebayo Samuel",
           role: "Senior Product Manager",
-          image: "/images/profile1.png",
+          image: "/images/profile4.png",
           admin: true,
         },
         {
@@ -146,7 +146,7 @@ export default function CareerNexusProfile() {
           id: 5,
           name: "John Okafor",
           role: "HR Manager",
-          image: "/images/profile5.png",
+          image: "/images/profile3.png",
           admin: true,
         },
       ];
@@ -566,7 +566,7 @@ export default function CareerNexusProfile() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col gap-4 mt-10 bg-white overflow-hidden">
+    <div className="max-w-3xl mx-auto flex flex-col gap-4 mt-10 mb-5 bg-white overflow-hidden">
       {/* ===== Header Section ===== */}
       <div className="relative border border-gray-100">
         <div className="flex flex-col">
@@ -624,7 +624,7 @@ export default function CareerNexusProfile() {
       </div>
 
       {/* ===== Tab Content ===== */}
-      <div className="min-h-[200px] bg-white">
+      <div className="min-h-[200px] mb-2 bg-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
