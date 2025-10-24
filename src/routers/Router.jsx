@@ -53,6 +53,8 @@ import Dashboard from "../pages/admin/Dashboard";
 import SharePage from '../components/dashboard/home/SharePost'
 import LandingPage from '../landingpage/LandingPage'
 import ProfileView from "../coporate/ProfileView"
+import CompanyProfileSetup from '../coporate/CoperateProfileSetup'
+import JobDashboard from '../coporate/JobDashboard'
 
 
 const ProtectedRoute = ({ children }) => {
@@ -138,6 +140,22 @@ const Router = () => {
           element={
             // <RedirectIfAuthenticated>
               <ProfileView />
+            // </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/coporate-com"
+          element={
+            // <RedirectIfAuthenticated>
+              <CompanyProfileSetup />
+            // </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/coporate-job"
+          element={
+            // <RedirectIfAuthenticated>
+              <JobDashboard />
             // </RedirectIfAuthenticated>
           }
         />
