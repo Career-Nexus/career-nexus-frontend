@@ -9,10 +9,10 @@ export default function ConsultingPackage() {
   const [isInternational, setIsInternational] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(""); // 👈 store which package user clicked
 
-  const nairaItems = [
+  const poundsItems = [
     {
       id: 1,
-      title: "Premium Package (₦1.5M)",
+      title: "Premium Package (£3000 GBP)",
       text1: "3 Services",
       text2: "For organizations with 11-20 employees",
       text3: "2-3 workshops per year",
@@ -20,7 +20,7 @@ export default function ConsultingPackage() {
     },
     {
       id: 2,
-      title: "All-Inclusive Package (₦5M)",
+      title: "All-Inclusive Package (£5000 GBP)",
       text1: "All Services",
       text2: "For organizations with 21-40 employees",
       text3: "2-3 workshops per year",
@@ -28,7 +28,7 @@ export default function ConsultingPackage() {
     },
     {
       id: 3,
-      title: "Basic Package (₦800k)",
+      title: "Basic Package (£1500 GBP)",
       text1: "2 Services",
       text2: "For organizations with 1-10 employees",
       text3: "1-2 workshops per year",
@@ -39,7 +39,7 @@ export default function ConsultingPackage() {
   const dollarItems = [
     {
       id: 1,
-      title: "Premium Package ($1.02K USD)",
+      title: "Premium Package ($5000 USD)",
       text1: "3 Services",
       text2: "For organizations with 11-20 employees",
       text3: "2-3 workshops per year",
@@ -47,7 +47,7 @@ export default function ConsultingPackage() {
     },
     {
       id: 2,
-      title: "All-Inclusive Package ($3.4K USD)",
+      title: "All-Inclusive Package ($10000 USD)",
       text1: "All Services",
       text2: "For organizations with 21-40 employees",
       text3: "2-3 workshops per year",
@@ -55,7 +55,7 @@ export default function ConsultingPackage() {
     },
     {
       id: 3,
-      title: "Basic Package ($545 USD)",
+      title: "Basic Package ($2000 USD)",
       text1: "2 Services",
       text2: "For organizations with 1-10 employees",
       text3: "1-2 workshops per year",
@@ -63,14 +63,14 @@ export default function ConsultingPackage() {
     },
   ];
 
-  const items = isInternational ? dollarItems : nairaItems;
+  const items = isInternational ? dollarItems : poundsItems;
   useEffect(() => {
     AOS.init();
   }, []);
   return (
     <div className={`py-16 bg-gray-50 text-black`}>
       <div className='flex justify-center items-center mb-10'>
-        <span className={`${!isInternational ? 'text-[#5DA05D] font-semibold' : 'text-gray-400'}`}>Nigeria</span>
+        <span className={`${!isInternational ? 'text-[#5DA05D] font-semibold' : 'text-gray-400'}`}>United Kingdom (UK)</span>
         <label className="mx-3 relative inline-flex items-center cursor-pointer">
           <input
             type="checkbox"

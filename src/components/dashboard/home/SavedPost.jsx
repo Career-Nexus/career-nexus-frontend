@@ -85,7 +85,7 @@ function SavedPost() {
                             </div>
                         </div>
                     </div>
-                    <p className="mb-3">
+                    <p className="mb-3 whitespace-pre-line">
                         {expandedItems[post.post_id]
                             ? post.body
                             : post.body?.length > 200

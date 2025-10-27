@@ -174,7 +174,7 @@ export default function FollowingTemplate() {
             />
 
             {/* Reposter text */}
-            <p className="mb-3">
+            <p className="mb-3 whitespace-pre-line">
               {expandedItems[`body_${post.post_id}`]
                 ? post.body
                 : post.body?.length > 200
@@ -202,7 +202,7 @@ export default function FollowingTemplate() {
                   time={post.parent.time_stamp}
                 />
 
-                <p className="mb-3">
+                <p className="mb-3 whitespace-pre-line">
                   {expandedItems[`parent_${post.post_id}`]
                     ? post.parent.body
                     : post.parent.body?.length > 200

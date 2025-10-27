@@ -152,7 +152,7 @@ export default function AllTemplate() {
             </div>
 
             {/* MAIN POST BODY */}
-            <p className="mb-3">
+            <p className="mb-3 whitespace-pre-line">
               {expandedItems[post.post_id]
                 ? post.body
                 : post.body?.length > 200
@@ -202,7 +202,7 @@ export default function AllTemplate() {
                 </div>
 
                 {/* Parent body */}
-                <p className="mb-3">
+                <p className="mb-3 whitespace-pre-line">
                   {expandedItems[`${post.post_id}_parent`]
                     ? post.parent.body
                     : post.parent.body?.length > 200
