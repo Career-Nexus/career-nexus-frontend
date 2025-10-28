@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import CNLogo from "../assets/images/cn-1.png"
 import { ArrowLeft } from 'lucide-react'
 import CompanyProfileModalFlow from "./components/CompanyProfileModalFlow"
+import { Link } from "react-router-dom";
 
 
 export default function CompanyProfileSetup() {
@@ -47,15 +48,15 @@ export default function CompanyProfileSetup() {
                 <div className="mt-8 mb-[4rem]">                    
                   <img className="h-[80px] " src={CNLogo}alt="career Nexus" />
                 </div>
-                <a
-                href="#"
-                className="inline-flex items-center text-[#7cc264] text-sm font-medium mb-3 hover:underline"
-                onClick={(e) => e.preventDefault()}
+                <Link
+                to={'/home'}
+                className="inline-flex items-center text-[#5DA05D] text-sm font-medium mb-3 hover:underline"
+                //onClick={(e) => e.preventDefault()}
                 aria-label="Back"
                 >
                     <ArrowLeft className="mr-2" />
                     BACK
-                </a>
+                </Link>
 
                 <h2 className="text-3xl md:text-4xl font-bold text-[#3C1053] mb-8">
                     Let’s set up your company profile
@@ -213,7 +214,7 @@ export default function CompanyProfileSetup() {
                     <div className="flex justify-start">
                         <button
                             type="submit"
-                            className="inline-flex items-center px-6 py-3 bg-[#5DA05D] hover:bg-[#7cb334] text-white rounded-md font-medium shadow transition"
+                            className="inline-flex items-center px-6 py-3 bg-[#5DA05D] text-white rounded-md font-medium shadow transition"
                         >
                             Save/Continue
                         </button>

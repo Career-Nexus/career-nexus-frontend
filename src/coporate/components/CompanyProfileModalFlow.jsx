@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
-import CNLogo from "../../assets/images/cn-1.png";
+import CNLogo from "../../assets/images/CN_LOGO_2.png";
 
 export default function CompanyProfileModalFlow({ onClose }) {
   const [checked, setChecked] = useState(false);
@@ -42,7 +42,7 @@ export default function CompanyProfileModalFlow({ onClose }) {
               <img
                 src={CNLogo}
                 alt="Company Logo"
-                className="h-16 w-16 rounded-lg object-contain border border-gray-200"
+                className="h-28 w-28 rounded-lg object-contain border border-gray-200 shadow font-bold"
               />
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">Career Nexus</h3>
@@ -59,14 +59,14 @@ export default function CompanyProfileModalFlow({ onClose }) {
                 type="checkbox"
                 checked={checked}
                 onChange={() => setChecked(!checked)}
-                className="mt-1 h-4 w-4 border-gray-400 rounded text-green-600 focus:ring-green-600"
+                className="mt-1 h-4 w-4 border-gray-400 rounded text-[#5DA05D] focus:ring-[#5DA05D]"
               />
               <label
                 htmlFor="confirm"
                 className="text-sm text-gray-700 leading-tight"
               >
                 I confirm I am authorized to represent this company and agree to
-                the <span className="text-green-700 font-medium">Terms & Conditions</span> of
+                the <span className="text-[#5DA05D] font-medium">Terms & Conditions</span> of
                 this page
               </label>
             </div>
@@ -76,7 +76,7 @@ export default function CompanyProfileModalFlow({ onClose }) {
               disabled={!checked}
               className={`w-full py-2.5 rounded-md font-semibold transition-all ${
                 checked
-                  ? "bg-[#5DA05D] hover:bg-[#7cb334] text-white shadow"
+                  ? "bg-[#5DA05D] text-white shadow"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >

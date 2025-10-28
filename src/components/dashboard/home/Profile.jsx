@@ -1,16 +1,54 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Bookmark, Bulb, Library, Newsletter, Setting, Video } from '../../../icons/icon'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../../context/UserContext'
-import { GraduationCap, TrendingUp, Vault } from 'lucide-react'
+import { ArrowRight, Dot, GraduationCap, TrendingUp, Vault } from 'lucide-react'
+import CNLogo from "../../../assets/images/CN_LOGO_2.png"
+import { CorporateServices } from '../../../api/CoporateServices'
 
 const Profile = () => {
     const [activeId, setActiveId] = useState(null);
+    const [linkedAccounts, setLinkedAccounts] = useState([]);
     const { user, error, } = useContext(UserContext)
     if (error) {
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
 
+    const fetchLinkedAccounts = async () => {
+        try {
+            const response = await CorporateServices.getLinkedAccounts();
+            if (response.success) {
+                setLinkedAccounts(response.data);
+                console.log("Linked accounts in Profile:", response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching linked accounts:", error);
+        }
+    };
+    useEffect(() => {
+        fetchLinkedAccounts();
+    }, []);
+    console.log(linkedAccounts);
+
+    const handleSwitchAccount = async (accountId) => {
+        try {
+            const response = await CorporateServices.switchAccount(accountId);
+
+            if (response.success) {
+                console.log("Switched to account:", response.data);
+
+                // Update user context (reload or refetch user profile)
+                window.location.reload(); // simple approach
+
+                // Alternatively, if you have a context update method:
+                // updateUser(response.data);  // replace with your context update logic
+            } else {
+                console.error("Error switching account:", response.error);
+            }
+        } catch (error) {
+            console.error("Error switching account:", error);
+        }
+    };
 
     const data = [
         // { id: 1, icon: <Link to='#'><Video /></Link>, name: <Link to='#'>Learning</Link> },
@@ -37,7 +75,7 @@ const Profile = () => {
         <div>
             {user.user_type === "learner" ? (
                 <div className=''>
-                    <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
+                    <Link to={'/profilepage'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative mb-5'>
                         <div className='flex items-center min-h-32 mx-2 '>
                             <div className='mr-2 md:h-12 md:w-12 w-14 h-10'>
                                 <img src={user.profile_photo} alt="profile picture"
@@ -50,6 +88,35 @@ const Profile = () => {
                             {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
                         </div>
                     </Link>
+
+                    <div>
+                        {linkedAccounts.length === 0 ? (
+                            <Link to={'/coporate-com'} className='flex mt-3 text-center text-sm bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2  w-full'>
+                                Create a company page
+                                <ArrowRight className='inline-block ml-auto' />
+                            </Link>
+                        ) : (
+                            <div className='bg-gray-50 p-3 rounded-lg border border-gray-200 mt-3'>
+                                <h1 className='font-semibold'>MY PAGE</h1>
+                                {linkedAccounts.map(account => (
+                                    <button
+                                        key={account.id}
+                                        onClick={() => handleSwitchAccount(account.id)}
+                                        className="flex justify-center items-center mt-3 text-center bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2 w-full"
+                                    >
+                                        <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />
+                                        <div className="flex flex-col text-left">
+                                            <span className="font-semibold">{account.name}</span>
+                                            <span className="text-gray-500 text-sm">{account.extras}</span>
+                                        </div>
+                                        <Dot className="inline-block ml-auto h-10 w-10 text-red-700" />
+                                    </button>
+                                ))}
+
+                            </div>
+                        )}
+                    </div>
+
                     <div className='border border-gray rounded-lg my-5'>
                         <h1 className='p-3 font-semibold'>Activity</h1>
                         <div className='flex flex-col gap-4 p-3'>
@@ -69,7 +136,7 @@ const Profile = () => {
                                     </div>
                                 )
                             })}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -108,7 +175,7 @@ const Profile = () => {
                                     </div>
                                 )
                             })}
-                            
+
                         </div>
                     </div>
                     {/* <div className='border border-gray rounded-lg my-5'>
@@ -127,7 +194,7 @@ const Profile = () => {
                             ))}
                         </div>
                     </div> */}
-                    
+
                 </div>
             )}
         </div>
