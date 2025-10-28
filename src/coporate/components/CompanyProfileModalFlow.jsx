@@ -2,17 +2,42 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
 import CNLogo from "../../assets/images/cn-1.png";
+import { createCorporateProfile } from "../../api/CoperateServices";
+import { toast } from "react-toastify";
 
-export default function CompanyProfileModalFlow({ onClose }) {
+export default function CompanyProfileModalFlow({ onClose, formData, onSuccess }) {
   const [checked, setChecked] = useState(false);
-  const [step, setStep] = useState(1); // 1 = preview, 2 = success
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const handleCreatePage = () => {
-    setStep(2);
-    setTimeout(() => {
-      // auto close after 2.5s if you like
-      // onClose?.();
-    }, 2500);
+  const handleCreatePage = async () => {
+    if (!checked) return;
+    setLoading(true);
+
+    const payload = {
+      company_name: formData.companyName,
+      company_email: formData.companyEmail,
+      company_type: formData.companyType,
+      company_size: formData.companySize,
+      website: formData.companyWebsite,
+      location: formData.companyLocation,
+      industry: formData.industry,
+      tagline: formData.tagline,
+      logo: formData.logo,
+    };
+
+    try {
+      const res = await createCorporateProfile(payload);
+      toast.success("Corporate profile created successfully!");
+      setStep(2);
+      if (onSuccess) onSuccess();
+
+    } catch (err) {
+      toast.error(err.message || "Failed to create corporate profile");
+      console.error("Error creating corporate profile:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,7 +52,6 @@ export default function CompanyProfileModalFlow({ onClose }) {
             transition={{ duration: 0.3 }}
             className="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 relative"
           >
-            {/* Close icon */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -35,21 +59,20 @@ export default function CompanyProfileModalFlow({ onClose }) {
               <X size={20} />
             </button>
 
-            {/* Content */}
             <h2 className="text-lg font-bold text-gray-800 mb-5">Page preview</h2>
 
             <div className="flex items-center gap-4 mb-6">
               <img
-                src={CNLogo}
+                src={formData.logo ? URL.createObjectURL(formData.logo) : CNLogo}
                 alt="Company Logo"
                 className="h-16 w-16 rounded-lg object-contain border border-gray-200"
               />
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">Career Nexus</h3>
-                <p className="text-sm text-gray-500">London, England</p>
-                <p className="text-sm text-[#7F8CA0]">
-                  Technology and information
-                </p>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {formData.companyName || "Untitled Company"}
+                </h3>
+                <p className="text-sm text-gray-500">{formData.companyLocation}</p>
+                <p className="text-sm text-[#7F8CA0]">{formData.industry}</p>
               </div>
             </div>
 
@@ -61,26 +84,22 @@ export default function CompanyProfileModalFlow({ onClose }) {
                 onChange={() => setChecked(!checked)}
                 className="mt-1 h-4 w-4 border-gray-400 rounded text-green-600 focus:ring-green-600"
               />
-              <label
-                htmlFor="confirm"
-                className="text-sm text-gray-700 leading-tight"
-              >
-                I confirm I am authorized to represent this company and agree to
-                the <span className="text-green-700 font-medium">Terms & Conditions</span> of
-                this page
+              <label htmlFor="confirm" className="text-sm text-gray-700 leading-tight">
+                I confirm I am authorized to represent this company and agree to the{" "}
+                <span className="text-green-700 font-medium">Terms & Conditions</span>
               </label>
             </div>
 
             <button
               onClick={handleCreatePage}
-              disabled={!checked}
+              disabled={!checked || loading}
               className={`w-full py-2.5 rounded-md font-semibold transition-all ${
-                checked
+                checked && !loading
                   ? "bg-[#5DA05D] hover:bg-[#7cb334] text-white shadow"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
-              Create Page
+              {loading ? "Creating..." : "Create Page"}
             </button>
           </motion.div>
         )}
