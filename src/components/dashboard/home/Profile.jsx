@@ -14,12 +14,24 @@ const Profile = () => {
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
 
+    // const fetchLinkedAccounts = async () => {
+    //     try {
+    //         const response = await CorporateServices.getLinkedAccounts();
+    //         if (response.success) {
+    //             setLinkedAccounts(response.data);
+    //             console.log("Linked accounts in Profile:", response.data);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching linked accounts:", error);
+    //     }
+    // };
     const fetchLinkedAccounts = async () => {
         try {
             const response = await CorporateServices.getLinkedAccounts();
-            if (response.success) {
+            if (response.success && Array.isArray(response.data)) {
                 setLinkedAccounts(response.data);
-                console.log("Linked accounts in Profile:", response.data);
+            } else {
+                console.warn("No linked accounts found or invalid response");
             }
         } catch (error) {
             console.error("Error fetching linked accounts:", error);
@@ -107,7 +119,7 @@ const Profile = () => {
                                         <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />
                                         <div className="flex flex-col text-left">
                                             <span className="font-semibold">{account.name}</span>
-                                            <span className="text-gray-500 text-sm">{account.extras}</span>
+                                            <span className="text-gray-500 text-sm">{account.extras.slice(0, 30)}...</span>
                                         </div>
                                         <Dot className="inline-block ml-auto h-10 w-10 text-red-700" />
                                     </button>

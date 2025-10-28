@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import CompanyProfileModalFlow from "./components/CompanyProfileModalFlow";
 import { toast } from "react-toastify";
 import CorporateServices from "../api/CoperateServices";
+import { Link } from "react-router-dom";
 
 export default function CompanyProfileSetup() {
   const [showModal, setShowModal] = useState(false);
