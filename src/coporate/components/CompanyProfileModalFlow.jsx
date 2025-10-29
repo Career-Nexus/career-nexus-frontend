@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
 import CNLogo from "../../assets/images/cn-1.png";
-import { createCorporateProfile } from "../../api/CoperateServices";
+import { CorporateServices } from "../../api/CoporateServices";
 import { toast } from "react-toastify";
+import successmotion from "../../assets/images/success.gif"
 
 export default function CompanyProfileModalFlow({ onClose, formData, onSuccess }) {
   const [checked, setChecked] = useState(false);
@@ -27,10 +28,15 @@ export default function CompanyProfileModalFlow({ onClose, formData, onSuccess }
     };
 
     try {
-      const res = await createCorporateProfile(payload);
+      const res = await CorporateServices.createCorporateProfile(payload);
       toast.success("Corporate profile created successfully!");
       setStep(2);
       if (onSuccess) onSuccess();
+      
+      setTimeout(() => {
+        if (onSuccess) onSuccess();
+        onClose();
+      }, 3000);
 
     } catch (err) {
       toast.error(err.message || "Failed to create corporate profile");
@@ -86,7 +92,7 @@ export default function CompanyProfileModalFlow({ onClose, formData, onSuccess }
               />
               <label htmlFor="confirm" className="text-sm text-gray-700 leading-tight">
                 I confirm I am authorized to represent this company and agree to the{" "}
-                <span className="text-green-700 font-medium">Terms & Conditions</span>
+                <span className="text-[#5DA05D] font-medium">Terms & Conditions</span>
               </label>
             </div>
 
@@ -120,14 +126,7 @@ export default function CompanyProfileModalFlow({ onClose, formData, onSuccess }
               <X size={20} />
             </button>
 
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, damping: 12 }}
-              className="bg-green-500 h-20 w-20 rounded-full flex items-center justify-center mb-6 shadow-md"
-            >
-              <Check className="text-white" size={40} />
-            </motion.div>
+            <img src={successmotion} alt="Success" className="h-32 mb-4" />
 
             <h2 className="text-xl font-bold text-[#3C1053]">
               Page created successfully!

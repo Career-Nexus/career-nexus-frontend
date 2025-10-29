@@ -1,6 +1,21 @@
 import api from "./ApiServiceThree";
 import Cookies from "js-cookie"
 
+function handleApiError(error, defaultMessage = "An unexpected error occurred") {
+  if (error.response) {
+    const message =
+      error.response.data?.detail ||
+      error.response.data?.message ||
+      error.response.data?.error ||
+      defaultMessage;
+    throw new Error(message);
+  } else if (error.request) {
+    throw new Error("No response from server. Please check your internet connection.");
+  } else {
+    throw new Error(defaultMessage);
+  }
+}
+
 export const CorporateServices = {
     // async getLinkedAccounts() {
     //     try {
@@ -46,6 +61,37 @@ export const CorporateServices = {
         } catch (error) {
             console.error('Error switching account:', error);
             return { success: false, error: error.message };
+        }
+    },
+    async createCorporateProfile(data) {
+        try {
+            const formData = new FormData();
+            Object.entries(data).forEach(([key, value]) => {
+                if (value !== null && value !== undefined && value !== "") {
+                    formData.append(key, value);
+                }
+            });
+
+            const response = await api.post("/user/corporate/signup/", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            return { success: true, data: response.data };
+        } catch (error) {
+            return { success: false, error: handleApiError(error, "Failed to create corporate profile") };
+        }
+    },
+
+    async getChoiceFieldData(fieldName = null) {
+        try {
+            const endpoint = fieldName
+            ? `/info/choice-data/?field_name=${fieldName}`
+            : "/info/choice-data/";
+
+            const response = await api.get(endpoint);
+            return response.data;
+        } catch (error) {
+            return { success: false, error: handleApiError(error, "Failed to fetch choice field data") };
         }
     },
 }
