@@ -19,7 +19,7 @@ export default function Hero() {
                         <h1 className='text-2xl md:text-5xl font-bold'>One Connection at a Time.</h1>
                         <img src="/images/landing/landing-10.png" alt="heart" className='w-9 h-9 md:w-16 md:h-16 md:mt-[-3rem] md:ml-[-4rem] ml-[-0.5rem] mt-[-1rem]' />
                         <img src="/images/landing/landing-11.png" alt="heart" className='w-7 h-7 md:w-16 md:h-14 ml-[2rem] mt-[-1rem]' />
-                        <p className='max-w-xl mb-6 text-lg'>
+                        <p className='max-w-md mb-6 text-lg text-center md:ml-[4rem]'>
                             Transition seamlessly from education to employment with real-world skills.
                         </p>
                     </div>

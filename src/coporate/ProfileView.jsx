@@ -95,7 +95,7 @@ const ProfileCoverUI = () => {
 };
 
 /* === MAIN PROFILE PAGE === */
-export default function CareerNexusProfile() {
+export default function ProfileView() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [analyticsTab, setAnalyticsTab] = useState("Overview");
 
@@ -151,41 +151,41 @@ export default function CareerNexusProfile() {
         );
 
       /** ---------------- PRODUCT VIRTUAL GALLERY ---------------- **/
-     case "Organization Members":
-      const members = [
-        {
-          id: 1,
-          name: "Adebayo Samuel",
-          role: "Senior Product Manager",
-          image: "/images/profile4.png",
-          admin: true,
-        },
-        {
-          id: 2,
-          name: "Funmi Kayode",
-          role: "Lead Software Engineer",
-          image: "/images/profile2.png",
-        },
-        {
-          id: 3,
-          name: "David Chen",
-          role: "Lead Software Engineer",
-          image: "/images/profile3.png",
-        },
-        {
-          id: 4,
-          name: "Sarah Adebayo",
-          role: "Lead Software Engineer",
-          image: "/images/profile4.png",
-        },
-        {
-          id: 5,
-          name: "John Okafor",
-          role: "HR Manager",
-          image: "/images/profile3.png",
-          admin: true,
-        },
-      ];
+      case "Organization Members":
+        const members = [
+          {
+            id: 1,
+            name: "Adebayo Samuel",
+            role: "Senior Product Manager",
+            image: "/images/profile4.png",
+            admin: true,
+          },
+          {
+            id: 2,
+            name: "Funmi Kayode",
+            role: "Lead Software Engineer",
+            image: "/images/profile2.png",
+          },
+          {
+            id: 3,
+            name: "David Chen",
+            role: "Lead Software Engineer",
+            image: "/images/profile3.png",
+          },
+          {
+            id: 4,
+            name: "Sarah Adebayo",
+            role: "Lead Software Engineer",
+            image: "/images/profile4.png",
+          },
+          {
+            id: 5,
+            name: "John Okafor",
+            role: "HR Manager",
+            image: "/images/profile3.png",
+            admin: true,
+          },
+        ];
 
       return (
         <div className="space-y-4">
@@ -198,46 +198,46 @@ export default function CareerNexusProfile() {
             </button>
           </div>
 
-          <div className="bg-white rounded-lg flex flex-col gap-5">
-            {members.map((member) => (
-              <div
-                key={member.id}
-                className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-semibold text-gray-800">{member.name}</p>
-                    <p className="text-sm text-gray-500">{member.role}</p>
+            <div className="bg-white rounded-lg flex flex-col gap-5">
+              {members.map((member) => (
+                <div
+                  key={member.id}
+                  className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-gray-800">{member.name}</p>
+                      <p className="text-sm text-gray-500">{member.role}</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-green-700 font-medium">
+                    {member.admin ? "Admin" : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    )}
                   </div>
                 </div>
-                <div className="text-sm text-green-700 font-medium">
-                  {member.admin ? "Admin" : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      );
+        );
 
       /** ---------------- ANALYTICS DASHBOARD ---------------- **/
       case "Analytics Dashboard":
@@ -262,7 +262,7 @@ export default function CareerNexusProfile() {
             case "Overview":
               return (
                 <div className="space-y-6">
-                  
+
                   <div className="bg-white border rounded-lg p-6 shadow-sm">
                     <h4 className="text-lg font-semibold text-gray-700 mb-4">
                       Performance Overview
@@ -339,53 +339,53 @@ export default function CareerNexusProfile() {
                 </div>
               );
 
-           case "Visitors":
-            return (
-              <div className="bg-white border rounded-lg p-6 shadow-sm">
-                <h4 className="font-semibold text-gray-800 mb-3">Visitor Demographics</h4>
-                <div className="w-full flex flex-col md:flex-row gap-6 items-center">
-                  <div className="w-full md:w-1/2 h-48">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={[
-                            { name: "Mobile", value: 30 },
-                            { name: "Desktop", value: 60 },
-                            { name: "Tablet", value: 10 },
-                          ]}
-                          dataKey="value"
-                          nameKey="name"
-                          innerRadius={50}
-                          outerRadius={80}
-                          label
-                        >
-                          {/* ✅ Assign different colors to each slice */}
-                          <Cell key="Mobile" fill="#5DA05D" />   {/* green */}
-                          <Cell key="Desktop" fill="#4E61F6" />  {/* blue */}
-                          <Cell key="Tablet" fill="#FFAA00" />   {/* amber */}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
+            case "Visitors":
+              return (
+                <div className="bg-white border rounded-lg p-6 shadow-sm">
+                  <h4 className="font-semibold text-gray-800 mb-3">Visitor Demographics</h4>
+                  <div className="w-full flex flex-col md:flex-row gap-6 items-center">
+                    <div className="w-full md:w-1/2 h-48">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={[
+                              { name: "Mobile", value: 30 },
+                              { name: "Desktop", value: 60 },
+                              { name: "Tablet", value: 10 },
+                            ]}
+                            dataKey="value"
+                            nameKey="name"
+                            innerRadius={50}
+                            outerRadius={80}
+                            label
+                          >
+                            {/* ✅ Assign different colors to each slice */}
+                            <Cell key="Mobile" fill="#5DA05D" />   {/* green */}
+                            <Cell key="Desktop" fill="#4E61F6" />  {/* blue */}
+                            <Cell key="Tablet" fill="#FFAA00" />   {/* amber */}
+                          </Pie>
+                          <Tooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
 
-                  <div className="flex flex-col gap-2 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 rounded-full bg-[#4E61F6]"></span>
-                      <p>Desktop Users — 60%</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 rounded-full bg-[#22c55e]"></span>
-                      <p>Mobile Users — 30%</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span>
-                      <p>Tablet Users — 10%</p>
+                    <div className="flex flex-col gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[#4E61F6]"></span>
+                        <p>Desktop Users — 60%</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[#22c55e]"></span>
+                        <p>Mobile Users — 30%</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span>
+                        <p>Tablet Users — 10%</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
 
 
             case "Followers":
@@ -447,23 +447,6 @@ export default function CareerNexusProfile() {
 
         return (
           <div className="space-y-6">
-            {/* === Analytics Tabs === */}
-            <div className="flex gap-3 justify-between border-b overflow-x-auto">
-              {analyticsTabs.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setAnalyticsTab(tab)}
-                  className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                    analyticsTab === tab
-                      ? "border-[#5DA05D] text-[#5DA05D]"
-                      : "border-transparent text-gray-600 hover:[#5DA05D]"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
                 <h4 className="text-2xl font-bold text-gray-800">103.5K</h4>
@@ -481,6 +464,22 @@ export default function CareerNexusProfile() {
                 <h4 className="text-2xl font-bold text-gray-800">2.1K</h4>
                 <p className="text-gray-500 text-sm">New Followers</p>
               </div>
+            </div>
+
+            {/* === Analytics Tabs === */}
+            <div className="flex gap-3 justify-between border-b overflow-x-auto">
+              {analyticsTabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setAnalyticsTab(tab)}
+                  className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${analyticsTab === tab
+                      ? "border-[#5DA05D] text-[#5DA05D]"
+                      : "border-transparent text-gray-600 hover:[#5DA05D]"
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
 
             {/* === Active Tab Content === */}
@@ -602,7 +601,7 @@ export default function CareerNexusProfile() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col gap-4 mt-10 mb-5 bg-white overflow-hidden">
+    <div className="max-w-5xl flex flex-col gap-4 mb-5 bg-white overflow-hidden">
       {/* ===== Header Section ===== */}
       <div className="relative border border-gray-100">
         <div className="flex flex-col">
@@ -626,12 +625,12 @@ export default function CareerNexusProfile() {
             <p className="text-gray-500 text-sm">
               London, England ·{" "}
               <a
-                href="https://www.careernexus.com"
+                href="https://www.career-nexus.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                www.careernexus.com
+                www.career-nexus.com
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
@@ -643,16 +642,15 @@ export default function CareerNexusProfile() {
       </div>
 
       {/* ===== Tabs ===== */}
-      <div className="flex justify-between space-x-2 overflow-x-auto">
+      <div className="flex justify-between overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-8 py-3 text-xs font-medium rounded-lg whitespace-nowrap transition-colors ${
-              activeTab === tab
+            className={`px-8 py-3 mx-2 text-xs font-medium rounded-lg whitespace-nowrap transition-colors ${activeTab === tab
                 ? "border border-[#5DA05D] text-[#5DA05D]"
                 : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-            }`}
+              }`}
           >
             {tab}
           </button>
@@ -660,7 +658,7 @@ export default function CareerNexusProfile() {
       </div>
 
       {/* ===== Tab Content ===== */}
-      <div className="min-h-[200px] mb-2 bg-white">
+      <div className="min-h-[200px] my-4 bg-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}

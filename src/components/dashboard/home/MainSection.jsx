@@ -38,11 +38,21 @@ const MainSection = () => {
       )}
 
       <div className='border border-gray-200 p-2 rounded-lg flex gap-3'>
-        <img
-          src={user.profile_photo}
-          alt="profile"
-          className='h-12 w-12 rounded-full'
-        />
+        {
+          user.user_type === 'learner' || user.user_type === 'mentor' ? (
+            <img
+              src={user.profile_photo}
+              alt="profile"
+              className='h-12 w-12 rounded-full'
+            />
+          ) : (
+            <img
+              src={user.logo}
+              alt="company logo"
+              className='h-12 w-12 rounded-full'
+            />
+          )
+        }
         <button
           onClick={() => setModalOpen(true)}
           className='w-full rounded-lg border border-gray-200 flex items-center justify-between px-3'
@@ -58,7 +68,7 @@ const MainSection = () => {
       />
       <TabInterface />
       <div className='lg:hidden block mb-8'>
-        <FloatingMessageIcon/>
+        <FloatingMessageIcon />
       </div>
     </div>
   );
@@ -340,11 +350,20 @@ const ModalComponent = ({ isOpen, onClose }) => {
         </button>
 
         <div className="flex items-center mb-4">
-          <img
-            src={user?.profile_photo || "/placeholder.svg?height=40&width=40"}
-            alt="User"
-            className="w-10 h-10 rounded-full mr-2"
-          />
+          {
+            user.user_type === 'learner' || user.user_type === 'mentor' ? (
+              <img
+                src={user?.profile_photo || "/placeholder.svg?height=40&width=40"}
+                alt="User"
+                className="w-10 h-10 rounded-full mr-2"
+              />) : (
+              <img
+                src={user?.logo || "/placeholder.svg?height=40&width=40"}
+                alt="User"
+                className="w-10 h-10 rounded-full mr-2"
+              />
+            )
+          }
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}

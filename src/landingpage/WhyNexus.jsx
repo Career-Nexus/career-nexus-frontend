@@ -9,8 +9,8 @@ export default function WhyNexus() {
     }, []);
     return (
         <div>
-            <div className='pb-16 bg-gray-50 text-center'>
-                <h1 className='text-3xl font-bold mb-8'>Career-Nexus: Your Path to Success</h1>
+            <div className='pb-16 text-center'>
+                <h1 className='text-3xl font-bold my-12'>Career-Nexus: Your Path to Success</h1>
                 <div className='mx-4 md:mx-20' >
                     <div className='grid grid-cols-5 gap-6'>
                         <div data-aos="flip-left" data-aos-duration="2000" className='col-span-5 md:col-span-2 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>

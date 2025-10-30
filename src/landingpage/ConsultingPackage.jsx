@@ -68,7 +68,7 @@ export default function ConsultingPackage() {
     AOS.init();
   }, []);
   return (
-    <div className={`py-16 bg-gray-50 text-black`}>
+    <div className={`py-16 text-black`}>
       <div className='flex justify-center items-center mb-10'>
         <span className={`${!isInternational ? 'text-[#5DA05D] font-semibold' : 'text-gray-400'}`}>United Kingdom (UK)</span>
         <label className="mx-3 relative inline-flex items-center cursor-pointer">
@@ -88,7 +88,7 @@ export default function ConsultingPackage() {
       </div>
 
       <h1 className='text-3xl font-bold mb-8 text-center'>
-        Flexible and Cost-Effective Consulting Packages
+        Flexible and Cost-Effective <br />Consulting Packages
       </h1>
 
       <div className='md:flex gap-5 md:mx-20 mx-4' id='get-started'>

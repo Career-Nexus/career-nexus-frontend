@@ -52,9 +52,9 @@ import AdminLogin from "../pages/admin/AdminLogin"
 import Dashboard from "../pages/admin/Dashboard";
 import SharePage from '../components/dashboard/home/SharePost'
 import LandingPage from '../landingpage/LandingPage'
-import ProfileView from "../coporate/ProfileView"
 import CompanyProfileSetup from '../coporate/CoperateProfileSetup'
 import JobDashboard from '../coporate/JobDashboard'
+import CoporateProfile from '../pages/coporate/CoporateProfile'
 
 
 const ProtectedRoute = ({ children }) => {
@@ -138,16 +138,16 @@ const Router = () => {
         <Route
           path="/coporate"
           element={
-            // <RedirectIfAuthenticated>
-              <ProfileView />
-            // </RedirectIfAuthenticated>
+            <ProtectedRoute>
+              <CoporateProfile />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/coporate-com"
           element={
             // <RedirectIfAuthenticated>
-              <CompanyProfileSetup />
+            <CompanyProfileSetup />
             // </RedirectIfAuthenticated>
           }
         />
@@ -155,7 +155,7 @@ const Router = () => {
           path="/coporate-job"
           element={
             // <RedirectIfAuthenticated>
-              <JobDashboard />
+            <JobDashboard />
             // </RedirectIfAuthenticated>
           }
         />

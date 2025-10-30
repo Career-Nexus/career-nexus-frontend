@@ -27,12 +27,6 @@ export const CareerPath = () => {
             title: "Global Networking & Upskilling",
             desc: "Connect with industry leaders and peers worldwide."
         },
-        {
-            id: 5,
-            icon: <img src={VR} alt="AI Icon" className='w-8 h-8' />,
-            title: "Immersive VR Job Simulations",
-            desc: "Gain real-world experience in a risk-free environment."
-        },
     ]
     var settings = {
         dots: true,
@@ -70,28 +64,13 @@ export const CareerPath = () => {
         ]
     };
     return (
-        // <div className='py-16 bg-gray-50 text-center'>
-        //     <h1 className='text-3xl font-bold mb-8'>Career-Nexus: Your Path to Success</h1>
-        //     <div className="slider-container mx-20">
-        //         <Slider {...settings}>
-        //             {items.map((item) => (
-        //                 <div key={item.id} className='bg-white shadow-md mb-4 rounded-xl p-6 w-[100%] md:w-[40%] max-h-80 h-64 hover:border-2 hover:border-[#5DA05D]'>
-        //                     <div className='flex flex-col items-center'>
-        //                         <span className='border border-[#5DA05D] p-1 rounded-lg shadow-md'>{item.icon}</span>
-        //                         <h2 className='text-xl font-semibold mt-4'>{item.title}</h2>
-        //                         <p className='text-gray-600 mt-2'>{item.desc}</p>
-        //                     </div>
-        //                 </div>
-        //             ))}
-        //         </Slider>
-        //     </div>
-        // </div>
         <div className="slider-container md:mx-20 md:px-4 my-6"> {/* Added px-4 */}
+            <h1 className='text-3xl font-bold mb-8 text-center'>Career-Nexus: Your Path to Success</h1>
             <Slider {...settings}>
                 {items.map((item) => (
                     <div key={item.id} className="px-3"> {/* Added px-3 for gap */}
                         <div className="bg-white shadow-md mb-4 rounded-xl p-6 h-64 hover:border-2 hover:border-[#5DA05D]">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center text-center">
                                 <span className="border border-[#5DA05D] p-1 rounded-lg shadow-md">{item.icon}</span>
                                 <h2 className="text-xl font-semibold mt-4">{item.title}</h2>
                                 <p className="text-gray-600 mt-2">{item.desc}</p>
