@@ -8,7 +8,7 @@ export default function Consultation() {
     AOS.init();
 }, []);
   return (
-    <div className='py-4 bg-gray-50'>
+    <div className='py-4'>
       <div className='mx-4 md:mx-20 md:flex md:justify-between md:items-center'>
         <div className='w-full object-cover'>
           <h1 className='text-3xl font-bold mb-10 md:mb-20 md:mt-6'>Our Expertise, Your Growth</h1>

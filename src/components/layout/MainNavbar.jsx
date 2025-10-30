@@ -242,9 +242,17 @@ const MainNavbar = () => {
                             <div className='hidden md:block'>
                                 <button>
                                     <span className="sr-only">Open user menu</span>
-                                    <Link to={'/profilepage'} className="mx-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center text-indigo-800 font-semibold">
-                                        <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-cover' />
-                                    </Link>
+                                    {
+                                        user.user_type === "learner" || user.user_type === "mentor" ? (
+                                            <Link to={'/profilepage'} className="mx-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center text-indigo-800 font-semibold">
+                                                <img src={user.profile_photo} alt={user?.name?.charAt(0) || 'U'} className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-cover' />
+                                            </Link>
+                                        ) : (
+                                            <Link to={'/coporate'} className="mx-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center text-indigo-800 font-semibold">
+                                                <img src={user.logo} alt={user?.company_name?.charAt(0) || 'U'} className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-cover' />
+                                            </Link>
+                                        )
+                                    }
                                 </button>
                             </div>
 
