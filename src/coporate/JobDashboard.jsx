@@ -61,7 +61,7 @@ const JobCard = ({ job, activeTab }) => {
   // Determine button text and styles based on the tab
   let btnText = "Edit Job";
   let btnStyle =
-    "border border-green-600 text-green-600 hover:bg-green-600 hover:text-white";
+    "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
 
   if (activeTab === "draft") {
     btnText = "Review and Post";
@@ -94,11 +94,11 @@ const JobCard = ({ job, activeTab }) => {
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-6 text-center text-sm">
           <div>
-            <p className="text-green-600 font-semibold">{job.views}</p>
+            <p className="text-[#5DA05D] font-semibold">{job.views}</p>
             <p className="text-gray-500 text-xs">Views</p>
           </div>
           <div>
-            <p className="text-green-600 font-semibold">{job.applicants}</p>
+            <p className="text-[#5DA05D] font-semibold">{job.applicants}</p>
             <p className="text-gray-500 text-xs">Applicants</p>
           </div>
         </div>
@@ -127,13 +127,13 @@ const PostJobForm = () => (
         <input
           type="text"
           placeholder="e.g. Senior UI/UX Designer"
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium mb-1">Experience Level*</label>
-        <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
+        <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]">
           <option>Select Level</option>
           <option>Junior</option>
           <option>Mid-level</option>
@@ -146,7 +146,7 @@ const PostJobForm = () => (
         <textarea
           rows="4"
           placeholder="Provide a detailed description..."
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
         />
       </div>
 
@@ -155,7 +155,7 @@ const PostJobForm = () => (
         <textarea
           rows="3"
           placeholder="List key qualifications and skills..."
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
         />
       </div>
 
@@ -166,12 +166,12 @@ const PostJobForm = () => (
           <input
             type="text"
             placeholder="e.g. New York, NY"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
           />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Work Type</label>
-          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
+          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]">
             <option>Remote</option>
             <option>On-site</option>
             <option>Hybrid</option>
@@ -179,7 +179,7 @@ const PostJobForm = () => (
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Employment Type</label>
-          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
+          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]">
             <option>Full-time</option>
             <option>Part-time</option>
             <option>Contract</option>
@@ -194,7 +194,7 @@ const PostJobForm = () => (
           <input
             type="number"
             placeholder="8000"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
           />
         </div>
         <div>
@@ -202,26 +202,26 @@ const PostJobForm = () => (
           <input
             type="number"
             placeholder="120000"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
+            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
           />
         </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium mb-1">Application Deadline</label>
-        <input type="date" className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500" />
+        <input type="date" className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]" />
       </div>
 
       <div className="flex gap-3 justify-end pt-4">
         <button
           type="button"
-          className="border border-green-600 text-green-600 px-4 py-1 rounded-md hover:bg-green-50"
+          className="border border-[#5DA05D] text-[#5DA05D] px-4 py-1 rounded-md hover:bg-green-50"
         >
           Save Draft
         </button>
         <button
           type="submit"
-          className="bg-green-600 text-white px-4 py-1 rounded-md hover:bg-green-700"
+          className="bg-[#5DA05D] text-white px-4 py-1 rounded-md hover:bg-[#5DA05D]"
         >
           Post Job
         </button>
@@ -250,8 +250,8 @@ const ApplicantsList = () => (
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-green-600 font-semibold">{app.match}% match</span>
-            <button className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-sm">
+            <span className="text-[#5DA05D] font-semibold">{app.match}% match</span>
+            <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
               Review
             </button>
           </div>
@@ -270,18 +270,18 @@ export default function JobDashboard() {
   const tabClasses = (tab) =>
     `flex-1 py-2 text-center rounded-md font-medium text-sm transition ${
       activeTab === tab
-        ? "bg-white text-green-700 shadow-sm"
-        : "text-gray-500 hover:text-green-600"
+        ? "bg-white text-[#5DA05D] shadow-sm"
+        : "text-gray-500 hover:text-[#5DA05D]"
     }`;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6 w-[80%] mx-auto">
       <div className="flex gap-8">
         {/* === SIDEBAR === */}
         <aside className="w-56">
           <button
             onClick={() => setActiveView("post")}
-            className="w-full bg-green-600 text-white py-2 rounded-md mb-4 hover:bg-green-700 transition"
+            className="w-full bg-[#5DA05D] text-white py-2 rounded-md mb-4 hover:bg-[#5DA05D] transition"
           >
             Post New Job
           </button>

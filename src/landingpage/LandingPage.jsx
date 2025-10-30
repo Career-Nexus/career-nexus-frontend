@@ -7,7 +7,7 @@ import Consultation from './Consultation'
 import ConsultingPackage from './ConsultingPackage'
 import GetStarted from './GetStarted'
 import Footer from './Footer'
-// import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function LandingPage() {

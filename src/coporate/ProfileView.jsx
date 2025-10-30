@@ -13,30 +13,59 @@ import { GoShare } from "react-icons/go";
 
 /* === PROFILE COVER & HEXAGON PHOTO === */
 const ProfileCoverUI = () => {
+  const [heroImage, setHeroImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+
+  const handleImageChange = (e, type) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (type === "hero") {
+        setHeroImage(reader.result);
+      } else if (type === "profile") {
+        setProfileImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+
   return (
     <div className="relative">
       {/* Cover Photo */}
       <div className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg">
         <img
-          src="/src/assets/images/banner-pics.png"
+          src={heroImage || "/src/assets/images/banner-pics.png"}
           alt="cover photo"
           className="w-full h-full object-cover object-center"
         />
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+        <label
+          htmlFor="hero-upload"
+          className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
+        >
           <Camera className="text-white w-10 h-10 mb-2" />
           <span className="text-white text-sm">Change cover photo</span>
-        </div>
+        </label>
+
+        <input
+          id="hero-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => handleImageChange(e, "hero")}
+        />
       </div>
 
       {/* Profile Picture */}
       <div className="relative w-32 h-32">
-        <div className="absolute mt-[-3.7rem] ml-3 w-32 h-36 flex items-center justify-center">
+        <div className="absolute mt-[-3.7rem] ml-3 w-32 h-32 flex items-center justify-center">
           <div className="w-full h-full clip-hexagon bg-white flex items-center justify-center p-[4px] shadow-lg">
             <div className="w-full h-full clip-hexagon overflow-hidden">
               <img
-                src="/images/profile2.png"
+                src={profileImage || "/images/profile2.png"}
                 alt="profile"
                 className="w-full h-full object-cover object-center"
               />
@@ -45,10 +74,21 @@ const ProfileCoverUI = () => {
         </div>
 
         {/* Hover overlay */}
-        <div className="absolute mt-[-3.7rem] ml-3 inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center">
+       <label
+          htmlFor="profile-upload"
+          className="absolute mt-[-3.5rem] ml-3 w-32 h-32 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center cursor-pointer"
+        >
           <Camera className="text-white w-6 h-6 mb-1" />
           <span className="text-white text-xs">Change photo</span>
-        </div>
+        </label>
+
+        <input
+          id="profile-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => handleImageChange(e, "profile")}
+        />
       </div>
     </div>
   );
@@ -99,14 +139,10 @@ export default function CareerNexusProfile() {
                   <h4 className="font-semibold text-gray-800 mb-1">Total Employees</h4>
                   <p className="text-[#5DA05D]">5–10 employees</p>
                 </div>
-                {/* <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Headquarters</h4>
-                  <p>London, England</p>
-                </div> */}
               </div>
 
               <div className="flex justify-end mt-4">
-                <button className="border border-green-600 text-green-600 text-sm px-3 py-1 rounded-md hover:bg-green-50 shadow-sm transition">
+                <button className="border border-[#5DA05D] text-[#5DA05D] text-sm px-3 py-1 rounded-md hover:bg-green-50 shadow-sm transition">
                   Edit
                 </button>
               </div>
@@ -157,7 +193,7 @@ export default function CareerNexusProfile() {
             <h3 className="text-xl font-bold text-gray-800">
               Members ({members.length})
             </h3>
-            <button className="flex items-center gap-2 border border-green-600 text-green-600 px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
+            <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
               <span className="text-lg leading-none">+</span> Add Member
             </button>
           </div>
@@ -522,7 +558,7 @@ export default function CareerNexusProfile() {
                   <h5 className="font-semibold text-gray-800 mb-1">{post.title}</h5>
                   <p className="text-gray-600 text-sm mb-2">
                     {post.content}
-                    <span className="text-green-600 hover:underline cursor-pointer ml-1">
+                    <span className="text-[#5DA05D] hover:underline cursor-pointer ml-1">
                       ...More
                     </span>
                   </p>
