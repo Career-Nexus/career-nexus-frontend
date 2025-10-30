@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Edit } from "../icons/icon";
 import { Camera } from "lucide-react";
@@ -9,12 +9,26 @@ import {
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa6";
 import { GoShare } from "react-icons/go";
+import CompanyModal from "./components/CompanyModal";
+import { UserContext } from "../context/UserContext";
 
 
 /* === PROFILE COVER & HEXAGON PHOTO === */
 const ProfileCoverUI = () => {
+
   const [heroImage, setHeroImage] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
+  const { user, error, } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user.cover_photo) {
+      setHeroImage(user.cover_photo);
+    }
+    if (user.profile_photo) {
+      setProfileImage(user.profile_photo);
+    }
+    console.log(user)
+  }, [user]);
 
   const handleImageChange = (e, type) => {
     const file = e.target.files[0];
@@ -98,6 +112,23 @@ const ProfileCoverUI = () => {
 export default function ProfileView() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [analyticsTab, setAnalyticsTab] = useState("Overview");
+  const { user, error, updateUser } = useContext(UserContext);
+  const [editModal, setEditModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleEditProfile = () => {
+    // Logic to open edit profile modal or navigate to edit page
+    setEditModal(true);
+  };
+
+  const handleUpdateCompany = (updatedData) => {
+    // Logic to update company data
+    setLoading(true);
+    console.log("Updated Company Data:", updatedData);
+    updateUser(updatedData);
+    setEditModal(false);
+    setLoading(false);
+  };
 
   const tabs = [
     "Overview",
@@ -119,25 +150,22 @@ export default function ProfileView() {
                   Company Description
                 </h4>
                 <p>
-                  Career Nexus is a leading technology company focused on developing
-                  innovative solutions that drive Africa’s digital transformation.
-                  We specialize in fintech, e-commerce, and mobile applications that
-                  empower millions of users across the continent.
+                  {user?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
                 </p>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Company</h4>
-                  <p>Lorem</p>
+                  <p>{user?.company_name || "Company Name"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Industry</h4>
-                  <p>Technology</p>
+                  <p>{user?.industry || "Technology"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Total Employees</h4>
-                  <p className="text-[#5DA05D]">5–10 employees</p>
+                  <p className="text-[#5DA05D]">{user?.company_size || "5–10 employees"}</p>
                 </div>
               </div>
 
@@ -610,6 +638,7 @@ export default function ProfileView() {
 
             {/* Edit Button */}
             <button
+              onClick={handleEditProfile}
               className="absolute top-[12.75rem] right-3 flex items-center gap-2 rounded-md border border-[#5DA05D] text-[#5DA05D] font-medium bg-white/80 backdrop-blur-sm hover:bg-green-50 shadow-md px-3 py-1.5 text-sm transition-all"
             >
               <Edit className="h-4 w-4" />
@@ -620,23 +649,23 @@ export default function ProfileView() {
           {/* Company Info */}
           <div className="flex mx-3 flex-col justify-self-start">
             <h2 className="text-4xl font-bold text-gray-800">
-              Career Nexus
+              {user.company_name || "Company Name"}
             </h2>
             <p className="text-gray-500 text-sm">
-              London, England ·{" "}
+              {user.location || "London, England"} ·{" "}
               <a
-                href="https://www.career-nexus.com"
+                href={`http://${user?.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                www.career-nexus.com
+                {user?.website }
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
-              Technology and information
+              {user?.industry || "Industry"}
             </p>
-            <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p>
+            {/* <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p> */}
           </div>
         </div>
       </div>
@@ -671,6 +700,16 @@ export default function ProfileView() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Edit Profile Modal */}
+      {editModal && (
+        <CompanyModal
+          isOpen={editModal}
+          onClose={() => setEditModal(false)}
+          onSubmit={handleUpdateCompany}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }

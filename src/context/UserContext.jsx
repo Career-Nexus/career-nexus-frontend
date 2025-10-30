@@ -56,6 +56,7 @@ export const UserProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await api.get("/user/retrieve-profile/");
+      console.log("User data fetched successfully:", response.data);
       setUser(response.data);
       setError(null);
     } catch (err) {
