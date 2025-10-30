@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { MapPin, Clock, Calendar, DollarSign, Briefcase } from "lucide-react";
+import briefcase from "../assets/icons/briefcase.svg";
+import { MapPin, Clock, Calendar, DollarSign } from "lucide-react";
 
 // === SAMPLE JOB DATA ===
 const jobs = [
@@ -78,16 +79,16 @@ const JobCard = ({ job, activeTab }) => {
           <p className="text-sm text-gray-400">Posted {job.posted}</p>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+        <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
           <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4 text-purple-600" />
+            <MapPin className="w-4 h-4" />
             {job.location}
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4 text-purple-600" />
+            <img src={briefcase} alt="Career Nexus Briefcase" />
             {job.type}
           </div>
-          <div className="text-gray-700 font-medium">{job.salary}</div>
+          <div className="text-gray-700">{job.salary}</div>
         </div>
       </div>
 
@@ -249,7 +250,7 @@ const ApplicantsList = () => (
               <p className="text-sm text-gray-500">Applied for {app.job}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-5">
             <span className="text-[#5DA05D] font-semibold">{app.match}% match</span>
             <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
               Review
@@ -275,10 +276,10 @@ export default function JobDashboard() {
     }`;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 w-[80%] mx-auto">
-      <div className="flex gap-8">
+    <div className="min-h-screen p-6 w-[80%] mx-auto">
+      <div className="flex md:flex-row flex-col gap-8">
         {/* === SIDEBAR === */}
-        <aside className="w-56">
+        <aside className="md:w-56 w-full">
           <button
             onClick={() => setActiveView("post")}
             className="w-full bg-[#5DA05D] text-white py-2 rounded-md mb-4 hover:bg-[#5DA05D] transition"
@@ -287,19 +288,19 @@ export default function JobDashboard() {
           </button>
 
           <div className="border rounded-md bg-white">
-            <ul>
+            <ul className="flex flex-row md:flex-col w-full justify-evenly">
               <li
                 onClick={() => setActiveView("applicants")}
-                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${
-                  activeView === "applicants" ? "bg-green-50" : ""
+                className={`px-4 py-2 text-gray-700 hover:bg-green-50 cursor-pointer w-full ${
+                  activeView === "applicants" ? "bg-[#D9FFDB]" : ""
                 }`}
               >
                 Job analytics
               </li>
               <li
                 onClick={() => setActiveView("manage")}
-                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${
-                  activeView === "manage" ? "bg-green-50" : ""
+                className={`px-4 py-2 text-gray-700 hover:bg-green-50 cursor-pointer w-full ${
+                  activeView === "manage" ? "bg-[#D9FFDB]" : ""
                 }`}
               >
                 Manage Jobs
@@ -313,7 +314,7 @@ export default function JobDashboard() {
           {activeView === "post" && <PostJobForm />}
           {activeView === "manage" && (
             <>
-              <div className="flex bg-gray-100 rounded-md mb-6">
+              <div className="flex bg-gray-100 rounded-md mb-6 p-1">
                 <button onClick={() => setActiveTab("active")} className={tabClasses("active")}>
                   ACTIVE JOBS
                 </button>
