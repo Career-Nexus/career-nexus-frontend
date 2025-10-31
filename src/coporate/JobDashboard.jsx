@@ -1,55 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin, Clock, Calendar, DollarSign, Briefcase } from "lucide-react";
 import { JobServices } from "../api/JobServices";
 import { toast } from "react-toastify";
 
 // === SAMPLE JOB DATA ===
-const jobs = [
-  {
-    id: 1,
-    title: "Senior UI/UX Designer",
-    location: "Lagos, Nigeria",
-    type: "Full-time",
-    salary: "$60k-80k",
-    views: 124,
-    applicants: 31,
-    posted: "1 week ago",
-    status: "active",
-  },
-  {
-    id: 2,
-    title: "Project Manager",
-    location: "Lagos, Nigeria",
-    type: "Full-time",
-    salary: "$60k-80k",
-    views: 124,
-    applicants: 31,
-    posted: "3 mins ago",
-    status: "active",
-  },
-  {
-    id: 3,
-    title: "Frontend Developer",
-    location: "Lagos, Nigeria",
-    type: "Full-time",
-    salary: "$60k-80k",
-    views: 124,
-    applicants: 31,
-    posted: "3 mins ago",
-    status: "draft",
-  },
-  {
-    id: 4,
-    title: "Marketing Manager",
-    location: "Lagos, Nigeria",
-    type: "Full-time",
-    salary: "$60k-80k",
-    views: 124,
-    applicants: 31,
-    posted: "3 mins ago",
-    status: "closed",
-  },
-];
+// const jobs = [
+//   {
+//     id: 1,
+//     title: "Senior UI/UX Designer",
+//     location: "Lagos, Nigeria",
+//     type: "Full-time",
+//     salary: "$60k-80k",
+//     views: 124,
+//     applicants: 31,
+//     posted: "1 week ago",
+//     status: "active",
+//   },
+//   {
+//     id: 2,
+//     title: "Project Manager",
+//     location: "Lagos, Nigeria",
+//     type: "Full-time",
+//     salary: "$60k-80k",
+//     views: 124,
+//     applicants: 31,
+//     posted: "3 mins ago",
+//     status: "active",
+//   },
+//   {
+//     id: 3,
+//     title: "Frontend Developer",
+//     location: "Lagos, Nigeria",
+//     type: "Full-time",
+//     salary: "$60k-80k",
+//     views: 124,
+//     applicants: 31,
+//     posted: "3 mins ago",
+//     status: "draft",
+//   },
+//   {
+//     id: 4,
+//     title: "Marketing Manager",
+//     location: "Lagos, Nigeria",
+//     type: "Full-time",
+//     salary: "$60k-80k",
+//     views: 124,
+//     applicants: 31,
+//     posted: "3 mins ago",
+//     status: "closed",
+//   },
+// ];
 
 // === SAMPLE APPLICANTS ===
 const applicants = [
@@ -60,6 +60,25 @@ const applicants = [
 
 // === JOB CARD ===
 const JobCard = ({ job, activeTab }) => {
+  const updateJobStatus = async (jobId, status) => {
+    try {
+      const response = await JobServices.UpdateJobStatus(jobId, status);
+      if (response.success) {
+        if (status === 'closed') {
+          toast.success("Job closed successfully!");
+        } else {
+          toast.success("Job reopened successfully!");
+        }
+        //refresh the page or update state to reflect changes
+        window.location.reload();
+      } else {
+        toast.error("Failed to close job.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while closing job.");
+    }
+  };
+
   // Determine button text and styles based on the tab
   let btnText = "Edit Job";
   let btnStyle =
@@ -77,22 +96,22 @@ const JobCard = ({ job, activeTab }) => {
       <div>
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-gray-800 text-lg">{job.title}</h3>
-          <p className="text-sm text-gray-400">Posted {job.posted}</p>
+          <p className="text-sm text-gray-400">Posted {job.time_stamp}</p>
         </div>
 
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4 text-purple-600" />
-            {job.location}
+            {job.country}
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4 text-purple-600" />
-            {job.type}
+            {job.employment_type}
           </div>
-          <div className="text-gray-700 font-medium">{job.salary}</div>
+          <div className="text-gray-700 font-medium ml-auto">₦{job.salary}</div>
         </div>
       </div>
-
+      <div>{job.overview}</div>
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-6 text-center text-sm">
           <div>
@@ -104,11 +123,18 @@ const JobCard = ({ job, activeTab }) => {
             <p className="text-gray-500 text-xs">Applicants</p>
           </div>
         </div>
-        <button
-          className={`${btnStyle} px-4 py-1 rounded-md transition text-sm`}
-        >
-          {btnText}
-        </button>
+
+        <div className="flex gap-3">
+          {activeTab !== 'closed' && <button onClick={() => updateJobStatus(job.id, 'closed')} className="px-4 py-1 rounded-md transition text-sm text-red-600 border border-red-600">
+            close
+          </button>}
+          <button
+            onClick={btnText === 'Reopen and Post' ? () => updateJobStatus(job.id, 'active') : null}
+            className={`${btnStyle} px-4 py-1 rounded-md transition text-sm`}
+          >
+            {btnText}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -127,6 +153,7 @@ const PostJobForm = () => {
     salary: "",
     work_type: "",
     employment_type: "",
+    status: "active || draft",
   });
 
   const createAJob = async () => {
@@ -136,6 +163,20 @@ const PostJobForm = () => {
         console.log("Job created successfully:", response.data);
         toast.success("Job created successfully!");
       }
+      // Reset form after submission
+      setFormData({
+        title: "",
+        organization: "",
+        experience_level: "",
+        description: "",
+        overview: "",
+        country: "",
+        city: "",
+        salary: "",
+        work_type: "",
+        employment_type: "",
+        status: "active || draft",
+      });
     } catch (error) {
       console.error("Error creating job:", error);
     }
@@ -284,12 +325,14 @@ const PostJobForm = () => {
 
           <div className="flex gap-3 justify-end pt-4">
             <button
-              type="button"
+              onClick={() => { setFormData({ ...formData, status: "draft" }); }}
+              type="submit"
               className="border border-[#5DA05D] text-[#5DA05D] px-4 py-1 rounded-md hover:bg-green-50"
             >
               Save Draft
             </button>
             <button
+              onClick={() => { setFormData({ ...formData, status: "active" }); }}
               type="submit"
               className="bg-[#5DA05D] text-white px-4 py-1 rounded-md hover:bg-[#5DA05D]"
             >
@@ -337,8 +380,23 @@ const ApplicantsList = () => (
 export default function JobDashboard() {
   const [activeView, setActiveView] = useState("manage"); // manage | post | applicants
   const [activeTab, setActiveTab] = useState("active");
+  const [jobs, setJobs] = useState([]);
 
-  const filteredJobs = jobs.filter((job) => job.status === activeTab);
+  const FetchJobs = async (status = "active") => {
+    try {
+      const response = await JobServices.GetJobs({ status });
+      const array = Array.isArray(response.data) ? response.data : [];
+      setJobs(array);
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  };
+  useEffect(() => {
+    FetchJobs();
+  }, []);
+
+  // const filteredJobs = jobs.filter((job) => job.status === activeTab);
+  const filteredJobs = jobs;
   const tabClasses = (tab) =>
     `flex-1 py-2 text-center rounded-md font-medium text-sm transition ${activeTab === tab
       ? "bg-white text-green-700 shadow-sm"
@@ -383,13 +441,22 @@ export default function JobDashboard() {
           {activeView === "manage" && (
             <>
               <div className="flex bg-gray-100 rounded-md mb-6">
-                <button onClick={() => setActiveTab("active")} className={tabClasses("active")}>
+                {/* <button onClick={() => setActiveTab("active")} className={tabClasses("active")}>
                   ACTIVE JOBS
                 </button>
                 <button onClick={() => setActiveTab("draft")} className={tabClasses("draft")}>
                   DRAFT JOBS
                 </button>
                 <button onClick={() => setActiveTab("closed")} className={tabClasses("closed")}>
+                  CLOSED
+                </button> */}
+                <button onClick={() => { setActiveTab("active"); FetchJobs("active"); }} className={tabClasses("active")}>
+                  ACTIVE JOBS
+                </button>
+                <button onClick={() => { setActiveTab("draft"); FetchJobs("draft"); }} className={tabClasses("draft")}>
+                  DRAFT JOBS
+                </button>
+                <button onClick={() => { setActiveTab("closed"); FetchJobs("closed"); }} className={tabClasses("closed")}>
                   CLOSED
                 </button>
               </div>

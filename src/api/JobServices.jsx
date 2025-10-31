@@ -17,12 +17,25 @@ export const JobServices = {
         try {
             const response = await api.get('/job/', { params });
             console.log(response.data);
-            return { success: true, data: response.data };
+            return { success: true, data: response.data.results };
         } catch (error) {
             console.log(error);
             return { success: false, error };
         }
     },
+    //update job status
+    async UpdateJobStatus(jobId, status) {
+        try {
+            const payload = { job: jobId, status }; 
+            const response = await api.put(`/job/status/update/`, payload);
+            console.log('Job status updated successfully', response.data);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.log("Couldn't update job status", error);
+            return { success: false, error };
+        }
+    },
+
     // get user recommended jobs
     async GetUsersJobs(params = {}) {
         try {
@@ -56,10 +69,10 @@ export const JobServices = {
             console.log(error)
         }
     },
-    async SaveJob(save){
-        console.log("Api Payload",save)
+    async SaveJob(save) {
+        console.log("Api Payload", save)
         try {
-            const response = await api.post('not set yet',save)
+            const response = await api.post('not set yet', save)
         } catch (error) {
             console.log("Couldn't save this job", error)
         }
