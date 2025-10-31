@@ -2,7 +2,28 @@ import api from './ApiServiceThree'
 
 export const JobServices = {
     // create job
+    async CreateJob(jobData) {
+        try {
+            const response = await api.post('/job/', jobData);
+            console.log('Job created successfully', response.data);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.log("Couldn't create job", error);
+            return { success: false, error };
+        }
+    },
     // get jobs
+    async GetJobs(params = {}) {
+        try {
+            const response = await api.get('/job/', { params });
+            console.log(response.data);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.log(error);
+            return { success: false, error };
+        }
+    },
+    // get user recommended jobs
     async GetUsersJobs(params = {}) {
         try {
             const response = await api.get('/job/recommend/', { params });

@@ -101,7 +101,54 @@ const MainNavbar = () => {
 
                     {/* Navigation Links for Medium Screens and Up */}
                     {
-                        user.user_type === "learner" ? (
+                        user.user_type === "mentor" ? (
+                            <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
+                                <Link
+                                    to='/home'
+                                    className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
+                                >
+                                    <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Home</h1>
+                                </Link>
+                                <Link
+                                    to='/mentorship'
+                                    className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
+                                >
+                                    <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Mentorship</h1>
+                                </Link>
+                                <Link
+                                    to='/network'
+                                    className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
+                                >
+                                    <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Network</h1>
+                                </Link>
+                                {/* <Link
+                                    to='/jobs'
+                                    className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
+                                >
+                                    <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Jobs</h1>
+                                </Link>
+                                {/* <Link
+                                    to='/mail'
+                                    className={`${navItemClass} ${isActive('/mail') ? activeClass : ''}`}
+                                >
+                                    <Email className={`${isActive('/mail') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Mail</h1>
+                                </Link>
+
+                                <Link
+                                    to='/business'
+                                    className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
+                                >
+                                    <Business className={`${isActive('/business') ? activebg : ''} mx-auto`} />
+                                    <h1 className='text-xs'>Business</h1>
+                                </Link> */}
+                            </div>
+                        ):user.user_type==="learner" ?
+                        (
                             <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
                                 <Link
                                     to='/home'
@@ -130,22 +177,7 @@ const MainNavbar = () => {
                                 >
                                     <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
                                     <h1 className='text-xs'>Jobs</h1>
-                                </Link>
-                                {/* <Link
-                                    to='/mail'
-                                    className={`${navItemClass} ${isActive('/mail') ? activeClass : ''}`}
-                                >
-                                    <Email className={`${isActive('/mail') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Mail</h1>
-                                </Link>
-
-                                <Link
-                                    to='/business'
-                                    className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
-                                >
-                                    <Business className={`${isActive('/business') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Business</h1>
-                                </Link> */}
+                                </Link>  
                             </div>
                         ) : (
                             <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
@@ -170,28 +202,13 @@ const MainNavbar = () => {
                                     <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
                                     <h1 className='text-xs'>Network</h1>
                                 </Link>
-                                {/* <Link
-                                    to='/jobs'
+                                <Link
+                                    to='/coporate-job'
                                     className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
                                 >
                                     <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
                                     <h1 className='text-xs'>Jobs</h1>
-                                </Link>
-                                <Link
-                                    to='/mail'
-                                    className={`${navItemClass} ${isActive('/mail') ? activeClass : ''}`}
-                                >
-                                    <Email className={`${isActive('/mail') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Mail</h1>
-                                </Link>
-
-                                <Link
-                                    to='/business'
-                                    className={`${navItemClass} ${isActive('/business') ? activeClass : ''}`}
-                                >
-                                    <Business className={`${isActive('/business') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Business</h1>
-                                </Link> */}
+                                </Link>  
                             </div>
                         )
                     }
