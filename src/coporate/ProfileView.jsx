@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Edit } from "../icons/icon";
 import { Camera } from "lucide-react";
@@ -9,48 +9,100 @@ import {
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa6";
 import { GoShare } from "react-icons/go";
+import CompanyModal from "./components/CompanyModal";
+import { UserContext } from "../context/UserContext";
 
 
 /* === PROFILE COVER & HEXAGON PHOTO === */
 const ProfileCoverUI = () => {
+
+  const [heroImage, setHeroImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const { user, error, } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user.cover_photo) {
+      setHeroImage(user.cover_photo);
+    }
+    if (user.profile_photo) {
+      setProfileImage(user.profile_photo);
+    }
+    console.log(user)
+  }, [user]);
+
+  const handleImageChange = (e, type) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (type === "hero") {
+        setHeroImage(reader.result);
+      } else if (type === "profile") {
+        setProfileImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+
   return (
-    <div>
-      <div className="relative">
-        {/* Cover Photo */}
-        <div className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg">
-          <img
-            src="/src/assets/images/banner-pics.png"
-            alt="cover photo"
-            className="w-full h-full object-cover object-center"
-          />
+    <div className="relative">
+      {/* Cover Photo */}
+      <div className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg">
+        <img
+          src={heroImage || "/src/assets/images/banner-pics.png"}
+          alt="cover photo"
+          className="w-full h-full object-cover object-center"
+        />
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
-            <Camera className="text-white w-10 h-10 mb-2" />
-            <span className="text-white text-sm">Change cover photo</span>
-          </div>
-        </div>
+        <label
+          htmlFor="hero-upload"
+          className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
+        >
+          <Camera className="text-white w-10 h-10 mb-2" />
+          <span className="text-white text-sm">Change cover photo</span>
+        </label>
 
-        {/* Profile Picture */}
-        <div className="relative w-32 h-32">
-          <div className="absolute mt-[-3.7rem] ml-3 w-32 h-36 flex items-center justify-center">
-            <div className="w-full h-full clip-hexagon bg-white flex items-center justify-center p-[4px] shadow-lg">
-              <div className="w-full h-full clip-hexagon overflow-hidden">
-                <img
-                  src="/images/profile2.png"
-                  alt="profile"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
+        <input
+          id="hero-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => handleImageChange(e, "hero")}
+        />
+      </div>
+
+      {/* Profile Picture */}
+      <div className="relative w-32 h-32">
+        <div className="absolute mt-[-3.7rem] ml-3 w-32 h-32 flex items-center justify-center">
+          <div className="w-full h-full clip-hexagon bg-white flex items-center justify-center p-[4px] shadow-lg">
+            <div className="w-full h-full clip-hexagon overflow-hidden">
+              <img
+                src={profileImage || "/images/profile2.png"}
+                alt="profile"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
           </div>
-
-          {/* Hover overlay */}
-          <div className="absolute mt-[-3.7rem] ml-3 inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center">
-            <Camera className="text-white w-6 h-6 mb-1" />
-            <span className="text-white text-xs">Change photo</span>
-          </div>
         </div>
+
+        {/* Hover overlay */}
+       <label
+          htmlFor="profile-upload"
+          className="absolute mt-[-3.5rem] ml-3 w-32 h-32 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center cursor-pointer"
+        >
+          <Camera className="text-white w-6 h-6 mb-1" />
+          <span className="text-white text-xs">Change photo</span>
+        </label>
+
+        <input
+          id="profile-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => handleImageChange(e, "profile")}
+        />
       </div>
     </div>
   );
@@ -60,6 +112,23 @@ const ProfileCoverUI = () => {
 export default function ProfileView() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [analyticsTab, setAnalyticsTab] = useState("Overview");
+  const { user, error, updateUser } = useContext(UserContext);
+  const [editModal, setEditModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleEditProfile = () => {
+    // Logic to open edit profile modal or navigate to edit page
+    setEditModal(true);
+  };
+
+  const handleUpdateCompany = (updatedData) => {
+    // Logic to update company data
+    setLoading(true);
+    console.log("Updated Company Data:", updatedData);
+    updateUser(updatedData);
+    setEditModal(false);
+    setLoading(false);
+  };
 
   const tabs = [
     "Overview",
@@ -81,34 +150,27 @@ export default function ProfileView() {
                   Company Description
                 </h4>
                 <p>
-                  Career Nexus is a leading technology company focused on developing
-                  innovative solutions that drive Africa’s digital transformation.
-                  We specialize in fintech, e-commerce, and mobile applications that
-                  empower millions of users across the continent.
+                  {user?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
                 </p>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Company</h4>
-                  <p>Lorem</p>
+                  <p>{user?.company_name || "Company Name"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Industry</h4>
-                  <p>Technology</p>
+                  <p>{user?.industry || "Technology"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Total Employees</h4>
-                  <p className="text-[#5DA05D]">5–10 employees</p>
+                  <p className="text-[#5DA05D]">{user?.company_size || "5–10 employees"}</p>
                 </div>
-                {/* <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Headquarters</h4>
-                  <p>London, England</p>
-                </div> */}
               </div>
 
               <div className="flex justify-end mt-4">
-                <button className="border border-green-600 text-green-600 text-sm px-3 py-1 rounded-md hover:bg-green-50 shadow-sm transition">
+                <button className="border border-[#5DA05D] text-[#5DA05D] text-sm px-3 py-1 rounded-md hover:bg-green-50 shadow-sm transition">
                   Edit
                 </button>
               </div>
@@ -153,16 +215,16 @@ export default function ProfileView() {
           },
         ];
 
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-800">
-                Members ({members.length})
-              </h3>
-              <button className="flex items-center gap-2 border border-green-600 text-green-600 px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
-                <span className="text-lg leading-none">+</span> Add Member
-              </button>
-            </div>
+      return (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-gray-800">
+              Members ({members.length})
+            </h3>
+            <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
+              <span className="text-lg leading-none">+</span> Add Member
+            </button>
+          </div>
 
             <div className="bg-white rounded-lg flex flex-col gap-5">
               {members.map((member) => (
@@ -523,7 +585,7 @@ export default function ProfileView() {
                   <h5 className="font-semibold text-gray-800 mb-1">{post.title}</h5>
                   <p className="text-gray-600 text-sm mb-2">
                     {post.content}
-                    <span className="text-green-600 hover:underline cursor-pointer ml-1">
+                    <span className="text-[#5DA05D] hover:underline cursor-pointer ml-1">
                       ...More
                     </span>
                   </p>
@@ -576,6 +638,7 @@ export default function ProfileView() {
 
             {/* Edit Button */}
             <button
+              onClick={handleEditProfile}
               className="absolute top-[12.75rem] right-3 flex items-center gap-2 rounded-md border border-[#5DA05D] text-[#5DA05D] font-medium bg-white/80 backdrop-blur-sm hover:bg-green-50 shadow-md px-3 py-1.5 text-sm transition-all"
             >
               <Edit className="h-4 w-4" />
@@ -586,23 +649,23 @@ export default function ProfileView() {
           {/* Company Info */}
           <div className="flex mx-3 flex-col justify-self-start">
             <h2 className="text-4xl font-bold text-gray-800">
-              Career Nexus
+              {user.company_name || "Company Name"}
             </h2>
             <p className="text-gray-500 text-sm">
-              London, England ·{" "}
+              {user.location || "London, England"} ·{" "}
               <a
-                href="https://www.career-nexus.com"
+                href={`http://${user?.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                www.career-nexus.com
+                {user?.website }
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
-              Technology and information
+              {user?.industry || "Industry"}
             </p>
-            <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p>
+            {/* <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p> */}
           </div>
         </div>
       </div>
@@ -637,6 +700,16 @@ export default function ProfileView() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Edit Profile Modal */}
+      {editModal && (
+        <CompanyModal
+          isOpen={editModal}
+          onClose={() => setEditModal(false)}
+          onSubmit={handleUpdateCompany}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }

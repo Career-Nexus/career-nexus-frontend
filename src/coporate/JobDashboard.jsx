@@ -99,7 +99,7 @@ const JobCard = ({ job, activeTab }) => {
           <p className="text-sm text-gray-400">Posted {job.time_stamp}</p>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+        <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4 text-purple-600" />
             {job.country}
@@ -404,10 +404,10 @@ export default function JobDashboard() {
     }`;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="flex gap-8">
+    <div className="min-h-screen p-6 w-[80%] mx-auto">
+      <div className="flex md:flex-row flex-col gap-8">
         {/* === SIDEBAR === */}
-        <aside className="w-56">
+        <aside className="md:w-56 w-full">
           <button
             onClick={() => setActiveView("post")}
             className="w-full bg-[#5DA05D] text-white py-2 rounded-md mb-4 hover:bg-[#5DA05D] transition"
@@ -416,7 +416,7 @@ export default function JobDashboard() {
           </button>
 
           <div className="border rounded-md bg-white">
-            <ul>
+            <ul className="flex flex-row md:flex-col w-full justify-evenly">
               <li
                 onClick={() => setActiveView("applicants")}
                 className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${activeView === "applicants" ? "bg-green-50" : ""
