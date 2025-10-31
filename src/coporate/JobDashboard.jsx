@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { MapPin, Clock, Calendar, DollarSign, Briefcase } from "lucide-react";
+import { JobServices } from "../api/JobServices";
+import { toast } from "react-toastify";
 
 // === SAMPLE JOB DATA ===
 const jobs = [
@@ -61,13 +63,13 @@ const JobCard = ({ job, activeTab }) => {
   // Determine button text and styles based on the tab
   let btnText = "Edit Job";
   let btnStyle =
-    "border border-green-600 text-green-600 hover:bg-green-600 hover:text-white";
+    "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
 
   if (activeTab === "draft") {
     btnText = "Review and Post";
   } else if (activeTab === "closed") {
     btnText = "Reopen and Post";
-    
+
   }
 
   return (
@@ -94,11 +96,11 @@ const JobCard = ({ job, activeTab }) => {
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-6 text-center text-sm">
           <div>
-            <p className="text-green-600 font-semibold">{job.views}</p>
+            <p className="text-[#5DA05D] font-semibold">{job.views}</p>
             <p className="text-gray-500 text-xs">Views</p>
           </div>
           <div>
-            <p className="text-green-600 font-semibold">{job.applicants}</p>
+            <p className="text-[#5DA05D] font-semibold">{job.applicants}</p>
             <p className="text-gray-500 text-xs">Applicants</p>
           </div>
         </div>
@@ -114,121 +116,191 @@ const JobCard = ({ job, activeTab }) => {
 
 
 // === JOB FORM ===
-const PostJobForm = () => (
-  <div className="bg-white p-8 rounded-lg shadow">
-    <h2 className="text-lg font-semibold mb-2">Post A New Job</h2>
-    <p className="text-gray-500 mb-6">
-      Fill out the details below to attract the best candidates for your position.
-    </p>
+const PostJobForm = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    organization: "",
+    experience_level: "",
+    description: "",
+    overview: "",
+    country: "",
+    salary: "",
+    work_type: "",
+    employment_type: "",
+  });
 
-    <form className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium mb-1">Job Title*</label>
-        <input
-          type="text"
-          placeholder="e.g. Senior UI/UX Designer"
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-        />
-      </div>
+  const createAJob = async () => {
+    try {
+      const response = await JobServices.CreateJob(formData);
+      if (response.data) {
+        console.log("Job created successfully:", response.data);
+        toast.success("Job created successfully!");
+      }
+    } catch (error) {
+      console.error("Error creating job:", error);
+    }
+  };
+  return (
+    <div>
+      <div className="bg-white p-8 rounded-lg shadow">
+        <h2 className="text-lg font-semibold mb-2">Post A New Job</h2>
+        <p className="text-gray-500 mb-6">
+          Fill out the details below to attract the best candidates for your position.
+        </p>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">Experience Level*</label>
-        <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
-          <option>Select Level</option>
-          <option>Junior</option>
-          <option>Mid-level</option>
-          <option>Senior</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">Job Description*</label>
-        <textarea
-          rows="4"
-          placeholder="Provide a detailed description..."
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">Requirements</label>
-        <textarea
-          rows="3"
-          placeholder="List key qualifications and skills..."
-          className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-        />
-      </div>
-
-      {/* Location + Work Type + Employment Type */}
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Location*</label>
-          <input
-            type="text"
-            placeholder="e.g. New York, NY"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Work Type</label>
-          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
-            <option>Remote</option>
-            <option>On-site</option>
-            <option>Hybrid</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Employment Type</label>
-          <select className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500">
-            <option>Full-time</option>
-            <option>Part-time</option>
-            <option>Contract</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Salary Range */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Minimum Salary</label>
-          <input
-            type="number"
-            placeholder="8000"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Maximum Salary</label>
-          <input
-            type="number"
-            placeholder="120000"
-            className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">Application Deadline</label>
-        <input type="date" className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-green-500" />
-      </div>
-
-      <div className="flex gap-3 justify-end pt-4">
-        <button
-          type="button"
-          className="border border-green-600 text-green-600 px-4 py-1 rounded-md hover:bg-green-50"
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            createAJob();
+          }}
         >
-          Save Draft
-        </button>
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-1 rounded-md hover:bg-green-700"
-        >
-          Post Job
-        </button>
+          <div>
+            <label className="block text-sm font-medium mb-1">Job Title*</label>
+            <input
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              type="text"
+              placeholder="e.g. Senior UI/UX Designer"
+              className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Organization*</label>
+            <input
+              value={formData.organization}
+              onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+              type="text"
+              placeholder="e.g. Acme Corp"
+              className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Experience Level*</label>
+            <select
+              value={formData.experience_level}
+              onChange={(e) => setFormData({ ...formData, experience_level: e.target.value })}
+              className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+            >
+              <option>Select Level</option>
+              <option value="entry">Entry</option>
+              <option value="mid">Mid-level</option>
+              <option value="senior">Senior</option>
+              <option value="executive">Executive</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Job Description*</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows="4"
+              placeholder="Provide a detailed description..."
+              className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Requirements</label>
+            <textarea
+              value={formData.overview}
+              onChange={(e) => setFormData({ ...formData, overview: e.target.value })}
+              rows="3"
+              placeholder="List key qualifications and skills..."
+              className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+            />
+          </div>
+
+          {/* Location + Work Type + Employment Type */}
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Location*</label>
+              <input
+                value={formData.country}
+                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                type="text"
+                placeholder="e.g. New York, NY"
+                className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Work Type</label>
+              <select
+                value={formData.work_type}
+                onChange={(e) => setFormData({ ...formData, work_type: e.target.value })}
+                className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+              >
+                <option>Select Work Type</option>
+                <option value="remote">Remote</option>
+                <option value="onsite">On-site</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Employment Type</label>
+              <select
+                value={formData.employment_type}
+                onChange={(e) => setFormData({ ...formData, employment_type: e.target.value })}
+                className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+              >
+                <option>Select Employment Type</option>
+                <option value="full_time">Full-time</option>
+                <option value="part_time">Part-time</option>
+                <option value="internship">Internship</option>
+                <option value="freelance">Freelance</option>
+                <option value="contract">Contract</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Salary Range */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Minimum Salary</label>
+              <input
+                type="number"
+                placeholder="8000"
+                className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Maximum Salary</label>
+              <input
+                value={formData.salary}
+                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                type="number"
+                placeholder="120000"
+                className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Application Deadline</label>
+            <input type="date" className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]" />
+          </div>
+
+          <div className="flex gap-3 justify-end pt-4">
+            <button
+              type="button"
+              className="border border-[#5DA05D] text-[#5DA05D] px-4 py-1 rounded-md hover:bg-green-50"
+            >
+              Save Draft
+            </button>
+            <button
+              type="submit"
+              className="bg-[#5DA05D] text-white px-4 py-1 rounded-md hover:bg-[#5DA05D]"
+            >
+              Post Job
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
-);
+    </div>
+  )
+};
 
 // === APPLICANTS LIST ===
 const ApplicantsList = () => (
@@ -250,8 +322,8 @@ const ApplicantsList = () => (
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-green-600 font-semibold">{app.match}% match</span>
-            <button className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-sm">
+            <span className="text-[#5DA05D] font-semibold">{app.match}% match</span>
+            <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
               Review
             </button>
           </div>
@@ -268,10 +340,9 @@ export default function JobDashboard() {
 
   const filteredJobs = jobs.filter((job) => job.status === activeTab);
   const tabClasses = (tab) =>
-    `flex-1 py-2 text-center rounded-md font-medium text-sm transition ${
-      activeTab === tab
-        ? "bg-white text-green-700 shadow-sm"
-        : "text-gray-500 hover:text-green-600"
+    `flex-1 py-2 text-center rounded-md font-medium text-sm transition ${activeTab === tab
+      ? "bg-white text-green-700 shadow-sm"
+      : "text-gray-500 hover:text-green-600"
     }`;
 
   return (
@@ -281,7 +352,7 @@ export default function JobDashboard() {
         <aside className="w-56">
           <button
             onClick={() => setActiveView("post")}
-            className="w-full bg-green-600 text-white py-2 rounded-md mb-4 hover:bg-green-700 transition"
+            className="w-full bg-[#5DA05D] text-white py-2 rounded-md mb-4 hover:bg-[#5DA05D] transition"
           >
             Post New Job
           </button>
@@ -290,17 +361,15 @@ export default function JobDashboard() {
             <ul>
               <li
                 onClick={() => setActiveView("applicants")}
-                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${
-                  activeView === "applicants" ? "bg-green-50" : ""
-                }`}
+                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${activeView === "applicants" ? "bg-green-50" : ""
+                  }`}
               >
                 Job analytics
               </li>
               <li
                 onClick={() => setActiveView("manage")}
-                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${
-                  activeView === "manage" ? "bg-green-50" : ""
-                }`}
+                className={`px-4 py-2 text-gray-700 hover:bg-gray-50 cursor-pointer ${activeView === "manage" ? "bg-green-50" : ""
+                  }`}
               >
                 Manage Jobs
               </li>

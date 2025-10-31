@@ -154,9 +154,9 @@ const Router = () => {
         <Route
           path="/coporate-job"
           element={
-            // <RedirectIfAuthenticated>
-            <JobDashboard />
-            // </RedirectIfAuthenticated>
+            <ProtectedRoute>
+              <JobDashboard />
+            </ProtectedRoute>
           }
         />
         <Route

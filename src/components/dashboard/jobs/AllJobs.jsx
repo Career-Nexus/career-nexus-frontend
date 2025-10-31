@@ -1,20 +1,20 @@
-// 'use client'
-// import React, { useEffect, useState } from "react"
-// // import emojiBriefcase from "../../assets/icons/emoji-briefcase.svg"
-// import emojiBriefcase from "../../../assets/icons/emoji-briefcase.svg"
-// import Locate from "../../../assets/icons/map-pin.svg"
-// import Jobs from "../../../assets/icons/briefcase.svg";
-// import Building from "../../../assets/icons/building.svg";
-// import logo from "../../../assets/images/job-uiux.svg";
-// import logo1 from "../../../assets/images/job-projectmgr.svg";
-// import logo2 from "../../../assets/images/job-frontend.svg";
-// import logo3 from "../../../assets/images/job-marketing.svg";
-// import logo4 from "../../../assets/images/job-data-science.svg";
-// import logo5 from "../../../assets/images/job-senior-uiux.svg";
-// import { Link, useNavigate } from "react-router-dom";
-// import { JobServices } from "../../../api/JobServices";
-// import FloatingMessageIcon from "../chat/FloatingMessage";
-// import { Box, Spinner } from "@chakra-ui/react";
+'use client'
+import React, { useEffect, useState } from "react"
+// import emojiBriefcase from "../../assets/icons/emoji-briefcase.svg"
+import emojiBriefcase from "../../../assets/icons/emoji-briefcase.svg"
+import Locate from "../../../assets/icons/map-pin.svg"
+import Jobs from "../../../assets/icons/briefcase.svg";
+import Building from "../../../assets/icons/building.svg";
+import logo from "../../../assets/images/job-uiux.svg";
+import logo1 from "../../../assets/images/job-projectmgr.svg";
+import logo2 from "../../../assets/images/job-frontend.svg";
+import logo3 from "../../../assets/images/job-marketing.svg";
+import logo4 from "../../../assets/images/job-data-science.svg";
+import logo5 from "../../../assets/images/job-senior-uiux.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { JobServices } from "../../../api/JobServices";
+import FloatingMessageIcon from "../chat/FloatingMessage";
+import { Box, Spinner } from "@chakra-ui/react";
 
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
@@ -39,116 +39,116 @@ export const JobCard = ({ hideCard }) => {
     );
 };
 
-// const AllJobs = () => {
-//     const [alljob, setAlljob] = useState([]);
-//     const [prefered, setPrefered] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const navigate = useNavigate();
+const AllJobs = () => {
+    const [alljob, setAlljob] = useState([]);
+    const [prefered, setPrefered] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-//     const fetchData = async () => {
-//         try {
-//             // Fetch user jobs
-//             const {data} = await JobServices.GetUsersJobs();
-//             const isArray = Array.isArray(data?.results) ? data.results : [];
-//             console.log("User jobs:", isArray);
-//             setAlljob(isArray);
+    const fetchData = async () => {
+        try {
+            // Fetch user jobs
+            const {data} = await JobServices.GetUsersJobs();
+            const isArray = Array.isArray(data?.results) ? data.results : [];
+            console.log("User jobs:", isArray);
+            setAlljob(isArray);
 
-//             // Fetch preferred job to check preference_set
-//             const preferedResult = await JobServices.GetPreferedJob();
-//             console.log("Preferred job:", preferedResult);
-//             setPrefered(preferedResult);
+            // Fetch preferred job to check preference_set
+            const preferedResult = await JobServices.GetPreferedJob();
+            console.log("Preferred job:", preferedResult);
+            setPrefered(preferedResult);
 
-//             navigate('/jobs');
-//         } catch (error) {
-//             console.log("Error fetching data", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
+            navigate('/jobs');
+        } catch (error) {
+            console.log("Error fetching data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-//     useEffect(() => {
-//         fetchData();
-//     }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-//     if (loading) {
-//         return (
-//             <Box display="flex" justifyContent="center" alignItems="center" height="200px">
-//                 <Spinner size="lg" color="#5DA05D" thickness="4px" />
-//             </Box>
-//         );
-//     }
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+                <Spinner size="lg" color="#5DA05D" thickness="4px" />
+            </Box>
+        );
+    }
 
-//     return (
-//         <div>
-//             <JobCard hideCard={prefered?.preference_set} />
-//             {alljob.length === 0 ? (
-//                 <div className="container mx-auto p-4">
-//                     <p className="text-gray-500">No job listings available</p>
-//                 </div>
-//             ) : (
-//                 <div className="container mx-auto p-4">
-//                     <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-//                         {alljob.map((job, index) => (
-//                             <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">
-//                                 <div className="flex items-center justify-between">
-//                                     <div className="flex gap-3">
-//                                         <p><img src={logo3} className="w-10 h-10" /></p>
-//                                         <div className="ml-2">
-//                                             <h3 className="text-lg font-semibold">{job.title}</h3>
-//                                             <p className="text-[#5DA05D] text-sm">{job.organization}</p>
-//                                         </div>
-//                                     </div>
-//                                     <span className="text-xs">{job.time}</span>
-//                                 </div>
-//                                 <div className="flex text-gray-500 text-xs mb-2 my-8 items-center justify-between">
-//                                     <span className="mr-2 flex gap-2">
-//                                         <img src={Locate} alt="location" className="text-gray-500 w-4 h-4" />
-//                                         <span>{job.country}</span>
-//                                     </span>
-//                                     <span className="mr-2 flex gap-2">
-//                                         <img src={Building} alt="building" className="text-gray-500 w-4 h-4" />
-//                                         <span>{job.work_type}</span>
-//                                     </span>
-//                                     <span className="mr-2 flex gap-2">
-//                                         <img src={Jobs} alt="building" className="text-gray-500 w-4 h-4" />
-//                                         <span>{job.employment_type}</span>
-//                                     </span>
-//                                     <div className="text-gray-700 text-xs">💰 {job.salary}</div>
-//                                 </div>
-//                                 <div className="flex space-x-2 justify-between mt-8">
-//                                     <span></span>
-//                                     <div className="flex gap-2">
-//                                         <button className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#2b5b2b]">Apply now</button>
-//                                         <button className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-//             )}
-//             {/* <div>
-//                 <FloatingMessageIcon />
-//             </div> */}
-//         </div>
-//     );
-// };
-
-// export default AllJobs;
-
-
-import React from 'react'
-
-function AllJobs() {
     return (
-        <div className='text-center flex flex-col items-center'>
-            <img src='/images/coming-soon.png' alt='Coming Soon' className='max-h-[350px]' />
-            <div className='mt-8'>
-                <h2 className='text-lg font-semibold'>This Feature is on the Way</h2>
-                <p>We’re working hard to bring this to you soon. Stay tuned!</p>
-            </div>
+        <div>
+            <JobCard hideCard={prefered?.preference_set} />
+            {alljob.length === 0 ? (
+                <div className="container mx-auto p-4">
+                    <p className="text-gray-500">No job listings available</p>
+                </div>
+            ) : (
+                <div className="container mx-auto p-4">
+                    <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                        {alljob.map((job, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex gap-3">
+                                        <p><img src={logo3} className="w-10 h-10" /></p>
+                                        <div className="ml-2">
+                                            <h3 className="text-lg font-semibold">{job.title}</h3>
+                                            <p className="text-[#5DA05D] text-sm">{job.organization}</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-xs">{job.time}</span>
+                                </div>
+                                <div className="flex text-gray-500 text-xs mb-2 my-8 items-center justify-between">
+                                    <span className="mr-2 flex gap-2">
+                                        <img src={Locate} alt="location" className="text-gray-500 w-4 h-4" />
+                                        <span>{job.country}</span>
+                                    </span>
+                                    <span className="mr-2 flex gap-2">
+                                        <img src={Building} alt="building" className="text-gray-500 w-4 h-4" />
+                                        <span>{job.work_type}</span>
+                                    </span>
+                                    <span className="mr-2 flex gap-2">
+                                        <img src={Jobs} alt="building" className="text-gray-500 w-4 h-4" />
+                                        <span>{job.employment_type}</span>
+                                    </span>
+                                    <div className="text-gray-700 text-xs">💰 {job.salary}</div>
+                                </div>
+                                <div className="flex space-x-2 justify-between mt-8">
+                                    <span></span>
+                                    <div className="flex gap-2">
+                                        <button className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#2b5b2b]">Apply now</button>
+                                        <button className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {/* <div>
+                <FloatingMessageIcon />
+            </div> */}
         </div>
-    )
-}
+    );
+};
 
-export default AllJobs
+export default AllJobs;
+
+
+// import React from 'react'
+
+// function AllJobs() {
+//     return (
+//         <div className='text-center flex flex-col items-center'>
+//             <img src='/images/coming-soon.png' alt='Coming Soon' className='max-h-[350px]' />
+//             <div className='mt-8'>
+//                 <h2 className='text-lg font-semibold'>This Feature is on the Way</h2>
+//                 <p>We’re working hard to bring this to you soon. Stay tuned!</p>
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default AllJobs
