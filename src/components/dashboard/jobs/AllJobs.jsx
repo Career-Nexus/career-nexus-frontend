@@ -5,16 +5,12 @@ import emojiBriefcase from "../../../assets/icons/emoji-briefcase.svg"
 import Locate from "../../../assets/icons/map-pin.svg"
 import Jobs from "../../../assets/icons/briefcase.svg";
 import Building from "../../../assets/icons/building.svg";
-import logo from "../../../assets/images/job-uiux.svg";
-import logo1 from "../../../assets/images/job-projectmgr.svg";
-import logo2 from "../../../assets/images/job-frontend.svg";
 import logo3 from "../../../assets/images/job-marketing.svg";
-import logo4 from "../../../assets/images/job-data-science.svg";
-import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { JobServices } from "../../../api/JobServices";
 import FloatingMessageIcon from "../chat/FloatingMessage";
 import { Box, Spinner } from "@chakra-ui/react";
+import JobDetailsModal from "./JobDetailsModal";
 
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
@@ -43,6 +39,8 @@ const AllJobs = () => {
     const [alljob, setAlljob] = useState([]);
     const [prefered, setPrefered] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
     const navigate = useNavigate();
 
     const fetchData = async () => {
@@ -77,7 +75,7 @@ const AllJobs = () => {
             </Box>
         );
     }
-
+console.log("All jobs:", alljob);
     return (
         <div>
             <JobCard hideCard={prefered?.preference_set} />
@@ -118,18 +116,23 @@ const AllJobs = () => {
                                 <div className="flex space-x-2 justify-between mt-8">
                                     <span></span>
                                     <div className="flex gap-2">
-                                        <button className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#2b5b2b]">Apply now</button>
+                                        <button onClick={() => { setIsModalOpen(true); setSelectedJob(job); }} className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#2b5b2b]">Apply now</button>
                                         <button className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    <JobDetailsModal 
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        job={selectedJob}
+                    />
                 </div>
             )}
-            {/* <div>
+            <div>
                 <FloatingMessageIcon />
-            </div> */}
+            </div>
         </div>
     );
 };
