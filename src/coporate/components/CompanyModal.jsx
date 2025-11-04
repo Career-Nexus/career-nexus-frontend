@@ -66,7 +66,7 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
             CorporateServices.getChoiceFieldData("company_type"),
             CorporateServices.getChoiceFieldData("company_size"),
             ]);
-            console.log(industryRes, typeRes, sizeRes);
+            // console.log(industryRes, typeRes, sizeRes);
             setIndustryOptions(industryRes["Valid options"] || industryRes.valid_options || []);
             setCompanyTypeOptions(typeRes["Valid options"] || typeRes.valid_options || []);
             setCompanySizeOptions(sizeRes["Valid options"] || sizeRes.valid_options || []);
@@ -80,19 +80,18 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
     }, []);
 
     useEffect(() => {
-        if (!isOpen) {
-            setFormData({
-            company_name: "",
-            company_email: "",
-            company_type: "",
-            company_size: "",
-            industry: "",
-            website: "",
-            location: "",
-            tagline: "",
-            logo: null,
-            });
-        }
+      if (!isOpen) {
+        setFormData({
+        company_name: "",
+        company_email: "",
+        company_type: "",
+        company_size: "",
+        industry: "",
+        website: "",
+        location: "",
+        tagline: "",
+        });
+      }
     }, [isOpen]);
 
 
@@ -106,7 +105,17 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData); // Pass data to parent for API call
+
+    const payload = { ...formData };
+    console.log(payload.logo)
+
+    // If logo is a string (URL), remove it — since updateUser
+    // expects a File object to trigger multipart/form-data
+    if (typeof payload.logo === "string") {
+      delete payload.logo;
+    }
+
+    onSubmit(payload); // Pass cleaned payload to parent
   };
 
   if (!isOpen) return null; // Hide modal if not open
@@ -216,45 +225,21 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
                 className={inputStyle}
                 />
             </div>
-
-            {/* Logo Upload */}
-            <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company Logo</label>
-                <div className="flex items-center justify-between border border-gray-300 rounded-lg bg-gray-50 px-3 py-2">
-                    <span className="text-gray-400 text-sm truncate">
-                    {formData.logo ? formData.logo.name : "Select file"}
-                    </span>
-                    <label
-                    htmlFor="logo-upload"
-                    className="border border-green-600 text-green-600 px-3 py-1.5 rounded-lg text-sm font-medium cursor-pointer hover:bg-green-50 transition"
-                    >
-                    Choose File
-                    </label>
-                    <input
-                    id="logo-upload"
-                    type="file"
-                    name="logo"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className="hidden"
-                    />
-                </div>
-            </div>
             {/* Buttons */}
             <div className="flex justify-between gap-3 mt-6">
-                    <button
-                    type="button"
-                    onClick={onClose}
-                    className="px-4 py-2 text-[#5DA05D] border border-[#5DA05D] rounded-lg hover:bg-[#5DA05D] hover:text-white transition"
-                    >
-                    Cancel
-                    </button>
-                    <button
-                    type="submit"
-                    className="px-4 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4d854d]"
-                    >
-                    {loading ? "Saving..." : "Save"}
-                    </button>
+              <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-[#5DA05D] border border-[#5DA05D] rounded-lg hover:bg-[#5DA05D] hover:text-white transition"
+              >
+              Cancel
+              </button>
+              <button
+              type="submit"
+              className="px-4 py-2 bg-[#5DA05D] text-white rounded-lg hover:bg-[#4d854d]"
+              >
+              {loading ? "Saving..." : "Save"}
+              </button>
             </div>
             </form>
       </div>

@@ -11,29 +11,24 @@ import { FaRegComment } from "react-icons/fa6";
 import { GoShare } from "react-icons/go";
 import CompanyModal from "./components/CompanyModal";
 import { UserContext } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 
-/* === PROFILE COVER & HEXAGON PHOTO === */
 const ProfileCoverUI = () => {
-
   const [heroImage, setHeroImage] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
-  const { user, error, } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
 
   useEffect(() => {
-    if (user.cover_photo) {
-      setHeroImage(user.cover_photo);
-    }
-    if (user.profile_photo) {
-      setProfileImage(user.profile_photo);
-    }
-    console.log(user)
+    if (user?.cover_photo) setHeroImage(user.cover_photo);
+    if (user?.logo) setProfileImage(user.logo);
   }, [user]);
 
-  const handleImageChange = (e, type) => {
+  const handleFileChange = async (e, type) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Local preview first
     const reader = new FileReader();
     reader.onloadend = () => {
       if (type === "hero") {
@@ -43,8 +38,27 @@ const ProfileCoverUI = () => {
       }
     };
     reader.readAsDataURL(file);
-  };
 
+    // Upload to BE
+    try {
+      const payload =
+        type === "hero"
+          ? { cover_photo: file }
+          : { logo: file };
+
+      const response = await updateUser(payload);
+
+      toast.success(
+        `${type === "hero" ? "Cover" : "Profile"} photo updated!`,
+        { position: "top-center" }
+      );
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Error updating image", {
+        position: "top-center",
+      });
+    }
+  };
 
   return (
     <div className="relative">
@@ -69,7 +83,7 @@ const ProfileCoverUI = () => {
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(e) => handleImageChange(e, "hero")}
+          onChange={(e) => handleFileChange(e, "hero")}
         />
       </div>
 
@@ -87,8 +101,7 @@ const ProfileCoverUI = () => {
           </div>
         </div>
 
-        {/* Hover overlay */}
-       <label
+        <label
           htmlFor="profile-upload"
           className="absolute mt-[-3.5rem] ml-3 w-32 h-32 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center cursor-pointer"
         >
@@ -101,12 +114,13 @@ const ProfileCoverUI = () => {
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(e) => handleImageChange(e, "profile")}
+          onChange={(e) => handleFileChange(e, "profile")}
         />
       </div>
     </div>
   );
 };
+
 
 /* === MAIN PROFILE PAGE === */
 export default function ProfileView() {
@@ -387,7 +401,7 @@ export default function ProfileView() {
                             outerRadius={80}
                             label
                           >
-                            {/* ✅ Assign different colors to each slice */}
+                            {/* Assigning different colors to each slice */}
                             <Cell key="Mobile" fill="#5DA05D" />   {/* green */}
                             <Cell key="Desktop" fill="#4E61F6" />  {/* blue */}
                             <Cell key="Tablet" fill="#FFAA00" />   {/* amber */}
