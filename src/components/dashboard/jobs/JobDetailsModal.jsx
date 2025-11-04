@@ -38,13 +38,13 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
 
   if (!isOpen || !job) return null;
 
-  const requirements = [
-    "5+ years of experience in UI/UX design",
-    "Proficiency in Figma, Adobe Creative Suite",
-    "Strong understanding of design systems",
-    "Experience with user research methodologies",
-    "Bachelor’s degree in Design or related field",
-  ];
+  // const requirements = [
+  //   "5+ years of experience in UI/UX design",
+  //   "Proficiency in Figma, Adobe Creative Suite",
+  //   "Strong understanding of design systems",
+  //   "Experience with user research methodologies",
+  //   "Bachelor’s degree in Design or related field",
+  // ];
 
   return (
     <div
@@ -85,9 +85,9 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
           >
             Apply now
           </button>
-          <button className="border border-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-100">
+          {/* <button className="border border-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-100">
             Save Job
-          </button>
+          </button> */}
         </div>
 
         {/* Job Info Row */}
@@ -112,18 +112,18 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
         </section>
 
         {/* Requirements */}
-        <section className="mt-5">
+        {/* <section className="mt-5">
           <h3 className="font-semibold text-gray-800 mb-1">Requirements</h3>
           <ul className="text-sm text-gray-700 list-disc list-inside space-y-1">
             {requirements.map((req, i) => (
               <li key={i}>{req}</li>
             ))}
           </ul>
-        </section>
+        </section>*/}
 
-        {/* About Company */}
+        {/* Job Overview */}
         <section className="mt-5">
-          <h3 className="font-semibold text-gray-800 mb-1">About the Company</h3>
+          <h3 className="font-semibold text-gray-800 mb-1">Job Overview</h3>
           <p className="text-sm text-gray-700 leading-relaxed">
             {job.overview}
           </p>
@@ -145,9 +145,9 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
           >
             Apply for this Position
           </button>
-          <button className="border border-gray-300 text-gray-700 text-sm font-medium py-2 rounded-md hover:bg-gray-100">
+          {/* <button className="border border-gray-300 text-gray-700 text-sm font-medium py-2 rounded-md hover:bg-gray-100">
             View Similar Jobs
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

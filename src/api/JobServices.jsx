@@ -46,6 +46,17 @@ export const JobServices = {
             return { success: false, error };
         }
     },
+    //receive job applications
+    async GetJobApplications() {
+        try {
+            const response = await api.get('/job/application/recent/');
+            console.log('Job applications fetched successfully', response.data);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.log("Couldn't fetch job applications", error);
+            return { success: false, error };
+        }
+    },
     // get user recommended jobs
     async GetUsersJobs(params = {}) {
         try {
@@ -82,9 +93,42 @@ export const JobServices = {
     async SaveJob(save) {
         console.log("Api Payload", save)
         try {
-            const response = await api.post('not set yet', save)
+            const response = await api.post('/job/save/', save)
+            console.log("Job saved", response.data)
+            return { success: true, data: response.data }
         } catch (error) {
             console.log("Couldn't save this job", error)
+            return { success: false, error };
         }
-    }
+    },
+    async GetSavedJobs() {
+        try {
+            const response = await api.get('/job/save/')
+            console.log("Saved jobs fetched", response.data)
+            return { success: true, data: response.data }
+        } catch (error) {
+            console.log("Couldn't fetch saved jobs", error)
+            return { success: false, error };
+        }
+    },
+    async RemoveSavedJob(jobId) {
+        try {
+            const response = await api.delete(`/job/unsave/?job=${jobId}`)
+            console.log("Saved job removed", response.data)
+            return { success: true, data: response.data }
+        } catch (error) {
+            console.log("Couldn't remove saved job", error)
+            return { success: false, error };
+        }
+    },
+    async GetAppliedJobs() {
+        try {
+            const response = await api.get('/job/apply/')
+            console.log("Applied jobs fetched", response.data)
+            return { success: true, data: response.data }
+        } catch (error) {
+            console.log("Couldn't fetch applied jobs", error)
+            return { success: false, error };
+        }
+    },
 }

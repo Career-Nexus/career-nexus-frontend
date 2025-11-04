@@ -2,54 +2,8 @@ import React, { useEffect, useState } from "react";
 import { MapPin, Clock, Calendar, DollarSign, Briefcase } from "lucide-react";
 import { JobServices } from "../api/JobServices";
 import { toast } from "react-toastify";
+import { Box, Spinner } from "@chakra-ui/react";
 
-// === SAMPLE JOB DATA ===
-// const jobs = [
-//   {
-//     id: 1,
-//     title: "Senior UI/UX Designer",
-//     location: "Lagos, Nigeria",
-//     type: "Full-time",
-//     salary: "$60k-80k",
-//     views: 124,
-//     applicants: 31,
-//     posted: "1 week ago",
-//     status: "active",
-//   },
-//   {
-//     id: 2,
-//     title: "Project Manager",
-//     location: "Lagos, Nigeria",
-//     type: "Full-time",
-//     salary: "$60k-80k",
-//     views: 124,
-//     applicants: 31,
-//     posted: "3 mins ago",
-//     status: "active",
-//   },
-//   {
-//     id: 3,
-//     title: "Frontend Developer",
-//     location: "Lagos, Nigeria",
-//     type: "Full-time",
-//     salary: "$60k-80k",
-//     views: 124,
-//     applicants: 31,
-//     posted: "3 mins ago",
-//     status: "draft",
-//   },
-//   {
-//     id: 4,
-//     title: "Marketing Manager",
-//     location: "Lagos, Nigeria",
-//     type: "Full-time",
-//     salary: "$60k-80k",
-//     views: 124,
-//     applicants: 31,
-//     posted: "3 mins ago",
-//     status: "closed",
-//   },
-// ];
 
 // === SAMPLE APPLICANTS ===
 const applicants = [
@@ -59,37 +13,29 @@ const applicants = [
 ];
 
 // === JOB CARD ===
-const JobCard = ({ job, activeTab }) => {
+const JobCard = ({ job, activeTab, applicants }) => {
   const updateJobStatus = async (jobId, status) => {
     try {
       const response = await JobServices.UpdateJobStatus(jobId, status);
       if (response.success) {
-        if (status === 'closed') {
-          toast.success("Job closed successfully!");
-        } else {
-          toast.success("Job reopened successfully!");
-        }
-        //refresh the page or update state to reflect changes
+        toast.success(status === "closed" ? "Job closed successfully!" : "Job reopened successfully!");
         window.location.reload();
       } else {
-        toast.error("Failed to close job.");
+        toast.error("Failed to update job.");
       }
     } catch (error) {
-      toast.error("An error occurred while closing job.");
+      toast.error("An error occurred while updating job status.");
     }
   };
 
-  // Determine button text and styles based on the tab
+  // ✅ Match applicants to this job
+  const jobApplicants = applicants.filter((app) => app.job_name === job.title);
+  const applicantCount = jobApplicants.length;
+
   let btnText = "Edit Job";
-  let btnStyle =
-    "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
-
-  if (activeTab === "draft") {
-    btnText = "Review and Post";
-  } else if (activeTab === "closed") {
-    btnText = "Reopen and Post";
-
-  }
+  let btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
+  if (activeTab === "draft") btnText = "Review and Post";
+  else if (activeTab === "closed") btnText = "Reopen and Post";
 
   return (
     <div className="bg-white border rounded-lg p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition">
@@ -111,25 +57,32 @@ const JobCard = ({ job, activeTab }) => {
           <div className="text-gray-700 font-medium ml-auto">₦{job.salary}</div>
         </div>
       </div>
+
       <div>{job.overview}</div>
+
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-6 text-center text-sm">
-          <div>
-            <p className="text-[#5DA05D] font-semibold">{job.views}</p>
+          {/* <div>
+            <p className="text-[#5DA05D] font-semibold">{job.views || 0}</p>
             <p className="text-gray-500 text-xs">Views</p>
-          </div>
+          </div> */}
           <div>
-            <p className="text-[#5DA05D] font-semibold">{job.applicants}</p>
+            <p className="text-[#5DA05D] font-semibold">{applicantCount}</p>
             <p className="text-gray-500 text-xs">Applicants</p>
           </div>
         </div>
 
         <div className="flex gap-3">
-          {activeTab !== 'closed' && <button onClick={() => updateJobStatus(job.id, 'closed')} className="px-4 py-1 rounded-md transition text-sm text-red-600 border border-red-600">
-            close
-          </button>}
+          {activeTab !== "closed" && (
+            <button
+              onClick={() => updateJobStatus(job.id, "closed")}
+              className="px-4 py-1 rounded-md transition text-sm text-red-600 border border-red-600"
+            >
+              Close
+            </button>
+          )}
           <button
-            onClick={btnText === 'Reopen and Post' ? () => updateJobStatus(job.id, 'active') : null}
+            onClick={btnText === "Reopen and Post" ? () => updateJobStatus(job.id, "active") : null}
             className={`${btnStyle} px-4 py-1 rounded-md transition text-sm`}
           >
             {btnText}
@@ -139,6 +92,7 @@ const JobCard = ({ job, activeTab }) => {
     </div>
   );
 };
+
 
 
 // === JOB FORM ===
@@ -346,41 +300,88 @@ const PostJobForm = () => {
 };
 
 // === APPLICANTS LIST ===
-const ApplicantsList = () => (
-  <div className="bg-white p-6 rounded-lg shadow">
-    <h2 className="text-lg font-semibold mb-4">Recent Applications</h2>
-    <div className="space-y-3">
-      {applicants.map((app) => (
-        <div
-          key={app.id}
-          className="flex justify-between items-center border p-3 rounded-md hover:shadow-sm transition"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
-              {app.name.charAt(0)}
+const ApplicantsList = ({applicants}) => {
+  const [recentApplicants, setRecentApplicants] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchApplicants = async () => {
+    setLoading(true);
+    try {
+      const response = await JobServices.GetJobApplications(); // ✅ match your service name
+      const array = Array.isArray(response.data) ? response.data : [];
+      setRecentApplicants(array);
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplicants();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+        <Spinner size="lg" color="#5DA05D" thickness="4px" />
+      </Box>
+    );
+  }
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow">
+      <h2 className="text-lg font-semibold mb-4">Recent Applications</h2>
+      <div className="space-y-3">
+        {recentApplicants.map((app) => (
+          <div
+            key={app.id}
+            className="flex justify-between items-center border p-3 rounded-md hover:shadow-sm transition"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
+                {app.applicant.charAt(0)}
+              </div>
+              <div>
+                <p className="font-medium">{app.applicant}</p>
+                <p className="text-sm text-gray-500">Applied for {app.job_name}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-medium">{app.name}</p>
-              <p className="text-sm text-gray-500">Applied for {app.job}</p>
+            <div className="flex items-center gap-3">
+              {/* Optional: if you don’t have a match percentage, remove this */}
+              {/* <span className="text-[#5DA05D] font-semibold">{app.match}% match</span> */}
+              <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
+                Review
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[#5DA05D] font-semibold">{app.match}% match</span>
-            <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
-              Review
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // === MAIN DASHBOARD ===
 export default function JobDashboard() {
   const [activeView, setActiveView] = useState("manage"); // manage | post | applicants
   const [activeTab, setActiveTab] = useState("active");
   const [jobs, setJobs] = useState([]);
+  
+  const [recentApplicants, setRecentApplicants] = useState([]);
+
+const fetchApplicants = async () => {
+  try {
+    const response = await JobServices.GetJobApplications();
+    const array = Array.isArray(response.data) ? response.data : [];
+    setRecentApplicants(array);
+  } catch (error) {
+    console.error("Error fetching applicants:", error);
+  }
+};
+
+useEffect(() => {
+  fetchApplicants();
+}, []);
 
   const FetchJobs = async (status = "active") => {
     try {
@@ -441,15 +442,6 @@ export default function JobDashboard() {
           {activeView === "manage" && (
             <>
               <div className="flex bg-gray-100 rounded-md mb-6">
-                {/* <button onClick={() => setActiveTab("active")} className={tabClasses("active")}>
-                  ACTIVE JOBS
-                </button>
-                <button onClick={() => setActiveTab("draft")} className={tabClasses("draft")}>
-                  DRAFT JOBS
-                </button>
-                <button onClick={() => setActiveTab("closed")} className={tabClasses("closed")}>
-                  CLOSED
-                </button> */}
                 <button onClick={() => { setActiveTab("active"); FetchJobs("active"); }} className={tabClasses("active")}>
                   ACTIVE JOBS
                 </button>
@@ -462,7 +454,7 @@ export default function JobDashboard() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
                 {filteredJobs.map((job) => (
-                  <JobCard key={job.id} job={job} activeTab={activeTab} />
+                  <JobCard key={job.id} job={job} activeTab={activeTab} applicants={recentApplicants}/>
                 ))}
               </div>
             </>

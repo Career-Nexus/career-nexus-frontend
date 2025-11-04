@@ -22,9 +22,9 @@ function JobAnalysis() {
                         </div>
                     </div>
                 </div>
-                <div className='mt-5'>
+                {/* <div className='mt-5'>
                     <Premium />
-                </div>
+                </div> */}
             </div>
         </div>
     )

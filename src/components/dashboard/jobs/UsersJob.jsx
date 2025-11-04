@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import logo from "../../../assets/images/job-uiux.svg";
 import logo1 from "../../../assets/images/job-projectmgr.svg";
@@ -9,12 +9,15 @@ import logo5 from "../../../assets/images/job-senior-uiux.svg";
 import Locate from "../../../assets/icons/map-pin.svg"
 import Jobs from "../../../assets/icons/briefcase.svg";
 import Building from "../../../assets/icons/building.svg";
+import { JobServices } from '../../../api/JobServices';
+import JobDetailsModal from './JobDetailsModal';
+import FloatingMessageIcon from '../chat/FloatingMessage';
+import { toast } from 'react-toastify';
 
 
 function UserJobs() {
 
-  const [activeTab, setActiveTab] = useState('applied')
-
+  const [activeTab, setActiveTab] = useState('applied');
   // const MentorContent = () => (
   //   <div className="flex items-center justify-center bg-white aspect-[7.8/8]">
   //     <MentorAccountForm/>
@@ -52,14 +55,12 @@ function UserJobs() {
               SAVED JOBS
             </button>
           </div>
-          {activeTab === 'applied' ? <OtherJobs /> : <OtherJobs />}
+          {activeTab === 'applied' ? <AppliedJobs /> : <OtherJobs />}
         </div>
       </div>
     </div>
   )
 }
-
-
 
 export default UserJobs
 
@@ -126,19 +127,43 @@ const jobs = [
   }
 ];
 export let OtherJobs = () => {
+  const [savedJobs, setSavedJobs] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+  
+  const getSavedJobs = async () => {
+    const { data } = await JobServices.GetSavedJobs();
+    if (data) {
+      // Extract inner job objects
+      const formatted = data.map(item => item.job);
+      setSavedJobs(formatted);
+    }
+  };
+  useEffect(() => {
+    getSavedJobs();
+  }, []);
+
+  const DeleteSavedJobs = async (jobId) => {
+    const { success } = await JobServices.RemoveSavedJob(jobId);
+    if (success) {
+      toast.success("Saved job removed successfully!");
+      setSavedJobs((prev) => prev.filter((job) => job.id !== jobId));
+    } else {
+      toast.error("Failed to remove saved job.");
+    }
+  };
   return (
     <div>
       <div className="container mx-auto">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-          {jobs.map((job, index) => (
-            // <JobCard key={index} {...job} />
-            <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">
+          {savedJobs.map((job) => (
+            <div key={job.id} className="bg-white rounded-lg shadow p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex gap-3">
-                  <p>{job.companyLogo}</p>
+                  <img src={logo5} className="w-10 h-10 " />
                   <div className="ml-2">
-                    <h3 className="text-lg font-semibold">{job.jobTitle}</h3>
-                    <p className="text-[#5DA05D] text-sm">{job.companyName}</p>
+                    <h3 className="text-lg font-semibold">{job.title}</h3>
+                    <p className="text-[#5DA05D] text-sm">{job.organization}</p>
                   </div>
                 </div>
                 <span className="text-xs">{job.time}</span>
@@ -146,28 +171,107 @@ export let OtherJobs = () => {
               <div className="flex text-gray-500 text-xs mb-2 my-8 items-center justify-between">
                 <span className="mr-2 flex gap-2">
                   <img src={Locate} alt="location" className="text-gray-500 w-4 h-4" />
-                  <span>{job.location}</span>
+                  <span>{job.country}</span>
                 </span>
                 <span className="mr-2 flex gap-2">
                   <img src={Building} alt="building" className="text-gray-500 w-4 h-4" />
-                  <span>{job.workType}</span>
+                  <span>{job.work_type}</span>
                 </span>
                 <span className="mr-2 flex gap-2">
                   <img src={Jobs} alt="building" className="text-gray-500 w-4 h-4" />
-                  <span>{job.schedule}</span>
+                  <span>{job.employment_type}</span>
                 </span>
-                <div className="text-gray-700 text-xs">💰 {job.salaryRange}</div>
+                <div className="text-gray-700 text-xs">💰 {job.salary}</div>
               </div>
               <div className="flex space-x-2 justify-between mt-8">
                 <span></span>
                 <div className="flex gap-2">
-                  <button className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#5DA05D]">Apply now</button>
-                  <button className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
+                  <button onClick={() => { setIsModalOpen(true); setSelectedJob(job); }} className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#5DA05D]">Apply now</button>
+                  <button onClick={() => DeleteSavedJobs(job.id)} className="border border-red-600 px-4 py-1 rounded-lg text-red-600">Delete</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        <JobDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        job={selectedJob}
+      />
+      </div>
+      <div>
+        <FloatingMessageIcon />
+      </div>
+    </div>
+  )
+}
+
+const AppliedJobs = () => {
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  // const [selectedJob, setSelectedJob] = useState(null);
+
+  const getAppliedJobs = async () => {
+    const { data } = await JobServices.GetAppliedJobs();
+    if (data) {
+      // Extract inner job objects
+      const formatted = data.map(item => item.job);
+      setAppliedJobs(formatted);
+    }
+  };
+  useEffect(() => {
+    getAppliedJobs();
+  }, []);
+  console.log("Applied jobs:", appliedJobs);
+  return (
+    <div>
+      <div className="container mx-auto">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+          {appliedJobs.map((job) => (
+            // <JobCard key={index} {...job} />
+            <div key={job.id} className="bg-white rounded-lg shadow p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex gap-3">
+                  <img src={logo5} className="w-10 h-10 " />
+                  <div className="ml-2">
+                    <h3 className="text-lg font-semibold">{job.title}</h3>
+                    <p className="text-[#5DA05D] text-sm">{job.organization}</p>
+                  </div>
+                </div>
+                <span className="text-xs">Posted on: {job.posted_on}</span>
+              </div>
+              <div className="flex text-gray-500 text-xs mb-2 my-8 items-center justify-between">
+                <span className="mr-2 flex gap-2">
+                  <img src={Locate} alt="location" className="text-gray-500 w-4 h-4" />
+                  <span>{job.country}</span>
+                </span>
+                <span className="mr-2 flex gap-2">
+                  <img src={Building} alt="building" className="text-gray-500 w-4 h-4" />
+                  <span>{job.work_type}</span>
+                </span>
+                <span className="mr-2 flex gap-2">
+                  <img src={Jobs} alt="building" className="text-gray-500 w-4 h-4" />
+                  <span>{job.employment_type}</span>
+                </span>
+                <div className="text-gray-700 text-xs">💰 {job.salary}</div>
+              </div>
+              <div className="flex space-x-2 justify-between mt-8">
+                <span></span>
+                <div className="flex gap-2">
+                  {/* <button onClick={() => { setIsModalOpen(true); setSelectedJob(job); }} className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#5DA05D]">Apply now</button> */}
+                  <button className="border border-red-600 px-4 py-1 rounded-lg text-red-600">Delete</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* <JobDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        job={selectedJob}
+      /> */}
+      </div>
+      <div>
+        <FloatingMessageIcon />
       </div>
     </div>
   )

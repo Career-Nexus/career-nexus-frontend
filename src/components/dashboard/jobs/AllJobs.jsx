@@ -11,6 +11,7 @@ import { JobServices } from "../../../api/JobServices";
 import FloatingMessageIcon from "../chat/FloatingMessage";
 import { Box, Spinner } from "@chakra-ui/react";
 import JobDetailsModal from "./JobDetailsModal";
+import { toast } from "react-toastify";
 
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
@@ -68,6 +69,21 @@ const AllJobs = () => {
         fetchData();
     }, []);
 
+    const handleSaveJob = async (jobId) => {
+        try {
+            const savePayload = { job: jobId };
+            const result = await JobServices.SaveJob(savePayload);
+            if (result.success) {
+                toast.success("Job saved successfully!");
+            } else {
+                toast.error("Failed to save job.");
+            }
+        } catch (error) {
+            console.error("Error saving job:", error);
+            toast.error("An unexpected error occurred. Please try again later.");
+        }
+    };
+
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="200px">
@@ -75,7 +91,7 @@ const AllJobs = () => {
             </Box>
         );
     }
-console.log("All jobs:", alljob);
+    console.log("All jobs:", alljob);
     return (
         <div>
             <JobCard hideCard={prefered?.preference_set} />
@@ -117,7 +133,7 @@ console.log("All jobs:", alljob);
                                     <span></span>
                                     <div className="flex gap-2">
                                         <button onClick={() => { setIsModalOpen(true); setSelectedJob(job); }} className="bg-[#5DA05D] text-white px-4 py-1 rounded-lg hover:bg-[#2b5b2b]">Apply now</button>
-                                        <button className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
+                                        <button onClick={() => handleSaveJob(job.id)} className="border border-[#5DA05D] px-4 py-1 rounded-lg text-[#5DA05D]">Save Job</button>
                                     </div>
                                 </div>
                             </div>
