@@ -43,7 +43,7 @@ export default function CompanyProfileSetup() {
     companyLocation: "",
     industry: "",
     tagline: "",
-    logo: null,
+    logo: "",
   });
 
   const fileInputRef = useRef(null);
@@ -300,7 +300,7 @@ return (
             companyLocation: "",
             industry: "",
             tagline: "",
-            logo: null,
+            logo: "",
         });
         }}
       />
