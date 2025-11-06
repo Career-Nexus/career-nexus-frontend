@@ -426,6 +426,8 @@ const MentorMain = () => {
     setLoading(true)
     try {
       const { success, data } = await MentorServices.recommendedmentors({ page })
+      const res = await MentorServices.recommendedmentors();
+      console.log(res);
       const isArray = Array.isArray(data?.results) ? data.results : []
 
       setRecommendmentor((prev) => (page === 1 ? isArray : [...prev, ...isArray]))
@@ -647,6 +649,7 @@ const MentorMain = () => {
             </div>
           )}
         </div>
+        
       ) : (
         <MentorshipRequests />
       )}
