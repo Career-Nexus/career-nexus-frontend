@@ -24,41 +24,73 @@ const ProfileCoverUI = () => {
     if (user?.logo) setProfileImage(user.logo);
   }, [user]);
 
+  // const handleFileChange = async (e, type) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   // Local preview first
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     if (type === "hero") {
+  //       setHeroImage(reader.result);
+  //     } else if (type === "profile") {
+  //       setProfileImage(reader.result);
+  //     }
+  //   };
+  //   reader.readAsDataURL(file);
+
+  //   // Upload to BE
+  //   try {
+  //     const payload =
+  //       type === "hero"
+  //         ? { cover_photo: file }
+  //         : { logo: file };
+
+  //     const response = await updateUser(payload);
+
+  //     toast.success(
+  //       `${type === "hero" ? "Cover" : "Profile"} photo updated!`,
+  //       { position: "top-center" }
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error(err.message || "Error updating image", {
+  //       position: "top-center",
+  //     });
+  //   }
+  // };
   const handleFileChange = async (e, type) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    // Local preview first
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (type === "hero") {
-        setHeroImage(reader.result);
-      } else if (type === "profile") {
-        setProfileImage(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
-
-    // Upload to BE
-    try {
-      const payload =
-        type === "hero"
-          ? { cover_photo: file }
-          : { logo: file };
-
-      const response = await updateUser(payload);
-
-      toast.success(
-        `${type === "hero" ? "Cover" : "Profile"} photo updated!`,
-        { position: "top-center" }
-      );
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message || "Error updating image", {
-        position: "top-center",
-      });
-    }
+  // Preview locally
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    if (type === "hero") setHeroImage(reader.result);
+    else if (type === "profile") setProfileImage(reader.result);
   };
+  reader.readAsDataURL(file);
+
+  try {
+    // Prepare the right key for update
+    const payload = type === "hero"
+      ? { cover_photo: file }
+      : { logo: file };
+
+    await updateUser(payload); // ✅ Your context auto-handles FormData
+
+    toast.success(
+      `${type === "hero" ? "Cover photo" : "Profile photo"} updated successfully!`,
+      { position: "top-center" }
+    );
+  } catch (err) {
+    console.error("Upload error:", err);
+    toast.error(
+      err.message || "Error uploading image",
+      { position: "top-center" }
+    );
+  }
+};
 
   return (
     <div className="relative">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CorporateServices } from "../../api/CoporateServices";
+import { X } from "lucide-react";
 
 const inputStyle ="w-full bg-gray-50 text-gray-900 rounded-lg p-2 border border-transparent focus:border-green-500 focus:ring-0 outline-none";
 
@@ -129,7 +130,7 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition"
             >
-                ✕
+                <X size={24} />
             </button>
             </div>
 

@@ -102,7 +102,7 @@ const Profile = () => {
                         </div> */}
 
                     </div>
-                ) : (
+                ) : user?.user_type === "mentor" ? (
                     <div className='hidden md:block'>
                         <Link to={'/profilepage'} className='md:border border-[#B573F6] bg-[#F5EAFF8F] rounded-lg flex flex-col relative'>
                             <div className='flex ml-auto mr-4 mt-2'><GraduationCap className='bg-green-100' /></div>
@@ -136,6 +136,41 @@ const Profile = () => {
                                 <span>See more...</span>
                             </Link>
                         </div> */}
+                    </div>
+                ) : (
+
+                    <div className=''>
+                        <div className='md:border border-gray rounded-lg hidden md:block'>
+                            <Link to={'/coporate'} className='md:border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative'>
+                                <div className='flex items-center gap-3 min-h-32 mx-2 '>
+                                    <div className='mr-2'>
+                                        <img src={user.logo} alt="profile picture"
+                                            className='h-12 w-12 rounded-full' />
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <h1 className='font-bold text-xl '>{user.company_name}</h1>
+                                        <p className='text-sm text-gray-400'>{user?.website}</p>
+                                        <p className='text-sm text-gray-400'>{user?.location}</p>
+                                    </div>
+                                    {/* <Link to={'/profilepage'} className='text-[#5DA05D] w-[90%] border border-[#5DA05D] font-semibold rounded-lg py-2 px-2  text-center'>View full profile</Link> */}
+                                </div>
+                            </Link>
+                        </div>
+                        <div className='border border-gray rounded-lg my-5'>
+                            <div className='flex flex-col gap-4 p-3'>
+                                {data.map(item => (
+                                    <div key={item.id} className='flex items-center justify-between gap-4'>
+                                        <div className='flex items-center gap-5'>
+                                            <div className='w-3 h-3 mt-[-10px]'>{item.icon}</div>
+                                            <div>
+                                                <h3 className='text-sm md:text-lg'>{item.name}</h3>
+                                            </div>
+                                        </div>
+                                        <Link to={'/booked'}><ArrowRight className='text-[#5DA05D]' /></Link>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 )
             }

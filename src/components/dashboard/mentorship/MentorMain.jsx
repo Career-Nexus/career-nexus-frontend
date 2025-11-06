@@ -496,7 +496,7 @@ const MentorMain = () => {
 
   return (
     <div className="bg-white">
-      {user?.user_type === "learner" ? (
+      {user?.user_type !== "mentor" ? (
         <div>
           {/* 🔍 Search Section */}
           <div className="mb-6 hidden md:block">
