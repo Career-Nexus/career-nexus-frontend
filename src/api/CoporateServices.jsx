@@ -82,4 +82,32 @@ export const CorporateServices = {
             return { success: false, error: handleApiError(error, "Failed to fetch choice field data") };
         }
     },
+    async addOrgMembers(members) {
+        try {
+            for (const member of members) {
+                await api.post("/user/organization-members/", {
+                    member: member.id,
+                });
+            }
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: handleApiError(error, "Failed to add organization members") };
+        }
+    },
+    async deleteOrgMember(memberId) {
+        try {
+            await api.delete(`/user/organization-members/?member_id=${memberId}`);
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: handleApiError(error, "Failed to delete organization member") };
+        }
+    },
+    async getOrgMembers() {
+        try {
+            const response = await api.get("/user/organization-members/");
+            return { success: true, data: response.data };
+        } catch (error) {
+            return { success: false, error: handleApiError(error, "Failed to fetch organization members") };
+        }
+    },
 }
