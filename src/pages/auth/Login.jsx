@@ -307,12 +307,12 @@ useEffect(() => {
             </form>
 
             {/* Or continue with */}
-            {/* <div className="flex items-center justify-center mt-6 mb-4">
-              <span className="text-sm text-gray-500">Or signin with</span>
-            </div> */}
+            <div className="flex items-center justify-center mt-6 mb-4">
+              <span className="text-sm text-gray-500">Signin with</span>
+            </div>
 
             {/* Social Login Options */}
-            {/* <div className="md:flex md:flex-col gap-2">
+            <div className="md:flex md:flex-col gap-2">
               <button
                 onClick={handleGoogleSignin}
                 className="w-full flex items-center justify-center border border-gray-200 rounded-md py-2 px-4 mb-3 hover:bg-gray-50 transition-colors"
@@ -321,7 +321,7 @@ useEffect(() => {
                   <Google className="h-5 w-5" />
                   <span className="ml-2">Google</span>
                 </div>
-              </button> */}
+              </button>
 
               {/*<button className="w-full h-10 flex items-center justify-center border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center">
@@ -329,7 +329,7 @@ useEffect(() => {
                   <span className="ml-2">LinkedIn</span>
                 </div>
               </button>*/}
-            {/* </div> */}
+            </div>
 
             {/* Signup Link */}
             <div className="text-center mt-2">

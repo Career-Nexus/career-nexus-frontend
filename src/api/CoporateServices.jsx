@@ -17,18 +17,6 @@ function handleApiError(error, defaultMessage = "An unexpected error occurred") 
 }
 
 export const CorporateServices = {
-    // async getLinkedAccounts() {
-    //     try {
-    //         const response = await api.get(`/user/linked-accounts/`);
-    //         if(response.data){
-    //             console.log("Linked accounts fetched:", response.data);
-    //             return {success: true, data: response.data};
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching linked accounts:', error);
-    //         return {success: false, error: error.message};
-    //     }
-    // },
     async getLinkedAccounts() {
         try {
             const response = await api.get(`/user/linked-accounts/`);

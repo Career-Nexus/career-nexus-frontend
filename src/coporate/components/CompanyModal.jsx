@@ -120,10 +120,14 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
   };
 
   if (!isOpen) return null; // Hide modal if not open
-
+const handleClickOutside = (e) => {
+    if (e.target.id === "modalBackdrop") {
+      onClose()
+    }
+  }
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white rounded-xl shadow-lg w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
+    <div id="modalBackdrop" onClick={handleClickOutside} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white rounded-xl shadow-lg w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 no-scrollbar">
             <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-gray-800">Edit Company Profile</h2>
             <button

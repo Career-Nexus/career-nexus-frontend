@@ -12,6 +12,7 @@ import { GoShare } from "react-icons/go";
 import CompanyModal from "./components/CompanyModal";
 import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
+import { CorporateServices } from "../api/CoporateServices";
 import PostSection from "./components/PostSection";
 
 
@@ -26,37 +27,37 @@ const ProfileCoverUI = () => {
   }, [user]);
 
   const handleFileChange = async (e, type) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-  // Preview locally
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    if (type === "hero") setHeroImage(reader.result);
-    else if (type === "profile") setProfileImage(reader.result);
+    // Preview locally
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (type === "hero") setHeroImage(reader.result);
+      else if (type === "profile") setProfileImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      // Prepare the right key for update
+      const payload = type === "hero"
+        ? { cover_photo: file }
+        : { logo: file };
+
+      await updateUser(payload); // ✅ Your context auto-handles FormData
+
+      toast.success(
+        `${type === "hero" ? "Cover photo" : "Profile photo"} updated successfully!`,
+        { position: "top-center" }
+      );
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error(
+        err.message || "Error uploading image",
+        { position: "top-center" }
+      );
+    }
   };
-  reader.readAsDataURL(file);
-
-  try {
-    // Prepare the right key for update
-    const payload = type === "hero"
-      ? { cover_photo: file }
-      : { logo: file };
-
-    await updateUser(payload); // ✅ Your context auto-handles FormData
-
-    toast.success(
-      `${type === "hero" ? "Cover photo" : "Profile photo"} updated successfully!`,
-      { position: "top-center" }
-    );
-  } catch (err) {
-    console.error("Upload error:", err);
-    toast.error(
-      err.message || "Error uploading image",
-      { position: "top-center" }
-    );
-  }
-};
 
   return (
     <div className="relative">
@@ -127,6 +128,7 @@ export default function ProfileView() {
   const { user, error, updateUser } = useContext(UserContext);
   const [editModal, setEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [accountMembers, setAccountMembers] = useState([]);
 
   const handleEditProfile = () => {
     // Logic to open edit profile modal or navigate to edit page
@@ -150,7 +152,25 @@ export default function ProfileView() {
     "Posts",
   ];
 
+  useEffect(() => {
+    if (activeTab === "Organization Members") {
+      GetAccountMembers();
+    }
+  }, [activeTab]);
+
+  const GetAccountMembers = async () => {
+    try {
+      const response = await CorporateServices.getLinkedAccounts();
+      if (response.success) {
+        setAccountMembers(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
+  };
+
   const renderContent = () => {
+
     switch (activeTab) {
       /** ---------------- OVERVIEW ---------------- **/
       case "Overview":
@@ -193,6 +213,7 @@ export default function ProfileView() {
 
       /** ---------------- PRODUCT VIRTUAL GALLERY ---------------- **/
       case "Organization Members":
+
         const members = [
           {
             id: 1,
@@ -227,33 +248,98 @@ export default function ProfileView() {
             admin: true,
           },
         ];
+        // const GetAccountMembers = async () => {
+        //   try {
+        //     const response = await CorporateServices.getLinkedAccounts();
+        //     if (response.success) {
+        //       setAccountMembers(response.data);
+        //     }
+        //   } catch (error) {
+        //     console.error("Error fetching members:", error);
+        //   }
+        // };
+        // useEffect(() => {
+        //   GetAccountMembers();
+        // }, []);
 
-      return (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-gray-800">
-              Members ({members.length})
-            </h3>
-            <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
-              <span className="text-lg leading-none">+</span> Add Member
-            </button>
-          </div>
+        // return (
+        //   <div className="space-y-4">
+        //     <div className="flex items-center justify-between">
+        //       <h3 className="text-xl font-bold text-gray-800">
+        //         Members ({accountMembers.length})
+        //       </h3>
+        //       <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
+        //         <span className="text-lg leading-none">+</span> Add Member
+        //       </button>
+        //     </div>
+
+        //     <div className="bg-white rounded-lg flex flex-col gap-5">
+        //       {accountMembers.map((member) => (
+        //         <div
+        //           key={member.id}
+        //           className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
+        //         >
+        //           <div className="flex items-center gap-3">
+        //             <img
+        //               src={member.profile_photo}
+        //               alt={member.name}
+        //               className="w-10 h-10 rounded-full object-cover"
+        //             />
+        //             <div>
+        //               <p className="font-semibold text-gray-800">{member.name}</p>
+        //               <p className="text-sm text-gray-500">{member.extras}</p>
+        //             </div>
+        //           </div>
+        //           <div className="text-sm text-green-700 font-medium">
+        //             {member.admin ? "Admin" : (
+        //               <svg
+        //                 xmlns="http://www.w3.org/2000/svg"
+        //                 className="h-4 w-4 text-gray-400"
+        //                 fill="none"
+        //                 viewBox="0 0 24 24"
+        //                 stroke="currentColor"
+        //               >
+        //                 <path
+        //                   strokeLinecap="round"
+        //                   strokeLinejoin="round"
+        //                   strokeWidth={2}
+        //                   d="M9 5l7 7-7 7"
+        //                 />
+        //               </svg>
+        //             )}
+        //           </div>
+        //         </div>
+        //       ))}
+        //     </div>
+        //   </div>
+        // );
+        console.log("Account Members:", accountMembers);
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-800">
+                Members ({accountMembers.length})
+              </h3>
+              <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
+                <span className="text-lg leading-none">+</span> Add Member
+              </button>
+            </div>
 
             <div className="bg-white rounded-lg flex flex-col gap-5">
-              {members.map((member) => (
+              {accountMembers.map((member) => (
                 <div
                   key={member.id}
                   className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
                 >
                   <div className="flex items-center gap-3">
                     <img
-                      src={member.image}
+                      src={member.profile_photo}
                       alt={member.name}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                     <div>
                       <p className="font-semibold text-gray-800">{member.name}</p>
-                      <p className="text-sm text-gray-500">{member.role}</p>
+                      <p className="text-sm text-gray-500">{member.extras}</p>
                     </div>
                   </div>
                   <div className="text-sm text-green-700 font-medium">
@@ -514,8 +600,8 @@ export default function ProfileView() {
                   key={tab}
                   onClick={() => setAnalyticsTab(tab)}
                   className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${analyticsTab === tab
-                      ? "border-[#5DA05D] text-[#5DA05D]"
-                      : "border-transparent text-gray-600 hover:[#5DA05D]"
+                    ? "border-[#5DA05D] text-[#5DA05D]"
+                    : "border-transparent text-gray-600 hover:[#5DA05D]"
                     }`}
                 >
                   {tab}
@@ -584,7 +670,7 @@ export default function ProfileView() {
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                {user?.website }
+                {user?.website}
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
@@ -602,8 +688,8 @@ export default function ProfileView() {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-8 py-3 mx-2 text-xs font-medium rounded-lg whitespace-nowrap transition-colors ${activeTab === tab
-                ? "border border-[#5DA05D] text-[#5DA05D]"
-                : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+              ? "border border-[#5DA05D] text-[#5DA05D]"
+              : "border border-gray-300 text-gray-700 hover:bg-gray-100"
               }`}
           >
             {tab}

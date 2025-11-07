@@ -140,9 +140,13 @@ const MentorCard = ({ mentor }) => {
   const handleConfirmBooking = () => {
     submitBooking()
   }
-
+  const handeleClickOutside = (e) => {
+    if (e.target.id === "modalBackdrop") {
+      closeModal()
+    }
+  }
   return (
-    <>
+    <div>
       {/* Mentor Card */}
       <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
         <div className="flex md:justify-between p-2 md:p-3">
@@ -221,9 +225,9 @@ const MentorCard = ({ mentor }) => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+        <div onClick={handeleClickOutside} id="modalBackdrop" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           {/* scrollable content */}
-          <div className="bg-white p-6 rounded-lg w-[420px] max-h-[90vh] overflow-y-auto shadow-lg">
+          <div className="bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto shadow-lg no-scrollbar">
             <h2 className="text-xl font-bold mb-4">Book Mentorship Session</h2>
 
             {/* Mentor Info */}
@@ -397,7 +401,7 @@ const MentorCard = ({ mentor }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

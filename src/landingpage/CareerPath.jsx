@@ -64,7 +64,7 @@ export const CareerPath = () => {
         ]
     };
     return (
-        <div className="slider-container md:mx-20 md:px-4 my-6"> {/* Added px-4 */}
+        <div className="slider-container md:mx-20 md:px-4 my-6" id='#about'> {/* Added px-4 */}
             <h1 className='text-3xl font-bold mb-8 text-center'>Career-Nexus: Your Path to Success</h1>
             <Slider {...settings}>
                 {items.map((item) => (
