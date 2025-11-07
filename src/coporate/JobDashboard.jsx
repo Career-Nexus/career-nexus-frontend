@@ -220,7 +220,7 @@ const PostJobForm = () => {
           </div>
 
           {/* Location + Work Type + Employment Type */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Location*</label>
               <input
@@ -318,7 +318,7 @@ const ApplicantsList = ({applicants}) => {
   const fetchApplicants = async () => {
     setLoading(true);
     try {
-      const response = await JobServices.GetJobApplications(); // ✅ match your service name
+      const response = await JobServices.GetJobApplications();
       const array = Array.isArray(response.data) ? response.data : [];
       setRecentApplicants(array);
     } catch (error) {
@@ -431,7 +431,7 @@ useEffect(() => {
     }`;
 
   return (
-    <div className="min-h-screen p-6 w-[80%] mx-auto">
+    <div className="min-h-screen p-2 md:p-3 lg:p-6 w-[96%] lg:w-[80%] mx-auto">
       <div className="flex md:flex-row flex-col gap-8">
         {/* === SIDEBAR === */}
         <aside className="md:w-56 w-full">

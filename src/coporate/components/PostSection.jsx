@@ -5,6 +5,7 @@ import { FaRegComment } from "react-icons/fa6";
 import { GoShare } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion";
 import { PostService } from "../../api/PostService";
+import SocialBar from "../../components/dashboard/home/SocialBar";
 
 export default function PostSection() {
   const [posts, setPosts] = useState([]);
@@ -41,7 +42,7 @@ export default function PostSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden"
+            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition "
           >
             {/* === POST HEADER === */}
             <div className="flex items-start gap-3 p-4">
@@ -128,23 +129,8 @@ export default function PostSection() {
                 />
               </div>
             )}
-
-            {/* === FOOTER === */}
-            <div className="flex items-center justify-between px-4 py-3 border-t text-sm text-gray-600">
-              <div className="flex gap-4">
-                <span className="flex items-center gap-1 cursor-pointer hover:text-[#5DA05D] transition">
-                  <AiOutlineLike className="text-lg" /> {post.like_count}
-                </span>
-                <span className="flex items-center gap-1 cursor-pointer hover:text-[#5DA05D] transition">
-                  <FaRegComment className="text-lg" /> {post.comment_count}
-                </span>
-                <span className="flex items-center gap-1 cursor-pointer hover:text-[#5DA05D] transition">
-                  <GoShare className="text-lg" /> {post.share_count}
-                </span>
-              </div>
-              <button className="text-gray-400 hover:text-gray-600 transition">
-                ⋯
-              </button>
+            <div>
+            <SocialBar post={post} fetchPosts={fetchPosts} postId={post.post_id} />
             </div>
           </motion.div>
         ))

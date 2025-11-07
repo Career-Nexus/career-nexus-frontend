@@ -612,7 +612,7 @@ export default function ProfileView() {
       </div>
 
       {/* ===== Tab Content ===== */}
-      <div className="min-h-[200px] my-4 bg-white">
+      <div className="min-h-[250px] my-4 bg-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
