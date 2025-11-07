@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 export const JobCard = ({ hideCard }) => {
     if (hideCard) return null;
     return (
-        <div className="inset-0 flex items-center z-50 mb-2 ml-4">
+        <div className="inset-0 flex items-center z-50 mb-2 md:ml-4">
             <div className="relative bg-gradient-to-r from-[#5DA05D] to-[#5DA05D] text-white px-4 py-4 rounded-lg shadow-lg max-w-3xl w-full overflow-hidden">
                 <div className="absolute w-72 h-14 bg-gradient-to-tl from-white/5 via-white/40 to-transparent rounded-full -rotate-45 bottom-6 top-6 right-16 pointer-events-none transform origin-bottom"></div>
                 <div className="relative z-10">
@@ -24,7 +24,7 @@ export const JobCard = ({ hideCard }) => {
                         <p className="text-sm">
                             <div className="flex gap-2">
                                 <img src={emojiBriefcase} alt="brief case" />
-                                <h2 className="text-xl font-bold">Get better results — set your preferences.</h2>
+                                <h2 className="text-lg md:text-xl font-bold">Get better results — set your preferences.</h2>
                             </div>
                             Personalize your job feed to see more relevant opportunities.
                         </p>
@@ -93,14 +93,14 @@ const AllJobs = () => {
     }
     console.log("All jobs:", alljob);
     return (
-        <div>
+        <div className="mb-20">
             <JobCard hideCard={prefered?.preference_set} />
             {alljob.length === 0 ? (
                 <div className="container mx-auto p-4">
                     <p className="text-gray-500">No job listings available</p>
                 </div>
             ) : (
-                <div className="container mx-auto p-4">
+                <div className="container mx-auto md:p-4 p-1">
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                         {alljob.map((job, index) => (
                             <div key={index} className="bg-white rounded-lg shadow p-4 mb-4">
