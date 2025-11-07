@@ -12,6 +12,7 @@ import { GoShare } from "react-icons/go";
 import CompanyModal from "./components/CompanyModal";
 import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
+import PostSection from "./components/PostSection";
 
 
 const ProfileCoverUI = () => {
@@ -24,41 +25,6 @@ const ProfileCoverUI = () => {
     if (user?.logo) setProfileImage(user.logo);
   }, [user]);
 
-  // const handleFileChange = async (e, type) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-
-  //   // Local preview first
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     if (type === "hero") {
-  //       setHeroImage(reader.result);
-  //     } else if (type === "profile") {
-  //       setProfileImage(reader.result);
-  //     }
-  //   };
-  //   reader.readAsDataURL(file);
-
-  //   // Upload to BE
-  //   try {
-  //     const payload =
-  //       type === "hero"
-  //         ? { cover_photo: file }
-  //         : { logo: file };
-
-  //     const response = await updateUser(payload);
-
-  //     toast.success(
-  //       `${type === "hero" ? "Cover" : "Profile"} photo updated!`,
-  //       { position: "top-center" }
-  //     );
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error(err.message || "Error updating image", {
-  //       position: "top-center",
-  //     });
-  //   }
-  // };
   const handleFileChange = async (e, type) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -175,6 +141,7 @@ export default function ProfileView() {
     setEditModal(false);
     setLoading(false);
   };
+ 
 
   const tabs = [
     "Overview",
@@ -573,96 +540,8 @@ export default function ProfileView() {
 
 
       /** ---------------- POSTS ---------------- **/
-      case "Posts":
-        const posts = [
-          {
-            id: 1,
-            author: "Career Nexus",
-            industry: "Technology and information",
-            title: "Why Do So Many Finance Apps Look the Same?",
-            content:
-              "Ever noticed how most fintech apps follow the same blue-and-white theme...",
-            image:
-              "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?auto=format&fit=crop&w=800&q=80",
-            likes: 125,
-            comments: 25,
-            shares: 2,
-            date: "8d",
-          },
-          {
-            id: 2,
-            author: "Career Nexus",
-            industry: "Technology and information",
-            title: "Why Do So Many Finance Apps Look the Same?",
-            content:
-              "Ever noticed how most fintech apps follow the same blue-and-white theme...",
-            image:
-              "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&q=80",
-            likes: 125,
-            comments: 25,
-            shares: 2,
-            date: "8d",
-          },
-        ];
-
-        return (
-          <div className="space-y-6">
-            {posts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden"
-              >
-                {/* Header */}
-                <div className="flex items-start gap-3 p-4">
-                  <img
-                    src="/images/profile2.png"
-                    alt={post.author}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-800">{post.author}</h4>
-                    <p className="text-xs text-gray-500">{post.industry}</p>
-                    <p className="text-xs text-gray-400 mt-1">{post.date}</p>
-                  </div>
-                </div>
-
-                {/* Post Content */}
-                <div className="px-4 pb-4">
-                  <h5 className="font-semibold text-gray-800 mb-1">{post.title}</h5>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {post.content}
-                    <span className="text-[#5DA05D] hover:underline cursor-pointer ml-1">
-                      ...More
-                    </span>
-                  </p>
-                </div>
-
-                {/* Post Image */}
-                {post.image && (
-                  <div className="w-full h-72 overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt="post"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-
-                {/* Footer (likes/comments) */}
-                <div className="flex items-center justify-between px-4 py-3 border-t text-sm text-gray-600">
-                  <div className="flex gap-4">
-                    <span><AiOutlineLike /> {post.likes}</span>
-                    <span><FaRegComment /> {post.comments}</span>
-                    <span><GoShare /> {post.shares}</span>
-                  </div>
-                  <button className="text-gray-400 hover:text-gray-600 transition">
-                    ⋯
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
+      case "Posts":        
+        return <PostSection />;
 
       /** ---------------- DEFAULT ---------------- **/
       default:

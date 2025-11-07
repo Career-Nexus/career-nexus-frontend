@@ -17,6 +17,7 @@ const Home = () => {
                     <MainSection />
                 </ProfileProvider>
             </div>
+
             <div className='hidden lg:block lg:col-span-3'>
                 <div className="sticky top-20">
                     <EventsHome />

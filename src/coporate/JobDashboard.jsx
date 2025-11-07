@@ -3,17 +3,18 @@ import { MapPin, Clock, Calendar, DollarSign, Briefcase } from "lucide-react";
 import { JobServices } from "../api/JobServices";
 import { toast } from "react-toastify";
 import { Box, Spinner } from "@chakra-ui/react";
-
-
-// === SAMPLE APPLICANTS ===
-const applicants = [
-  { id: 1, name: "Adebayo Samuel", job: "Senior UI/UX Designer", match: 95 },
-  { id: 2, name: "Funmi Kayode", job: "Frontend Developer", match: 89 },
-  { id: 3, name: "Olu Johnson", job: "Project Manager", match: 92 },
-];
+import ApplicantsListModal from "./components/ApplicantsListModal";
 
 // === JOB CARD ===
 const JobCard = ({ job, activeTab, applicants }) => {
+  const [showApplicants, setShowApplicants] = useState(false);
+
+  const handleApplicantsDetails = () => {
+    setShowApplicants(true);
+    // fetchApplicants(job.id);
+  };
+
+
   const updateJobStatus = async (jobId, status) => {
     try {
       const response = await JobServices.UpdateJobStatus(jobId, status);
@@ -28,7 +29,7 @@ const JobCard = ({ job, activeTab, applicants }) => {
     }
   };
 
-  // ✅ Match applicants to this job
+  // Match applicants to this job
   const jobApplicants = applicants.filter((app) => app.job_name === job.title);
   const applicantCount = jobApplicants.length;
 
@@ -47,11 +48,11 @@ const JobCard = ({ job, activeTab, applicants }) => {
 
         <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
           <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4 text-purple-600" />
+            <MapPin className="w-4 h-4 text-black" />
             {job.country}
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4 text-purple-600" />
+            <Clock className="w-4 h-4 text-black" />
             {job.employment_type}
           </div>
           <div className="text-gray-700 font-medium ml-auto">₦{job.salary}</div>
@@ -66,10 +67,14 @@ const JobCard = ({ job, activeTab, applicants }) => {
             <p className="text-[#5DA05D] font-semibold">{job.views || 0}</p>
             <p className="text-gray-500 text-xs">Views</p>
           </div> */}
-          <div>
-            <p className="text-[#5DA05D] font-semibold">{applicantCount}</p>
-            <p className="text-gray-500 text-xs">Applicants</p>
-          </div>
+          <button
+          className="flex gap-1 bg-[#E6F4E6] text-gray-500 hover:bg-[#5DA05D] hover:text-white px-3 py-1 rounded-md hover:shadow-sm transition"
+          // onClick={() => setShowApplicants((prev) => !prev)}
+          onClick={handleApplicantsDetails}
+          >
+            <span className="font-semibold">{applicantCount}</span>
+            <p className="">Applicants</p>
+          </button>
         </div>
 
         <div className="flex gap-3">
@@ -88,6 +93,12 @@ const JobCard = ({ job, activeTab, applicants }) => {
             {btnText}
           </button>
         </div>
+        {showApplicants && (
+          <ApplicantsListModal
+            jobId={job.id}
+            onClose={() => setShowApplicants(false)}
+          />
+        )}
       </div>
     </div>
   );
@@ -392,8 +403,23 @@ useEffect(() => {
       console.error("Error fetching jobs:", error);
     }
   };
+
+  // const fetchJobDetails = async () => {
+  //   try {
+  //     const response = await JobServices.GetJobDetails();
+  //     if (response.success) {
+  //       console.log("Job details:", response.data);
+  //     } else {
+  //       console.error("Error fetching job details:", response.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching job details:", error);
+  //   }
+  // };
+
   useEffect(() => {
     FetchJobs();
+    // fetchJobDetails();
   }, []);
 
   // const filteredJobs = jobs.filter((job) => job.status === activeTab);

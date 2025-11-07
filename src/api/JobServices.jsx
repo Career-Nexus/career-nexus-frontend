@@ -131,4 +131,14 @@ export const JobServices = {
             return { success: false, error };
         }
     },
+    async GetRecentApplicants(jobId) {
+        try {
+            const response = await api.get('/job/application/', { params: { job_id: jobId } })
+            console.log("Job details fetched", response.data)
+            return { success: true, data: response.data }
+        } catch (error) {
+            console.log("Couldn't fetch job details", error)
+            return { success: false, error };
+        }
+    },
 }

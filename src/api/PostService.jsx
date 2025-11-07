@@ -309,5 +309,15 @@ export const PostService = {
       throw new Error(error.response?.data?.message || "Failed to fetch profile completion")
     }
   },
+  async getOwnPosts(){
+    try {
+      const response = await api.get('/post/posted/')
+      console.log("Own posts fetched", response.data)
+      return { success: true, data: response.data }
+    } catch (error) {
+      console.log("Couldn't fetch own posts", error)
+      return { success: false, error: error.response?.data?.message || "Failed to fetch own posts" }
+   }
+  },
 }
 
