@@ -21,10 +21,10 @@ export default function Nav() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-10 items-center">
-          <Link to="/" className="hover:text-[#5DA05D] transition">Home</Link>
-          <Link to="/about" className="hover:text-[#5DA05D] transition">About</Link>
-          <Link to="/consult" className="hover:text-[#5DA05D] transition">Consult</Link>
-          <Link to="/pricing" className="hover:text-[#5DA05D] transition">Pricing</Link>
+          <button id='home' className="hover:text-[#5DA05D] transition">Home</button>
+          <button id='about' className="hover:text-[#5DA05D] transition">About</button>
+          <button id='consult' className="hover:text-[#5DA05D] transition">Consult</button>
+          <button id='pricing' className="hover:text-[#5DA05D] transition">Pricing</button>
           <Link to="/signup" className="bg-[#5DA05D] px-3 py-2 rounded-lg text-white hover:bg-green-700 transition">
             Sign Up
           </Link>
@@ -42,10 +42,10 @@ export default function Nav() {
       {/* Mobile Menu (Dropdown) */}
       {isOpen && (
         <div className="md:hidden shadow-md flex flex-col items-center gap-4 py-4 bg-gray-50">
-          <Link to="/" onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Home</Link>
-          <Link to="/about" onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">About</Link>
-          <Link to="/consult" onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Consult</Link>
-          <Link to="/pricing" onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Pricing</Link>
+          <div id='home' onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Home</div>
+          <div id='about' onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">About</div>
+          <div id='consult' onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Consult</div>
+          <div id='pricing' onClick={() => setIsOpen(false)} className="hover:text-[#5DA05D] border-b border-gray-300 w-full text-center py-2">Pricing</div>
           <Link
             to="/signup"
             onClick={() => setIsOpen(false)}

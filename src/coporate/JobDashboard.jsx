@@ -11,7 +11,7 @@ const JobCard = ({ job, activeTab, applicants }) => {
 
   const handleApplicantsDetails = () => {
     setShowApplicants(true);
-    // fetchApplicants(job.id);
+    //fetchApplicants(job.id);
   };
 
 
@@ -34,9 +34,17 @@ const JobCard = ({ job, activeTab, applicants }) => {
   const applicantCount = jobApplicants.length;
 
   let btnText = "Edit Job";
-  let btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
-  if (activeTab === "draft") btnText = "Review and Post";
-  else if (activeTab === "closed") btnText = "Reopen and Post";
+  let btnStyle = "";
+  if (activeTab === "draft") {
+    btnText = "Review and Post";
+    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
+  } else if (activeTab === "closed") {
+    btnText = "Reopen and Post";
+    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
+  }else {
+    btnText = "";
+    btnStyle = "";
+  }
 
   return (
     <div className="bg-white border rounded-lg p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition">

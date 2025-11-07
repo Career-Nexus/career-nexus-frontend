@@ -3,10 +3,13 @@ import { Link, useLocation } from "react-router-dom"
 // You'll need to install these icons: npm install lucide-react
 import { Home, Users, Network, Briefcase, Bell } from "lucide-react"
 import { Notify } from "./MainNavbar"
+import { UserContext } from "../../context/UserContext"
+import { useContext } from "react"
 
 export default function MobileFooterNav() {
   const location = useLocation()
   const pathname = location.pathname
+  const {user} = useContext(UserContext)
 
   const navItems = [
     {
@@ -26,7 +29,7 @@ export default function MobileFooterNav() {
     },
     {
       name: "Jobs",
-      href: "/jobs",
+      href: user.type !== "mentor" && user.type !== "learner" ? "/coporate-job" : "/jobs",
       icon: Briefcase,
     },
     // {

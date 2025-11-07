@@ -12,11 +12,8 @@ import { GoShare } from "react-icons/go";
 import CompanyModal from "./components/CompanyModal";
 import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
-<<<<<<< HEAD
 import { CorporateServices } from "../api/CoporateServices";
-=======
 import PostSection from "./components/PostSection";
->>>>>>> b01db5310dc26373a57ec0c68ca290cd3e34aff2
 
 
 const ProfileCoverUI = () => {
