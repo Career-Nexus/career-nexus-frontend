@@ -14,7 +14,8 @@ import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
 import { CorporateServices } from "../api/CoporateServices";
 import PostSection from "./components/PostSection";
-import AddOrgMembersModal from "./components/AddOrganisationMembersModal";
+// import AddOrgMembersModal from "./components/AddOrganisationMembersModal";
+import OrganizationMembers from "./components/OrganizationalMembers";
 import { set } from "react-hook-form";
 
 
@@ -130,8 +131,8 @@ export default function ProfileView() {
   const { user, error, updateUser } = useContext(UserContext);
   const [editModal, setEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
-  const [addMemberModal, setAddMemberModal] = useState(false);
+  // const [deletingId, setDeletingId] = useState(null);
+  // const [addMemberModal, setAddMemberModal] = useState(false);
   const [accountMembers, setAccountMembers] = useState(user?.members || []);
 
   useEffect(() => {
@@ -162,25 +163,29 @@ export default function ProfileView() {
     "Posts",
   ];
 
-  const handleRemoveMember = async (memberId) => {
-    setDeletingId(memberId);
-    try {
-      const response = await CorporateServices.deleteOrgMember(memberId);
-      if (response.success) {
-        setAccountMembers((prevMembers) =>
-          prevMembers.filter((m) => m.member.id !== memberId)
-        );
-        toast.success("Member removed successfully");
-      } else {
-        toast.error("Failed to remove member");
-      }
-    } catch (error) {
-      console.error("Error removing member:", error);
-      toast.error("An error occurred while removing member");
-    } finally {
-      setDeletingId(null);
-    }
-  };
+  // const handleMemberAdded = (newMembers) => {
+  //   setAccountMembers((prev) => [...prev, ...newMembers]);
+  // };
+
+  // const handleRemoveMember = async (memberId) => {
+  //   setDeletingId(memberId);
+  //   try {
+  //     const response = await CorporateServices.deleteOrgMember(memberId);
+  //     if (response.success) {
+  //       setAccountMembers((prevMembers) =>
+  //         prevMembers.filter((m) => m.member.id !== memberId)
+  //       );
+  //       toast.success("Member removed successfully");
+  //     } else {
+  //       toast.error("Failed to remove member");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error removing member:", error);
+  //     toast.error("An error occurred while removing member");
+  //   } finally {
+  //     setDeletingId(null);
+  //   }
+  // };
 
 
   // useEffect(() => {
@@ -234,50 +239,45 @@ export default function ProfileView() {
 
       /** ---------------- ORGANIZATION MEMBERS ---------------- **/
       case "Organization Members":
-        // const GetAccountMembers = async () => {
-        //   try {
-        //     const response = await CorporateServices.getLinkedAccounts();
-        //     if (response.success) {
-        //       setAccountMembers(response.data);
-        //     }
-        //   } catch (error) {
-        //     console.error("Error fetching members:", error);
-        //   }
-        // };
-        // useEffect(() => {
-        //   GetAccountMembers();
-        // }, []);
-
+        
+        // console.log("Account Members:", accountMembers);
         // return (
         //   <div className="space-y-4">
         //     <div className="flex items-center justify-between">
         //       <h3 className="text-xl font-bold text-gray-800">
         //         Members ({accountMembers.length})
         //       </h3>
-        //       <button className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
+        //       <button onClick={() => setAddMemberModal(true)} className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
         //         <span className="text-lg leading-none">+</span> Add Member
         //       </button>
+        //       {addMemberModal && (
+        //         <AddOrgMembersModal
+        //           isOpen={addMemberModal}
+        //           onClose={() => setAddMemberModal(false)}
+        //           onMemberAdded={handleMemberAdded}
+        //         />
+        //       )}
         //     </div>
 
         //     <div className="bg-white rounded-lg flex flex-col gap-5">
         //       {accountMembers.map((member) => (
         //         <div
-        //           key={member.id}
+        //           key={member?.member.id}
         //           className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
         //         >
         //           <div className="flex items-center gap-3">
         //             <img
-        //               src={member.profile_photo}
-        //               alt={member.name}
+        //               src={member?.member.profile_photo}
+        //               alt={member?.member.name}
         //               className="w-10 h-10 rounded-full object-cover"
         //             />
         //             <div>
-        //               <p className="font-semibold text-gray-800">{member.name}</p>
-        //               <p className="text-sm text-gray-500">{member.extras}</p>
+        //               <p className="font-semibold text-gray-800">{member?.member.name}</p>
+        //               <p className="text-sm text-gray-500">{member?.member.extras}</p>
         //             </div>
         //           </div>
         //           <div className="text-sm text-green-700 font-medium">
-        //             {member.admin ? "Admin" : (
+        //             {/* {member.admin ? "Admin" : (
         //               <svg
         //                 xmlns="http://www.w3.org/2000/svg"
         //                 className="h-4 w-4 text-gray-400"
@@ -292,83 +292,27 @@ export default function ProfileView() {
         //                   d="M9 5l7 7-7 7"
         //                 />
         //               </svg>
-        //             )}
+        //             )} */}
+        //           </div>
+        //           <div>
+        //             <button
+        //               onClick={() => handleRemoveMember(member?.member.id)}
+        //               className="text-sm text-red-600 hover:underline"
+        //             >
+        //               {deletingId === member?.member.id ? (
+        //                   <LoaderCircle className="w-4 h-4 animate-spin text-[#5DA05D]" />
+        //                 ) : (
+        //                   <Trash2 className="inline-block w-4 h-4 mr-1" />
+        //               )}
+        //             </button>
         //           </div>
         //         </div>
         //       ))}
         //     </div>
         //   </div>
         // );
-        console.log("Account Members:", accountMembers);
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-800">
-                Members ({accountMembers.length})
-              </h3>
-              <button onClick={() => setAddMemberModal(true)} className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
-                <span className="text-lg leading-none">+</span> Add Member
-              </button>
-              {addMemberModal && (
-                <AddOrgMembersModal
-                  isOpen={addMemberModal}
-                  onClose={() => setAddMemberModal(false)}
-                />
-              )}
-            </div>
-
-            <div className="bg-white rounded-lg flex flex-col gap-5">
-              {accountMembers.map((member) => (
-                <div
-                  key={member?.member.id}
-                  className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={member?.member.profile_photo}
-                      alt={member?.member.name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold text-gray-800">{member?.member.name}</p>
-                      <p className="text-sm text-gray-500">{member?.member.extras}</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-green-700 font-medium">
-                    {/* {member.admin ? "Admin" : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    )} */}
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => handleRemoveMember(member?.member.id)}
-                      className="text-sm text-red-600 hover:underline"
-                    >
-                      {deletingId === member?.member.id ? (
-                          <LoaderCircle className="w-4 h-4 animate-spin text-[#5DA05D]" />
-                        ) : (
-                          <Trash2 className="inline-block w-4 h-4 mr-1" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
+        return <OrganizationMembers />;
+        
 
       /** ---------------- ANALYTICS DASHBOARD ---------------- **/
       case "Analytics Dashboard":
