@@ -3,7 +3,7 @@ import { PGreen, PPink, VGreen } from '../icons'
 
 export default function Hero() {
     return (
-        <div className='w-full relative' id='#home'>
+        <div className='w-full relative' id='home'>
             {/* Hero Section */}
             <div className='relative w-full h-[32rem]'>
                 <img

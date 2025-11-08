@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Premium } from '../home/EventsHome'
+import { JobServices } from '../../../api/JobServices';
 
-function JobAnalysis() {
+function JobAnalysis({savedJobsCount}) {
+    const [appliedJobs, setAppliedJobs] = useState([]);
+      const [savedJobs, setSavedJobs] = useState([]);
+    
+      const getAppliedJobs = async () => {
+        const { data } = await JobServices.GetAppliedJobs();
+        if (data) {
+          // Extract inner job objects
+          const formatted = data.map(item => item.job);
+          setAppliedJobs(formatted);
+        }
+      };
+      useEffect(() => {
+        getAppliedJobs();
+      }, []);
+
+      
+      
+        const getSavedJobs = async () => {
+          const { data } = await JobServices.GetSavedJobs();
+          if (data) {
+            const formatted = data.map(item => item.job);
+            setSavedJobs(formatted);
+          }
+        };
+      
+        useEffect(() => {
+          getSavedJobs();
+        }, []);
     return (
         <div>
             <div className=''>
@@ -10,15 +39,15 @@ function JobAnalysis() {
                     <div className='flex flex-col gap-4 p-3'>
                         <div className='flex items-center justify-between'>
                             <p>Applications Sent</p>
-                            <p>9</p>
+                            <p>{appliedJobs.length}</p>
                         </div>
                         <div className='flex items-center justify-between'>
                             <p>Saved Jobs</p>
-                            <p>5</p>
+                            <p>{savedJobs.length}</p>
                         </div>
                         <div className='flex items-center justify-between'>
                             <p>Interviews Scheduled</p>
-                            <p>2</p>
+                            <p>0</p>
                         </div>
                     </div>
                 </div>

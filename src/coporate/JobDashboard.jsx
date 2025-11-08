@@ -369,9 +369,9 @@ const ApplicantsList = ({applicants}) => {
             <div className="flex items-center gap-3">
               {/* Optional: if you don’t have a match percentage, remove this */}
               {/* <span className="text-[#5DA05D] font-semibold">{app.match}% match</span> */}
-              <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
+              {/* <button className="bg-[#5DA05D] text-white px-3 py-1 rounded-md hover:bg-[#5DA05D] text-sm">
                 Review
-              </button>
+              </button> */}
             </div>
           </div>
         ))}

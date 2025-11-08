@@ -68,7 +68,7 @@ export default function ConsultingPackage() {
     AOS.init();
   }, []);
   return (
-    <div className={`py-16 text-black`}>
+    <div className={`py-16 text-black`} id='pricing'>
       <div className='flex justify-center items-center mb-10'>
         <span className={`${!isInternational ? 'text-[#5DA05D] font-semibold' : 'text-gray-400'}`}>United Kingdom (UK)</span>
         <label className="mx-3 relative inline-flex items-center cursor-pointer">

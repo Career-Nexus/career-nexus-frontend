@@ -13,6 +13,7 @@ import { JobServices } from '../../../api/JobServices';
 import JobDetailsModal from './JobDetailsModal';
 import FloatingMessageIcon from '../chat/FloatingMessage';
 import { toast } from 'react-toastify';
+import JobAnalysis from './JobAnalysis';
 
 
 function UserJobs() {
@@ -39,7 +40,7 @@ function UserJobs() {
           <h1 className="text-2xl font-bold mb-3 text-[#3a1c64]">
             My Jobs
           </h1>
-          <div className="flex bg-gray-100 p-1 rounded-lg mb-4 w-2/5">
+          <div className="flex bg-gray-100 p-1 rounded-lg mb-4 w-full">
             <button
               type="button"
               className={`w-full px-6 py-2 text-sm font-medium rounded-lg ${activeTab === 'applied' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
@@ -205,6 +206,7 @@ export let OtherJobs = () => {
     </div>
   )
 }
+
 
 const AppliedJobs = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);

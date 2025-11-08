@@ -158,7 +158,7 @@ export default function ProfileView() {
   const tabs = [
     "Overview",
     "Organization Members",
-    "Analytics Dashboard",
+    // "Analytics Dashboard",
     "Posts",
   ];
 

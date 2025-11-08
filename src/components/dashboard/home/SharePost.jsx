@@ -18,8 +18,8 @@ export default function SharePage() {
   const [loading, setLoading] = useState(true);
 
   //const shareLink = `${window.location.origin}/share/${hash}`;
-  const baseUrls = appUrl || window.location.origin;
-  //const baseUrls = prodUrl || window.location.origin;
+  //const baseUrls = appUrl || window.location.origin;
+  const baseUrls = prodUrl || window.location.origin;
 
   const shareLink = `${baseUrls}/share/${hash}`;
 

@@ -14,38 +14,21 @@ const ApplicantsListModal = ({ jobId, onClose }) => {
     setLoading(true);
     try {
       const response = await JobServices.GetRecentApplicants(id);
-      setApplicantList(response.data.results || []);
+      const applicants = response.data.results?.map(item => item.applicant) || [];
+      setApplicantList(applicants);
     } catch (error) {
       console.error("Error fetching applicants:", error);
     } finally {
       setLoading(false);
     }
   };
-
-  // For demonstration, using hardcoded data
-  // const applicantList = [
-  //   {
-  //     id: 1,
-  //     first_name: "John",
-  //     last_name: "Doe",
-  //     middle_name: "Michael",
-  //     profile_photo: "https://via.placeholder.com/150",
-  //     qualification: "Bachelor's in Computer Science",
-  //     resume: "https://via.placeholder.com/150"
-  //   },
-  //   {
-  //     id: 2,
-  //     first_name: "Jane",
-  //     last_name: "Smith",
-  //     middle_name: "",
-  //     profile_photo: "https://via.placeholder.com/150",
-  //     qualification: "Master's in Design",
-  //     resume: "https://via.placeholder.com/150"
-  //   }
-  // ];
-
+  const handeleClickOutside = (e) => {
+    if (e.target.id === "modalBackdrop") {
+      onClose()
+    }
+  }
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div onClick={handeleClickOutside} id="modalBackdrop" className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-white w-full max-w-md md:max-w-2xl rounded-lg shadow-lg overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b">
