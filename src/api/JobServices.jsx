@@ -43,7 +43,7 @@ export const JobServices = {
             return { success: true, data: response.data };
         } catch (error) {
             console.log("Couldn't apply for job", error);
-            return { success: false, error };
+            throw error;
         }
     },
     //receive job applications

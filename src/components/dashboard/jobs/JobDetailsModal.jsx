@@ -5,15 +5,40 @@ import { toast } from "react-toastify";
 import logo3 from "../../../assets/images/job-marketing.svg"; 
 
 export default function JobDetailsModal({ isOpen, onClose, job }) {
-  const JobApplication = async () => {
+  // const JobApplication = async () => {
+  //   if (!job?.id) {
+  //     toast.error("Invalid job information.");
+  //     return;
+  //   }
+
+  //   const applicationData = {
+  //     job: job.id,
+  //   };
+
+  //   try {
+  //     const result = await JobServices.ApplyForJob(applicationData);
+
+  //     if (result.success && result.data.application_status === "Success") {
+  //       console.log("Application successful:", result.data);
+  //       toast.success("Application submitted successfully!");
+  //       onClose();
+  //     } else {
+  //       console.error("Application failed:", result?.error?.job);
+  //       toast.error(result?.error?.job || "Failed to submit application. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error applying for job:", error?.job);
+  //     toast.error("An unexpected error occurred. Please try again later.");
+  //   }
+  // };
+
+ const JobApplication = async () => {
     if (!job?.id) {
       toast.error("Invalid job information.");
       return;
     }
 
-    const applicationData = {
-      job: job.id,
-    };
+    const applicationData = { job: job.id };
 
     try {
       const result = await JobServices.ApplyForJob(applicationData);
@@ -23,15 +48,24 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
         toast.success("Application submitted successfully!");
         onClose();
       } else {
-        console.error("Application failed:", result.error);
-        toast.error("Failed to submit application. Please try again.");
+        const backendError = result?.error?.job?.[0] || "Failed to submit application.";
+        console.error("Application failed:", backendError);
+        toast.error(backendError);
       }
     } catch (error) {
       console.error("Error applying for job:", error);
-      toast.error("An unexpected error occurred. Please try again later.");
+
+      // Safely extract backend message if available
+      const backendError =
+        error?.response?.data?.job?.[0] ||
+        error?.response?.data?.detail ||
+        "An unexpected error occurred. Please try again later.";
+
+      toast.error(backendError);
     }
   };
 
+  
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
