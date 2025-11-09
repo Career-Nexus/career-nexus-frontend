@@ -172,7 +172,7 @@ const PersonalizeJob = () => {
     }, 3000);
   };
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow mb-20">
       <h2 className="text-2xl font-bold mb-6">Personalize Your Job Feed</h2>
 
       {/* Job Titles Section */}

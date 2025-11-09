@@ -46,7 +46,7 @@ const OrganizationMembers = () => {
   return (
     <div className="mt-4">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold">Organization Members</h3>
+        <h3 className="text-lg font-semibold">Organization Members({accountMembers.length})</h3>
         <button
           onClick={() => setAddMemberModal(true)}
           className="bg-[#5DA05D] text-white px-3 py-2 rounded-md text-sm hover:bg-[#4CAF50]"
@@ -73,7 +73,7 @@ const OrganizationMembers = () => {
                 <div>
                   <p className="font-medium text-gray-800">{member.name}</p>
                   <p className="text-sm text-gray-500">
-                    {member.qualification || "No qualification info"}
+                    {member.qualification || member.extras || "No qualification info"}
                   </p>
                 </div>
               </div>

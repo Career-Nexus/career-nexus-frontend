@@ -256,7 +256,7 @@ const AddOrgMembersModal = ({ isOpen, onClose, onMemberAdded }) => {
       setLoading(false);
     }
   };
-
+  console.log(searchResults)
   /* === ADD USER === */
   const handleSubmit = async () => {
     if (!selectedUser) {

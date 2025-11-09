@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CorporateServices } from "../../api/CoporateServices";
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
 
 const inputStyle ="w-full bg-gray-50 text-gray-900 rounded-lg p-2 border border-transparent focus:border-green-500 focus:ring-0 outline-none";
 
@@ -51,11 +52,12 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
     company_size: "",
     industry: "",
     website: "",
+    country_code:"",
+    phone_number:"",
     location: "",
     tagline: "",
     logo: null,
   });
-
   const [industryOptions, setIndustryOptions] = useState([]);
   const [companyTypeOptions, setCompanyTypeOptions] = useState([]);
   const [companySizeOptions, setCompanySizeOptions] = useState([]); 
@@ -89,6 +91,8 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
         company_size: "",
         industry: "",
         website: "",
+        country_code:"",
+        phone_number:"",
         location: "",
         tagline: "",
         });
@@ -117,6 +121,7 @@ const CompanyModal = ({ isOpen, onClose, onSubmit, loading }) => {
     }
 
     onSubmit(payload); // Pass cleaned payload to parent
+    toast.success("company profile updated successfully")
   };
 
   if (!isOpen) return null; // Hide modal if not open
@@ -202,6 +207,28 @@ const handleClickOutside = (e) => {
                 type="url"
                 name="website"
                 value={formData.website}
+                onChange={handleChange}
+                className={inputStyle}
+                />
+            </div>
+            {/* country code */}
+             <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">country code</label>
+                <input
+                type="text"
+                name="country_code"
+                value={formData.country_code}
+                onChange={handleChange}
+                className={inputStyle}
+                />
+            </div>
+            {/* phone */}
+             <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input
+                type="number"
+                name="phone_number"
+                value={formData.phone_number}
                 onChange={handleChange}
                 className={inputStyle}
                 />

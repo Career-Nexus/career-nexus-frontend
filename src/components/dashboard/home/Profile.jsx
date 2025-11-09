@@ -109,7 +109,7 @@ const Profile = () => {
                             </Link>
                         ) : (
                             <div className='bg-gray-50 p-3 rounded-lg border border-gray-200 mt-3'>
-                                <h1 className='font-semibold'>MY PAGE</h1>
+                                <h1 className='font-semibold'>Other Accounts</h1>
                                 {linkedAccounts.map(account => (
                                     <button
                                         key={account.id}
