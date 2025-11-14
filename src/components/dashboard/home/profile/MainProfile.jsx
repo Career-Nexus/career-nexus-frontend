@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { Edit } from '../../../../icons/icon'
 import ProfileTabs from './ProfileTab'
 import ReusableModal from './ModalDesign'
-import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Check, UserCircle2, ArrowRight, Pencil, NotepadText, VideoIcon, Ellipsis, Info } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, Camera, Check, UserCircle2, ArrowRight, Pencil, NotepadText, VideoIcon, Ellipsis, Info, CloudUpload, Loader2 } from 'lucide-react'
 import { EditComponent } from './AllModal'
 import { UserContext } from '../../../../context/UserContext'
 import { useForm } from 'react-hook-form'
@@ -114,27 +114,100 @@ const ProfileCover = () => {
 
 const MainProfile = () => {
   const [openModal, setOpenModal] = useState(false);
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, updateUser } = useContext(UserContext);
   const { profileCompletion, setProfileCompletion } = useContext(ProfileContext);
   const [openIntroVideo, setOpenIntroVideo] = useState(false);
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleCompletionChange = (completion) => {
     setProfileCompletion(completion); // shared state
+  };
+
+  const handleResumeUpload = async () => {
+    if (!file) return;
+
+    try {
+      const payload = {
+        resume: file,   // 👈 Your provider already handles FormData
+      };
+
+      await updateUser(payload);
+      toast.success("Resume uploaded successfully!");
+      setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload resume");
+    }
   };
 
   return (
     <div>
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
         <div><ProfileCover /></div>
-        <div className="flex justify-end px-3">
-          <button
-            onClick={() => setOpenModal(true)}
-            className="flex items-center gap-2 rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition"
-          >
-            <Edit className="text-[#5DA05D] h-5 w-5" />
-            <span className="text-[#5DA05D] md:text-sm text-xs">Edit Profile</span>
-          </button>
+        <div className='flex justify-end gap-4'>
+          <div className="flex gap-3 px-3">
+            {/* Intuitive upload input */}
+            <div>
+              <label className="w-full cursor-pointer">
+                <div className="flex items-center justify-between gap-3 border border-dashed border-gray-400 rounded-lg px-3 py-3 hover:bg-gray-50 transition">
+                  <div className="flex items-center gap-3">
+                    <CloudUpload className="h-5 w-5 text-gray-500" />
+                    <span className="text-sm text-gray-600">
+                      {file ? file.name : "Choose a resume file (PDF, DOC, DOCX)"}
+                    </span>
+                  </div>
+                  <span className="text-xs bg-gray-200 px-2 py-1 rounded text-gray-700">
+                    Browse
+                  </span>
+                </div>
+
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  ref={fileInputRef}
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="hidden"
+                />
+              </label>
+            </div>
+
+            {/* Upload button */}
+            <div className="flex justify-end">
+              <button
+                onClick={handleResumeUpload}
+                disabled={loading || !file}
+                className="flex items-center gap-2 rounded-lg border-2 text-[#5DA05D] border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> Uploading...
+                  </>
+                ) : (
+                  <>
+                    <CloudUpload className="h-5 w-5" />
+                    Upload Resume
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-end px-3">
+            <button
+              onClick={() => setOpenModal(true)}
+              className="flex items-center gap-2 rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition"
+            >
+              <Edit className="text-[#5DA05D] h-5 w-5" />
+              <span className="text-[#5DA05D] md:text-sm text-xs">Edit Profile</span>
+            </button>
+          </div>
         </div>
+          
 
         <hr className="my-3" />
 
