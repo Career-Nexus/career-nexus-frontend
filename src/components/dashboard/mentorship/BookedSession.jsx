@@ -6,10 +6,10 @@ import { MentorServices } from "../../../api/MentorServices";
 import { Box, Spinner } from "@chakra-ui/react";
 import { toast } from 'react-toastify'
 import AcceptedBookings from "./AcceptedBookings";
-import AllJobs from "../jobs/AllJobs";
 import FloatingMessageIcon from "../chat/FloatingMessage";
+import InvitedSession from "./InvitedSession";
 
-export default function BookedSession() {
+function BookSession() {
     const [requestedSession, setRequestedSession] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(null); // Track which dropdown is open
@@ -54,7 +54,8 @@ export default function BookedSession() {
         setOpenDropdown(openDropdown === id ? null : id);
     };
     return (
-        <div >
+        <div className="mb-20" >
+            <h2 className="text-xl font-bold mb-3">Booked sessions</h2>
             <div className="grid md:grid-cols-2 gap-6">
                 {loading ? (
                     <Box display="flex" justifyContent="center" alignItems="center" height="200px">
@@ -66,7 +67,7 @@ export default function BookedSession() {
                     ) : (
                         requestedSession.map((booking) => (
                             <div key={booking.id}>
-                                <h2 className="text-xl font-bold mb-3">Booked sessions</h2>
+                                
                                 <div
                                     key={booking.id}
                                     className="bg-white p-5 rounded-xl shadow flex flex-col min-h-[350px]"
@@ -169,16 +170,51 @@ export default function BookedSession() {
                     )}
             </div>
             {/* accepted bookings */}
-            <AcceptedBookings />
+            {/* <AcceptedBookings /> */}
             <div>
                 <FloatingMessageIcon />
             </div>
         </div>
     );
+}
 
-    // return(
-    //     <div>
-    //         <AllJobs />
-    //     </div>
-    // )
+
+export default function BookedSession() {
+  const [activeTab, setActiveTab] = useState('booked');
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="grid grid-cols-12 bg-white">
+          {/* Right Column */}
+          <div className="col-span-12 bg-white">
+            {/* <h1 className="text-2xl font-bold mb-3 text-[#3a1c64]">
+              My Jobs
+            </h1> */}
+            <div className="flex bg-gray-100 p-1 rounded-lg mb-4 w-full">
+              <button
+                type="button"
+                className={`w-full py-2 text-sm font-medium rounded-lg ${activeTab === 'booked' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
+                onClick={() => setActiveTab('booked')}
+              >
+                BOOKED SESSION
+              </button>
+              <button
+                type="button"
+                className={`w-full py-2 text-sm font-medium rounded-lg ${activeTab === 'accepted' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
+                onClick={() => setActiveTab('accepted')}
+              >
+                ACCEPTED BOOKINGS
+              </button>
+              <button
+                type="button"
+                className={`w-full py-2 text-sm font-medium rounded-lg ${activeTab === 'invited' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
+                onClick={() => setActiveTab('invited')}
+              >
+                INVITED SESSIONS
+              </button>
+            </div>
+            {activeTab === 'booked' ? <BookSession /> :activeTab==='accepted'? <AcceptedBookings />:<InvitedSession/>}
+          </div>
+        </div>
+      </div>
+    )
 }

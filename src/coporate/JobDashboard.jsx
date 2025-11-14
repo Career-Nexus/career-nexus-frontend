@@ -4,22 +4,27 @@ import { JobServices } from "../api/JobServices";
 import { toast } from "react-toastify";
 import { Box, Spinner } from "@chakra-ui/react";
 import ApplicantsListModal from "./components/ApplicantsListModal";
+import ReviewAndPostJobModal from "./components/ReviewAndPostJobModal";
 
 // === JOB CARD ===
 const JobCard = ({ job, activeTab, applicants }) => {
   const [showApplicants, setShowApplicants] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   const handleApplicantsDetails = () => {
     setShowApplicants(true);
-    //fetchApplicants(job.id);
   };
-
 
   const updateJobStatus = async (jobId, status) => {
     try {
       const response = await JobServices.UpdateJobStatus(jobId, status);
+
       if (response.success) {
-        toast.success(status === "closed" ? "Job closed successfully!" : "Job reopened successfully!");
+        toast.success(
+          status === "closed"
+            ? "Job closed successfully!"
+            : "Job reopened successfully!"
+        );
         window.location.reload();
       } else {
         toast.error("Failed to update job.");
@@ -29,31 +34,42 @@ const JobCard = ({ job, activeTab, applicants }) => {
     }
   };
 
-  // Match applicants to this job
-  const jobApplicants = applicants.filter((app) => app.job_name === job.title);
+  // Filter applicants for this job
+  const jobApplicants = applicants.filter(
+    (app) => app.job_name === job.title
+  );
   const applicantCount = jobApplicants.length;
 
-  let btnText = "Edit Job";
+  // Dynamic button text and style
+  let btnText = "";
+  let btnAction = null;
   let btnStyle = "";
+
   if (activeTab === "draft") {
     btnText = "Review and Post";
-    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
+    btnAction = () => setShowReviewModal(true);
+    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white py-3";
   } else if (activeTab === "closed") {
     btnText = "Reopen and Post";
-    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white";
-  }else {
+    btnAction = () => updateJobStatus(job.id, "active");
+    btnStyle = "border border-[#5DA05D] text-[#5DA05D] hover:bg-[#5DA05D] hover:text-white py-3";
+  } else {
     btnText = "";
+    //btnAction = () => console.log("Edit job here");
     btnStyle = "";
   }
 
   return (
     <div className="bg-white border rounded-lg p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+
+      {/* Job Title & Timestamp */}
       <div>
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-gray-800 text-lg">{job.title}</h3>
           <p className="text-sm text-gray-400">Posted {job.time_stamp}</p>
         </div>
 
+        {/* Meta Info */}
         <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4 text-black" />
@@ -63,54 +79,65 @@ const JobCard = ({ job, activeTab, applicants }) => {
             <Clock className="w-4 h-4 text-black" />
             {job.employment_type}
           </div>
-          <div className="text-gray-700 font-medium ml-auto">₦{job.salary}</div>
+          <div className="text-gray-700 font-medium ml-auto">
+            ₦{job.salary}
+          </div>
         </div>
       </div>
 
+      {/* Job Overview */}
       <div>{job.overview}</div>
 
+      {/* Footer Buttons */}
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-6 text-center text-sm">
-          {/* <div>
-            <p className="text-[#5DA05D] font-semibold">{job.views || 0}</p>
-            <p className="text-gray-500 text-xs">Views</p>
-          </div> */}
           <button
-          className="flex gap-1 bg-[#E6F4E6] text-gray-500 hover:bg-[#5DA05D] hover:text-white px-3 py-1 rounded-md hover:shadow-sm transition"
-          // onClick={() => setShowApplicants((prev) => !prev)}
-          onClick={handleApplicantsDetails}
+            onClick={handleApplicantsDetails}
+            className="flex gap-1 bg-[#E6F4E6] text-gray-500 hover:bg-[#5DA05D] hover:text-white px-3 py-3 rounded-md transition"
           >
             <span className="font-semibold">{applicantCount}</span>
-            <p className="">Applicants</p>
+            <p>Applicants</p>
           </button>
         </div>
 
         <div className="flex gap-3">
+          <button
+            onClick={btnAction}
+            className={`${btnStyle} md:px-4 px-1 py-1 ml-2 rounded-md text-sm`}
+          >
+            {btnText}
+          </button>
           {activeTab !== "closed" && (
             <button
               onClick={() => updateJobStatus(job.id, "closed")}
-              className="px-4 py-1 rounded-md transition text-sm text-red-600 border border-red-600"
+              className="px-4 py-3 rounded-md text-sm text-red-600 border border-red-600"
             >
               Close
             </button>
           )}
-          <button
-            onClick={btnText === "Reopen and Post" ? () => updateJobStatus(job.id, "active") : null}
-            className={`${btnStyle} px-4 py-1 rounded-md transition text-sm`}
-          >
-            {btnText}
-          </button>
         </div>
-        {showApplicants && (
-          <ApplicantsListModal
-            jobId={job.id}
-            onClose={() => setShowApplicants(false)}
-          />
-        )}
       </div>
+
+      {/* Applicants Modal */}
+      {showApplicants && (
+        <ApplicantsListModal
+          jobId={job.id}
+          onClose={() => setShowApplicants(false)}
+        />
+      )}
+
+      {/* Review Modal */}
+      {showReviewModal && (
+        <ReviewAndPostJobModal
+          isOpen={showReviewModal}
+          onClose={() => setShowReviewModal(false)}
+          job={job}
+        />
+      )}
     </div>
   );
 };
+
 
 
 
@@ -156,7 +183,7 @@ const PostJobForm = () => {
   };
   return (
     <div>
-      <div className="bg-white p-8 rounded-lg shadow">
+      <div className="bg-white p-8 rounded-lg shadow mb-20">
         <h2 className="text-lg font-semibold mb-2">Post A New Job</h2>
         <p className="text-gray-500 mb-6">
           Fill out the details below to attract the best candidates for your position.
@@ -319,7 +346,7 @@ const PostJobForm = () => {
 };
 
 // === APPLICANTS LIST ===
-const ApplicantsList = ({applicants}) => {
+const ApplicantsList = ({ applicants }) => {
   const [recentApplicants, setRecentApplicants] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -349,7 +376,7 @@ const ApplicantsList = ({applicants}) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-white p-6 rounded-lg shadow mb-20">
       <h2 className="text-lg font-semibold mb-4">Recent Applications</h2>
       <div className="space-y-3">
         {recentApplicants.map((app) => (
@@ -385,22 +412,22 @@ export default function JobDashboard() {
   const [activeView, setActiveView] = useState("manage"); // manage | post | applicants
   const [activeTab, setActiveTab] = useState("active");
   const [jobs, setJobs] = useState([]);
-  
+
   const [recentApplicants, setRecentApplicants] = useState([]);
 
-const fetchApplicants = async () => {
-  try {
-    const response = await JobServices.GetJobApplications();
-    const array = Array.isArray(response.data) ? response.data : [];
-    setRecentApplicants(array);
-  } catch (error) {
-    console.error("Error fetching applicants:", error);
-  }
-};
+  const fetchApplicants = async () => {
+    try {
+      const response = await JobServices.GetJobApplications();
+      const array = Array.isArray(response.data) ? response.data : [];
+      setRecentApplicants(array);
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+    }
+  };
 
-useEffect(() => {
-  fetchApplicants();
-}, []);
+  useEffect(() => {
+    fetchApplicants();
+  }, []);
 
   const FetchJobs = async (status = "active") => {
     try {
@@ -433,13 +460,13 @@ useEffect(() => {
   // const filteredJobs = jobs.filter((job) => job.status === activeTab);
   const filteredJobs = jobs;
   const tabClasses = (tab) =>
-    `flex-1 py-2 text-center rounded-md font-medium text-sm transition ${activeTab === tab
+    `flex-1 py-3 text-center rounded-md font-medium text-sm transition ${activeTab === tab
       ? "bg-white text-green-700 shadow-sm"
       : "text-gray-500 hover:text-green-600"
     }`;
 
   return (
-    <div className="min-h-screen p-2 md:p-3 lg:p-6 w-[96%] lg:w-[80%] mx-auto">
+    <div className="min-h-screen p-2 md:p-3 lg:p-6 w-[96%] lg:w-[80%] mx-auto mb-20">
       <div className="flex md:flex-row flex-col gap-8">
         {/* === SIDEBAR === */}
         <aside className="md:w-56 w-full">
@@ -486,9 +513,9 @@ useEffect(() => {
                   CLOSED
                 </button>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {filteredJobs.map((job) => (
-                  <JobCard key={job.id} job={job} activeTab={activeTab} applicants={recentApplicants}/>
+                  <JobCard key={job.id} job={job} activeTab={activeTab} applicants={recentApplicants} />
                 ))}
               </div>
             </>

@@ -141,4 +141,14 @@ export const JobServices = {
             return { success: false, error };
         }
     },
+    async EditUserJob(job_id, payload){
+        try {
+            const response = await api.put(`/job/?job_id=${job_id}`,payload)
+            console.log("User job updated sucessfully");
+            return {success:true, data:response.data}
+        } catch (error) {
+            console.log("Couldn't update user job",error)
+            return { success: false, error };
+        }
+    }
 }

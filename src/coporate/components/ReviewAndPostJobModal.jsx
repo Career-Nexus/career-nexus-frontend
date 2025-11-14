@@ -1,12 +1,67 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
+import { JobServices } from '../../api/JobServices';
+import { X } from 'lucide-react';
 
-export default function ReviewAndPostJobModal({onClose, isOpen}) {
+export default function ReviewAndPostJobModal({ onClose, isOpen, job }) {
+    const [formData, setFormData] = useState({
+        title: '',
+        organization: '',
+        experience_level: '',
+        description: '',
+        overview: '',
+        country: '',
+        work_type: '',
+        employment_type: '',
+        salary: '',
+        status: 'active'
+    })
+    // Pre-fill form when modal opens
+    useEffect(() => {
+        if (job) {
+            setFormData({
+                title: job.title || '',
+                organization: job.organization || '',
+                experience_level: job.experience_level || '',
+                description: job.description || '',
+                overview: job.overview || '',
+                country: job.country || '',
+                work_type: job.work_type || '',
+                employment_type: job.employment_type || '',
+                salary: job.salary || '',
+                status: job.status || 'active'
+            });
+        }
+    }, [job]);
+
+    const handleUpdate = async () => {
+        if (!job?.id) {
+            toast.error("Missing job ID.");
+            return;
+        }
+        try {
+            const update = await JobServices.EditUserJob(job.id, formData);
+            if (update.success) {
+                toast.success("Job reviewed and posted successfully!");
+                onClose();
+                window.location.reload(); // optional: refresh job list
+            } else {
+                toast.error("Something went wrong while updating user job");
+            }
+        } catch (error) {
+            toast.error("An error occurred while posting job.");
+            console.error(error);
+        }
+    }
+
+    if (!isOpen) return null;
     return (
         <div
-            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
-            onClick={(e) => e.target === e.currentTarget && onClose()} // close on backdrop click
+            className="fixed inset-0 bg-black/50 justify-center flex z-50 overflow-y-auto no-scrollbar p-3"
+            onClick={(e) => e.target === e.currentTarget && onClose()}
         >
-            <div className="bg-white w-full max-w-md md:max-w-2xl rounded-lg shadow-lg overflow-y-auto no-scrollbar flex flex-col">
+            <div className="bg-white w-full max-w-md md:max-w-2xl rounded-lg shadow-lg  flex flex-col">
+
                 {/* Header */}
                 <div className="flex justify-between items-center p-4 border-b">
                     <h2 className="text-lg font-semibold text-gray-800">Applicants</h2>
@@ -24,7 +79,7 @@ export default function ReviewAndPostJobModal({onClose, isOpen}) {
                         className="space-y-4"
                         onSubmit={(e) => {
                             e.preventDefault();
-                            createAJob();
+                            handleUpdate();
                         }}
                     >
                         <div>
@@ -86,7 +141,7 @@ export default function ReviewAndPostJobModal({onClose, isOpen}) {
                         </div>
 
                         {/* Location + Work Type + Employment Type */}
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="lg:grid grid-cols-3 gap-4">
                             <div>
                                 <label className="block text-sm font-medium mb-1">Location*</label>
                                 <input
@@ -97,7 +152,7 @@ export default function ReviewAndPostJobModal({onClose, isOpen}) {
                                     className="w-full border border-gray-200 bg-[#FAFAFA] rounded-md p-2 focus:outline-[#5DA05D]"
                                 />
                             </div>
-                            <div>
+                            <div className='my-3'>
                                 <label className="block text-sm font-medium mb-1">Work Type</label>
                                 <select
                                     value={formData.work_type}
@@ -156,14 +211,6 @@ export default function ReviewAndPostJobModal({onClose, isOpen}) {
 
                         <div className="flex gap-3 justify-end pt-4">
                             <button
-                                onClick={() => { setFormData({ ...formData, status: "draft" }); }}
-                                type="submit"
-                                className="border border-[#5DA05D] text-[#5DA05D] px-4 py-1 rounded-md hover:bg-green-50"
-                            >
-                                Save Draft
-                            </button>
-                            <button
-                                onClick={() => { setFormData({ ...formData, status: "active" }); }}
                                 type="submit"
                                 className="bg-[#5DA05D] text-white px-4 py-1 rounded-md hover:bg-[#5DA05D]"
                             >

@@ -49,6 +49,18 @@ export const MentorServices = {
             console.log("couldn't book session with mentor")
         }
     },
+    //Retrieve invited sessions
+    async invtedSessions(params={}){
+        try {
+            const response = await api.get("/mentor/sessions/invited/",{params})
+            if(response.data){
+                console.log("invited sessions retrieved")
+                return { success: true, data: response.data }
+            }
+        } catch (error) {
+            console.log("Couldn't retrieve invited sessions")
+        }
+    },
     async requestedmentorship(params = {}) {
         try {
             const response = await api.get("/mentor/sessions/?status=requested", { params })

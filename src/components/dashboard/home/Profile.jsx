@@ -14,17 +14,6 @@ const Profile = () => {
         return <div className='flex items-center justify-center h-screen'>Error: {error}</div>
     }
 
-    // const fetchLinkedAccounts = async () => {
-    //     try {
-    //         const response = await CorporateServices.getLinkedAccounts();
-    //         if (response.success) {
-    //             setLinkedAccounts(response.data);
-    //             console.log("Linked accounts in Profile:", response.data);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error fetching linked accounts:", error);
-    //     }
-    // };
     const fetchLinkedAccounts = async () => {
         try {
             const response = await CorporateServices.getLinkedAccounts();

@@ -19,19 +19,6 @@ import JobAnalysis from './JobAnalysis';
 function UserJobs() {
 
   const [activeTab, setActiveTab] = useState('applied');
-  // const MentorContent = () => (
-  //   <div className="flex items-center justify-center bg-white aspect-[7.8/8]">
-  //     <MentorAccountForm/>
-  //   </div>
-  // )
-
-  // const LearnerContent = () => (
-  //   // <div className="flex items-center justify-center bg-white aspect-[7.8/6]">
-  //   <div className="flex items-center justify-center bg-white aspect-[7.8/8]">
-  //     <CreateAccountForm />
-  //   </div>
-  // )
-
   return (
     <div className="min-h-screen bg-white">
       <div className="grid grid-cols-12 bg-white">
