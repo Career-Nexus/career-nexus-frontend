@@ -61,6 +61,15 @@ function InvitedSession() {
         fetchInvitedSessions();
     }, []);
 
+    const canJoinSession = (booking) => {
+        if (!booking.date || !booking.time) return false;
+
+        const sessionDateTime = new Date(`${booking.date}T${booking.time}`);
+        const now = new Date();
+
+        return now >= sessionDateTime;
+    };
+
     const handleRatingSubmit = async ({ sessionId, rating }) => {
         try {
             const payload = {
@@ -214,7 +223,7 @@ function InvitedSession() {
 
                                     {/* Action Buttons */}
                                     <div className="flex space-x-3 mt-auto">
-                                        {booking.is_paid === false ? (
+                                        {/* {booking.is_paid === false ? (
                                             <button
                                                 // onClick={() => openModal(booking)}
                                                 className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
@@ -232,6 +241,32 @@ function InvitedSession() {
                                                     className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
                                                 >Not yet time</button>
                                             )
+                                        )} */}
+                                        {!booking.is_paid && parseInt(booking.amount) > '0' ? (
+                                            /* USER HAS NOT PAID & AMOUNT > 0 → SHOW PAY BUTTON */
+                                            <button
+                                                onClick={() => openModal(booking)}
+                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                            >
+                                                Pay Now
+                                            </button>
+                                        ) : (
+                                            /* AMOUNT IS ZERO OR ALREADY PAID */
+                                            canJoinSession(booking) ? (
+                                                <button
+                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                                    onClick={() => setActiveSessionId(booking.sessionId)}
+                                                >
+                                                    Join Session
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                                >
+                                                    Not yet time
+                                                </button>
+                                            )
+
                                         )}
                                         {/* <button
 

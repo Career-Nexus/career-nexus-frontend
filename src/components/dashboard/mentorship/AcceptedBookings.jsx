@@ -58,6 +58,15 @@ function AcceptedBookings() {
         acceptedSessions();
     }, []);
 
+    const canJoinSession = (booking) => {
+        if (!booking.date || !booking.time) return false;
+
+        const sessionDateTime = new Date(`${booking.date}T${booking.time}`);
+        const now = new Date();
+
+        return now >= sessionDateTime;
+    };
+
 
     const handleRatingSubmit = async ({ sessionId, rating, feedback }) => {
         try {
@@ -215,7 +224,7 @@ function AcceptedBookings() {
                                     <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
 
                                     <div className="flex space-x-3 mt-auto">
-                                        {booking.is_paid === false ? (
+                                        {/* {booking.is_paid === false && booking.amount !== '0NGN' ? (
                                             <button
                                                 onClick={() => openModal(booking)}
                                                 className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
@@ -233,7 +242,34 @@ function AcceptedBookings() {
                                                     className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
                                                 >Not yet time</button>
                                             )
+                                        )} */}
+                                        {!booking.is_paid && parseInt(booking.amount) > '0' ? (
+                                            /* USER HAS NOT PAID & AMOUNT > 0 → SHOW PAY BUTTON */
+                                            <button
+                                                onClick={() => openModal(booking)}
+                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                            >
+                                                Pay Now
+                                            </button>
+                                        ) : (
+                                            /* AMOUNT IS ZERO OR ALREADY PAID */
+                                            canJoinSession(booking) ? (
+                                                <button
+                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                                    onClick={() => setActiveSessionId(booking.id)}
+                                                >
+                                                    Join Session
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
+                                                >
+                                                    Not yet time
+                                                </button>
+                                            )
+
                                         )}
+
                                         {/* <button
 
                                             className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"

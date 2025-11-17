@@ -857,7 +857,7 @@ const MentorCard = ({ mentor }) => {
                       {
                         value: "group",
                         label: "Group Session",
-                        desc: "Multiple participants (2–6 people)",
+                        desc: "Multiple participants (2-10 people)",
                       },
                     ].map((opt) => (
                       <button

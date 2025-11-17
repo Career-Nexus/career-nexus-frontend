@@ -63,7 +63,7 @@ function BookSession() {
                     </Box>
                 ) : requestedSession.length == 0 ?
                     (
-                        <p>No requested sessions found.</p>
+                        <p>No Booked sessions found.</p>
                     ) : (
                         requestedSession.map((booking) => (
                             <div key={booking.id}>
@@ -195,7 +195,7 @@ export default function BookedSession() {
                 className={`w-full py-2 text-sm font-medium rounded-lg ${activeTab === 'booked' ? 'bg-white shadow' : 'bg-gray-100 text-gray-500'}`}
                 onClick={() => setActiveTab('booked')}
               >
-                BOOKED SESSION
+                BOOKED SESSIONS
               </button>
               <button
                 type="button"
