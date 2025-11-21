@@ -149,14 +149,14 @@ const MainProfile = () => {
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
         <div><ProfileCover /></div>
         <div className='flex justify-end gap-4'>
-          <div className="flex gap-3 px-3">
+          <div className="flex flex-col md:flex-row mt-4 gap-3 px-3">
             {/* Intuitive upload input */}
             <div>
               <label className="w-full cursor-pointer">
-                <div className="flex items-center justify-between gap-3 border border-dashed border-gray-400 rounded-lg px-3 py-3 hover:bg-gray-50 transition">
+                <div className="flex items-center justify-between gap-3 border border-dashed border-gray-400 rounded-lg px-2 py-3 hover:bg-gray-50 transition">
                   <div className="flex items-center gap-3">
                     <CloudUpload className="h-5 w-5 text-gray-500" />
-                    <span className="text-sm text-gray-600">
+                    <span className="text-[12px] text-gray-600">
                       {file ? file.name : "Choose a resume file (PDF, DOC, DOCX)"}
                     </span>
                   </div>
@@ -177,11 +177,11 @@ const MainProfile = () => {
             </div>
 
             {/* Upload button */}
-            <div className="flex justify-end">
+            <div className="flex md:justify-end">
               <button
                 onClick={handleResumeUpload}
                 disabled={loading || !file}
-                className="flex items-center gap-2 rounded-lg border-2 text-[#5DA05D] border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 text-xs rounded-lg border-2 text-[#5DA05D] border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>
@@ -197,7 +197,7 @@ const MainProfile = () => {
             </div>
           </div>
 
-          <div className="flex justify-end px-3">
+          <div className="flex justify-end px-3 mt-4">
             <button
               onClick={() => setOpenModal(true)}
               className="flex items-center gap-2 rounded-lg border-2 border-[#5DA05D] hover:bg-green-100 px-3 py-2 md:px-4 md:py-2 md:h-10 h-9 cursor-pointer transition"
