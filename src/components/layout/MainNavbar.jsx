@@ -4,13 +4,10 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Home, Jobs, Mentorship, Network, Notification, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { Bell, EllipsisVertical, HelpCircle, LoaderIcon, LogOut, Search, Settings, UserCircle, X } from 'lucide-react';
+import { EllipsisVertical, HelpCircle, LoaderIcon, LogOut, Search, Settings, UserCircle, X } from 'lucide-react';
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
-import { useNotifications } from '../../context/NotificationContext';
-import { GetNotifications } from '../dashboard/jobs/JobNotification';
-import { toast } from 'react-toastify';
-import { ChatServices } from '../../api/ChatServices';
+import { Notify } from '../dashboard/home/Notify';
 
 
 const MainNavbar = () => {
@@ -147,70 +144,70 @@ const MainNavbar = () => {
                                     <h1 className='text-xs'>Business</h1>
                                 </Link> */}
                             </div>
-                        ):user.user_type==="learner" ?
-                        (
-                            <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
-                                <Link
-                                    to='/home'
-                                    className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
-                                >
-                                    <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Home</h1>
-                                </Link>
-                                <Link
-                                    to='/mentorship'
-                                    className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
-                                >
-                                    <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Mentorship</h1>
-                                </Link>
-                                <Link
-                                    to='/network'
-                                    className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
-                                >
-                                    <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Network</h1>
-                                </Link>
-                                <Link
-                                    to='/jobs'
-                                    className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
-                                >
-                                    <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Jobs</h1>
-                                </Link>  
-                            </div>
-                        ) : (
-                            <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
-                                <Link
-                                    to='/home'
-                                    className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
-                                >
-                                    <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Home</h1>
-                                </Link>
-                                <Link
-                                    to='/mentorship'
-                                    className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
-                                >
-                                    <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Mentorship</h1>
-                                </Link>
-                                <Link
-                                    to='/network'
-                                    className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
-                                >
-                                    <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Network</h1>
-                                </Link>
-                                <Link
-                                    to='/coporate-job'
-                                    className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
-                                >
-                                    <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
-                                    <h1 className='text-xs'>Jobs</h1>
-                                </Link>  
-                            </div>
-                        )
+                        ) : user.user_type === "learner" ?
+                            (
+                                <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
+                                    <Link
+                                        to='/home'
+                                        className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
+                                    >
+                                        <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Home</h1>
+                                    </Link>
+                                    <Link
+                                        to='/mentorship'
+                                        className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
+                                    >
+                                        <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Mentorship</h1>
+                                    </Link>
+                                    <Link
+                                        to='/network'
+                                        className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
+                                    >
+                                        <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Network</h1>
+                                    </Link>
+                                    <Link
+                                        to='/jobs'
+                                        className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
+                                    >
+                                        <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Jobs</h1>
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div className='hidden md:flex items-center justify-center lg:space-x-10 md:space-x-4 lg:ml-[14rem] md:ml-[11rem]'>
+                                    <Link
+                                        to='/home'
+                                        className={`${navItemClass} ${isActive('/home') ? activeClass : ''}`}
+                                    >
+                                        <Home className={`${isActive('/home') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Home</h1>
+                                    </Link>
+                                    <Link
+                                        to='/mentorship'
+                                        className={`${navItemClass} ${isActive('/mentorship') ? activeClass : ''}`}
+                                    >
+                                        <Mentorship className={`${isActive('/mentorship') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Mentorship</h1>
+                                    </Link>
+                                    <Link
+                                        to='/network'
+                                        className={`${navItemClass} ${isActive('/network') ? activeClass : ''}`}
+                                    >
+                                        <Network className={`${isActive('/network') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Network</h1>
+                                    </Link>
+                                    <Link
+                                        to='/coporate-job'
+                                        className={`${navItemClass} ${isActive('/jobs') ? activeClass : ''}`}
+                                    >
+                                        <Jobs className={`${isActive('/jobs') ? activebg : ''} mx-auto`} />
+                                        <h1 className='text-xs'>Jobs</h1>
+                                    </Link>
+                                </div>
+                            )
                     }
                     {/* Search Box */}
                     <div className="flex items-center bg-[#FAFAFA] border border-gray-400 rounded-full flex-grow mx-1 lg:mx-4">
@@ -415,108 +412,3 @@ const MainNavbar = () => {
 }
 
 export default MainNavbar
-
-export function Notify() {
-    const [open, setOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const dropdownRef = useRef(null);
-    const [allNotifications, setAllNotifications] = useState([])
-
-    // Detect screen size
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 640); // Tailwind "sm" breakpoint
-        };
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    // Close dropdown on outside click
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-    const getNotifications = async () => {
-        try {
-            const { success, data } = await ChatServices.getNotifications();
-            if (success) {
-                setAllNotifications(data.results || []); // ✅ always set an array
-                console.log("Notifications fetched:", data.results);
-            } else {
-                setAllNotifications([]);
-            }
-        } catch (error) {
-            console.error("Error fetching notifications:", error);
-            setAllNotifications([]);
-        }
-    };
-    useEffect(() => {
-        getNotifications();
-    }, []);
-
-    const ClearNotification = async () => {
-        const { success } = await ChatServices.clearNotifications();
-        if (success) {
-            toast.success("Notifications cleared successfully");
-        }
-    };
-    console.log("All Notifications:", allNotifications);
-    return (
-        <nav>
-            <div className="relative" ref={dropdownRef}>
-                <button
-                    onClick={() => setOpen(!open)}
-                    className="relative p-2 rounded-full hover:md:bg-gray-100"
-                >
-                    <Bell className="w-6 h-6 text-gray-700" />
-                    {allNotifications.length > 0 && (
-                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-                            {allNotifications.length}
-                        </span>
-                    )}
-                </button>
-
-                {open && (
-                    <div
-                        className={`absolute w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50 
-                        ${isMobile ? "bottom-full mb-2 right-0" : "top-full mt-2 right-0"}`}
-                    >
-                        <div className="max-h-80 overflow-y-auto">
-                            <p className="text-sm font-medium text-gray-800 p-3 border-b text-center bg-gray-50">
-                                Notifications
-                            </p>
-                            {allNotifications.length === 0 ? (
-                                <p className="p-4 text-gray-600 text-sm">No notifications</p>
-                            ) : (
-                                allNotifications.map((n) => (
-                                    <div key={n.id} className="p-3 border-b hover:bg-gray-50">
-                                        {/* <p className="text-sm font-medium text-gray-800">
-                                            Notification
-                                        </p> */}
-                                        <p className="text-xs text-gray-600">{n.text}</p>
-                                        <p className="text-[10px] text-gray-400">
-                                            {new Date(n.timestamp).toLocaleString()}
-                                        </p>
-                                    </div>
-                                ))
-                            )}
-
-                        </div>
-                        <div onClick={ClearNotification} className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline">
-                            Clear All Notifications
-                        </div>
-                    </div>
-                )}
-            </div>
-        </nav>
-    );
-}

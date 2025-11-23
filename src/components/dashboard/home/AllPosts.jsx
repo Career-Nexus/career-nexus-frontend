@@ -1,12 +1,12 @@
 
 import { useContext, useEffect, useState } from "react"
-import { ChevronDown, ChevronUp, Plus } from "lucide-react"
+import { Bell, ChevronDown, ChevronUp, Plus } from "lucide-react"
 import { Clock } from "../../../icons/icon"
 import { Spinner, Alert, AlertIcon, Box } from "@chakra-ui/react"
 import { PostService } from "../../../api/PostService"
 import SocialBar from "./SocialBar"
 import { formatTimeAgo } from "./TabInterface"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { UserContext } from "../../../context/UserContext"
 
 export default function AllTemplate() {
@@ -18,6 +18,10 @@ export default function AllTemplate() {
   const [error, setError] = useState(null);
   const { user, userwithid } = useContext(UserContext);
 
+  const location = useLocation();
+  const highlightedPost = location.state?.highlightedPost || null;
+  console.log("Highlighted Post from navigation state:", highlightedPost);
+ 
   const fetchPosts = async (page = 1) => {
     setLoading(true);
     try {
@@ -41,7 +45,6 @@ export default function AllTemplate() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchPosts(1);
   }, []);
@@ -80,7 +83,54 @@ export default function AllTemplate() {
     }
   };
 
-  if (loading && posts.length === 0) {
+  // Simple highlighted post card
+  const HighlightedPostCard = ({ post }) => {
+    if (!post) return null;
+
+    return (
+      <div className="mb-8 p-6 bg-gradient-to-br from-green-50 to-indigo-50 border border-green-300 rounded-2xl shadow">
+        <div className="flex items-center gap-3 mb-4">
+          <Bell className="w-7 h-7 text-green-600 animate-pulse" />
+          <p className="text-lg font-bold text-green-800">
+            Someone interacted with your post!
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-md">
+          <div className="flex gap-4 mb-4">
+            <img
+              src={post.profile?.profile_photo || "/images/profile.png"}
+              alt="profile"
+              className="w-14 h-14 rounded-full object-cover"
+            />
+            <div>
+              <h3 className="font-bold text-lg">
+                {post.profile?.first_name} {post.profile?.last_name}
+              </h3>
+              <p className="text-sm text-gray-600">{post.profile?.qualification}</p>
+              <p className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                <Clock className="w-3 h-3" />
+                {formatTimeAgo(post.time_stamp)}
+              </p>
+            </div>
+          </div>
+
+          <p className="text-gray-800 mb-4 whitespace-pre-line text-base leading-relaxed">
+            {post.body}
+          </p>
+
+          {/* Images */}
+          {post.pic1 && post.pic1 !== "N/A" && (
+            <img src={post.pic1} alt="post" className="w-full rounded-lg mb-3 max-h-96 object-cover" />
+          )}
+
+          <SocialBar post={post} fetchPosts={() => fetchPosts(1)} />
+        </div>
+      </div>
+    );
+  };
+
+  if (loading && posts.length === 0 && !highlightedPost) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="200px">
         <Spinner size="lg" color="#5DA05D" thickness="4px" />
@@ -107,6 +157,7 @@ export default function AllTemplate() {
 
   return (
     <div className="mb-16">
+     {highlightedPost && <HighlightedPostCard post={highlightedPost} />}
       {posts.map((post) => {
         const userId = post.profile.id;
         const isSelf = post.is_self;

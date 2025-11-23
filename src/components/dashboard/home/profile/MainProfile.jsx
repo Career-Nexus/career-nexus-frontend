@@ -145,7 +145,7 @@ const MainProfile = () => {
   };
 
   return (
-    <div>
+    <div className='mb-20'>
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
         <div><ProfileCover /></div>
         <div className='flex justify-end gap-4'>

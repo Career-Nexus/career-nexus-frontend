@@ -112,8 +112,8 @@ export const PostService = {
   },
   async getPostById(id) {
     try {
-      const response = await api.get(`post/${id}/`)
-      console.log("Post fetched:", response.data)
+      const response = await api.get(`/post/?post_id=${id}`)
+      console.log(`Post with ID ${id} fetched:`, response.data)
       return response.data
     } catch (error) {
       console.error(`Get Post ${id} Error:`, error.response || error.message)
