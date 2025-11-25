@@ -7,8 +7,8 @@ export const prodUrl = 'https://career-nexus.com'
 export const wsTestUrl="wss://btest.career-nexus.com/ws"
 export const wsProdUrl="wss://bprod.career-nexus.com/ws"
 //export const baseUrl = import.meta.env.VITE_APP_BASE_URL
-export const baseUrl = 'https://btest.career-nexus.com/'
-//export const baseUrl = 'https://bprod.career-nexus.com/'
+//export const baseUrl = 'https://btest.career-nexus.com/'
+export const baseUrl = 'https://bprod.career-nexus.com/'
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
