@@ -144,6 +144,14 @@ const Router = () => {
           }
         />
         <Route
+          path="/coporate/:id"
+          element={
+            <ProtectedRoute>
+              <CoporateProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/coporate-com"
           element={
             // <RedirectIfAuthenticated>
