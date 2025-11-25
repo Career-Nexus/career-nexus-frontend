@@ -6,17 +6,18 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
   PieChart, Pie, Cell
 } from "recharts";
-import { AiOutlineLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa6";
-import { GoShare } from "react-icons/go";
+import { useParams } from "react-router-dom";
 import CompanyModal from "./components/CompanyModal";
 import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
-import { CorporateServices } from "../api/CoporateServices";
 import PostSection from "./components/PostSection";
-// import AddOrgMembersModal from "./components/AddOrganisationMembersModal";
 import OrganizationMembers from "./components/OrganizationalMembers";
-import { set } from "react-hook-form";
+// import { AiOutlineLike } from "react-icons/ai";
+// import { FaRegComment } from "react-icons/fa6";
+// import { GoShare } from "react-icons/go";
+// import { CorporateServices } from "../api/CoporateServices";
+// import AddOrgMembersModal from "./components/AddOrganisationMembersModal";
+// import { set } from "react-hook-form";
 
 
 const ProfileCoverUI = () => {
@@ -128,13 +129,19 @@ const ProfileCoverUI = () => {
 export default function ProfileView() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [analyticsTab, setAnalyticsTab] = useState("Overview");
-  const { user, error, updateUser } = useContext(UserContext);
+  const { user, error, updateUser, getUserById, userwithid } = useContext(UserContext);
   const [editModal, setEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const [deletingId, setDeletingId] = useState(null);
-  // const [addMemberModal, setAddMemberModal] = useState(false);
   const [accountMembers, setAccountMembers] = useState(user?.members || []);
 
+  
+  const { id } = useParams();
+  useEffect(() => {
+    if (id) {
+        getUserById(id); // fetch and store in context
+    }
+}, [id]);    
+  
   useEffect(() => {
     if (user?.members) setAccountMembers(user.members);
   }, [user]);
@@ -163,38 +170,6 @@ export default function ProfileView() {
     "Posts",
   ];
 
-  // const handleMemberAdded = (newMembers) => {
-  //   setAccountMembers((prev) => [...prev, ...newMembers]);
-  // };
-
-  // const handleRemoveMember = async (memberId) => {
-  //   setDeletingId(memberId);
-  //   try {
-  //     const response = await CorporateServices.deleteOrgMember(memberId);
-  //     if (response.success) {
-  //       setAccountMembers((prevMembers) =>
-  //         prevMembers.filter((m) => m.member.id !== memberId)
-  //       );
-  //       toast.success("Member removed successfully");
-  //     } else {
-  //       toast.error("Failed to remove member");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error removing member:", error);
-  //     toast.error("An error occurred while removing member");
-  //   } finally {
-  //     setDeletingId(null);
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   if (activeTab === "Organization Members") {
-  //     GetAccountMembers();
-  //   }
-  // }, [activeTab]);
-
-
   const renderContent = () => {
 
     switch (activeTab) {
@@ -209,22 +184,22 @@ export default function ProfileView() {
                   Company Description
                 </h4>
                 <p>
-                  {user?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+                  {userwithid?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
                 </p>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Company</h4>
-                  <p>{user?.company_name || "Company Name"}</p>
+                  <p>{userwithid?.company_name || "Company Name"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Industry</h4>
-                  <p>{user?.industry || "Technology"}</p>
+                  <p>{userwithid?.industry || "Technology"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Total Employees</h4>
-                  <p className="text-[#5DA05D]">{user?.company_size || "5–10 employees"}</p>
+                  <p className="text-[#5DA05D]">{userwithid?.company_size || "5–10 employees"}</p>
                 </div>
               </div>
 
@@ -238,80 +213,7 @@ export default function ProfileView() {
         );
 
       /** ---------------- ORGANIZATION MEMBERS ---------------- **/
-      case "Organization Members":
-        
-        // console.log("Account Members:", accountMembers);
-        // return (
-        //   <div className="space-y-4">
-        //     <div className="flex items-center justify-between">
-        //       <h3 className="text-xl font-bold text-gray-800">
-        //         Members ({accountMembers.length})
-        //       </h3>
-        //       <button onClick={() => setAddMemberModal(true)} className="flex items-center gap-2 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-md text-sm hover:bg-green-50 transition">
-        //         <span className="text-lg leading-none">+</span> Add Member
-        //       </button>
-        //       {addMemberModal && (
-        //         <AddOrgMembersModal
-        //           isOpen={addMemberModal}
-        //           onClose={() => setAddMemberModal(false)}
-        //           onMemberAdded={handleMemberAdded}
-        //         />
-        //       )}
-        //     </div>
-
-        //     <div className="bg-white rounded-lg flex flex-col gap-5">
-        //       {accountMembers.map((member) => (
-        //         <div
-        //           key={member?.member.id}
-        //           className="flex items-center justify-between px-4 py-3 border border-gray-200 hover:bg-gray-50 transition"
-        //         >
-        //           <div className="flex items-center gap-3">
-        //             <img
-        //               src={member?.member.profile_photo}
-        //               alt={member?.member.name}
-        //               className="w-10 h-10 rounded-full object-cover"
-        //             />
-        //             <div>
-        //               <p className="font-semibold text-gray-800">{member?.member.name}</p>
-        //               <p className="text-sm text-gray-500">{member?.member.extras}</p>
-        //             </div>
-        //           </div>
-        //           <div className="text-sm text-green-700 font-medium">
-        //             {/* {member.admin ? "Admin" : (
-        //               <svg
-        //                 xmlns="http://www.w3.org/2000/svg"
-        //                 className="h-4 w-4 text-gray-400"
-        //                 fill="none"
-        //                 viewBox="0 0 24 24"
-        //                 stroke="currentColor"
-        //               >
-        //                 <path
-        //                   strokeLinecap="round"
-        //                   strokeLinejoin="round"
-        //                   strokeWidth={2}
-        //                   d="M9 5l7 7-7 7"
-        //                 />
-        //               </svg>
-        //             )} */}
-        //           </div>
-        //           <div>
-        //             <button
-        //               onClick={() => handleRemoveMember(member?.member.id)}
-        //               className="text-sm text-red-600 hover:underline"
-        //             >
-        //               {deletingId === member?.member.id ? (
-        //                   <LoaderCircle className="w-4 h-4 animate-spin text-[#5DA05D]" />
-        //                 ) : (
-        //                   <Trash2 className="inline-block w-4 h-4 mr-1" />
-        //               )}
-        //             </button>
-        //           </div>
-        //         </div>
-        //       ))}
-        //     </div>
-        //   </div>
-        // );
-        
+      case "Organization Members":        
         return <OrganizationMembers />;
         
 
@@ -609,21 +511,21 @@ export default function ProfileView() {
           {/* Company Info */}
           <div className="flex mx-3 flex-col justify-self-start">
             <h2 className="text-4xl font-bold text-gray-800">
-              {user.company_name || "Company Name"}
+              {userwithid.company_name || "Company Name"}
             </h2>
             <p className="text-gray-500 text-sm">
-              {user.location || "London, England"} ·{" "}
+              {userwithid.location || "London, England"} ·{" "}
               <a
-                href={`http://${user?.website}`}
+                href={`http://${userwithid?.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                {user?.website}
+                {userwithid?.website}
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
-              {user?.industry || "Industry"}
+              {userwithid?.industry || "Industry"}
             </p>
             {/* <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p> */}
           </div>
