@@ -225,7 +225,7 @@ const MainNavbar = () => {
                         {loading && <LoaderIcon className="animate-spin w-4 h-4 mr-3 text-gray-500" />}
                     </div>
                     {/* Search Results Dropdown */}
-                    {searchUser.length > 0 && (
+                    {/* {searchUser.length > 0 && (
                         <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
                             {searchUser.map((u) => (
                                 <Link
@@ -248,8 +248,8 @@ const MainNavbar = () => {
                                 </Link>
                             ))}
                         </div>
-                    )}
-                    {/* {searchUser.length > 0 && (
+                    )} */}
+                    {searchUser.length > 0 && (
                         <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
                             {searchUser.map((u) => {
                             console.log(u); // 👀 LOG USER HERE
@@ -270,7 +270,7 @@ const MainNavbar = () => {
                             );
                             })}
                         </div>
-                    )} */}
+                    )}
                     <Link
                         to='#'
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''} hidden md:flex `}
