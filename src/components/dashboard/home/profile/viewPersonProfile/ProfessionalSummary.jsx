@@ -101,7 +101,7 @@ function ExperienceSection({ }) {
             </div>
 
             {/* Walmart Experience */}
-            {userwithid.experience.map(item => (
+            {userwithid?.experience?.map(item => (
                 <ItemCard
                     key={item.id || index}
                     id={item.id || `experience-${index}`} // Pass unique id

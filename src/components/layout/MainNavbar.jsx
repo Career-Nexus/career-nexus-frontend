@@ -21,8 +21,23 @@ const MainNavbar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const menuRef = useRef(null);
+    const searchRef = useRef(null);
 
     const { user, logout } = useContext(UserContext);
+    
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+            setSearchUser([]); // close the dropdown
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const handleLogout = () => {
         logout();
@@ -225,8 +240,10 @@ const MainNavbar = () => {
                         {loading && <LoaderIcon className="animate-spin w-4 h-4 mr-3 text-gray-500" />}
                     </div>
                     {/* Search Results Dropdown */}
-                    {/* {searchUser.length > 0 && (
-                        <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
+                    {searchUser.length > 0 && (
+                        <div
+                            ref={searchRef}
+                            className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
                             {searchUser.map((u) => (
                                 <Link
                                     key={u.id}
