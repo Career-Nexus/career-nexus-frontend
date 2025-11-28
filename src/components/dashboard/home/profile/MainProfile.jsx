@@ -10,202 +10,241 @@ import { toast } from "react-toastify";
 import { Link } from 'react-router-dom'
 import { ProfileContext } from '../../../../context/ProfileContext'
 import IntroVideoModal from './IntroVideo'
-import { CoverPhotoPreviewModal, ProfilePhotoPreviewModal } from './ImagePreviewModal'
+import { CoverPhotoUserModal, ProfilePhotoUserModal } from './ImagePreviewModal'
+
+// const ProfileCover = () => {
+//   const { user, updateUser } = useContext(UserContext);
+//   const [isCoverHovered, setIsCoverHovered] = useState(false);
+//   const [isProfileHovered, setIsProfileHovered] = useState(false);
+//   const [previewCover, setPreviewCover] = useState(null);
+//   const [previewProfile, setPreviewProfile] = useState(null);
+//   //preview image state
+//   const [coverPreviewImage, setCoverPreviewImage] = useState(null);
+//   const [profilePreviewImage, setProfilePreviewImage] = useState(null);
+
+//   const { register, reset } = useForm();
+//   const handleFileChange = async (e, field) => {
+//     const file = e.target.files[0];
+//     if (!file) return;
+
+//     // Show local preview
+//     if (field === "cover") {
+//       setPreviewCover(URL.createObjectURL(file));
+//     } else {
+//       setPreviewProfile(URL.createObjectURL(file));
+//     }
+
+//     try {
+//       await updateUser({
+//         [field === "cover" ? "cover_photo" : "profile_photo"]: file,
+//       });
+
+//       toast.success(`${field === "cover" ? "Cover" : "Profile"} photo updated!`, {
+//         position: "top-center",
+//       });
+
+//       reset();
+//     } catch (err) {
+//       console.error(err);
+//       toast.error(err.message || "Error updating image", {
+//         position: "top-center",
+//       });
+//     }
+//   };
+
+//   return (
+//     <div className="relative">
+//       {/* Cover */}
+//       <div
+//         className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
+//         onMouseEnter={() => setIsCoverHovered(true)}
+//         onMouseLeave={() => setIsCoverHovered(false)}
+//         onClick={() =>
+//           setCoverPreviewImage(previewCover || user.cover_photo || "/images/bg-profile.png")
+//         }
+//       >
+//         <img
+//           src={previewCover || user.cover_photo || "/images/bg-profile.png"}
+//           alt="cover photo"
+//           className="w-full h-full object-cover object-center cursor-pointer"
+//           onError={(e) => (e.target.src = "/images/bg-profile.png")}
+//         />
+
+//         {isCoverHovered && (
+//           <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
+//             <label
+//               htmlFor="coverInput"
+//               className="cursor-pointer"
+//               onClick={(e) => e.stopPropagation()} // ⛔ stops triggering preview
+//             >
+//               <Camera className="text-white w-10 h-10 mb-2" />
+//             </label>
+
+//             <input
+//               id="coverInput"
+//               type="file"
+//               accept="image/jpeg,image/png,image/jpg"
+//               style={{ display: "none" }}
+//               {...register("cover_photo")}
+//               onChange={(e) => handleFileChange(e, "cover")}
+//             />
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Profile Photo */}
+//       <div
+//         className="relative w-32 h-32"
+//         onMouseEnter={() => setIsProfileHovered(true)}
+//         onMouseLeave={() => setIsProfileHovered(false)}
+//         onClick={() =>
+//           setProfilePreviewImage(previewProfile || user.profile_photo || "/images/profile.png")
+//         }
+//       >
+//         <img
+//           src={previewProfile || user.profile_photo || "/images/profile.png"}
+//           alt="profile"
+//           className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover cursor-pointer"
+//           onError={(e) => (e.target.src = "/images/profile.png")}
+//         />
+
+//         {isProfileHovered && (
+//           <div className="absolute inset-0 rounded-full w-32 h-32 ml-3 bg-black/70 flex flex-col items-center justify-center">
+//             <label
+//               htmlFor="profileInput"
+//               className="cursor-pointer"
+//               onClick={(e) => e.stopPropagation()} // ⛔ prevents preview click
+//             >
+//               <Camera className="text-white w-8 h-8 mb-2" />
+//             </label>
+
+//             <input
+//               id="profileInput"
+//               type="file"
+//               accept="image/jpeg,image/png,image/jpg"
+//               style={{ display: "none" }}
+//               {...register("profile_photo")}
+//               onChange={(e) => handleFileChange(e, "profile")}
+//             />
+//           </div>
+//         )}
+//       </div>
+
+//       <CoverPhotoPreviewModal
+//         open={!!coverPreviewImage}
+//         onClose={() => setCoverPreviewImage(null)}
+//         image={coverPreviewImage}
+//       //isProfile={coverPreviewImage === userwithid?.profile_photo}
+//       />
+//       <ProfilePhotoPreviewModal
+//         open={!!profilePreviewImage}
+//         onClose={() => setProfilePreviewImage(null)}
+//         image={profilePreviewImage}
+//       />
+
+//     </div>
+//   );
+// };
 
 const ProfileCover = () => {
   const { user, updateUser } = useContext(UserContext);
+
   const [isCoverHovered, setIsCoverHovered] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
+
   const [previewCover, setPreviewCover] = useState(null);
   const [previewProfile, setPreviewProfile] = useState(null);
-  //preview image state
-  const [coverPreviewImage, setCoverPreviewImage] = useState(null);
-  const [profilePreviewImage, setProfilePreviewImage] = useState(null);
 
-  const { register, reset } = useForm();
-  const handleFileChange = async (e, field) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Show local preview
-    if (field === "cover") {
-      setPreviewCover(URL.createObjectURL(file));
-    } else {
-      setPreviewProfile(URL.createObjectURL(file));
-    }
-
-    try {
-      await updateUser({
-        [field === "cover" ? "cover_photo" : "profile_photo"]: file,
-      });
-
-      toast.success(`${field === "cover" ? "Cover" : "Profile"} photo updated!`, {
-        position: "top-center",
-      });
-
-      reset();
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message || "Error updating image", {
-        position: "top-center",
-      });
-    }
-  };
+  const [coverModalImage, setCoverModalImage] = useState(null);
+  const [profileModalImage, setProfileModalImage] = useState(null);
 
   return (
     <div className="relative">
-      {/* Cover */}
-      {/* <div
-        className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
-        onMouseEnter={() => setIsCoverHovered(true)}
-        onMouseLeave={() => setIsCoverHovered(false)}
-      >
-        
-        <img
-          src={previewCover || user.cover_photo || "/images/bg-profile.png"}
-          alt="cover photo"
-          className="w-full h-full object-cover object-center cursor-pointer"
-          onClick={() =>
-            setPreviewImage(previewCover || user.cover_photo || "/images/bg-profile.png")
-          }
-          onError={(e) => (e.target.src = "/images/bg-profile.png")}
-        />
-
-        {isCoverHovered && (
-          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
-            <label htmlFor="coverInput" className="cursor-pointer">
-              <Camera className="text-white w-10 h-10 mb-2" />
-            </label>
-            <input
-              id="coverInput"
-              type="file"
-              accept="image/jpeg,image/png,image/jpg"
-              style={{ display: "none" }}
-              {...register("cover_photo")}
-              onChange={(e) => handleFileChange(e, "cover")}
-            />
-          </div>
-        )}
-      </div> */}
+      {/* COVER PHOTO SECTION */}
       <div
         className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
         onMouseEnter={() => setIsCoverHovered(true)}
         onMouseLeave={() => setIsCoverHovered(false)}
         onClick={() =>
-          setCoverPreviewImage(previewCover || user.cover_photo || "/images/bg-profile.png")
+          setCoverModalImage(previewCover || user.cover_photo || "/images/bg-profile.png")
         }
       >
         <img
           src={previewCover || user.cover_photo || "/images/bg-profile.png"}
-          alt="cover photo"
-          className="w-full h-full object-cover object-center cursor-pointer"
+          alt="Cover"
+          className="w-full h-full object-cover cursor-pointer"
           onError={(e) => (e.target.src = "/images/bg-profile.png")}
         />
 
         {isCoverHovered && (
-          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
-            <label
-              htmlFor="coverInput"
-              className="cursor-pointer"
-              onClick={(e) => e.stopPropagation()} // ⛔ stops triggering preview
-            >
-              <Camera className="text-white w-10 h-10 mb-2" />
-            </label>
-
-            <input
-              id="coverInput"
-              type="file"
-              accept="image/jpeg,image/png,image/jpg"
-              style={{ display: "none" }}
-              {...register("cover_photo")}
-              onChange={(e) => handleFileChange(e, "cover")}
-            />
+          <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+            <div className="text-white text-sm opacity-90">
+              <Camera className="text-white w-5 h-5" />
+            </div>
           </div>
         )}
       </div>
 
-      {/* Profile */}
-      {/* <div
-        className="relative w-32 h-32"
-        onMouseEnter={() => setIsProfileHovered(true)}
-        onMouseLeave={() => setIsProfileHovered(false)}
-      >
-        
-        <img
-          src={previewProfile || user.profile_photo || "/images/profile.png"}
-          alt="profile"
-          className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover cursor-pointer"
-          onClick={() =>
-            setPreviewImage(previewProfile || user.profile_photo || "/images/profile.png")
-          }
-          onError={(e) => (e.target.src = "/images/profile.png")}
-        />
-
-        {isProfileHovered && (
-          <div className="absolute inset-0 rounded-full w-32 h-32 ml-3 bg-black/70 flex flex-col items-center justify-center">
-            <label htmlFor="profileInput" className="cursor-pointer">
-              <Camera className="text-white w-8 h-8 mb-2" />
-            </label>
-            <input
-              id="profileInput"
-              type="file"
-              accept="image/jpeg,image/png,image/jpg"
-              style={{ display: "none" }}
-              {...register("profile_photo")}
-              onChange={(e) => handleFileChange(e, "profile")}
-            />
-          </div>
-        )}
-      </div> */}
+      {/* PROFILE PHOTO SECTION */}
       <div
         className="relative w-32 h-32"
         onMouseEnter={() => setIsProfileHovered(true)}
         onMouseLeave={() => setIsProfileHovered(false)}
         onClick={() =>
-          setProfilePreviewImage(previewProfile || user.profile_photo || "/images/profile.png")
+          setProfileModalImage(previewProfile || user.profile_photo || "/images/profile.png")
         }
       >
         <img
           src={previewProfile || user.profile_photo || "/images/profile.png"}
-          alt="profile"
+          alt="Profile"
           className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover cursor-pointer"
           onError={(e) => (e.target.src = "/images/profile.png")}
         />
 
         {isProfileHovered && (
-          <div className="absolute inset-0 rounded-full w-32 h-32 ml-3 bg-black/70 flex flex-col items-center justify-center">
-            <label
-              htmlFor="profileInput"
-              className="cursor-pointer"
-              onClick={(e) => e.stopPropagation()} // ⛔ prevents preview click
-            >
-              <Camera className="text-white w-8 h-8 mb-2" />
-            </label>
-
-            <input
-              id="profileInput"
-              type="file"
-              accept="image/jpeg,image/png,image/jpg"
-              style={{ display: "none" }}
-              {...register("profile_photo")}
-              onChange={(e) => handleFileChange(e, "profile")}
-            />
+          <div className="absolute inset-0 rounded-full ml-3 w-32 h-32 bg-black/70 flex items-center justify-center">
+            <div className="text-white text-sm opacity-90 text-center">
+              <Camera className="text-white w-5 h-5" />
+            </div>
           </div>
         )}
       </div>
 
-      <CoverPhotoPreviewModal
-        open={!!coverPreviewImage}
-        onClose={() => setCoverPreviewImage(null)}
-        image={coverPreviewImage}
-      //isProfile={coverPreviewImage === userwithid?.profile_photo}
-      />
-      <ProfilePhotoPreviewModal
-        open={!!profilePreviewImage}
-        onClose={() => setProfilePreviewImage(null)}
-        image={profilePreviewImage}
+      {/* COVER PHOTO MODAL */}
+      <CoverPhotoUserModal
+        open={!!coverModalImage}
+        onClose={() => setCoverModalImage(null)}
+        image={coverModalImage}
+        onUpload={async (file) => {
+          try {
+            await updateUser({ cover_photo: file });
+            const url = URL.createObjectURL(file);
+            setPreviewCover(url);
+            toast.success("Cover photo updated!");
+          } catch (error) {
+            console.error(error);
+            toast.error("Error updating cover photo.");
+          }
+        }}
       />
 
+      {/* PROFILE PHOTO MODAL */}
+      <ProfilePhotoUserModal
+        open={!!profileModalImage}
+        onClose={() => setProfileModalImage(null)}
+        image={profileModalImage}
+        onUpload={async (file) => {
+          try {
+            await updateUser({ profile_photo: file });
+            const url = URL.createObjectURL(file);
+            setPreviewProfile(url);
+            toast.success("Profile photo updated!");
+          } catch (error) {
+            console.error(error);
+            toast.error("Error updating profile photo.");
+          }
+        }}
+      />
     </div>
   );
 };
