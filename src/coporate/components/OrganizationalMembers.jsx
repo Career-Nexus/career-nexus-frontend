@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { CorporateServices } from "../../api/CoporateServices";
 import AddOrgMembersModal from "./AddOrganisationMembersModal";
 import { UserContext } from "../../context/UserContext";
@@ -6,15 +7,19 @@ import { toast } from "react-toastify";
 import { Trash2, LoaderCircle } from "lucide-react";
 
 const OrganizationMembers = () => {
-  const { user } = useContext(UserContext);
+  const { id } = useParams();
+  const { user, userwithid } = useContext(UserContext);
   const [accountMembers, setAccountMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
+  const profileData = id ? userwithid : user;
+  const canEdit = !id; 
+
   useEffect(() => {
-    if (user?.members) setAccountMembers(user.members);
-  }, [user]);
+    if (profileData?.members) setAccountMembers(profileData.members);
+  }, [profileData]);
 
   /* === Remove Member === */
   const handleRemoveMember = async (memberId) => {
@@ -47,12 +52,15 @@ const OrganizationMembers = () => {
     <div className="mt-4">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-semibold">Organization Members({accountMembers.length})</h3>
-        <button
-          onClick={() => setAddMemberModal(true)}
-          className="bg-[#5DA05D] text-white px-3 py-2 rounded-md text-sm hover:bg-[#4CAF50]"
-        >
-          + Add Member
-        </button>
+        {/* Add Button - ONLY for logged-in user's own profile */}
+        {!id && (
+          <button
+            onClick={() => setAddMemberModal(true)}
+            className="bg-[#5DA05D] text-white px-3 py-2 rounded-md text-sm hover:bg-[#4CAF50]"
+          >
+            + Add Member
+          </button>
+        )}
       </div>
 
       { accountMembers.length === 0 ? (
@@ -77,21 +85,24 @@ const OrganizationMembers = () => {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => handleRemoveMember(member.id)}
-                className="text-gray-500 hover:text-red-600 transition"
-              >{deletingId === member.id ? (
-                  <LoaderCircle className="w-4 h-4 animate-spin text-[#5DA05D]" />
-                ) : (
-                  <Trash2 className="inline-block w-4 h-4 mr-1" />
+              {!id && (
+                <button
+                  onClick={() => handleRemoveMember(member.id)}
+                  className="text-gray-500 hover:text-red-600 transition"
+                >
+                  {deletingId === member.id ? (
+                    <LoaderCircle className="w-4 h-4 animate-spin text-[#5DA05D]" />
+                  ) : (
+                    <Trash2 className="inline-block w-4 h-4 mr-1" />
+                  )}
+                </button>
               )}
-              </button>
             </div>
           ))}
         </div>
       )}
 
-      {addMemberModal && (
+      {addMemberModal && !id && (
         <AddOrgMembersModal
           isOpen={addMemberModal}
           onClose={() => setAddMemberModal(false)}

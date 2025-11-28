@@ -230,13 +230,14 @@ const MainNavbar = () => {
                             {searchUser.map((u) => (
                                 <Link
                                     key={u.id}
-                                    to={`/person-profile/${u.id}`}                                    
-                                    // to={`/coporate/${u.id}`}
-                                    // to={
-                                    //     u.user_type === "employer" 
-                                    //         ? `/coporate/${u.id}`
-                                    //         : `/person-profile/${u.id}`
-                                    // }
+                                    to={
+                                    u.user_type === "employer"
+                                        ? `/coporate/${u.id}`
+                                        : u.user_type === "mentor"
+                                        ? `/mentordetails/${u.id}`
+                                        : `/person-profile/${u.id}`
+                                    }
+
                                     className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100"
                                     onClick={() => setSearchQuery("")}
                                 >
@@ -249,28 +250,6 @@ const MainNavbar = () => {
                             ))}
                         </div>
                     )}
-                    {/* {searchUser.length > 0 && (
-                        <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md w-80 max-h-60 overflow-y-auto z-50">
-                            {searchUser.map((u) => {
-                            console.log(u); // 👀 LOG USER HERE
-
-                            return (
-                                <Link
-                                key={u.id}
-                                to={`/coporate/${u.id}`}
-                                className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100"
-                                onClick={() => setSearchQuery("")}
-                                >
-                                <img src={u.profile_photo} alt={u.name} className="w-8 h-8 rounded-full" />
-                                <div>
-                                    <p className="font-medium">{u.name}</p>
-                                    <p className="text-xs text-gray-500">{u.qualification}</p>
-                                </div>
-                                </Link>
-                            );
-                            })}
-                        </div>
-                    )} */}
                     <Link
                         to='#'
                         className={`${navItemClass} ${isActive('/notifications') ? activeClass : ''} hidden md:flex `}

@@ -12,23 +12,16 @@ import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
 import PostSection from "./components/PostSection";
 import OrganizationMembers from "./components/OrganizationalMembers";
-// import { AiOutlineLike } from "react-icons/ai";
-// import { FaRegComment } from "react-icons/fa6";
-// import { GoShare } from "react-icons/go";
-// import { CorporateServices } from "../api/CoporateServices";
-// import AddOrgMembersModal from "./components/AddOrganisationMembersModal";
-// import { set } from "react-hook-form";
 
 
-const ProfileCoverUI = () => {
+const ProfileCoverUI = ({ profile }) => {
   const [heroImage, setHeroImage] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
-  const { user, updateUser } = useContext(UserContext);
 
   useEffect(() => {
-    if (user?.cover_photo) setHeroImage(user.cover_photo);
-    if (user?.logo) setProfileImage(user.logo);
-  }, [user]);
+    if (profile?.cover_photo) setHeroImage(profile.cover_photo);
+    if (profile?.logo) setProfileImage(profile.logo);
+  }, [profile]);
 
   const handleFileChange = async (e, type) => {
     const file = e.target.files[0];
@@ -133,18 +126,19 @@ export default function ProfileView() {
   const [editModal, setEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [accountMembers, setAccountMembers] = useState(user?.members || []);
-
   
   const { id } = useParams();
   useEffect(() => {
     if (id) {
-        getUserById(id); // fetch and store in context
+      getUserById(id); // fetch and store in context
     }
-}, [id]);    
+  }, [id]);    
   
   useEffect(() => {
     if (user?.members) setAccountMembers(user.members);
   }, [user]);
+
+  const profileData = id ? userwithid : user;
 
 
 
@@ -184,22 +178,22 @@ export default function ProfileView() {
                   Company Description
                 </h4>
                 <p>
-                  {userwithid?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+                  {profileData?.tagline || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
                 </p>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Company</h4>
-                  <p>{userwithid?.company_name || "Company Name"}</p>
+                  <p>{profileData?.company_name || "Company Name"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Industry</h4>
-                  <p>{userwithid?.industry || "Technology"}</p>
+                  <p>{profileData?.industry || "Technology"}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Total Employees</h4>
-                  <p className="text-[#5DA05D]">{userwithid?.company_size || "5–10 employees"}</p>
+                  <p className="text-[#5DA05D]">{profileData?.company_size || "5–10 employees"}</p>
                 </div>
               </div>
 
@@ -496,7 +490,7 @@ export default function ProfileView() {
       <div className="relative border border-gray-100">
         <div className="flex flex-col">
           <div className="relative">
-            <ProfileCoverUI />
+            <ProfileCoverUI profile={id ? userwithid : user} />
 
             {/* Edit Button */}
             <button
@@ -511,21 +505,21 @@ export default function ProfileView() {
           {/* Company Info */}
           <div className="flex mx-3 flex-col justify-self-start">
             <h2 className="text-4xl font-bold text-gray-800">
-              {userwithid.company_name || "Company Name"}
+              {profileData?.company_name || "Company Name"}
             </h2>
             <p className="text-gray-500 text-sm">
-              {userwithid.location || "London, England"} ·{" "}
+              {profileData?.location || "London, England"} ·{" "}
               <a
-                href={`http://${userwithid?.website}`}
+                href={`http://${profileData?.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5DA05D] hover:underline"
               >
-                {userwithid?.website}
+                {profileData?.website}
               </a>
             </p>
             <p className="text-gray-600 text-sm mt-1">
-              {userwithid?.industry || "Industry"}
+              {profileData?.industry || "Industry"}
             </p>
             {/* <p className="text-[#5DA05D] font-semibold mt-2">6,476 Followers</p> */}
           </div>
