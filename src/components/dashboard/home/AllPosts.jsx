@@ -17,12 +17,28 @@ export default function AllTemplate() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user, userwithid } = useContext(UserContext);
+    const getProfileUrl = (profile) => {
+    if (!profile) return "#";
+
+    switch (profile.user_type) {
+      case "employer":
+        return `/coporate/${profile.id}`;
+      case "mentor":
+        return `/mentordetails/${profile.id}`;
+      case "learner":
+      default:
+        return `/person-profile/${profile.id}`;
+    }
+  };
+
 
   const fetchPosts = async (page = 1) => {
     setLoading(true);
     try {
       const data = await PostService.getPosts({ page });
       const newPosts = Array.isArray(data) ? data : data?.results || [];
+      console.log("Fetched Posts:", newPosts);
+    
       setPosts((prev) => (page === 1 ? newPosts : [...prev, ...newPosts]));
 
       if (data?.next) {
@@ -118,7 +134,11 @@ export default function AllTemplate() {
           <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
             {/* MAIN POST HEADER */}
             <div className="flex gap-3 mb-2 items-center">
-              <Link to={`/person-profile/${post.profile.id}`} className="flex gap-3 items-center">
+              <Link 
+              // to={getProfileUrl(post.profile)}
+              to={`/person-profile/${post.profile.id}`}
+              // to="/mentordetails/86"
+               className="flex gap-3 items-center">
                 <img
                   src={post.profile?.profile_photo || "/images/profile.png"}
                   alt="profile"
