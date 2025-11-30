@@ -1,191 +1,134 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatServices } from "../../../api/ChatServices";
 import { Bell } from "lucide-react";
 import { PostService } from "../../../api/PostService";
+import { toast } from "react-toastify"; // assuming you're using react-hot-toast
+
+import { createPortal } from "react-dom";
 
 export function Notify() {
     const [open, setOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const dropdownRef = useRef(null);
-    const [allNotifications, setAllNotifications] = useState([]);
-
+    const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
 
-    // Detect screen size
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 640);
+        const getNotifications = async () => {
+            try {
+                const { success, data } = await ChatServices.getNotifications();
+                if (success) setNotifications(data.results || []);
+            } catch (err) {
+                console.error(err);
+            }
         };
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    const getNotifications = async () => {
-        try {
-            const { success, data } = await ChatServices.getNotifications();
-            if (success) {
-                setAllNotifications(data.results || []);
-            } else {
-                setAllNotifications([]);
-            }
-        } catch (error) {
-            console.error("Error fetching notifications:", error);
-            setAllNotifications([]);
-        }
-    };
-
-    useEffect(() => {
         getNotifications();
     }, []);
 
-    const ClearNotification = async () => {
-        const { success } = await ChatServices.clearNotifications();
-        if (success) {
-            toast.success("Notifications cleared successfully");
-            setAllNotifications([]); // update UI instantly
-        }
-    };
-    console.log("All Notifications:", allNotifications);
-    // 👉 CLICK HANDLER FOR NOTIFICATION
-    const handleNotificationClick = async (notif) => {
-        if (!notif.route || !notif.page) {
-            console.log("No actionable route for this notification:", notif);
-            setOpen(false);
-            return;
-        }
-        // --- POST NOTIFICATIONS ---
-        if (notif.page === "Post") {
-            const url = new URL(`http://dummy.com/${notif.route}`);
-            const postId = url.searchParams.get("post_id");
-
-            if (postId) {
-                try {
-                    const postData = await PostService.getPostById(postId);
-
-                    // Navigate and pass the FULL post as a query param or state
-                    navigate("/home", {
-                        state: { highlightedPost: postData },  // This is all we need
-                        replace: true,
-                    });
-                    console.log("Navigating to post with data:", postData);
-                } catch (error) {
-                    console.error("Failed to fetch post:", error);
-                    toast.error("Could not load the post");
-                    navigate("/home");
-                }
-            }
-            setOpen(false);
-            return;
-        }
-        console.log("help me check postData", postData);
-
-        // --- PROFILE (FOLLOW) NOTIFICATIONS ---
-        if (notif.page === "Profile") {
-            const url = new URL(`http://dummy.com/${notif.route}`);
-            const userId = url.searchParams.get("user_id");
-
-            if (userId) {
-                navigate(`/person-profile/${userId}`);
-            }
-
-            setOpen(false);
-            return;
-        }
-        //Mentorship Notifications
-        if (notif.page === "Mentorship") {
-            const url = new URL(`http://dummy.com/${notif.route}`);
-            const mentorshipId = url.searchParams.get("mentorship_id");
-            if (mentorshipId) {
-                navigate(`/mentorship/${mentorshipId}`);
-            }
-        }
-        //Network Notifications
-        if (notif.page === "Network") {
-            const url = new URL(`http://dummy.com/${notif.route}`);
-            const networkId = url.searchParams.get("network_id");
-            if (networkId) {
-                navigate(`/network/${networkId}`);
-            }
-        }
-        //Job Notifications
-        if (notif.page === "Job") {
-            const url = new URL(`http://dummy.com/${notif.route}`);
-            const jobId = url.searchParams.get("job_id");
-            if (jobId) {
-                navigate(`/job/${jobId}`);
-            }
-        }
-        // --- OTHER PAGES CAN BE ADDED HERE ---
-        console.log("Unhandled notification page type:", notif.page);
+    const clearAll = async () => {
+        await ChatServices.clearNotifications();
+        toast.success("Cleared!");
+        setNotifications([]);
         setOpen(false);
     };
 
+    const handleClick = async (notif) => {
+        setOpen(false); // close immediately
+
+        if (!notif.route || !notif.page) return;
+
+        try {
+            const url = new URL("http://dummy.com/" + notif.route);
+            const p = url.searchParams;
+
+            if (notif.page === "Post" && p.get("post_id")) {
+                const post = await PostService.getPostById(p.get("post_id"));
+                navigate("/home", { state: { highlightedPost: post }, replace: true });
+                return;
+            }
+            if (notif.page === "Profile" && p.get("user_id")) {
+                navigate(`/person-profile/${p.get("user_id")}`);
+                return;
+            }
+            if (notif.page === "Mentorship" && p.get("mentorship_id")) {
+                navigate(`/mentorship/${p.get("mentorship_id")}`);
+                return;
+            }
+            if (notif.page === "Network" && p.get("network_id")) {
+                navigate(`/network/${p.get("network_id")}`);
+                return;
+            }
+            if (notif.page === "Job" && p.get("job_id")) {
+                navigate(`/job/${p.get("job_id")}`);
+                return;
+            }
+        } catch (err) {
+            toast.error("Failed to open");
+        }
+    };
 
     return (
-        <nav>
-            <div className="relative" ref={dropdownRef}>
+        <>
+            {/* Bell Button */}
+            <div className="relative">
                 <button
                     onClick={() => setOpen(!open)}
-                    className="relative p-2 rounded-full hover:md:bg-gray-100"
+                    className="relative p-2 rounded-full hover:bg-gray-100 transition"
                 >
                     <Bell className="w-6 h-6 text-gray-700" />
-                    {allNotifications.length > 0 && (
-                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-                            {allNotifications.length}
+                    {notifications.length > 0 && (
+                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                            {notifications.length}
                         </span>
                     )}
                 </button>
+            </div>
 
-                {open && (
-                    <div
-                        className={`absolute w-80 bg-white shadow-lg rounded-lg overflow-hidden z-50 
-                        ${isMobile ? "bottom-full mb-2 right-0" : "top-full mt-2 right-0"}`}
-                    >
-                        <div className="max-h-80 overflow-y-auto">
-                            <p className="text-sm font-medium text-gray-800 p-3 border-b text-center bg-gray-50">
+            {/* Dropdown Modal - using Portal */}
+            {open &&
+                createPortal(
+                    <div className="fixed inset-0 z-50" onClick={() => setOpen(false)}>
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute px-2 mx-4 top-16 md:right-6 md:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden animate-in fade-in slide-in-from-top-2"
+                        >
+                            <div className="p-3 bg-gray-50 border-b font-medium text-center">
                                 Notifications
-                            </p>
+                            </div>
 
-                            {allNotifications.length === 0 ? (
-                                <p className="p-4 text-gray-600 text-sm">No notifications</p>
-                            ) : (
-                                allNotifications.map((n) => (
-                                    <div
-                                        key={n.id}
-                                        onClick={() => handleNotificationClick(n)}
-                                        className="p-3 border-b hover:bg-gray-50 cursor-pointer"
-                                    >
-                                        <p className="text-xs text-gray-700">{n.text}</p>
-                                        <p className="text-[10px] text-gray-400">
-                                            {new Date(n.timestamp).toLocaleString()}
-                                        </p>
-                                    </div>
-                                ))
+                            <div className="max-h-96 overflow-y-auto">
+                                {notifications.length === 0 ? (
+                                    <p className="p-8 text-center text-gray-500 text-sm">
+                                        No notifications
+                                    </p>
+                                ) : (
+                                    notifications.map((n) => (
+                                        <div
+                                            key={n.id}
+                                            onClick={() => handleClick(n)}
+                                            className="p-4 border-b hover:bg-gray-50 cursor-pointer transition"
+                                        >
+                                            <p className="text-sm text-gray-800">{n.text}</p>
+                                            <p className="text-xs text-gray-400 mt-1">
+                                                {new Date(n.timestamp).toLocaleString()}
+                                            </p>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                            {notifications.length > 0 && (
+                                <div
+                                    onClick={clearAll}
+                                    className="p-3 text-center text-sm text-blue-600 hover:bg-gray-50 cursor-pointer"
+                                >
+                                    Clear All Notifications
+                                </div>
                             )}
                         </div>
-
-                        <div
-                            onClick={ClearNotification}
-                            className="p-2 text-center bg-gray-50 text-sm text-blue-600 cursor-pointer hover:underline"
-                        >
-                            Clear All Notifications
-                        </div>
-                    </div>
+                    </div>,
+                    document.body
                 )}
-            </div>
-        </nav>
+        </>
     );
 }

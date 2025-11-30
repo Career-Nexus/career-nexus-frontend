@@ -12,140 +12,6 @@ import { ProfileContext } from '../../../../context/ProfileContext'
 import IntroVideoModal from './IntroVideo'
 import { CoverPhotoUserModal, ProfilePhotoUserModal } from './ImagePreviewModal'
 
-// const ProfileCover = () => {
-//   const { user, updateUser } = useContext(UserContext);
-//   const [isCoverHovered, setIsCoverHovered] = useState(false);
-//   const [isProfileHovered, setIsProfileHovered] = useState(false);
-//   const [previewCover, setPreviewCover] = useState(null);
-//   const [previewProfile, setPreviewProfile] = useState(null);
-//   //preview image state
-//   const [coverPreviewImage, setCoverPreviewImage] = useState(null);
-//   const [profilePreviewImage, setProfilePreviewImage] = useState(null);
-
-//   const { register, reset } = useForm();
-//   const handleFileChange = async (e, field) => {
-//     const file = e.target.files[0];
-//     if (!file) return;
-
-//     // Show local preview
-//     if (field === "cover") {
-//       setPreviewCover(URL.createObjectURL(file));
-//     } else {
-//       setPreviewProfile(URL.createObjectURL(file));
-//     }
-
-//     try {
-//       await updateUser({
-//         [field === "cover" ? "cover_photo" : "profile_photo"]: file,
-//       });
-
-//       toast.success(`${field === "cover" ? "Cover" : "Profile"} photo updated!`, {
-//         position: "top-center",
-//       });
-
-//       reset();
-//     } catch (err) {
-//       console.error(err);
-//       toast.error(err.message || "Error updating image", {
-//         position: "top-center",
-//       });
-//     }
-//   };
-
-//   return (
-//     <div className="relative">
-//       {/* Cover */}
-//       <div
-//         className="relative w-full h-48 overflow-hidden rounded-tl-lg rounded-tr-lg"
-//         onMouseEnter={() => setIsCoverHovered(true)}
-//         onMouseLeave={() => setIsCoverHovered(false)}
-//         onClick={() =>
-//           setCoverPreviewImage(previewCover || user.cover_photo || "/images/bg-profile.png")
-//         }
-//       >
-//         <img
-//           src={previewCover || user.cover_photo || "/images/bg-profile.png"}
-//           alt="cover photo"
-//           className="w-full h-full object-cover object-center cursor-pointer"
-//           onError={(e) => (e.target.src = "/images/bg-profile.png")}
-//         />
-
-//         {isCoverHovered && (
-//           <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
-//             <label
-//               htmlFor="coverInput"
-//               className="cursor-pointer"
-//               onClick={(e) => e.stopPropagation()} // ⛔ stops triggering preview
-//             >
-//               <Camera className="text-white w-10 h-10 mb-2" />
-//             </label>
-
-//             <input
-//               id="coverInput"
-//               type="file"
-//               accept="image/jpeg,image/png,image/jpg"
-//               style={{ display: "none" }}
-//               {...register("cover_photo")}
-//               onChange={(e) => handleFileChange(e, "cover")}
-//             />
-//           </div>
-//         )}
-//       </div>
-
-//       {/* Profile Photo */}
-//       <div
-//         className="relative w-32 h-32"
-//         onMouseEnter={() => setIsProfileHovered(true)}
-//         onMouseLeave={() => setIsProfileHovered(false)}
-//         onClick={() =>
-//           setProfilePreviewImage(previewProfile || user.profile_photo || "/images/profile.png")
-//         }
-//       >
-//         <img
-//           src={previewProfile || user.profile_photo || "/images/profile.png"}
-//           alt="profile"
-//           className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover cursor-pointer"
-//           onError={(e) => (e.target.src = "/images/profile.png")}
-//         />
-
-//         {isProfileHovered && (
-//           <div className="absolute inset-0 rounded-full w-32 h-32 ml-3 bg-black/70 flex flex-col items-center justify-center">
-//             <label
-//               htmlFor="profileInput"
-//               className="cursor-pointer"
-//               onClick={(e) => e.stopPropagation()} // ⛔ prevents preview click
-//             >
-//               <Camera className="text-white w-8 h-8 mb-2" />
-//             </label>
-
-//             <input
-//               id="profileInput"
-//               type="file"
-//               accept="image/jpeg,image/png,image/jpg"
-//               style={{ display: "none" }}
-//               {...register("profile_photo")}
-//               onChange={(e) => handleFileChange(e, "profile")}
-//             />
-//           </div>
-//         )}
-//       </div>
-
-//       <CoverPhotoPreviewModal
-//         open={!!coverPreviewImage}
-//         onClose={() => setCoverPreviewImage(null)}
-//         image={coverPreviewImage}
-//       //isProfile={coverPreviewImage === userwithid?.profile_photo}
-//       />
-//       <ProfilePhotoPreviewModal
-//         open={!!profilePreviewImage}
-//         onClose={() => setProfilePreviewImage(null)}
-//         image={profilePreviewImage}
-//       />
-
-//     </div>
-//   );
-// };
-
 const ProfileCover = () => {
   const { user, updateUser } = useContext(UserContext);
 
@@ -287,7 +153,7 @@ const MainProfile = () => {
     <div className='mb-20'>
       <div className="bg-white p-1 border border-gray-300 rounded-lg">
         <div><ProfileCover /></div>
-        <div className='flex justify-end gap-4'>
+        <div className='flex justify-end md:gap-4'>
           <div className="flex flex-col md:flex-row mt-4 gap-3 px-3">
             {/* Intuitive upload input */}
             <div>
@@ -316,7 +182,7 @@ const MainProfile = () => {
             </div>
 
             {/* Upload button */}
-            <div className="flex md:justify-end">
+            <div className="md:flex md:justify-end">
               <button
                 onClick={handleResumeUpload}
                 disabled={loading || !file}

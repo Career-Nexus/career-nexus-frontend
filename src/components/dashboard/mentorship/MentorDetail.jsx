@@ -14,6 +14,7 @@ import AnalyticsDashboard from '../home/profile/viewPersonProfile/AnalyticsDashb
 import { ChatServices } from '../../../api/ChatServices';
 import { toast } from 'react-toastify'
 import { Button } from '@chakra-ui/react';
+import { CoverPhotoPreviewModal, ProfilePhotoPreviewModal } from '../home/profile/ImagePreviewModal';
 
 function MentorDetail() {
     const [mentorDetails, setMentorDetails] = useState(null);
@@ -21,6 +22,9 @@ function MentorDetail() {
     const { user, userwithid, getUserById } = useContext(UserContext)
     const { id } = useParams();
     const navigate = useNavigate()
+
+    const [coverPreviewImage, setCoverPreviewImage] = useState(null);
+    const [profilePreviewImage, setProfilePreviewImage] = useState(null);
 
     useEffect(() => {
         if (id) {
@@ -85,12 +89,31 @@ function MentorDetail() {
             <div className='col-span-12 md:col-span-8 lg:col-span-9 border border-gray-200 p-4 rounded-lg'>
                 <div className="col-span-8 rounded-lg shadow-sm">
                     <div className="relative w-full h-48">
-                        <img src={userwithid.cover_photo} alt={userwithid.first_name} className="w-full h-52 object-cover rounded-tl-lg rounded-tr-lg" />
+                        <img src={userwithid.cover_photo} alt={userwithid.first_name}
+                            className="w-full h-52 object-cover rounded-tl-lg rounded-tr-lg"
+                            onClick={() =>
+                                setCoverPreviewImage(userwithid.cover_photo || "/images/bg-profile.png")
+                            }
+                        />
                     </div>
                     <div className="relative w-32 h-32">
-                        <img src={userwithid.profile_photo} alt={userwithid.first_name} className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover" />
+                        <img src={userwithid.profile_photo} alt={userwithid.first_name}
+                            className="rounded-full w-32 h-32 mt-[-3.7rem] ml-3 object-cover"
+                            onClick={() =>
+                                setProfilePreviewImage(userwithid.profile_photo || "/images/profile.png")
+                            }
+                        />
                     </div>
-
+                    <CoverPhotoPreviewModal
+                        open={!!coverPreviewImage}
+                        onClose={() => setCoverPreviewImage(null)}
+                        image={coverPreviewImage}
+                    />
+                    <ProfilePhotoPreviewModal
+                        open={!!profilePreviewImage}
+                        onClose={() => setProfilePreviewImage(null)}
+                        image={profilePreviewImage}
+                    />
                     <hr className='my-3' />
                     <div className="mt-6 grid grid-cols-12 md:justify-between gap-2">
                         <div className="col-span-12 md:col-span-8">

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Company1, Company2, Like, VideoIcon } from '../../../../../icons/icon'
-import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Building, Calendar, ChevronUp, Ellipsis, Info } from 'lucide-react'
+import { BriefcaseBusiness, GraduationCap, MapPin, UserPlus, ChevronDown, Building, Calendar, ChevronUp, Ellipsis, Info, X } from 'lucide-react'
 import { EditComponent } from '../AllModal'
 import EventsHome from '../../EventsHome'
 import { UserContext } from '../../../../../context/UserContext'
@@ -16,6 +16,7 @@ import { PostService } from '../../../../../api/PostService';
 import { MentorServices } from '../../../../../api/MentorServices';
 import { toast } from 'react-toastify'
 import { CoverPhotoPreviewModal, ProfilePhotoPreviewModal } from '../ImagePreviewModal'
+import { useDebounce } from 'use-debounce'
 
 const ViewPersonProfile = () => {
     const { user, userwithid } = useContext(UserContext)
@@ -23,6 +24,9 @@ const ViewPersonProfile = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
     const [mentorSession, setMentorSession] = useState([])
+
+    const [coverPreviewImage, setCoverPreviewImage] = useState(null);
+    const [profilePreviewImage, setProfilePreviewImage] = useState(null);
 
     const navigate = useNavigate()
     // console.log(userwithid)
@@ -86,15 +90,53 @@ const ViewPersonProfile = () => {
             toast.error("Failed to update follow state");
         }
     };
-
+    // const fullName = `${mentor.first_name} ${mentor.last_name}`
+    // const profilePhoto = mentor.profile_photo
+    // const jobTitle = mentor.current_job
+    const [searchUser, setSearchUser] = useState([])
+    const [searchLoading, setSearchLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalStep, setModalStep] = useState(1);
+    // const [formData, setFormData] = useState({
+    //     session_type: "individual",
+    //     date: "",
+    //     time: "",
+    //     discourse: "",
+    // });
     const [formData, setFormData] = useState({
         session_type: "individual",
         date: "",
         time: "",
         discourse: "",
-    });
+        search: "",
+        selectedEmployees: [],
+    })
+
+    const [debouncedSearch] = useDebounce(formData.search || "", 400)
+
+    // 🔍 Search for employees when typing
+    useEffect(() => {
+        const fetchUsers = async () => {
+            if (!debouncedSearch || debouncedSearch.length < 2) {
+                setSearchUser([])
+                return
+            }
+            setSearchLoading(true)
+            try {
+                const response = await MentorServices.searchuser({
+                    keyword: debouncedSearch,
+                })
+                if (response?.success) {
+                    setSearchUser(response.data)
+                }
+            } catch (error) {
+                console.error("User search failed", error)
+            } finally {
+                setSearchLoading(false)
+            }
+        }
+        fetchUsers()
+    }, [debouncedSearch])
 
     const openModal = () => {
         setModalStep(1);
@@ -105,6 +147,40 @@ const ViewPersonProfile = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    // ✅ Submit booking
+    const submitBooking = async () => {
+        if (!formData.date || !formData.time || !formData.discourse) {
+            toast.error("Please fill in all required fields")
+            return
+        }
+
+        const inviteeIds =
+            formData.session_type === "group"
+                ? (formData.selectedEmployees || []).slice(0, 10).map((e) => e.id)
+                : []
+
+        const payload = {
+            mentor: id,
+            session_type: formData.session_type,
+            date: formData.date,
+            time: formData.time,
+            discourse: formData.discourse,
+            invitees: inviteeIds,
+        }
+
+        try {
+            const response = await MentorServices.bookmentorsession(payload)
+            if (response?.success) {
+                toast.success("Mentor booking initiated successfully")
+                closeModal()
+            } else {
+                toast.error("Booking failed-(can't invite self)")
+            }
+        } catch (error) {
+            toast.error("Failed to book session")
+            console.error(error)
+        }
+    }
 
     const handleContinue = () => {
         if (!formData.date || !formData.time || !formData.discourse) {
@@ -114,27 +190,46 @@ const ViewPersonProfile = () => {
         setModalStep(2);
     };
 
-    const submitBooking = async () => {
-        const payload = {
-            mentor: id,
-            ...formData,
-        };
-        setMentorSession((prev) => [...prev, id])
-        try {
-            const response = await MentorServices.bookmentorsession(payload);
-            if (response) {
-                toast.success("Mentor booking initiated successfully");
-                closeModal();
-            }
-        } catch (err) {
-            toast.error("Failed to book session");
+    const handleClickOutside = (e) => {
+        if (e.target === e.currentTarget) {
+            closeModal();
         }
     };
 
-    const handleConfirmBooking = () => submitBooking();
+    // const submitBooking = async () => {
+    //     const payload = {
+    //         mentor: id,
+    //         ...formData,
+    //     };
+    //     setMentorSession((prev) => [...prev, id])
+    //     try {
+    //         const response = await MentorServices.bookmentorsession(payload);
+    //         if (response) {
+    //             toast.success("Mentor booking initiated successfully");
+    //             closeModal();
+    //         }
+    //     } catch (err) {
+    //         toast.error("Failed to book session");
+    //     }
+    // };
 
-    const [coverPreviewImage, setCoverPreviewImage] = useState(null);
-    const [profilePreviewImage, setProfilePreviewImage] = useState(null);
+    const handleConfirmBooking = () => {
+        submitBooking()
+    }
+
+    const handleSelectEmployee = (emp) => {
+        const selected = formData.selectedEmployees || []
+        const isSelected = selected.some((e) => e.id === emp.id)
+        if (emp.id === user) {
+            toast.error("You cannot invite yourself")
+            return prev
+        }
+        const updated = isSelected
+            ? selected.filter((e) => e.id !== emp.id)
+            : [...selected, emp]
+
+        setFormData({ ...formData, selectedEmployees: updated })
+    }
 
     function ProfilePicture() {
         return (
@@ -210,7 +305,7 @@ const ViewPersonProfile = () => {
                                 <span className="text-[#5DA05D] mx-2">{followersCount}</span> Followers
                             </p>
                             <div className='mb-2'>
-                                {userwithid.user_type === "learner" ? (
+                                {userwithid.user_type === "learner" || userwithid.user_type === "employer" ? (
                                     <div className='flex items-center justify-between'>
                                         <button
                                             onClick={handleFollow}
@@ -227,7 +322,7 @@ const ViewPersonProfile = () => {
                                             ) : ("")}
                                         </div>
                                     </div>
-                                ) : (
+                                ) : userwithid.user_type === "mentor" ? (
                                     <div className='flex items-center justify-between'>
                                         <button
                                             onClick={openModal}
@@ -251,7 +346,7 @@ const ViewPersonProfile = () => {
                                             </button> */}
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
                             </div>
 
                         </div>
@@ -281,7 +376,6 @@ const ViewPersonProfile = () => {
                     open={!!coverPreviewImage}
                     onClose={() => setCoverPreviewImage(null)}
                     image={coverPreviewImage}
-                    //isProfile={coverPreviewImage === userwithid?.profile_photo}
                 />
                 <ProfilePhotoPreviewModal
                     open={!!profilePreviewImage}
@@ -294,13 +388,13 @@ const ViewPersonProfile = () => {
             <div className='col-span-3'>
                 <EventsHome />
             </div>
-            {isModalOpen && (
+            {/* {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-                    {/* scrollable content */}
+
                     <div className="bg-white p-6 rounded-lg w-[420px] max-h-[90vh] overflow-y-auto shadow-lg">
                         <h2 className="text-xl font-bold mb-4">Book Mentorship Session</h2>
 
-                        {/* Mentor Info */}
+
                         <div className="flex items-center gap-3 mb-6">
                             <img
                                 src={userwithid?.profile_photo || "/placeholder.svg"}
@@ -313,10 +407,10 @@ const ViewPersonProfile = () => {
                             </div>
                         </div>
 
-                        {/* Step 1: Form */}
+
                         {modalStep === 1 && (
                             <>
-                                {/* Session Type */}
+
                                 <div className="mb-6">
                                     <h4 className="font-medium mb-3">Select Session Type</h4>
                                     <div className="space-y-3">
@@ -352,7 +446,7 @@ const ViewPersonProfile = () => {
                                     </div>
                                 </div>
 
-                                {/* Date & Time */}
+
                                 <div className="mb-6">
                                     <h4 className="font-medium mb-3">Select Date & Time</h4>
                                     <p className="mt-2 text-xs text-gray-500 bg-green-50 p-2 rounded mb-3">
@@ -377,7 +471,7 @@ const ViewPersonProfile = () => {
 
                                 </div>
 
-                                {/* Discussion Topics */}
+
                                 <div className="mb-6">
                                     <h4 className="font-medium mb-3">What would you like to discuss?</h4>
                                     <div className="flex flex-wrap gap-2">
@@ -405,14 +499,13 @@ const ViewPersonProfile = () => {
                                     </div>
                                 </div>
 
-                                {/* Extra Notes */}
                                 <textarea
                                     name="extra"
                                     placeholder="Add any specific details (e.g. role, areas of focus)"
                                     className="w-full border border-gray-300 rounded p-2 mb-6 text-sm resize-none focus:ring-0 focus:border-gray-400"
                                 />
 
-                                {/* Actions */}
+
                                 <div className="flex justify-end gap-3">
                                     <button
                                         onClick={closeModal}
@@ -431,7 +524,7 @@ const ViewPersonProfile = () => {
                             </>
                         )}
 
-                        {/* Step 2: Summary */}
+
                         {modalStep === 2 && (
                             <>
                                 <div className="mb-6">
@@ -468,6 +561,296 @@ const ViewPersonProfile = () => {
                                 </div>
                             </>
                         )}
+                    </div>
+                </div>
+            )} */}
+            {isModalOpen && (
+                <div
+                    onClick={handleClickOutside}
+                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
+                >
+                    <div className="bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto no-scrollbar shadow-lg">
+                        <h2 className="text-xl font-bold mb-4">Book Mentorship Session</h2>
+
+                        {/* Mentor Info */}
+                        <div className="flex items-center gap-3 mb-6">
+                            <img
+                                src={userwithid.profile_photo || "/placeholder.svg"}
+                                alt={userwithid.first_name + " " + userwithid.last_name}
+                                className="w-12 h-12 rounded-full object-cover"
+                            />
+                            <div>
+                                <h3 className="font-semibold text-lg">{userwithid.first_name + " " + userwithid.last_name}</h3>
+                                <p className="text-sm text-gray-500">{userwithid.job_title}</p>
+                            </div>
+                            <div className="ml-auto font-semibold">{userwithid.session_rate}</div>
+                        </div>
+
+                        {/* Step 1 - Form */}
+                        {modalStep === 1 && (
+                            <>
+                                {/* Session Type */}
+                                <div className="mb-6">
+                                    <h4 className="font-medium mb-3">Select Session Type</h4>
+                                    <div className="space-y-3">
+                                        {[
+                                            {
+                                                value: "individual",
+                                                label: "Individual Session",
+                                                desc: "1-on-1 mentorship session",
+                                            },
+                                            {
+                                                value: "group",
+                                                label: "Group Session",
+                                                desc: "Multiple participants (2-10 people)",
+                                            },
+                                        ].map((opt) => (
+                                            <button
+                                                key={opt.value}
+                                                type="button"
+                                                onClick={() =>
+                                                    setFormData({ ...formData, session_type: opt.value })
+                                                }
+                                                className={`w-full border rounded-xl p-4 flex justify-between items-center ${formData.session_type === opt.value
+                                                    ? "border-[#5DA05D] bg-green-50"
+                                                    : "border-gray-300"
+                                                    }`}
+                                            >
+                                                <div>
+                                                    <p className="font-medium">{opt.label}</p>
+                                                    <p className="text-sm text-gray-500">{opt.desc}</p>
+                                                </div>
+                                                <span
+                                                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${formData.session_type === opt.value
+                                                        ? "border-[#5DA05D]"
+                                                        : "border-gray-400"
+                                                        }`}
+                                                >
+                                                    {formData.session_type === opt.value && (
+                                                        <span className="w-3 h-3 bg-[#5DA05D] rounded-full"></span>
+                                                    )}
+                                                </span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Group session employee selection */}
+                                {formData.session_type === "group" && (
+                                    <div className="mb-6">
+                                        <h4 className="font-medium mb-3">Select Invitees</h4>
+
+                                        {/* Selected employee chips */}
+                                        {formData.selectedEmployees.length > 0 && (
+                                            <div className="flex flex-wrap gap-2 mb-3">
+                                                {formData.selectedEmployees.slice(0, 3).map((emp) => (
+                                                    <div
+                                                        key={emp.id}
+                                                        className="flex items-center gap-2 bg-green-50 border border-[#5DA05D] text-[#5DA05D] px-2 py-1 rounded-full text-sm"
+                                                    >
+                                                        <img
+                                                            src={emp.profile_photo || "/placeholder.svg"}
+                                                            alt={emp.name}
+                                                            className="w-6 h-6 rounded-full object-cover"
+                                                        />
+                                                        <span>{emp.name}</span>
+                                                        <button
+                                                            onClick={() => handleSelectEmployee(emp)}
+                                                            className="text-gray-500 hover:text-red-500 text-xs font-bold"
+                                                        >
+                                                            <X />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                                {formData.selectedEmployees.length > 3 && (
+                                                    <div className="flex items-center justify-center bg-green-50 border border-[#5DA05D] text-[#5DA05D] px-3 py-1 rounded-full text-sm">
+                                                        +{formData.selectedEmployees.length - 3}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Search input */}
+                                        <input
+                                            type="text"
+                                            placeholder="Search invitees by name..."
+                                            className="w-full border p-2 rounded-lg mb-3"
+                                            value={formData.search || ""}
+                                            onChange={(e) =>
+                                                setFormData({ ...formData, search: e.target.value })
+                                            }
+                                        />
+
+                                        {/* Search results */}
+                                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                                            {searchLoading ? (
+                                                <p className="text-sm text-gray-500 text-center">
+                                                    Searching...
+                                                </p>
+                                            ) : (
+                                                searchUser.map((emp) => {
+                                                    const isSelected = formData.selectedEmployees.some(
+                                                        (e) => e.id === emp.id
+                                                    )
+                                                    return (
+                                                        <div
+                                                            key={emp.id}
+                                                            onClick={() => handleSelectEmployee(emp)}
+                                                            className={`flex items-center gap-3 p-2 border rounded cursor-pointer ${isSelected
+                                                                ? "bg-green-50 border-[#5DA05D]"
+                                                                : "border-gray-200 hover:border-[#5DA05D]"
+                                                                }`}
+                                                        >
+                                                            <img
+                                                                src={emp.profile_photo || "/placeholder.svg"}
+                                                                alt={emp.name}
+                                                                className="w-8 h-8 rounded-full object-cover"
+                                                            />
+                                                            <div>
+                                                                <span className="font-medium">{emp.name}</span>
+                                                                <div className="text-xs">{emp.qualification}</div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Date & Time */}
+                                <div className="mb-6">
+                                    <h4 className="font-medium mb-3">Select Date & Time</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <input
+                                            type="date"
+                                            name="date"
+                                            value={formData.date}
+                                            onChange={handleChange}
+                                            className="w-full border p-2 rounded"
+                                        />
+                                        <input
+                                            type="time"
+                                            name="time"
+                                            value={formData.time}
+                                            onChange={handleChange}
+                                            className="w-full border p-2 rounded"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Discussion Topics */}
+                                <div className="mb-6">
+                                    <h4 className="font-medium mb-3">
+                                        What would you like to discuss?
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {[
+                                            "Interview Prep",
+                                            "Career Path",
+                                            "Architecture Review",
+                                            "Skill Building",
+                                            "Leadership",
+                                            "Portfolio",
+                                            "Others",
+                                        ].map((topic) => (
+                                            <button
+                                                key={topic}
+                                                onClick={() =>
+                                                    setFormData({ ...formData, discourse: topic })
+                                                }
+                                                className={`px-3 py-1 rounded border text-sm ${formData.discourse === topic
+                                                    ? "bg-green-50 border-[#5DA05D] text-[#5DA05D]"
+                                                    : "border-gray-300 text-gray-600"
+                                                    }`}
+                                            >
+                                                {topic}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end gap-3">
+                                    <button
+                                        onClick={closeModal}
+                                        className="px-4 py-2 bg-gray-200 rounded"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleContinue}
+                                        className="px-4 py-2 bg-[#5DA05D] text-white rounded"
+                                        disabled={!formData.date || !formData.time}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Step 2 - Summary */}
+                        {modalStep === 2 && (
+                            <>
+                                <div className="mb-6">
+                                    <h4 className="font-medium mb-3">Confirm Your Booking</h4>
+                                    <ul className="text-sm text-gray-700 space-y-2">
+                                        <li>
+                                            <strong>Session Type:</strong> {formData.session_type}
+                                        </li>
+                                        <li>
+                                            <strong>Date:</strong> {formData.date}
+                                        </li>
+                                        <li>
+                                            <strong>Time:</strong> {formData.time}
+                                        </li>
+                                        <li>
+                                            <strong>Topic:</strong> {formData.discourse}
+                                        </li>
+
+                                        {/* ✅ Show Invitees only if session_type is group */}
+                                        {formData.session_type === "group" &&
+                                            formData.selectedEmployees?.length > 0 && (
+                                                <li>
+                                                    <strong>Invitees:</strong>
+                                                    <div className="mt-2 flex flex-wrap gap-3">
+                                                        {formData.selectedEmployees.map((emp) => (
+                                                            <div
+                                                                key={emp.id}
+                                                                className="flex items-center gap-2 border border-[#5DA05D] bg-green-50 rounded-full px-3 py-1"
+                                                            >
+                                                                <img
+                                                                    src={emp.profile_photo || "/placeholder.svg"}
+                                                                    alt={emp.name}
+                                                                    className="w-6 h-6 rounded-full object-cover"
+                                                                />
+                                                                <span className="text-sm text-[#5DA05D] font-medium">
+                                                                    {emp.name}
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </li>
+                                            )}
+                                    </ul>
+                                </div>
+
+                                <div className="flex justify-end gap-3">
+                                    <button
+                                        onClick={() => setModalStep(1)}
+                                        className="px-4 py-2 bg-gray-200 rounded"
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        onClick={handleConfirmBooking}
+                                        className="px-4 py-2 bg-[#5DA05D] text-white rounded"
+                                    >
+                                        Confirm Booking
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
                     </div>
                 </div>
             )}
