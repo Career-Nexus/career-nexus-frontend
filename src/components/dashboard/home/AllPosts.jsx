@@ -186,9 +186,7 @@ export default function AllTemplate() {
             {/* MAIN POST HEADER */}
             <div className="flex gap-3 mb-2 items-center">
               <Link 
-              // to={getProfileUrl(post.profile)}
-              to={`/person-profile/${post.profile.id}`}
-              // to="/mentordetails/86"
+              to={getProfileUrl(post.profile)}
                className="flex gap-3 items-center">
                 <img
                   src={post.profile?.profile_photo || "/images/profile.png"}
