@@ -33,7 +33,7 @@ export default function SubmitTicket() {
         }
     }
     return (
-        <div className="max-w-7xl mx-auto mb-6">
+        <div className="max-w-7xl mx-auto mb-20">
             <h1 className="text-2xl font-bold mb-4 text-center">Help Center</h1>
             {/* Search Bar */}
             {/* <div className="flex items-center mb-6">

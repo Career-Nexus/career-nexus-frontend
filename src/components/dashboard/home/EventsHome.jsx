@@ -14,7 +14,7 @@ const EventsHome = () => {
     const [whoToFollow, setWhoToFollow] = useState([]);
     const [recommended, setRecommended] = useState([]);
     const [otherMentors, setOtherMentors] = useState([]);
-    const { user } = useContext(UserContext)
+    const { user, userwithid } = useContext(UserContext)
 
     const getWhoToFollow = async () => {
         try {
@@ -95,10 +95,10 @@ const EventsHome = () => {
             }
         }
     };
-
+const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "coporate";
     return (
         <div>
-            {user.user_type === "learner" ? (
+            {user.user_type === "learner" || user.user_type === "employer" ? (
                 <div className='hidden md:block'>
                     <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
                         <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
@@ -110,7 +110,7 @@ const EventsHome = () => {
                             <>
                                 {whoToFollow.slice(0, 3).map(item => (
                                     <div key={item.id} className='grid grid-cols-12 mb-4'>
-                                        <Link to={`/person-profile/${item.id}`} className='lg:col-span-3 md:col-span-12'>
+                                        <Link to={`/${profileLinkPrefix}/${item.id}`} className='lg:col-span-3 md:col-span-12'>
                                             <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
                                         </Link>
                                         <div className='lg:col-span-6 md:col-span-12 mb-2'>
@@ -119,16 +119,6 @@ const EventsHome = () => {
                                             <p className='text-xs font-thin'>{item.followers} Followers</p>
                                         </div>
                                         <div className='lg:col-span-3 md:col-span-12'>
-                                            {/* <button
-                                                onClick={() => handleFollow(item.id)}
-                                                disabled={item.following}
-                                                className={`w-full border py-1 ${item.following
-                                                    ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                                                    : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
-                                                    } rounded-lg transition-colors duration-200 font-medium text-xs`}
-                                            >
-                                                {item.following ? "Following" : "Follow"}
-                                            </button> */}
                                             <button
                                                 onClick={() => handleFollow(item.id, "whoToFollow")}
                                                 disabled={item.following}
@@ -169,7 +159,7 @@ const EventsHome = () => {
                     </div> */}
 
                 </div>
-            ) : (
+            ) :user.user_type === "mentor" ? (
                 <>
                     <div className=' hidden md:block border border-gray-300 rounded-lg p-2 mb-5 flex-col'>
                         <h1 className='mb-2 text-lg font-bold text-center'>Other Mentors</h1>
@@ -221,7 +211,7 @@ const EventsHome = () => {
                         )}
                     </div>
                 </>
-            )}
+            ): null}
 
             {/* mentor */}
 

@@ -342,8 +342,8 @@ useEffect(() => {
             </div>
           </div>
 
-          <Link to="/landing" className=" bg-[#E6FFEB] py-2 px-3 rounded-lg mt-10 w-full text-center font-bold text-[#0A0B0A]">
-            Book a Consultation
+          <Link to="/landing" className=" bg-[#E6FFEB] text-purple-950 py-2 px-3 rounded-lg text-lg mt-10 w-full text-center font-bold">
+            Know More About Career Nexus
           </Link>
         </div>
       </div>

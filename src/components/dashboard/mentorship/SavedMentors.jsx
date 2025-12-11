@@ -91,7 +91,7 @@ function SavedMentors() {
       );
     }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
       {saved.map((mentor) => {
         const fullName = `${mentor.first_name} ${mentor.last_name}`;
         const profilePhoto = mentor.profile_photo;

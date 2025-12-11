@@ -12,36 +12,43 @@ import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
 import PostSection from "./components/PostSection";
 import OrganizationMembers from "./components/OrganizationalMembers";
+import { CoverPhotoUserModal, ProfilePhotoUserModal } from "../components/dashboard/home/profile/ImagePreviewModal";
 
 
 const ProfileCoverUI = ({ profile }) => {
   const [heroImage, setHeroImage] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
 
+  const [coverModalImage, setCoverModalImage] = useState(null);
+  const [profileModalImage, setProfileModalImage] = useState(null);
+  const { updateUser } = useContext(UserContext);
+
+  // Sync with profile data
+
   useEffect(() => {
     if (profile?.cover_photo) setHeroImage(profile.cover_photo);
     if (profile?.logo) setProfileImage(profile.logo);
   }, [profile]);
 
-  const handleFileChange = async (e, type) => {
-    const file = e.target.files[0];
+  const handleDirectUpload = async (file, type) => {
     if (!file) return;
 
-    // Preview locally
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (type === "hero") setHeroImage(reader.result);
-      else if (type === "profile") setProfileImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+    const preview = URL.createObjectURL(file);
+
+    if (type === "hero") {
+      setHeroImage(preview);
+      setCoverModalImage(preview);
+    } else {
+      setProfileImage(preview);
+      setProfileModalImage(preview);
+    }
 
     try {
-      // Prepare the right key for update
       const payload = type === "hero"
         ? { cover_photo: file }
         : { logo: file };
 
-      await updateUser(payload); // ✅ Your context auto-handles FormData
+      await updateUser(payload);
 
       toast.success(
         `${type === "hero" ? "Cover photo" : "Profile photo"} updated successfully!`,
@@ -49,11 +56,13 @@ const ProfileCoverUI = ({ profile }) => {
       );
     } catch (err) {
       console.error("Upload error:", err);
-      toast.error(
-        err.message || "Error uploading image",
-        { position: "top-center" }
-      );
+      toast.error(err.message || "Error uploading image");
     }
+  };
+  const handleFileChange = (e, type) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    handleDirectUpload(file, type);
   };
 
   return (
@@ -63,16 +72,21 @@ const ProfileCoverUI = ({ profile }) => {
         <img
           src={heroImage || "/src/assets/images/banner-pics.png"}
           alt="cover photo"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center cursor-pointer"
+          onClick={() => setCoverModalImage(heroImage || "/src/assets/images/banner-pics.png")}
         />
 
-        <label
-          htmlFor="hero-upload"
-          className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
+        {/* small hover upload button (does NOT cover the whole image) */}
+        <div
+          className="absolute top-3 right-3 opacity-0 hover:opacity-100 transition-opacity"
+          // prevent the parent image onClick from firing when clicking this button
+          onClick={(e) => e.stopPropagation()}
         >
-          <Camera className="text-white w-10 h-10 mb-2" />
-          <span className="text-white text-sm">Change cover photo</span>
-        </label>
+          <label htmlFor="hero-upload" className="flex items-center gap-2 cursor-pointer bg-black/50 p-2 rounded">
+            <Camera className="text-white w-5 h-5" />
+            <span className="text-white text-xs hidden sm:inline">Change</span>
+          </label>
+        </div>
 
         <input
           id="hero-upload"
@@ -83,27 +97,30 @@ const ProfileCoverUI = ({ profile }) => {
         />
       </div>
 
-      {/* Profile Picture */}
+      {/* PROFILE PHOTO (recommended) */}
       <div className="relative w-32 h-32">
-        <div className="absolute mt-[-3.7rem] ml-3 w-32 h-32 flex items-center justify-center">
-          <div className="w-full h-full clip-hexagon bg-white flex items-center justify-center p-[4px] shadow-lg">
+        <div className="absolute mt-[-3.7rem] ml-3 w-32 h-32">
+          <div className="w-full h-full clip-hexagon bg-white p-[4px] shadow-lg">
             <div className="w-full h-full clip-hexagon overflow-hidden">
               <img
                 src={profileImage || "/images/profile2.png"}
                 alt="profile"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => setProfileModalImage(profileImage || "/images/profile2.png")}
               />
             </div>
           </div>
         </div>
 
-        <label
-          htmlFor="profile-upload"
-          className="absolute mt-[-3.5rem] ml-3 w-32 h-32 bg-black/50 opacity-0 hover:opacity-100 transition-opacity clip-hexagon flex flex-col items-center justify-center cursor-pointer"
+        {/* small overlay upload button for profile */}
+        <div
+          className="absolute mt-[-3.5rem] ml-3 top-0 right-0 opacity-0 hover:opacity-100 transition-opacity"
+          onClick={(e) => e.stopPropagation()}
         >
-          <Camera className="text-white w-6 h-6 mb-1" />
-          <span className="text-white text-xs">Change photo</span>
-        </label>
+          <label htmlFor="profile-upload" className="flex items-center justify-center w-10 h-10 rounded-full bg-black/50 cursor-pointer">
+            <Camera className="text-white w-4 h-4" />
+          </label>
+        </div>
 
         <input
           id="profile-upload"
@@ -113,6 +130,19 @@ const ProfileCoverUI = ({ profile }) => {
           onChange={(e) => handleFileChange(e, "profile")}
         />
       </div>
+      <CoverPhotoUserModal
+        open={!!coverModalImage}
+        image={coverModalImage}
+        onClose={() => setCoverModalImage(null)}
+        onUpload={(file) => handleDirectUpload(file, "hero")}
+      />
+
+      <ProfilePhotoUserModal
+        open={!!profileModalImage}
+        image={profileModalImage}
+        onClose={() => setProfileModalImage(null)}
+        onUpload={(file) => handleDirectUpload(file, "profile")}
+      />
     </div>
   );
 };
@@ -126,14 +156,14 @@ export default function ProfileView() {
   const [editModal, setEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [accountMembers, setAccountMembers] = useState(user?.members || []);
-  
+
   const { id } = useParams();
   useEffect(() => {
     if (id) {
       getUserById(id); // fetch and store in context
     }
-  }, [id]);    
-  
+  }, [id]);
+
   useEffect(() => {
     if (user?.members) setAccountMembers(user.members);
   }, [user]);
@@ -155,7 +185,7 @@ export default function ProfileView() {
     setEditModal(false);
     setLoading(false);
   };
- 
+
 
   const tabs = [
     "Overview",
@@ -207,9 +237,9 @@ export default function ProfileView() {
         );
 
       /** ---------------- ORGANIZATION MEMBERS ---------------- **/
-      case "Organization Members":        
+      case "Organization Members":
         return <OrganizationMembers />;
-        
+
 
       /** ---------------- ANALYTICS DASHBOARD ---------------- **/
       case "Analytics Dashboard":
@@ -471,7 +501,7 @@ export default function ProfileView() {
 
 
       /** ---------------- POSTS ---------------- **/
-      case "Posts":        
+      case "Posts":
         return <PostSection />;
 
       /** ---------------- DEFAULT ---------------- **/

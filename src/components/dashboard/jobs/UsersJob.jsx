@@ -52,68 +52,6 @@ function UserJobs() {
 
 export default UserJobs
 
-const jobs = [
-  {
-    companyLogo: <img src={logo} alt="ui/ux" className="w-10 h-10 " />,
-    companyName: "Instagram",
-    jobTitle: "Senior UI/UX Designer",
-    time: "Posted 3mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  },
-  {
-    companyLogo: <img src={logo1} className="w-10 h-10 " />,
-    companyName: "StartupXYZ",
-    jobTitle: "Project Manager",
-    time: "Posted 2mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  },
-  {
-    companyLogo: <img src={logo2} className="w-10 h-10 " />,
-    companyName: "WebAgency",
-    jobTitle: "Frontend Developer",
-    time: "Posted 4mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  },
-  {
-    companyLogo: <img src={logo3} className="w-10 h-10 " />,
-    companyName: "Instagram",
-    jobTitle: "Marketing Manager",
-    time: "Posted 3mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  },
-  {
-    companyLogo: <img src={logo4} className="w-10 h-10 " />,
-    companyName: "Instagram",
-    jobTitle: "Data Scientist",
-    time: "Posted 5mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  },
-  {
-    companyLogo: <img src={logo5} className="w-10 h-10 " />,
-    companyName: "Instagram",
-    jobTitle: "Senior UI/UX Designer",
-    time: "Posted 3mins ago",
-    location: "America",
-    workType: "Hybrid",
-    schedule: "Part-time",
-    salaryRange: "$80k-$120k"
-  }
-];
 export let OtherJobs = () => {
   const [savedJobs, setSavedJobs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -141,7 +79,7 @@ export let OtherJobs = () => {
     }
   };
   return (
-    <div>
+    <div className='mb-20'>
       <div className="container mx-auto">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           {savedJobs.map((job) => (

@@ -88,7 +88,7 @@ export default function ConsultingPackage() {
       </div>
 
       <h1 className='text-3xl font-bold mb-8 text-center'>
-        Flexible and Cost-Effective <br />Consulting Packages
+        Flexible and Cost-Effective <br />Consulting Packages "For Corporations"
       </h1>
 
       <div className='md:flex gap-5 md:mx-20 mx-4' id='get-started'>

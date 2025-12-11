@@ -2,50 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Search, Eye, Download } from "lucide-react"; // You can replace with custom SVGs
 import { ActivityService } from "../../../api/ActivityServices";
 
-// const resources = [
-//   {
-//     id: 1,
-//     title: "PROFESSIONAL RESUME TEMPLATE",
-//     description:
-//       "Modern, ATS-friendly resume template with multiple layout options and industry-specific examples.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-//   {
-//     id: 2,
-//     title: "LINKED IN OPTIMIZATION WORKBOOK",
-//     description:
-//       "Complete collection of cover letter templates for different industries and career levels.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-//   {
-//     id: 3,
-//     title: "THE COMPLETE JOB SEARCH EBOOK",
-//     description:
-//       "Modern, ATS-friendly resume template with multiple layout options and industry-specific examples.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-//   {
-//     id: 4,
-//     title: "PROFESSIONAL RESUME TEMPLATE",
-//     description:
-//       "Modern, ATS-friendly resume template with multiple layout options and industry-specific examples.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-//   {
-//     id: 5,
-//     title: "PROFESSIONAL RESUME TEMPLATE",
-//     description:
-//       "Modern, ATS-friendly resume template with multiple layout options and industry-specific examples.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-//   {
-//     id: 6,
-//     title: "INTERVIEW PREPARATION CHECKLIST",
-//     description:
-//       "Modern, ATS-friendly resume template with multiple layout options and industry-specific examples.",
-//     tags: ["Templates", "Resume", "interview"],
-//   },
-// ];
 
 export default function Librarys() {
   const [library, setLibrary] = useState([])
@@ -65,7 +21,7 @@ export default function Librarys() {
   console.log(library)
 
   return (
-    <div className="p-6">
+    <div className="p-6 mb-20">
       {/* Header */}
       <h1 className="text-2xl font-bold mb-6">Library</h1>
 

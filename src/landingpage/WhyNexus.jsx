@@ -10,29 +10,33 @@ export default function WhyNexus() {
     return (
         <div>
             <div className='pb-16 text-center'>
-                <h1 className='text-3xl font-bold my-12'>Career-Nexus: Your Path to Success</h1>
+                {/* <h1 className='text-3xl font-bold my-12'>Career-Nexus: Your Path to Success</h1> */}
+                <h1 className='text-3xl font-bold my-12'>Our Other Services</h1>
                 <div className='mx-4 md:mx-20' >
                     <div className='grid grid-cols-5 gap-6'>
-                        <div data-aos="flip-left" data-aos-duration="2000" className='col-span-5 md:col-span-2 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
+                        <div data-aos="flip-left" data-aos-duration="2000" className='col-span-5 lg:col-span-2 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
                             <img src="/images/landing/landing2.png" alt="landing2" className='max-h-80 h-60 w-full object-cover' />
                             <div className='md:p-4'>
                                 <h1 className='font-bold'>Live Sessions for Professional Upskilling </h1>
                                 <p>Our interactive live sessions are designed to enhance your skills and equip you with the latest industry knowledge.</p>
                             </div>
                         </div>
-                        <div data-aos="zoom-in" data-aos-duration="2000" className='col-span-5 md:col-span-3 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
+                        <div data-aos="zoom-in" data-aos-duration="2000" className='col-span-5 lg:col-span-3 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
                             <div className='flex relative insert-0 md:left-7 left-3 top-5'>
-                                <img src="/images/landing/landing3.png" alt="landing3" className='max-h-80 h-32 w-[16] md:h-44 md:w-[27rem] object-cover rounded-lg' />
-                                <img src="/images/landing/landing4.png" alt="landing3" className='absolute top-9 md:top-12 left-5 md:left-40 max-h-80 h-32 w-[16] md:h-44 md:w-[27rem] object-cover rounded-lg' />
+                                <img src="/images/landing/landing3.png" alt="landing3" className='max-h-80 h-28 w-[16] lg:h-44 md:w-[27rem] object-cover rounded-lg' />
+                                <img src="/images/landing/landing4.png" alt="landing3" className='absolute top-6 lg:top-12 left-10 md:left-20 lg:left-40 max-h-80 h-28 w-[16] lg:h-44 md:w-[27rem] object-cover rounded-lg' />
                             </div>
-                            <div className='md:p-4 mt-20'>
-                                <h1 className='font-bold'>Affordable, Accessible, High-Quality Professional Development </h1>
-                                <p>We believe that professional growth should be within reach for everyone. That’s why our programs are crafted to be affordable, accessible, and high-quality.</p>
+                            <div className='md:p-4 mt-12 lg:mt-20'>
+                                {/* <h1 className='font-bold'>Affordable, Accessible, High-Quality Professional Development </h1> */}
+                                <h1 className='font-bold'>Institutions and Corporations Mergers</h1>
+                                {/* <p>We believe that professional growth should be within reach for everyone. That’s why our programs are crafted to be affordable, accessible, and high-quality.</p> */}
+                                <p>A management consultancy that has been established and built with the primary objective of assisting organizations strengthen team and improve employee performance.</p>
+                                <p>Fully subsidized for Institutions and 50% subsidized for Corporations.</p>
                             </div>
                         </div>
                     </div>
                     <div className='grid grid-cols-5 gap-6 mt-6'>
-                        <div data-aos="fade-up" data-aos-duration="2000" className='col-span-5 md:col-span-3 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
+                        <div data-aos="fade-up" data-aos-duration="2000" className='col-span-5 lg:col-span-3 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
                             <div className='flex items-center justify-center mt-5 md:mt-20 md:gap-5 gap-2'>
                                 <img src="/images/landing/landing5.png" alt="landing4" className='max-h-80 h-20 w-20 md:h-32 md:w-32 object-cover' />
                                 <img src="/images/landing/landing6.png" alt="landing5" className='max-h-80 h-20 w-20 md:h-32 md:w-32 object-cover' />
@@ -43,7 +47,7 @@ export default function WhyNexus() {
                                 <p>Our platform bridges the gap between education and employment by providing career-focused training, job-ready skills, and expert guidance.</p>
                             </div>
                         </div>
-                        <div data-aos="flip-right" data-aos-duration="2000" className='col-span-5 md:col-span-2 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
+                        <div data-aos="flip-right" data-aos-duration="2000" className='col-span-5 lg:col-span-2 shadow rounded-lg w-full object-cover max-h-96 h-96 border-2 border-gray-200'>
                             <div className='flex relative insert-0'>
                                 <img src="/images/landing/landing9.png" alt="landing2" className='max-h-80 h-52 w-full object-cover' />
                             </div>

@@ -6,7 +6,7 @@ import { ArrowRight, Dot, GraduationCap, TrendingUp, Vault } from 'lucide-react'
 import CNLogo from "../../../assets/images/CN_LOGO_2.png"
 import { CorporateServices } from '../../../api/CoporateServices'
 
-const Profile = () => {
+const Profile = ({ closeSidebar }) => {
     const [activeId, setActiveId] = useState(null);
     const [linkedAccounts, setLinkedAccounts] = useState([]);
     const { user, error, } = useContext(UserContext)
@@ -54,9 +54,9 @@ const Profile = () => {
     const data = [
         // { id: 1, icon: <Link to='#'><Video /></Link>, name: <Link to='#'>Learning</Link> },
         // { id: 2, icon: <Link to='#'><Bulb /></Link>, name: <Link to='#'>Insights</Link> },
-        { id: 3, icon: <Link to='/saved'><Bookmark /></Link>, name: <Link to='/saved'>Saved</Link> },
-        { id: 4, icon: <Link to='/library'><Library /></Link>, name: <Link to='/library'>Library</Link> },
-        { id: 5, icon: <Link to='/newsletter'><Newsletter /></Link>, name: <Link to='/newsletter'>Newsletter</Link> },
+        { id: 3, icon: <Link to='/saved' onClick={closeSidebar}><Bookmark /></Link>, name: <Link to='/saved' onClick={closeSidebar}>Saved</Link> },
+        { id: 4, icon: <Link to='/library' onClick={closeSidebar}><Library /></Link>, name: <Link to='/library' onClick={closeSidebar}>Library</Link> },
+        { id: 5, icon: <Link to='/newsletter' onClick={closeSidebar}><Newsletter /></Link>, name: <Link to='/newsletter' onClick={closeSidebar}>Newsletter</Link> },
         // { id: 6, icon: <Link to='/settings'><Setting /></Link>, name: <Link to='/settings'>Settings</Link> },
     ]
     const mentorData = [
@@ -102,7 +102,10 @@ const Profile = () => {
                                 {linkedAccounts.map(account => (
                                     <button
                                         key={account.id}
-                                        onClick={() => handleSwitchAccount(account.id)}
+                                        onClick={() => {
+                                            handleSwitchAccount(account.id);
+                                            closeSidebar();
+                                        }}
                                         className="flex justify-center items-center mt-3 text-center bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2 w-full"
                                     >
                                         <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />
@@ -170,7 +173,10 @@ const Profile = () => {
                                 {linkedAccounts.map(account => (
                                     <button
                                         key={account.id}
-                                        onClick={() => handleSwitchAccount(account.id)}
+                                        onClick={() => {
+                                            handleSwitchAccount(account.id);
+                                            closeSidebar();
+                                        }}
                                         className="flex justify-center items-center mt-3 text-center bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2 w-full"
                                     >
                                         <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />
@@ -227,33 +233,6 @@ const Profile = () => {
 
                 </div>
             ) : (
-                //  <div>
-                //         {linkedAccounts.length === 0 ? (
-                //             <Link to={'/coporate-com'} className='flex mt-3 text-center text-sm bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2  w-full'>
-                //                 Create a company page
-                //                 <ArrowRight className='inline-block ml-auto' />
-                //             </Link>
-                //         ) : (
-                //             <div className='bg-gray-50 p-3 rounded-lg border border-gray-200 mt-3'>
-                //                 <h1 className='font-semibold'>MY PAGE</h1>
-                //                 {linkedAccounts.map(account => (
-                //                     <button
-                //                         key={account.id}
-                //                         onClick={() => handleSwitchAccount(account.id)}
-                //                         className="flex justify-center items-center mt-3 text-center bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2 w-full"
-                //                     >
-                //                         <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />
-                //                         <div className="flex flex-col text-left">
-                //                             <span className="font-semibold">{account.name}</span>
-                //                             <span className="text-gray-500 text-sm">{account.extras.slice(0, 30)}...</span>
-                //                         </div>
-                //                         <Dot className="inline-block ml-auto h-10 w-10 text-red-700" />
-                //                     </button>
-                //                 ))}
-
-                //             </div>
-                //         )}
-                //     </div>
                 <div className=''>
                     <Link to={'/coporate'} className='border border-[#5DA05D] bg-[#FBFFFB] rounded-lg flex flex-col relative mb-5'>
                         <div className='flex items-center min-h-32 mx-2 '>
@@ -282,7 +261,10 @@ const Profile = () => {
                                 {linkedAccounts.map(account => (
                                     <button
                                         key={account.id}
-                                        onClick={() => handleSwitchAccount(account.id)}
+                                        onClick={() => {
+                                            handleSwitchAccount(account.id);
+                                            closeSidebar();
+                                        }}
                                         className="flex justify-center items-center mt-3 text-center bg-[#FBFFFB] font-semibold border text-gray-600 rounded-lg py-3 px-2 w-full"
                                     >
                                         <img src={account.profile_photo} alt="corp icon" className="w-16 h-12 mr-2 rounded-lg" />

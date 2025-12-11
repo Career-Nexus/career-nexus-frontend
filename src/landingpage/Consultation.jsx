@@ -11,26 +11,22 @@ export default function Consultation() {
     <div className='py-4' id='consult'>
       <div className='mx-4 md:mx-20 md:flex md:justify-between md:items-center'>
         <div className='w-full object-cover'>
-          <h1 className='text-3xl font-bold mb-10 md:mb-20 md:mt-6'>Our Expertise, Your Growth</h1>
+          <h1 className='text-3xl font-bold mb-10 md:mb-20 md:mt-6'>Our aim is simple:</h1>
           <div>
             <div className='md:flex gap-5'>
-              <div data-aos="zoom-in" className='border-2 border-[#C4DAC4] p-3 h-56 w-72 rounded-tl-2xl mb-5'>
-                <h1 className='font-bold text-xl'>Human Resource Solutions:</h1>
-                <p>Recruitment support, onboarding frameworks, and employee engagement strategies.</p>
+              <div data-aos="zoom-in" className='border-2 border-[#C4DAC4] p-3 h-56 w-80 rounded-tl-2xl mb-5'>
+                <p>To partner with “corporations and institutions” on a clear career and development growth strategy; TRAINING & CONSULTING.</p>
               </div>
-              <div data-aos="zoom-out" className='border-2 border-[#C4DAC4] p-3 h-56 w-72 rounded-bl-2xl mb-5'>
-                <h1 className='font-bold text-xl'>Corporate Training Programs:</h1>
-                <p>Tailored workshops in leadership, communication, technology, and compliance.</p>
+              <div data-aos="zoom-out" className='border-2 border-[#C4DAC4] p-3 h-56 w-80 rounded-bl-2xl mb-5'>
+                <p>To partner to transform careers and workplaces with innovative corporate training solutions; I.e learning and development training.</p>
               </div>
             </div>
             <div className='md:flex gap-5 mt-5'>
-              <div data-aos="fade-up" className='border-2 border-[#C4DAC4] p-3 h-56 w-72 rounded-br-2xl mb-5'>
-                <h1 className='font-bold text-xl'>Learning & Development (L&D):</h1>
-                <p>Skills-gap assessments, career development pathways, and performance improvement strategies.</p>
+              <div data-aos="fade-up" className='border-2 border-[#C4DAC4] p-3 h-56 w-80 rounded-br-2xl mb-5'>
+                <p>To offer a personalized professional platform as a continuous career development tool; CAREER-NEXUS.COM</p>
               </div>
-              <div data-aos="fade-down" className='border-2 border-[#C4DAC4] p-3 h-56 w-72 rounded-tr-2xl mb-5'>
-                <h1 className='font-bold text-xl'>Organizational Development:</h1>
-                <p>Change management, culture transformation, and succession planning.</p>
+              <div data-aos="fade-down" className='border-2 border-[#C4DAC4] p-3 h-56 w-80 rounded-tr-2xl mb-5'>
+                <p>We pride ourselves on providing unmatched career development tool, industry-focused training and consulting solutions. Trusted in providing human capacity building solutions; empowering teams, elevating performance, and driving sustainable growth.</p>
               </div>
             </div>
           </div>

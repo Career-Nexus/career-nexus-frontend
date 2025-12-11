@@ -65,7 +65,7 @@ function SavedPost() {
     );
   }
     return (
-        <div>
+        <div className='mb-20'>
             {savedPost.map(({ post }) => (
                 <div key={post.post_id} className="border border-gray-300 rounded-lg p-4 my-5">
                     <div className="flex gap-3 mb-2 items-center">

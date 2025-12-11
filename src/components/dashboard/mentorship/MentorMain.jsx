@@ -215,7 +215,7 @@ const MentorCard = ({ mentor }) => {
   }
 
   return (
-    <div>
+    <div className="mb-20">
       {/* Mentor Card */}
       <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
         <div className="flex justify-between p-4">
@@ -302,7 +302,7 @@ const MentorCard = ({ mentor }) => {
         <div
           onClick={handleClickOutside}
           id="modalBackdrop"
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 px-4"
         >
           <div className="bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto no-scrollbar shadow-lg">
             <h2 className="text-xl font-bold mb-4">Book Mentorship Session</h2>

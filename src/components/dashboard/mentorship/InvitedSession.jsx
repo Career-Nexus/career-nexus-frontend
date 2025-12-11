@@ -223,25 +223,6 @@ function InvitedSession() {
 
                                     {/* Action Buttons */}
                                     <div className="flex space-x-3 mt-auto">
-                                        {/* {booking.is_paid === false ? (
-                                            <button
-                                                // onClick={() => openModal(booking)}
-                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                            >
-                                                Not yet paid for
-                                            </button>
-                                        ) : (
-                                            booking.join === true ? (
-                                                <button
-                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                                    onClick={() => setActiveSessionId(booking.id)}
-                                                >Join Session</button>
-                                            ) : (
-                                                <button
-                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                                >Not yet time</button>
-                                            )
-                                        )} */}
                                         {!booking.is_paid && parseInt(booking.amount) > '0' ? (
                                             /* USER HAS NOT PAID & AMOUNT > 0 → SHOW PAY BUTTON */
                                             <button
@@ -268,21 +249,15 @@ function InvitedSession() {
                                             )
 
                                         )}
-                                        {/* <button
-
-                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                        >
-                                            Cancel
-                                        </button> */}
                                         {/* Second leg: Cancel OR Mark as Completed */}
                                         {booking.join === true ? (
-                                            <button
-                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-[#5DA05D] text-[#5DA05D] h-10 px-4 py-2 flex-1"
-                                                // onClick={() => console.log(`Mark session ${booking.id} as completed`)}
-                                                onClick={() => setOpenRatingModal(booking)}
-                                            >
-                                                Mark as Completed
-                                            </button>
+                                            // <button
+                                            //     className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-[#5DA05D] text-[#5DA05D] h-10 px-4 py-2 flex-1"
+                                            //     onClick={() => setOpenRatingModal(booking)}
+                                            // >
+                                            //     Mark as Completed
+                                            // </button>
+                                            null
                                         ) : (
                                             <button
                                                 className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"

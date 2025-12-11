@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Home, Jobs, Mentorship, Network, Notification, } from '../../icons/icon';
 import MobileFooterNav from './FooterNavbar';
 import { UserContext } from '../../context/UserContext';
-import { EllipsisVertical, HelpCircle, LoaderIcon, LogOut, Search, Settings, UserCircle, X } from 'lucide-react';
+import { EllipsisVertical, HelpCircle, LoaderIcon, LogOut, Menu, Search, Settings, UserCircle, X } from 'lucide-react';
 import { MentorServices } from '../../api/MentorServices';
 import Profile from '../dashboard/home/Profile';
 import { Notify } from '../dashboard/home/Notify';
@@ -312,21 +312,8 @@ const MainNavbar = () => {
                                     className="md:hidden p-2"
                                     onClick={() => setIsProfileOpen(true)}
                                 >
-                                    {/* SVG Hamburger */}
-                                    <svg
-                                        className="w-6 h-6 text-gray-700"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                    </svg>
-
+                                    {/* Hamburger */}
+                                    <Menu className="w-6 h-6 cursor-pointer" />
                                 </button>
 
                                 {/* Dropdown menu */}
@@ -400,7 +387,7 @@ const MainNavbar = () => {
 
                         {/* Profile Component here */}
                         <div className='mt-8'>
-                            <Profile />
+                            <Profile closeSidebar={() => setIsProfileOpen(false)} />
                         </div>
 
                         <div className='border border-gray-200 p-2 rounded-lg'>
@@ -408,6 +395,7 @@ const MainNavbar = () => {
                                 to="/help"
                                 className="flex gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem"
+                                onClick={(e) => e.setIsProfileMenuOpen(false)}
                             >
                                 <HelpCircle /> Help
                             </Link>
@@ -415,7 +403,7 @@ const MainNavbar = () => {
                                 to="/settings"
                                 className="flex gap-4 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem"
-                                onClick={() => setIsProfileMenuOpen(false)}
+                                onClick={(e) => e.setIsProfileMenuOpen(false)}
                             >
                                 <Settings /> Setting
                             </Link>

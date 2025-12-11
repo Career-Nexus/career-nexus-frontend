@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import FloatingMessageIcon from "../chat/FloatingMessage"
 import { NetworkService } from "../../../api/NetworkService"
 import { Box, Spinner } from "@chakra-ui/react"
@@ -8,11 +8,13 @@ import PendingInvitations from "./PendingInvitations";
 import PeopleInYourIndustry from "./PeopleInYourIndustry";
 import PeopleInYourLocation from "./PeopleInYourLocation";
 import { toast } from "react-toastify";
+import { UserContext } from "../../../context/UserContext";
 
 const NetworkCards = () => {
   const [recommendtofollow, setRecommendToFollow] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const {user, userwithid} = useContext(UserContext);
 
   const getRecommendToFollow = async () => {
     setLoading(true);
@@ -71,7 +73,7 @@ const NetworkCards = () => {
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
-
+const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "coporate";
   return (
     <div className="max-w-6xl mx-auto min-h-screen">
       <div className="mb-6">
@@ -97,7 +99,7 @@ const NetworkCards = () => {
               // <ProfileCard key={mentor.id} person={mentor} type="mentor" />
               <div key={follow.id} className="bg-white rounded-xl border border-gray-200 p-2 flex flex-col items-center text-center space-y-4 transition-shadow duration-200">
 
-                <Link to={`/person-profile/${follow.id}`}>
+                <Link to={`/${profileLinkPrefix}/${follow.id}`}>
                   <div className="relative">
                     <img
                       src={follow.profile_photo || "/placeholder.svg"}
