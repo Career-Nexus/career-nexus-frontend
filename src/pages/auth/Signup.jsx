@@ -27,7 +27,7 @@ const Signup = () => {
     <div className="min-h-screen bg-white">
       <div className="grid grid-cols-12 bg-white">
         {/* Left Column */}
-        <div className="col-span-12 lg:col-span-7 hidden md:block rounded-lg ml-5">
+        <div className="col-span-12 lg:col-span-7 hidden md:block">
           {activeTab ==='learner'? <HeroSection />:<MentorHero/>}
         </div>
         {/* Right Column */}
