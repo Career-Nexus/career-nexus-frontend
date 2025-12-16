@@ -95,11 +95,10 @@ const EventsHome = () => {
             }
         }
     };
-const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "coporate";
+//const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "coporate";
     return (
         <div>
-            {user.user_type === "learner" || user.user_type === "employer" ? (
-                <div className='hidden md:block'>
+            <div className='hidden md:block'>
                     <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
                         <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
                         {whoToFollow.length === 0 ? (
@@ -110,7 +109,10 @@ const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "cop
                             <>
                                 {whoToFollow.slice(0, 3).map(item => (
                                     <div key={item.id} className='grid grid-cols-12 mb-4'>
-                                        <Link to={`/${profileLinkPrefix}/${item.id}`} className='lg:col-span-3 md:col-span-12'>
+                                        <Link to={
+                                            user.user_type === 'learner'?`/person-profile/${item.id}`:
+                                            user.user_type==='mentor'?`/mentordetails/${item.id}`:
+                                            `/coporate/${item.id}`} className='lg:col-span-3 md:col-span-12'>
                                             <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
                                         </Link>
                                         <div className='lg:col-span-6 md:col-span-12 mb-2'>
@@ -159,59 +161,6 @@ const profileLinkPrefix = user.user_type === "learner" ? "person-profile" : "cop
                     </div> */}
 
                 </div>
-            ) :user.user_type === "mentor" ? (
-                <>
-                    <div className=' hidden md:block border border-gray-300 rounded-lg p-2 mb-5 flex-col'>
-                        <h1 className='mb-2 text-lg font-bold text-center'>Other Mentors</h1>
-                        {otherMentors.length === 0 ? (
-                            <div className='flex justify-center items-center h-20'>
-                                <p className='text-gray-500'>No mentor recommendations available</p>
-                            </div>
-                        ) : (
-                            <div>
-                                {otherMentors.slice(0, 3).map(item => (
-                                    <div className='grid grid-cols-12 mb-4' key={item.id}>
-                                        <Link to={`/mentordetails/${item.id}`} className='md:col-span-12 lg:col-span-3'>
-                                            <img src={item.profile_photo} alt={item.first_name} className='w-10 h-10 rounded-full mb-2' />
-                                        </Link>
-                                        <div className='md:col-span-12 lg:col-span-6 mb-2'>
-                                            <h3 className='font-semibold'>{item.first_name} {item.last_name}</h3>
-                                            <p className='text-xs font-thin'>{item.current_job}</p>
-                                            {/* <p className='text-xs font-thin'>{item.followers} Followers</p> */}
-                                        </div>
-                                {/* <button
-                                                onClick={() => handleFollow(item.id)}
-                                                disabled={item.following}
-                                                className={`w-full border py-1 ${item.following
-                                                    ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                                                    : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
-                                                    } rounded-lg transition-colors duration-200 font-medium text-xs`}
-                                            >
-                                                {item.following ? "Following" : "Follow"}
-                                            </button> */}
-                                        {/* <div className='md:col-span-12 lg:col-span-3'>
-                                            
-                                            <button
-                                                onClick={() => handleFollow(item.id, "otherMentors")}
-                                                disabled={item.following}
-                                                className={`w-full border py-1 ${item.following
-                                                    ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
-                                                    : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
-                                                    } rounded-lg transition-colors duration-200 font-medium text-xs`}
-                                            >
-                                                {item.following ? "Following" : "Follow"}
-                                            </button>
-                                        </div> */}
-                                    </div>
-                                ))}
-                                {/* <div className="flex">
-                                    <Link to={'/mentorship'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more</Link>
-                                </div> */}
-                            </div>
-                        )}
-                    </div>
-                </>
-            ): null}
 
             {/* mentor */}
 
@@ -359,3 +308,118 @@ function PremiumWrapper() {
         </>
     );
 }
+
+// {user.user_type === "learner" ? (
+//                 <div className='hidden md:block'>
+//                     <div className='border border-gray rounded-lg mb-5 pb-2 flex flex-col px-3'>
+//                         <h1 className='py-3 font-semibold'>WHO TO FOLLOW</h1>
+//                         {whoToFollow.length === 0 ? (
+//                             <div className='flex justify-center items-center h-20'>
+//                                 <p className='text-gray-500'>No recommendations available</p>
+//                             </div>
+//                         ) : (
+//                             <>
+//                                 {whoToFollow.slice(0, 3).map(item => (
+//                                     <div key={item.id} className='grid grid-cols-12 mb-4'>
+//                                         <Link to={`/person-profile/${item.id}`} className='lg:col-span-3 md:col-span-12'>
+//                                             <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
+//                                         </Link>
+//                                         <div className='lg:col-span-6 md:col-span-12 mb-2'>
+//                                             <h3 className='font-bold'>{item.name}</h3>
+//                                             <p className='text-xs font-thin'>{item.qualification}</p>
+//                                             <p className='text-xs font-thin'>{item.followers} Followers</p>
+//                                         </div>
+//                                         <div className='lg:col-span-3 md:col-span-12'>
+//                                             <button
+//                                                 onClick={() => handleFollow(item.id, "whoToFollow")}
+//                                                 disabled={item.following}
+//                                                 className={`w-full border py-1 ${item.following
+//                                                     ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+//                                                     : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+//                                                     } rounded-lg transition-colors duration-200 font-medium text-xs`}
+//                                             >
+//                                                 {item.following ? "Following" : "Follow"}
+//                                             </button>
+//                                         </div>
+//                                     </div>
+//                                 ))}
+//                                 <Link to={'/industry'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
+//                             </>
+//                         )}
+//                     </div>
+//                     {/* <div className='border border-gray-300 rounded-lg p-2 my-2 flex flex-col'>
+//                         <h1 className='py-3 font-semibold'>Recommended Jobs</h1>
+//                         {recommended.length === 0 ? (
+//                             <div className='flex justify-center items-center h-20'>
+//                                 <p className='text-gray-500'>No recommended jobs available</p>
+//                             </div>
+//                         ) : (
+//                             <div >
+//                                 {recommended.slice(0, 2).map(item => (
+//                                     <div key={item.id} className='p-2'>
+//                                         <h3 className='text-xs font-semibold mb-2'>{item.title.toUpperCase()}</h3>
+//                                         <p className='text-xs font-semibold mb-1'>{item.organization}</p>
+//                                         <p className='text-xs'>{item.experience_level}</p>
+//                                         <p className='text-xs mb-1'>Matching Skills:3/4</p>
+//                                     </div>
+//                                 ))}
+
+//                             </div>
+//                         )}
+//                         <Link to='/jobs' className='text-[#5DA05D] justify-center text-center px-5 py-1 border border-[#5DA05D] w-full rounded-lg'>See more...</Link>
+//                     </div> */}
+
+//                 </div>
+//             ) :user.user_type === "mentor" ? (
+//                 // <>
+//                 //     <div className=' hidden md:block border border-gray-300 rounded-lg p-2 mb-5 flex-col'>
+//                 //         <h1 className='mb-2 text-lg font-bold text-center'>Other Mentors</h1>
+//                 //         {otherMentors.length === 0 ? (
+//                 //             <div className='flex justify-center items-center h-20'>
+//                 //                 <p className='text-gray-500'>No mentor recommendations available</p>
+//                 //             </div>
+//                 //         ) : (
+//                 //             <div>
+//                 //                 {otherMentors.slice(0, 3).map(item => (
+//                 //                     <div className='grid grid-cols-12 mb-4' key={item.id}>
+//                 //                         <Link to={`/mentordetails/${item.id}`} className='md:col-span-12 lg:col-span-3'>
+//                 //                             <img src={item.profile_photo} alt={item.first_name} className='w-10 h-10 rounded-full mb-2' />
+//                 //                         </Link>
+//                 //                         <div className='md:col-span-12 lg:col-span-6 mb-2'>
+//                 //                             <h3 className='font-semibold'>{item.first_name} {item.last_name}</h3>
+//                 //                             <p className='text-xs font-thin'>{item.current_job}</p>
+//                 //                             {/* <p className='text-xs font-thin'>{item.followers} Followers</p> */}
+//                 //                         </div>
+//                 //                 {/* <button
+//                 //                                 onClick={() => handleFollow(item.id)}
+//                 //                                 disabled={item.following}
+//                 //                                 className={`w-full border py-1 ${item.following
+//                 //                                     ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+//                 //                                     : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+//                 //                                     } rounded-lg transition-colors duration-200 font-medium text-xs`}
+//                 //                             >
+//                 //                                 {item.following ? "Following" : "Follow"}
+//                 //                             </button> */}
+//                 //                         {/* <div className='md:col-span-12 lg:col-span-3'>
+                                            
+//                 //                             <button
+//                 //                                 onClick={() => handleFollow(item.id, "otherMentors")}
+//                 //                                 disabled={item.following}
+//                 //                                 className={`w-full border py-1 ${item.following
+//                 //                                     ? "bg-green-50 text-gray-400 cursor-not-allowed border-gray-300"
+//                 //                                     : "border-[#5DA05D] text-[#5DA05D] hover:bg-green-50"
+//                 //                                     } rounded-lg transition-colors duration-200 font-medium text-xs`}
+//                 //                             >
+//                 //                                 {item.following ? "Following" : "Follow"}
+//                 //                             </button>
+//                 //                         </div> */}
+//                 //                     </div>
+//                 //                 ))}
+//                 //                 {/* <div className="flex">
+//                 //                     <Link to={'/mentorship'} className='text-[#5DA05D] text-center p-1 border border-[#5DA05D] w-full rounded-lg'>See more</Link>
+//                 //                 </div> */}
+//                 //             </div>
+//                 //         )}
+//                 //     </div>
+//                 // </>
+//             )}

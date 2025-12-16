@@ -56,7 +56,7 @@ function BookSession() {
     return (
         <div className="mb-20" >
             <h2 className="text-xl font-bold mb-3">Booked sessions</h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-6">
                 {loading ? (
                     <Box display="flex" justifyContent="center" alignItems="center" height="200px">
                         <Spinner size="lg" color="#5DA05D" thickness="4px" />

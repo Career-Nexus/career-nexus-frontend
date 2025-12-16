@@ -34,6 +34,11 @@ export function Notify() {
 
     const handleClick = async (notif) => {
         setOpen(false); // close immediately
+        
+        if (notif.page === "Mentorship Sessions") {
+            navigate("/booked");
+            return;
+        }
 
         if (!notif.route || !notif.page) return;
 
@@ -48,10 +53,6 @@ export function Notify() {
             }
             if (notif.page === "Profile" && p.get("user_id")) {
                 navigate(`/person-profile/${p.get("user_id")}`);
-                return;
-            }
-            if (notif.page === "Mentorship" && p.get("mentorship_id")) {
-                navigate(`/mentorship/${p.get("mentorship_id")}`);
                 return;
             }
             if (notif.page === "Network" && p.get("network_id")) {

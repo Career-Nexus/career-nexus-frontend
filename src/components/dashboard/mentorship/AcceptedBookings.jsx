@@ -117,7 +117,7 @@ function AcceptedBookings() {
     return (
         <div className='mb-20'>
             <h2 className=" my-6 text-xl font-bold">Accepted Bookings</h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-6">
                 {acceptedBookings.length > 0 ? (
                     acceptedBookings.map((booking) => (
                         <div key={booking.id}>
@@ -166,7 +166,6 @@ function AcceptedBookings() {
                                 </div>
 
                                 {/* Toggleable dropdown */}
-                                {/* <div className="p-0"> */}
                                 <div className="p-0 flex flex-col flex-1">
                                     {booking.attendeeCount ? (
                                         <div className="mb-3">
@@ -224,25 +223,6 @@ function AcceptedBookings() {
                                     <p className="text-sm text-gray-700 mb-4">{booking.description}</p>
 
                                     <div className="flex space-x-3 mt-auto">
-                                        {/* {booking.is_paid === false && booking.amount !== '0NGN' ? (
-                                            <button
-                                                onClick={() => openModal(booking)}
-                                                className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                            >
-                                                Pay Now
-                                            </button>
-                                        ) : (
-                                            booking.join === true ? (
-                                                <button
-                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                                    onClick={() => setActiveSessionId(booking.id)}
-                                                >Join Session</button>
-                                            ) : (
-                                                <button
-                                                    className="inline-flex items-center justify-center rounded-lg text-sm font-medium bg-[#5DA05D] text-white h-10 px-4 py-2 flex-1"
-                                                >Not yet time</button>
-                                            )
-                                        )} */}
                                         {!booking.is_paid && parseInt(booking.amount) > '0' ? (
                                             /* USER HAS NOT PAID & AMOUNT > 0 → SHOW PAY BUTTON */
                                             <button
@@ -269,13 +249,6 @@ function AcceptedBookings() {
                                             )
 
                                         )}
-
-                                        {/* <button
-
-                                            className="inline-flex items-center justify-center rounded-lg text-sm font-medium border border-red-500 text-red-500 h-10 px-4 py-2 flex-1"
-                                        >
-                                            Cancel
-                                        </button> */}
                                         {/* Second leg: Cancel OR Mark as Completed */}
                                         {booking.join === true ? (
                                             <button

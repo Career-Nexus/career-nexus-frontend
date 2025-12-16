@@ -5,33 +5,6 @@ import { toast } from "react-toastify";
 import logo3 from "../../../assets/images/job-marketing.svg"; 
 
 export default function JobDetailsModal({ isOpen, onClose, job }) {
-  // const JobApplication = async () => {
-  //   if (!job?.id) {
-  //     toast.error("Invalid job information.");
-  //     return;
-  //   }
-
-  //   const applicationData = {
-  //     job: job.id,
-  //   };
-
-  //   try {
-  //     const result = await JobServices.ApplyForJob(applicationData);
-
-  //     if (result.success && result.data.application_status === "Success") {
-  //       console.log("Application successful:", result.data);
-  //       toast.success("Application submitted successfully!");
-  //       onClose();
-  //     } else {
-  //       console.error("Application failed:", result?.error?.job);
-  //       toast.error(result?.error?.job || "Failed to submit application. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error applying for job:", error?.job);
-  //     toast.error("An unexpected error occurred. Please try again later.");
-  //   }
-  // };
-
  const JobApplication = async () => {
     if (!job?.id) {
       toast.error("Invalid job information.");
@@ -168,7 +141,7 @@ export default function JobDetailsModal({ isOpen, onClose, job }) {
           <h3 className="font-semibold text-gray-800 mb-1">
             Application Deadline
           </h3>
-          <p className="text-red-600 text-sm">{job.deadline}</p>
+          <p className="text-red-600 text-sm">{job.application_deadline}</p>
         </section>
 
         {/* Bottom Buttons */}
