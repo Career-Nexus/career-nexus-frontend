@@ -109,12 +109,15 @@ const EventsHome = () => {
                             <>
                                 {whoToFollow.slice(0, 3).map(item => (
                                     <div key={item.id} className='grid grid-cols-12 mb-4'>
-                                        <Link to={
+                                        {/* <Link to={
                                             user.user_type === 'learner'?`/person-profile/${item.id}`:
                                             user.user_type==='mentor'?`/mentordetails/${item.id}`:
                                             `/coporate/${item.id}`} className='lg:col-span-3 md:col-span-12'>
                                             <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
-                                        </Link>
+                                        </Link> */}
+                                        <button className='lg:col-span-3 md:col-span-12'>
+                                            <img src={item.profile_photo} alt={item.name} className='w-10 h-10 rounded-full mb-2' />
+                                        </button>
                                         <div className='lg:col-span-6 md:col-span-12 mb-2'>
                                             <h3 className='font-bold'>{item.name}</h3>
                                             <p className='text-xs font-thin'>{item.qualification}</p>
