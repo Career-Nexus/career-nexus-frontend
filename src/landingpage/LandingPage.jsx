@@ -19,18 +19,18 @@ export default function LandingPage() {
   return (
     <div className='overflow-y-scroll no-scrollbar'>
         {/* <Nav/> */}
-        <Hero/>
-        <CareerPath/>
-        <WhyNexus/>
-        <Consultation/>
+          <Hero />
+          <CareerPath />
+          <HowItWorks />
+          <WhoItsFor />
+        {/* <WhyNexus/> */}
+        {/* <Consultation/> */}
         <Reviews/>
         {/* <ConsultingPackage/> */}
         <GetStarted/>
         <WhatsLiveAndComing/>
         <MentorCard/>
-        <Footer/>
-        <HowItWorks/>
-        <WhoItsFor/>
+        {/* <Footer/> */}
     </div>
   )
 }
