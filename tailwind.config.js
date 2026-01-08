@@ -6,8 +6,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     flowbite.content(),
   ],
+  // theme: {
+  //   extend: {},
+  // },
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Open Sans"', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     flowbite.plugin(),

@@ -55,6 +55,10 @@ import LandingPage from '../landingpage/LandingPage'
 import CompanyProfileSetup from '../coporate/CoperateProfileSetup'
 import JobDashboard from '../coporate/JobDashboard'
 import CoporateProfile from '../pages/coporate/CoporateProfile'
+import About from '../landingpage/About'
+import Nav from '../landingpage/Nav'
+import Consult from '../landingpage/Consult'
+import Pricing from '../landingpage/Pricing'
 
 
 const ProtectedRoute = ({ children }) => {
@@ -503,12 +507,15 @@ const Router = () => {
 
         {/* Catch all - redirect to home or login */}
         {/* <Route path="*" element={<RootRedirect />} /> */}
-        <Route
-          path='/landing'
-          element={
-            <LandingPage />
-          }
-        />
+
+        <Route element={<Nav />} >
+          <Route path='/landing' element={<LandingPage />} />
+          <Route path="/landing/home" element={<LandingPage />} />
+          <Route path="/landing/about" element={<About />} />
+          <Route path="/landing/consult" element={<Consult />} />
+          <Route path="/landing/pricing" element={<Pricing />} />
+        </Route>
+
         <Route
           path="*"
           element={
