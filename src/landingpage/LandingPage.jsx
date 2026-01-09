@@ -5,6 +5,7 @@ import {CareerPath} from './CareerPath'
 import Consultation from './Consultation'
 import ConsultingPackage from './ConsultingPackage'
 import Reviews from './ReviewFile'
+// import WhyNexus from './WhyNexus'
 import GetStarted from './GetStarted'
 import WhatsLiveAndComing from './WhatsLiveAndComing'
 import MentorCard from './MentorCard'
@@ -21,7 +22,7 @@ export default function LandingPage() {
         {/* <Nav/> */}
         <Hero/>
         <CareerPath/>
-        <WhyNexus/>
+        {/* <WhyNexus/> */}
         <Consultation/>
         <Reviews/>
         {/* <ConsultingPackage/> */}
