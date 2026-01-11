@@ -53,7 +53,7 @@ function About() {
 
 const TheProblem = () => {
   return (
-    <div className="bg-white w-full max-w-7xl mx-auto flex justify-center" id="about">
+    <div className="bg-white w-full max-w-6xl mx-auto flex justify-center" id="about">
       <div className="bg-white p-6 md:p-4 shadow-lg mx-6 md:mx-20 rounded-2xl absolute md:mt-[-9rem]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-18">
           
@@ -173,8 +173,8 @@ const TheProblem = () => {
 
 function ConsultingDifferenceSection() {
   return (
-    <section className="bg-[#E6FFE7] mt-[40rem] md:mt-[55rem] py-16 px-6">
-      <div className="max-w-5xl my-5 mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <section className="bg-[#E6FFE7] mt-[40rem] md:mt-[55rem] py-16 px-3">
+      <div className="max-w-7xl my-5 mx-auto grid md:grid-cols-2 gap-16 items-center">
         {/* Left Content */}
         <div>
           <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-20 font-roboto">
@@ -273,7 +273,7 @@ function ConsultingDifferenceSection() {
 function EngagementOptions() {
   return (
     <section className="w-full bg-[#E8D0FF] py-16 px-6">
-      <div className="max-w-[884px] mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h2 className="text-center text-2xl md:text-[40px] font-bold text-gray-900 mb-12">
           Engagement Options
@@ -327,7 +327,7 @@ function OptionCard({ IconSrc, title }) {
 
 function WhoWeWork() {
   return (
-    <section className="w-full max-w-5xl mx-auto bg-white py-16">
+    <section className="w-full max-w-7xl mx-auto bg-white py-16">
       <div className="mx-auto max-w-6xl px-6">
         {/* Title */}
         <h2 className="mb-12 text-center text-[40px] font-bold text-gray-900">
@@ -412,7 +412,7 @@ function PurpleCard() {
   return (
     <div className="w-full flex justify-center mb-20">
       {/* Image wrapper */}
-      <div className="relative w-full max-w-5xl mx-2 md:mx-20">
+      <div className="relative w-full max-w-6xl mx-2 md:mx-20">
         <img
           src="/images/landing/Background.png"
           alt="landing"
