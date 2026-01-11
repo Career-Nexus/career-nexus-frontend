@@ -31,7 +31,7 @@ export const CareerPath = () => {
   ];
 
   return (
-    <section className="md:px-4 mx-6 md:mx-16 mt-[40rem] md:mt-[23rem]" id="about">
+    <section className="md:px-4 mx-6 md:mx-16 mt-[5rem]" id="about">
       <div className="md:flex md:gap-10">
         <div className="w-4/5">
           <h2 className="md:text-lg">THE SOLUTION</h2>

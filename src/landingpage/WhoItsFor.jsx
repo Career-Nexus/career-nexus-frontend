@@ -1,4 +1,7 @@
 import React from 'react'
+import { useState, useEffect,useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // or any icon library
+
 
 export default function WhoItsFor() {
     return (
@@ -76,8 +79,8 @@ function WhoCard() {
 
 const WhyTrustUs=() => {
     return (
-        <div className='bg-white w-full mb-20 mt-10' id='about'>
-            <div>
+        <div className='bg-white w-full mt-10' id='about'>
+            {/* <div>
                 <h1 className='font-sans md:text-2xl mb-3 text-center font-bold'>Why you can trust <span className='text-[#5DA05D]'>US</span></h1>
                 <p className='text-center text-lg'>We are building carefully, transparently, and responsibly.</p>
             </div>
@@ -87,7 +90,208 @@ const WhyTrustUs=() => {
                 <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Industry-led mentorship</p>
                 <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Data privacy & platform integrity conscious </p>
                 <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Built with advisors, mentors, and professionals</p>
-            </div>
+            </div> */}
+            {/* <ComplianceCarousel /> */}
+            <ComplianceMarqueeCarousel />
         </div>
     )
+}
+
+
+const complianceItems = [
+  { id: 1, label: "SOC 2-Aligned Security Controls", icon: "🔒" },
+  { id: 2, label: "CCPA-Aligned Data Practices", icon: "🛡️" },
+  { id: 3, label: "PCI Certified", icon: "💳" },
+  { id: 4, label: "ISO-aligned", icon: "✓" },
+  // You can easily add more
+];
+
+function ComplianceCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-slide every 3.5 seconds
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % complianceItems.length);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => 
+      prev === 0 ? complianceItems.length - 1 : prev - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % complianceItems.length);
+  };
+
+  return (
+    <div 
+      className="w-full max-w-4xl mx-auto py-8 px-4"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-black border border-slate-800 shadow-2xl">
+        {/* Main content */}
+        <div className="relative h-28 sm:h-32 md:h-36 flex items-center justify-center px-6 md:px-12 transition-all duration-700 ease-out">
+          {complianceItems.map((item, index) => (
+            <div
+              key={item.id}
+              className={`
+                absolute w-full text-center transition-all duration-700 ease-in-out
+                ${index === currentIndex 
+                  ? 'opacity-100 translate-x-0 scale-100' 
+                  : index === (currentIndex + 1) % complianceItems.length 
+                    ? 'opacity-0 translate-x-24 scale-95' 
+                    : index === (currentIndex - 1 + complianceItems.length) % complianceItems.length 
+                      ? 'opacity-0 -translate-x-24 scale-95' 
+                      : 'opacity-0 scale-90'
+                }
+              `}
+            >
+              <div className="
+                inline-flex items-center gap-3 sm:gap-4 
+                px-6 py-3.5 sm:px-8 sm:py-4 
+                bg-gradient-to-r from-blue-900/40 to-indigo-900/40 
+                backdrop-blur-sm 
+                border border-slate-700/60 rounded-full
+                text-white font-medium tracking-wide
+                shadow-lg shadow-black/40
+                hover:scale-105 transition-transform duration-300
+              ">
+                <span className="text-2xl sm:text-3xl">{item.icon}</span>
+                <span className="text-base sm:text-lg md:text-xl">
+                  {item.label}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation buttons */}
+        <button
+          onClick={goToPrevious}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 
+                   p-2 rounded-full bg-black/40 backdrop-blur-sm 
+                   text-white/70 hover:text-white hover:bg-black/60 
+                   transition-all duration-300"
+          aria-label="Previous certification"
+        >
+          <ChevronLeft size={28} />
+        </button>
+
+        <button
+          onClick={goToNext}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 
+                   p-2 rounded-full bg-black/40 backdrop-blur-sm 
+                   text-white/70 hover:text-white hover:bg-black/60 
+                   transition-all duration-300"
+          aria-label="Next certification"
+        >
+          <ChevronRight size={28} />
+        </button>
+
+        {/* Dots indicator */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2.5">
+          {complianceItems.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`
+                w-2.5 h-2.5 rounded-full transition-all duration-400
+                ${idx === currentIndex 
+                  ? 'bg-blue-500 w-6' 
+                  : 'bg-slate-600 hover:bg-slate-400'
+                }
+              `}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+const badges = [
+  { id: 1, text: "SOC 2-Aligned Security Controls", icon: "🔒" },
+  { id: 2, text: "CCPA-Aligned Data Practices",     icon: "🛡️" },
+  { id: 3, text: "PCI Certified",                   icon: "💳" },
+  { id: 4, text: "ISO-aligned",                     icon: "✓ ISO" },
+  // Feel free to add more — they will loop nicely
+];
+
+function ComplianceMarqueeCarousel() {
+  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef(null);
+
+  // Duplicate items for seamless infinite loop
+  const doubledBadges = [...badges, ...badges];
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+    let animationFrame;
+    let currentTranslate = 0;
+
+    const animate = () => {
+      if (isPaused) {
+        animationFrame = requestAnimationFrame(animate);
+        return;
+      }
+
+      currentTranslate -= 0.6; // adjust speed (higher = faster)
+
+      // Reset when first set is fully scrolled out
+      if (Math.abs(currentTranslate) >= (container.scrollWidth / 2)) {
+        currentTranslate = 0;
+      }
+
+      container.style.transform = `translateX(${currentTranslate}px)`;
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isPaused]);
+
+  return (
+    <div className="w-full overflow-hidden py-6 md:py-8 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950">
+      <div
+        className="flex items-center gap-4 md:gap-6 whitespace-nowrap"
+        ref={containerRef}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        {doubledBadges.map((badge, idx) => (
+          <div
+            key={`${badge.id}-${idx}`}
+            className="
+              inline-flex items-center gap-2.5 px-5 py-2.5 md:px-6 md:py-3
+              bg-slate-800/60 backdrop-blur-sm 
+              border border-slate-700/70 
+              rounded-full text-slate-200 font-medium text-sm md:text-base
+              shadow-sm hover:shadow-md hover:bg-slate-700/70 
+              transition-all duration-300 flex-shrink-0
+            "
+          >
+            <span className="text-lg md:text-xl">{badge.icon}</span>
+            <span>{badge.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

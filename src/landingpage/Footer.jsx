@@ -97,6 +97,11 @@ export default function Footer() {
                 <Facebook />
               </a>
             </div>
+            <h6 className="footer-title font-bold mt-8">Subscribe to our newsletter</h6>
+            <div className="lg:flex">
+              <input type="text" className="relative mt-4 w-full max-w-xs px-4 py-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]" placeholder="Enter your email" />
+              <button className="lg:absolute right-24 mt-5 px-4 py-2 lg:py-1 bg-[#5DA05D] text-white rounded-md hover:bg-green-600 transition-colors">Subscribe</button>
+            </div>
           </div>
         </div>
       </div>
@@ -104,7 +109,8 @@ export default function Footer() {
       {/* Copyright section */}
       <div className="border-t border-gray-800">
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
-          <p className="text-center text-sm text-gray-400">Copyright © 2025 Career-Nexus Ltd. All rights reserved.</p>
+          {/* <p className="text-center text-sm text-gray-400">Copyright © 2025 Career-Nexus Ltd. All rights reserved.</p> */}
+          <p className="text-center text-sm text-gray-400">Career-Nexus is a UK-registered company building a global career development ecosystem focused on mentorship, guidance, and opportunity.</p>
         </div>
       </div>
       <PrivacyPolicy
