@@ -7,8 +7,8 @@ export default function WhoItsFor() {
   return (
     <div className='md:px-4 mx-6 md:mx-16'>
       <div className='text-center'>
-        <h3 className='text-2xl font-bold font-roboto'>Who it's for</h3>
-        <p className='text-lg'>Designed for people to build real careers</p>
+        <h3 className='text-2xl lg:text-4xl font-bold font-roboto'>Who it's for</h3>
+        <p className='text-lg lg:text-xl'>Designed for people to build real careers</p>
       </div>
       <div>
         <WhoCard />
@@ -98,138 +98,16 @@ const WhyTrustUs = () => {
 }
 
 
-const complianceItems = [
-  { id: 1, label: "SOC 2-Aligned Security Controls", icon: "🔒" },
-  { id: 2, label: "CCPA-Aligned Data Practices", icon: "🛡️" },
-  { id: 3, label: "PCI Certified", icon: "💳" },
-  { id: 4, label: "ISO-aligned", icon: "✓" },
-  // You can easily add more
-];
-
-function ComplianceCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto-slide every 3.5 seconds
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % complianceItems.length);
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? complianceItems.length - 1 : prev - 1
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % complianceItems.length);
-  };
-
-  return (
-    <div
-      className="w-full max-w-4xl mx-auto py-8 px-4"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-black border border-slate-800 shadow-2xl">
-        {/* Main content */}
-        <div className="relative h-28 sm:h-32 md:h-36 flex items-center justify-center px-6 md:px-12 transition-all duration-700 ease-out">
-          {complianceItems.map((item, index) => (
-            <div
-              key={item.id}
-              className={`
-                absolute w-full text-center transition-all duration-700 ease-in-out
-                ${index === currentIndex
-                  ? 'opacity-100 translate-x-0 scale-100'
-                  : index === (currentIndex + 1) % complianceItems.length
-                    ? 'opacity-0 translate-x-24 scale-95'
-                    : index === (currentIndex - 1 + complianceItems.length) % complianceItems.length
-                      ? 'opacity-0 -translate-x-24 scale-95'
-                      : 'opacity-0 scale-90'
-                }
-              `}
-            >
-              <div className="
-                inline-flex items-center gap-3 sm:gap-4 
-                px-6 py-3.5 sm:px-8 sm:py-4 
-                bg-gradient-to-r from-blue-900/40 to-indigo-900/40 
-                backdrop-blur-sm 
-                border border-slate-700/60 rounded-full
-                text-white font-medium tracking-wide
-                shadow-lg shadow-black/40
-                hover:scale-105 transition-transform duration-300
-              ">
-                <span className="text-2xl sm:text-3xl">{item.icon}</span>
-                <span className="text-base sm:text-lg md:text-xl">
-                  {item.label}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation buttons */}
-        <button
-          onClick={goToPrevious}
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 
-                   p-2 rounded-full bg-black/40 backdrop-blur-sm 
-                   text-white/70 hover:text-white hover:bg-black/60 
-                   transition-all duration-300"
-          aria-label="Previous certification"
-        >
-          <ChevronLeft size={28} />
-        </button>
-
-        <button
-          onClick={goToNext}
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 
-                   p-2 rounded-full bg-black/40 backdrop-blur-sm 
-                   text-white/70 hover:text-white hover:bg-black/60 
-                   transition-all duration-300"
-          aria-label="Next certification"
-        >
-          <ChevronRight size={28} />
-        </button>
-
-        {/* Dots indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2.5">
-          {complianceItems.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`
-                w-2.5 h-2.5 rounded-full transition-all duration-400
-                ${idx === currentIndex
-                  ? 'bg-blue-500 w-6'
-                  : 'bg-slate-600 hover:bg-slate-400'
-                }
-              `}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-
 const badges = [
-  { id: 1, text: "SOC 2-Aligned Security Controls", icon: "/images/landing/C1.png" },
-  { id: 2, text: "CCPA-Aligned Data Practices", icon: "/images/landing/C2.png" },
-  { id: 3, text: "PCI Certified", icon: "/images/landing/C3.png" },
-  { id: 4, text: "ISO-aligned", icon: "/images/landing/C4.png" },
+  {id: 1, text: "GDPR Complaint", icon: "/images/landing/Ca.png"},
+  { id: 2, text: "SOC 2-Aligned Security Controls", icon: "/images/landing/C1.png" },
+  { id: 3, text: "CCPA-Aligned Data Practices", icon: "/images/landing/C2.png" },
+  { id: 4, text: "PCI Certified", icon: "/images/landing/C3.png" },
+  { id: 5, text: "ISO-aligned", icon: "/images/landing/C4.png" },
   // Feel free to add more — they will loop nicely
 ];
 
-function ComplianceMarqueeCarousel() {
+export function ComplianceMarqueeCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
 
@@ -268,10 +146,10 @@ function ComplianceMarqueeCarousel() {
   return (
     <div className="w-full overflow-hidden py-6 md:py-8 flex flex-col items-center justify-center">
       <div className="mb-6 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
-        <h1 className="font-sans text-xl md:text-2xl mb-3 font-bold">
+        <h1 className="font-sans text-xl md:text-4xl mb-3 font-bold">
           Why you can trust <span className="text-[#5DA05D]">US</span>
         </h1>
-        <p className="text-base md:text-lg text-gray-700">
+        <p className="text-base md:text-lg lg:text-2xl text-gray-700">
           We are building carefully, transparently, and responsibly.
         </p>
       </div>
