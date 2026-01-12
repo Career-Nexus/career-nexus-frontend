@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { PGreen, PPink, VGreen } from '../icons'
 
 export default function Hero() {
     return (
