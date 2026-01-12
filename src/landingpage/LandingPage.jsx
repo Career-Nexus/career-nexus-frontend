@@ -1,6 +1,7 @@
 import React from 'react'
 import Hero from './Hero'
 import Reviews from './ReviewFile'
+// import WhyNexus from './WhyNexus'
 import GetStarted from './GetStarted'
 import WhatsLiveAndComing from './WhatsLiveAndComing'
 import MentorCard from './MentorCard'
