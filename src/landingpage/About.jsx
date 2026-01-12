@@ -80,17 +80,17 @@ const OurMission = () => {
         <div className='px-6 md:px-10 lg:px-20 py-16'>
             <div className='text-center'>
                 <h2 className='font-roboto font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-none tracking-normal align-middle'>Our Mission Statement</h2>
-                <p className='text-xl mt-3 mb-5'>We are building carefully, transparently, and responsibly.</p>
+                <p className='text-xl mt-3 mb-12'>We are building carefully, transparently, and responsibly.</p>
             </div>
             <div className='w-full flex flex-col md:flex-row gap-10 md:gap-20 lg:gap-24 '>
-                <div className='w-full md:w-2/3 flex flex-col gap-4'>
+                <div className='w-full md:w-2/3 lg:w-1/2 flex flex-col gap-4 justify-center'>
                     <p className="font-sans font-normal text-[12px] md:text-[16px] lg:text-[20px] md:leading-6 tracking-normal align-middle text-gray-800 w-2/3">
                         Career-Nexus is committed to building a credible, globally relevant career platform grounded in integrity, structure, and measurable impact.
                     </p>
                 </div>
-                {/* <div className='w-full md:w-1/3 flex flex-col items-center justify-center text-center'>
-                    <img src="/images/landing/mission.png" alt="mission" className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg' />
-                </div> */}
+                <div className='w-full md:w-1/3 flex flex-col'>
+                    <img src="/images/landing/mission.png" alt="mission" className='w-full max-w-sm md:max-w-md lg:max-w-lg' />
+                </div>
             </div>
         </div>
     )
@@ -104,7 +104,7 @@ const WhyWeExist = () => {
         "Help professionals navigate uncertainty with structure and insight",
     ];
     return (
-        <div className='bg-white px-6 md:px-10 lg:px-20 py-16'>
+        <div className='bg-white px-6 md:px-10 lg:px-20 pb-16'>
             <div className='text-center mb-10'>
                 <h2 className='font-roboto font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-none tracking-normal align-middle'>Why Career-Nexus Exists</h2>
                 <p className='text-xl mt-3 mb-5'>We are building carefully, transparently, and responsibly.</p>
@@ -143,7 +143,7 @@ const TrustAndCredibility = () => {
     ];
     return (
         <div>
-            <div className='relative px-6 md:px-10 lg:px-20 pb-48 lg:pb-24 bg-[#E6FFE7] w-full flex flex-col md:flex-row lg:gap-24 '>
+            <div className='relative px-6 md:px-10 lg:px-20 pt-20 pb-48 lg:pb-24 bg-[#E6FFE7] w-full flex flex-col md:flex-row lg:gap-24 '>
                 <div className='mb-5 md:mb-10 w-full md:w-2/3 flex flex-col gap-4'>
                     <h2 className='font-roboto font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-none tracking-normal align-middle'>Trust & Credibility</h2>
                     <p className='text-xl mt-3 md:mb-5'>Built on clarity, governance, and long-term value</p>
@@ -302,7 +302,7 @@ const Reviews = () => {
 const JoinUs = () => {
     return (
         <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-10">
-            <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[500px] rounded-2xl overflow-hidden">
+            <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[450px] rounded-2xl overflow-hidden">
                 {/* Background Image */}
                 <img
                     src="/images/landing/rectangle.png"

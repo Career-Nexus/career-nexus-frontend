@@ -2,7 +2,7 @@
 // Career Path Section
 import { AI, BC, GN, VR } from "../icons";
 
-export const CareerPath = () => {
+export const Solution = () => {
   const items = [
     {
       id: 1,
@@ -32,14 +32,8 @@ export const CareerPath = () => {
 
   return (
     <section className="md:px-4 mx-6 md:mx-16 mt-[5rem]" id="about">
-      <div className="md:flex md:gap-10">
-        <div className="w-4/5">
-          <h2 className="md:text-lg">THE SOLUTION</h2>
-          <h1 className="font-bold text-2xl md:text-4xl">Career guidance that meets the real world</h1>
-        </div>
-          <p className="text-xl md:text-2xl w-80">Career-Nexus connects ambition with experience. </p>
-      </div>
-
+      <h2 className="md:text-lg text-center">THE SOLUTION</h2>
+      <h1 className="font-bold text-2xl md:text-4xl text-center">Career guidance that meets the real world</h1>
       <div className="bg-[#C3F9C3] pt-5 mt-10">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
           {items.map((item) => (
@@ -55,6 +49,7 @@ export const CareerPath = () => {
           ))}
         </div>
       </div>
+       <p className="text-xl md:text-2xl text-center mt-4">Career-Nexus connects ambition with experience. </p>
     </section>
   );
 };
