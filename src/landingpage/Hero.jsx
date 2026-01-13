@@ -20,8 +20,17 @@ export default function Hero() {
                             <button className='border border-[#5DA05D] text-[#5DA05D] px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Request a Consultation</button>
                         </div>
                     </div>
-                    <div className='flex flex-col lg:px-4 w-full md:w-1/2 lg:w-1/3'>
-                        <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg' />
+                    <div className='flex flex-col lg:px-4 w-full md:w-2/3 lg:w-1/3'>
+                        {/* <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg' /> */}
+                        <video 
+                            src="/images/landing/landing-hero.mp4" 
+                            controls 
+                            muted 
+                            autoPlay 
+                            loop
+                            className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg rounded-lg shadow-lg'
+                            style={{width: '100%', height: '400px', objectFit: 'cover'}}
+                        ></video>
                     </div>
                 </div>
             </div>

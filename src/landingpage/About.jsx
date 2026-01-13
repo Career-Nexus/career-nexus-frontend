@@ -4,9 +4,9 @@ import Nav from './Nav'
 export default function About() {
     return (
         <div>
-            <div className='w-full bg-[#000000] pb-48 md:pb-10 relative' id='home'>
+            <div className='w-full bg-[#000000] pb-32 md:pb-20 lg:pb-20 relative' id='home'>
                 {/* Hero Section */}
-                <div className='w-full text-white h-[32rem] flex flex-col md:gap-1 lg:gap-10 md:flex-row justify-between items-center px-6 md:px-10 lg:px-20 pt-10 md:pt-0 lg:pt-20 space-y-10 md:space-y-0'>
+                <div className='w-full text-white min-h-auto md:min-h-[28rem] flex flex-col md:gap-6 lg:gap-10 md:flex-row justify-between items-center px-4 md:px-12 lg:px-20 pt-8 md:pt-16 lg:pt-20 space-y-8 md:space-y-0'>
                     <div className='md:w-2/3 md:mr-5 lg:mr-10 flex flex-col gap-2'>
                         <p className="font-sans font-normal text-[12px] md:text-[16px] lg:text-[20px] leading-none tracking-normal uppercase align-middle">
                             LEADERSHIP & FOUNDING VISION
@@ -19,8 +19,17 @@ export default function About() {
                             As work becomes increasingly non-linear, skills-driven, and location-agnostic, professionals and organisations need clearer pathways, not outdated assumptions.
                         </p>
                     </div>
-                    <div className='md:w-1/3 flex flex-col px-4'>
-                        <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-sm md:max-w-md lg:max-w-lg' />
+                    <div className='md:w-2/3 lg:w-1/3 flex flex-col px-4 ml-[-3.5rem]'>
+                        {/* <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-sm md:max-w-md lg:max-w-lg' /> */}
+                        <video 
+                            src="/images/landing/landing-hero.mp4" 
+                            controls 
+                            muted 
+                            autoPlay 
+                            loop
+                            className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-lg'
+                            style={{width: '100%', height: '400px', objectFit: 'cover'}}
+                        ></video>
                     </div>
                 </div>
             </div>
