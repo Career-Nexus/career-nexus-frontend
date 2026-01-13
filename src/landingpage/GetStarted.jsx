@@ -13,7 +13,7 @@ export default function GetStarted() {
 
         {/* Centered overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-          <h1 className="text-3xl font-bold mb-4">
+          <h1 className=" text-xl md:text-3xl font-bold mb-4">
             Join our early access community
           </h1>
 
