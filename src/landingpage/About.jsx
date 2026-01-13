@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Nav from './Nav'
+import { Link } from 'react-router-dom'
 
 export default function About() {
     return (
@@ -21,14 +22,14 @@ export default function About() {
                     </div>
                     <div className='md:w-2/3 lg:w-1/3 flex flex-col px-4 ml-[-3.5rem]'>
                         {/* <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-sm md:max-w-md lg:max-w-lg' /> */}
-                        <video 
-                            src="/images/landing/landing-hero.mp4" 
-                            controls 
-                            muted 
-                            autoPlay 
+                        <video
+                            src="/images/landing/landing-hero.mp4"
+                            controls
+                            muted
+                            autoPlay
                             loop
                             className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-lg'
-                            style={{width: '100%', height: '400px', objectFit: 'cover'}}
+                            style={{ width: '100%', height: '400px', objectFit: 'cover' }}
                         ></video>
                     </div>
                 </div>
@@ -93,8 +94,8 @@ const OurMission = () => {
             </div>
             <div className='w-full flex flex-col md:flex-row gap-10 md:gap-20 lg:gap-24 '>
                 <div className='w-full md:w-2/3 lg:w-1/2 flex flex-col gap-4 justify-center'>
-                    <p className="font-sans font-normal text-[12px] md:text-[16px] lg:text-[20px] md:leading-6 tracking-normal align-middle text-gray-800 w-2/3">
-                        Career-Nexus is committed to building a credible, globally relevant career platform grounded in integrity, structure, and measurable impact.
+                    <p className="font-sans font-normal text-[12px] md:text-[16px] lg:text-[20px] md:leading-6 tracking-normal align-middle text-gray-800 w-full md:w-4/5">
+                        To empower individuals by providing accessible, high-quality professional development resources, ensuring practical skills needed to succeed.
                     </p>
                 </div>
                 <div className='w-full md:w-1/3 flex flex-col'>
@@ -269,7 +270,7 @@ const Reviews = () => {
     const reviews = [
         {
             name: "JEREMAIH OGBONNA",
-            role: "Chief Finance Officer, Career-nexus Ltd",
+            role: "Co-founder/Chief Finance Officer, Career-nexus Ltd",
             content: "Career-Nexus recognises that careers today are no longer linear or location-bound. The platform provides the structure, insight, and exposure required to navigate modern work at a global level.",
             comas: "“",
             image: "/images/landing/review1.png"
@@ -331,13 +332,15 @@ const JoinUs = () => {
 
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <button className="bg-white text-[#5DA05D] px-6 py-3 rounded-lg font-medium transition hover:bg-white/90">
+                        <Link to="/signup"><button className="bg-white text-[#5DA05D] px-6 py-3 rounded-lg font-medium transition hover:bg-white/90">
                             Join Early Access
-                        </button>
+                        </button></Link>
 
-                        <button className="border border-white text-white px-6 py-3 rounded-lg font-medium transition hover:bg-white/10">
-                            Partner with Career-Nexus
-                        </button>
+                        <Link to="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0Lm6SYbu3xyaB9OmwT9bO2ECy5RlmrRIjcS46mKinuDz9_hMW3PsCarJKcBt2MMivcGqFtJ-4n">
+                            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium transition hover:bg-white/10">
+                                Partner with Career-Nexus
+                            </button>
+                        </Link>
                     </div>
 
                     <p className="mt-6 text-xs sm:text-sm text-white/70">

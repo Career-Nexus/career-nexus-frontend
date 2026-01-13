@@ -13,7 +13,7 @@ const reviews = [
   {
     id: 2,
     text: `As a founder running a fashion business in the UK, I’ve seen first-hand how difficult it is for young professionals to access real guidance beyond theory. Career-Nexus is tackling a genuine gap; not by selling dreams, but by creating space for practical conversations, mentorship, and clarity.
-What stood out to me is the intentional way the platform is being built. It’s clear this isn’t rushed or superficial. The focus on people, experience, and long-term value aligns with how serious businesses are grown.`,
+    What stood out to me is the intentional way the platform is being built. It’s clear this isn’t rushed or superficial. The focus on people, experience, and long-term value aligns with how serious businesses are grown.`,
     name: "Felix Inala",
     role: "Founder & Creative Director, ANKO",
     avatar: "/images/landing/felix.png",

@@ -102,17 +102,18 @@ const badges = [
   {id: 1, text: "GDPR Complaint", icon: "/images/landing/Ca.png"},
   { id: 2, text: "SOC 2-Aligned Security Controls", icon: "/images/landing/C1.png" },
   { id: 3, text: "CCPA-Aligned Data Practices", icon: "/images/landing/C2.png" },
-  { id: 4, text: "PCI Certified", icon: "/images/landing/C3.png" },
-  { id: 5, text: "ISO-aligned", icon: "/images/landing/C4.png" },
+  // { id: 4, text: "PCI Certified", icon: "/images/landing/C3.png" },
+  { id: 4, text: "ISO-aligned", icon: "/images/landing/C4.png" },
   // Feel free to add more — they will loop nicely
 ];
 
 export function ComplianceMarqueeCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
 
-  // Duplicate items for seamless infinite loop
-  const doubledBadges = [...badges, ...badges];
+  // Duplicate items 3 times for better seamless looping
+  const doubledBadges = [...badges, ...badges, ...badges];
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -120,6 +121,15 @@ export function ComplianceMarqueeCarousel() {
     const container = containerRef.current;
     let animationFrame;
     let currentTranslate = 0;
+
+    // Measure the actual scroll width after render
+    const measureWidth = () => {
+      const actualWidth = container.scrollWidth / 3; // Divide by 3 since we tripled the items
+      setScrollWidth(actualWidth);
+      return actualWidth;
+    };
+
+    const width = measureWidth();
 
     const animate = () => {
       if (isPaused) {
@@ -129,8 +139,8 @@ export function ComplianceMarqueeCarousel() {
 
       currentTranslate -= 0.6; // adjust speed (higher = faster)
 
-      // Reset when first set is fully scrolled out
-      if (Math.abs(currentTranslate) >= (container.scrollWidth / 2)) {
+      // Seamlessly reset when one set is fully scrolled
+      if (currentTranslate <= -width) {
         currentTranslate = 0;
       }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 export default function Hero() {
     return (
         <div className=''>
@@ -16,8 +17,9 @@ export default function Hero() {
                             Career-Nexus bridges the gap between education, skills, and real market opportunity helping professionals and organisations build capability, direction, and long-term relevance in today’s global workforce.
                         </p>
                         <div className='flex flex-col md:flex-row gap-3 md:gap-5 lg:gap-7 mt-4 md:mt-5 lg:mt-6'>
-                            <button className='bg-[#5DA05D] text-white px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Join Early Access</button>
-                            <button className='border border-[#5DA05D] text-[#5DA05D] px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Request a Consultation</button>
+                            <Link to="/signup"><button className='bg-[#5DA05D] text-white px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Join Early Access</button></Link>
+                            {/* <Link to="/landing/consult"><button className='border border-[#5DA05D] text-[#5DA05D] px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Request a Consultation</button></Link> */}
+                            <Link to="/signup"><button className='border border-[#5DA05D] text-[#5DA05D] px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Join as a mentor</button></Link>
                         </div>
                     </div>
                     <div className='flex flex-col lg:px-4 w-full md:w-2/3 lg:w-1/3'>

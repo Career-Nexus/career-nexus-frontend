@@ -76,7 +76,7 @@ function About() {
             </p>
 
             <div className="flex justify-center md:justify-start mt-6">
-              <button className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
+              <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
                 Request A Consultation
               </button>
             </div>
@@ -321,7 +321,7 @@ function EngagementOptions() {
 
         {/* CTA */}
         <div className="flex justify-center mt-12">
-          <button className="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition">
+          <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition">
             Request A Consultation
           </button>
         </div>
@@ -415,7 +415,9 @@ const TrustSection = () => {
           </div>
         ))}
       </div> */}
-      <ConsultingPackage />
+      <div id='consulting'>
+        <ConsultingPackage />
+      </div>
     </section>
   );
 };
@@ -440,7 +442,7 @@ function PurpleCard() {
           <div className="flex flex-col md:flex-row gap-4">
             <button
               className="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
-              onClick={() => (window.location.href = "#get-started")}
+              onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Request a Consultation
             </button>

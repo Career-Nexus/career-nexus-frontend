@@ -10,7 +10,8 @@ export default function Nav() {
   const location = useLocation()
 
   return (
-    <nav className="w-full bg-white shadow-md border-b border-gray-200">
+    <>
+    <nav className="sticky top-0 w-full bg-white shadow-md border-b border-gray-200 z-50">
       <div className="flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <div className="flex items-center">
@@ -23,7 +24,7 @@ export default function Nav() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-10 items-center">
-          <a href='/landing/home' className={`transition ${location.pathname === '/landing/home' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</a>
+          <a href='/landing/home' className={`transition ${location.pathname === '/landing/home' || location.pathname === '/landing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</a>
           <a href='/landing/about' className={`transition ${location.pathname === '/landing/about' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>About</a>
           <a href='/landing/consult' className={`transition ${location.pathname === '/landing/consult' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Consult</a>
           {/* <a href='/landing/pricing' className={`transition ${location.pathname === '/landing/pricing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Pricing</a> */}
@@ -44,7 +45,7 @@ export default function Nav() {
       {/* Mobile Menu (Dropdown) */}
       {isOpen && (
         <div className="md:hidden shadow-md flex flex-col items-center gap-4 py-4 bg-gray-50">
-          <a href='/landing/home'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/home' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</div></a>
+          <a href='/landing/home'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/home' || location.pathname === '/landing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</div></a>
           <a href='/landing/about'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/about' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>About</div></a>
           <a href='/landing/consult'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/consult' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Consult</div></a>
           {/* <a href='/landing/pricing'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/pricing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Pricing</div></a> */}
@@ -57,8 +58,9 @@ export default function Nav() {
           </Link>
         </div>
       )}
-      <Outlet />
-      <Footer />
     </nav>
+    <Outlet />
+    <Footer />
+    </>
   )
 }

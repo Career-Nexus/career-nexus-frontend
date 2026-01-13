@@ -34,7 +34,7 @@ export const Solution = () => {
     <section className="md:px-4 mx-6 md:mx-16 mt-[5rem]" id="about">
       <h2 className="md:text-lg text-center">THE SOLUTION</h2>
       <h1 className="font-bold text-2xl md:text-4xl text-center">Career guidance that meets the real world</h1>
-      <div className="bg-[#C3F9C3] pt-5 mt-10">
+      <div className="hover:bg-[#C3F9C3] pt-5 mt-10">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
           {items.map((item) => (
             <div key={item.id} className="px-2 sm:px-3 mb-4">
