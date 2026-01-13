@@ -5,7 +5,7 @@ import { ImQuotesLeft } from "react-icons/im";
 const reviews = [
   {
     id: 1,
-    text: `I’ve had the pleasure of advising Career Nexus—an innovative workforce development organization dedicated to strengthening the Central Valley’s economy by preparing young adults for meaningful, paid internships and long-term career success. Their unique ecosystem connects employers, educators, and job seekers to build a more inclusive and prepared workforce, and their impact on community development is clear. I’ve also known founder Samuel personally and can attest to his passion, vision, and commitment to driving positive outcomes for both employers and interns alike.`,
+    text: `I’ve had the pleasure of advising Career Nexus—an innovative workforce development organization dedicated to strengthening the UK economy by preparing young adults for meaningful and long-term career success. Their unique ecosystem connects employers, Mentors, Graduates and Job seekers to build a more inclusive and prepared workforce, and their impact on community development is clear. I’ve also known founder Samuel personally and can attest to his passion, vision, and commitment to driving positive outcomes for both employers and interns alike.`,
     name: "Khalid Hussain",
     role: "CEO, Swift BPO and Co-Founder, Business Owners Network – Birmingham",
     avatar: "/images/landing/khalid.png",
@@ -18,19 +18,32 @@ const reviews = [
     role: "Founder & Creative Director, ANKO",
     avatar: "/images/landing/felix.png",
   },
-  {
-    id: 3,
-    text: `Career-Nexus is responding to one of the defining challenges of the modern workforce: the widening gap between formal education, practical skills, and real economic opportunity. Their platform equips individuals to navigate complexity and remain competitive in a rapidly changing global economy.`,
-    name: "Simas Vysniauskas",
-    role: "Sales Executive - Spendbase",
-    avatar: "/images/landing/silmas.png",
-  },
+  // {
+  //   id: 3,
+  //   text: `Career-Nexus is responding to one of the defining challenges of the modern workforce: the widening gap between formal education, practical skills, and real economic opportunity. Their platform equips individuals to navigate complexity and remain competitive in a rapidly changing global economy.`,
+  //   name: "Simas Vysniauskas",
+  //   role: "Sales Executive - Spendbase",
+  //   avatar: "/images/landing/silmas.png",
+  // },
 ];
 
 export default function Reviews() {
   const [index, setIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const maxIndex = reviews.length - 1;
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Calculate max index based on screen size
+  const itemsPerSlide = isMobile ? 1 : 2;
+  const totalSlides = Math.ceil(reviews.length / itemsPerSlide);
+  const maxIndex = totalSlides - 1;
+  const transformPercent = isMobile ? 100 : 50;
 
   const next = () =>
     setIndex((prev) => (prev < maxIndex ? prev + 1 : prev));
@@ -72,7 +85,7 @@ export default function Reviews() {
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{
-              transform: `translateX(-${index * 100}%)`,
+              transform: `translateX(-${index * transformPercent}%)`,
             }}
           >
             {reviews.map((review) => (
