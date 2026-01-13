@@ -18,76 +18,149 @@ export default function Hero() {
     )
 }
 
-
 // function About() {
 //   return (
-//     <div className=''>
-//       <div className='w-full bg-[#E8D0FF] pb-52 relative' id='about'>
+//     <div>
+//       <div className="w-full bg-[#E8D0FF] pb-24 md:pb-52 relative" id="about">
 //         {/* Hero Section */}
-//         <div className='w-full h-[32rem] flex flex-col md:gap-10 md:flex-row justify-between items-center px-6 md:px-20 pt-10 md:pt-16 space-y-10 md:space-y-0'>
-//           <div className='md:w-[641px] md:mr-5 lg:mr-10 flex flex-col gap-2'>
-//             <p className="font-sans mb-2 font-normal text-[12px] md:text-[20px] leading-none tracking-normal uppercase align-middle">
+//         <div className="w-full min-h-[32rem] flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-20 pt-10 md:pt-16 gap-10 md:gap-0">
+          
+//           {/* Text Content */}
+//           <div className="w-full md:w-[641px] md:mr-5 lg:mr-10 flex flex-col gap-3 text-center md:text-left">
+//             <p className="font-sans hidden md:block font-normal text-[11px] sm:text-[12px] md:text-[20px] uppercase">
 //               CONSULTING SERVICES
 //             </p>
-//             <h1 className="font-roboto font-bold text-[3px] md:text-[34px] leading-none tracking-normal">
+
+//             <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[34px] leading-tight">
 //               Strategic career and workforce guidance for a changing world
 //             </h1>
-//             <p className="font-sans font-normal text-[12px] md:text-[24px] mt-3 w-full">
+
+//             <p className="font-sans font-normal text-[14px] sm:text-[16px] md:text-[24px] mt-2">
 //               Career-Nexus delivers diagnostic, strategic, outcome-driven consulting
 //               that helps individuals and organizations make future-ready decisions in
 //               a complex global workforce.
 //             </p>
-//             <div className='flex flex-col md:flex-row gap-7 mt-6'>
-//               <button className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
+
+//             <div className="flex justify-center md:justify-start mt-6">
+//               <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
 //                 Request A Consultation
 //               </button>
 //             </div>
 //           </div>
-//           <div className='absolute top-0 right-0 flex flex-col items-center justify-center text-center'>
-//             <img src="/images/landing/handshake.png" alt="hero" className='w-full max-w-sm md:max-w-md lg:max-w-lg' />
+
+//           {/* Image */}
+//           <div className="relative md:absolute md:top-0 md:right-0 flex justify-center w-full md:w-auto">
+//             <img
+//               src="/images/landing/handshake.png"
+//               alt="hero"
+//               className="w-[85%] sm:w-[70%] md:w-full max-w-sm md:max-w-md lg:max-w-lg"
+//             />
 //           </div>
 //         </div>
 //       </div>
+
 //       <TheProblem />
 //     </div>
 //   );
 // }
+
+// function About() {
+//   return (
+//     <div>
+//       <div className="w-full bg-[#E8D0FF] pb-24 md:pb-40 relative" id="about">
+//         {/* Hero Section */}
+//         <div className="w-full min-h-[32rem] flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-12 lg:px-20 pt-10 md:pt-14 gap-10 md:gap-6">
+          
+//           {/* Text Content */}
+//           <div className="w-full md:w-[560px] lg:w-[641px] md:mr-4 lg:mr-10 flex flex-col gap-4 text-center md:text-left">
+//             <p className="font-sans hidden md:block font-normal text-[14px] md:text-[16px] lg:text-[20px] uppercase">
+//               CONSULTING SERVICES
+//             </p>
+
+//             <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[30px] lg:text-[34px] leading-snug">
+//               Strategic career and workforce guidance for a changing world
+//             </h1>
+
+//             <p className="font-sans font-normal text-[14px] sm:text-[16px] md:text-[18px] lg:text-[24px] mt-1 md:mt-2">
+//               Career-Nexus delivers diagnostic, strategic, outcome-driven consulting
+//               that helps individuals and organizations make future-ready decisions in
+//               a complex global workforce.
+//             </p>
+
+//             <div className="flex justify-center md:justify-start mt-5 md:mt-6">
+//               <button
+//                 onClick={() =>
+//                   document
+//                     .getElementById('consulting')
+//                     ?.scrollIntoView({ behavior: 'smooth' })
+//                 }
+//                 className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
+//               >
+//                 Request A Consultation
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* Image */}
+//           <div className="relative md:absolute md:top-10 lg:top-0 md:right-6 lg:right-0 flex justify-center w-full md:w-auto">
+//             <img
+//               src="/images/landing/handshake.png"
+//               alt="hero"
+//               className="w-[85%] sm:w-[70%] md:w-[320px] lg:w-full max-w-sm md:max-w-md lg:max-w-lg"
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       <TheProblem />
+//     </div>
+//   );
+// }
+
+
 function About() {
   return (
     <div>
-      <div className="w-full bg-[#E8D0FF] pb-24 md:pb-52 relative" id="about">
+      <div className="w-full bg-[#E8D0FF] pb-24 lg:pb-40 relative" id="about">
         {/* Hero Section */}
-        <div className="w-full min-h-[32rem] flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-20 pt-10 md:pt-16 gap-10 md:gap-0">
+        <div className="w-full min-h-[32rem] flex flex-col lg:flex-row justify-between items-center px-4 sm:px-6 lg:px-12 xl:px-20 pt-10 lg:pt-14 gap-10 lg:gap-6">
           
           {/* Text Content */}
-          <div className="w-full md:w-[641px] md:mr-5 lg:mr-10 flex flex-col gap-3 text-center md:text-left">
-            <p className="font-sans hidden md:block font-normal text-[11px] sm:text-[12px] md:text-[20px] uppercase">
+          <div className="w-full lg:w-[560px] xl:w-[641px] lg:mr-4 xl:mr-10 flex flex-col gap-4 text-center lg:text-left">
+            <p className="font-sans hidden lg:block font-normal text-[14px] lg:text-[16px] xl:text-[20px] uppercase">
               CONSULTING SERVICES
             </p>
 
-            <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[34px] leading-tight">
+            <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] lg:text-[30px] xl:text-[34px] leading-snug">
               Strategic career and workforce guidance for a changing world
             </h1>
 
-            <p className="font-sans font-normal text-[14px] sm:text-[16px] md:text-[24px] mt-2">
+            <p className="font-sans font-normal text-[14px] sm:text-[16px] lg:text-[18px] xl:text-[24px] mt-1 lg:mt-2">
               Career-Nexus delivers diagnostic, strategic, outcome-driven consulting
               that helps individuals and organizations make future-ready decisions in
               a complex global workforce.
             </p>
 
-            <div className="flex justify-center md:justify-start mt-6">
-              <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
+            <div className="flex justify-center lg:justify-start mt-5 lg:mt-6">
+              <button
+                onClick={() =>
+                  document
+                    .getElementById('consulting')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+                className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
+              >
                 Request A Consultation
               </button>
             </div>
           </div>
 
           {/* Image */}
-          <div className="relative md:absolute md:top-0 md:right-0 flex justify-center w-full md:w-auto">
+          <div className="relative lg:absolute lg:top-10 xl:top-0 lg:right-6 xl:right-0 flex justify-center w-full lg:w-auto">
             <img
               src="/images/landing/handshake.png"
               alt="hero"
-              className="w-[85%] sm:w-[70%] md:w-full max-w-sm md:max-w-md lg:max-w-lg"
+              className="w-[85%] sm:w-[70%] lg:w-[320px] xl:w-full max-w-sm lg:max-w-md xl:max-w-lg"
             />
           </div>
         </div>
@@ -99,116 +172,239 @@ function About() {
 }
 
 
+// const TheProblem = () => {
+//   return (
+//     <div className="bg-white mt-10 md:mt-0 w-full max-w-6xl mx-auto flex justify-center" id="about">
+//       <div className="bg-white p-6 md:p-4 shadow-lg mx-6 md:mx-20 rounded-2xl md:absolute md:mt-[-9rem]">
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-18">
+          
+//           {/* Card 1 */}
+//           <div className="bg-white rounded-xl border p-3 md:p-10">
+//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
+//               For Individuals & Professionals
+//             </h3>
+//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
+//               We help professionals gain clarity on:
+//             </p>
+//             <ul className="space-y-3 text-sm">
+//               <li className="flex items-start gap-3 py-[10px] md:text-[20px] bg-[#E8D0FF80] rounded-sm">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Career positioning in competitive markets
+//               </li>
+//               <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Skills relevance and capability gaps
+//               </li>
+//               <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Transition strategies across roles, industries, or geographies
+//               </li>
+//             </ul>
+//             <p className="md:text-[20px] text-[#131927] mt-4">
+//               The focus is on direction, not guesswork.
+//             </p>
+//           </div>
+
+//           {/* Card 2 */}
+//           <div className="bg-white rounded-xl border p-3 md:p-10">
+//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
+//               Talent & Skills Development Support
+//             </h3>
+//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
+//               Career-Nexus helps organisations:
+//             </p>
+//             <ul className="space-y-3 text-sm">
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Identify critical skill needs
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Support employee development and retention
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Prepare teams for evolving market realities
+//               </li>
+//             </ul>
+//             <p className="md:text-[20px] text-[#131927] mt-4">
+//               This contributes to reduced attrition and stronger workforce resilience.
+//             </p>
+//           </div>
+
+//           {/* Card 3 */}
+//           <div className="bg-white rounded-xl border p-3 md:p-10">
+//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
+//               Professional Growth & Market Alignment
+//             </h3>
+//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
+//               Our consulting supports:
+//             </p>
+//             <ul className="space-y-3 text-sm">
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Skills alignment with real market demand
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Career progression planning
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
+//                 Long-term relevance beyond job titles
+//               </li>
+//             </ul>
+//             <p className="md:text-[20px] text-[#131927] mt-4">
+//               Designed for professionals navigating non-linear career paths.
+//             </p>
+//           </div>
+
+//           {/* Card 4 */}
+//           <div className="bg-white rounded-xl border p-3 md:p-10">
+//             <h3 className="font-semiboldtext-xl md:text-3xl mb-4">
+//               For Organizations Workforce & Capability Advisory
+//             </h3>
+//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
+//               We work with organisations to:
+//             </p>
+//             <ul className="space-y-3 text-sm">
+//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Assess workforce capability gaps
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Align talent development with business strategy
+//               </li>
+//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
+//                 Build future-ready teams for growth and scale
+//               </li>
+//             </ul>
+//             <p className="md:text-[20px] text-[#131927] mt-4">
+//               Our advisory supports sustainable performance, not short-term fixes.
+//             </p>
+//           </div>
+
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
 const TheProblem = () => {
   return (
-    <div className="bg-white mt-10 md:mt-0 w-full max-w-6xl mx-auto flex justify-center" id="about">
-      <div className="bg-white p-6 md:p-4 shadow-lg mx-6 md:mx-20 rounded-2xl md:absolute md:mt-[-9rem]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-18">
+    <div
+      className="bg-white mt-10 lg:mt-0 w-full max-w-6xl mx-auto flex justify-center"
+      id="about"
+    >
+      <div className="bg-white p-6 lg:p-4 shadow-lg mx-6 lg:mx-20 rounded-2xl lg:absolute lg:mt-[-9rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-18">
           
           {/* Card 1 */}
-          <div className="bg-white rounded-xl border p-3 md:p-10">
-            <h3 className="font-semibold text-xl md:text-3xl mb-4">
+          <div className="bg-white rounded-xl border p-3 lg:p-10">
+            <h3 className="font-semibold text-xl lg:text-3xl mb-4">
               For Individuals & Professionals
             </h3>
-            <p className="md:text-xl font-semibold text-gray-600 mb-4">
+            <p className="lg:text-xl font-semibold text-gray-600 mb-4">
               We help professionals gain clarity on:
             </p>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3 py-[10px] md:text-[20px] bg-[#E8D0FF80] rounded-sm">
+              <li className="flex items-start gap-3 py-[10px] lg:text-[20px] bg-[#E8D0FF80] rounded-sm">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Career positioning in competitive markets
               </li>
-              <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
+              <li className="flex items-start py-[10px] lg:text-[20px] bg-[#E8D0FF80] gap-3">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Skills relevance and capability gaps
               </li>
-              <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
+              <li className="flex items-start py-[10px] lg:text-[20px] bg-[#E8D0FF80] gap-3">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Transition strategies across roles, industries, or geographies
               </li>
             </ul>
-            <p className="md:text-[20px] text-[#131927] mt-4">
+            <p className="lg:text-[20px] text-[#131927] mt-4">
               The focus is on direction, not guesswork.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-xl border p-3 md:p-10">
-            <h3 className="font-semibold text-xl md:text-3xl mb-4">
+          <div className="bg-white rounded-xl border p-3 lg:p-10">
+            <h3 className="font-semibold text-xl lg:text-3xl mb-4">
               Talent & Skills Development Support
             </h3>
-            <p className="md:text-xl font-semibold text-gray-600 mb-4">
+            <p className="lg:text-xl font-semibold text-gray-600 mb-4">
               Career-Nexus helps organisations:
             </p>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Identify critical skill needs
               </li>
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Support employee development and retention
               </li>
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Prepare teams for evolving market realities
               </li>
             </ul>
-            <p className="md:text-[20px] text-[#131927] mt-4">
+            <p className="lg:text-[20px] text-[#131927] mt-4">
               This contributes to reduced attrition and stronger workforce resilience.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white rounded-xl border p-3 md:p-10">
-            <h3 className="font-semibold text-xl md:text-3xl mb-4">
+          <div className="bg-white rounded-xl border p-3 lg:p-10">
+            <h3 className="font-semibold text-xl lg:text-3xl mb-4">
               Professional Growth & Market Alignment
             </h3>
-            <p className="md:text-xl font-semibold text-gray-600 mb-4">
+            <p className="lg:text-xl font-semibold text-gray-600 mb-4">
               Our consulting supports:
             </p>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Skills alignment with real market demand
               </li>
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Career progression planning
               </li>
-              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
                 Long-term relevance beyond job titles
               </li>
             </ul>
-            <p className="md:text-[20px] text-[#131927] mt-4">
+            <p className="lg:text-[20px] text-[#131927] mt-4">
               Designed for professionals navigating non-linear career paths.
             </p>
           </div>
 
           {/* Card 4 */}
-          <div className="bg-white rounded-xl border p-3 md:p-10">
-            <h3 className="font-semiboldtext-xl md:text-3xl mb-4">
+          <div className="bg-white rounded-xl border p-3 lg:p-10">
+            <h3 className="font-semibold text-xl lg:text-3xl mb-4">
               For Organizations Workforce & Capability Advisory
             </h3>
-            <p className="md:text-xl font-semibold text-gray-600 mb-4">
+            <p className="lg:text-xl font-semibold text-gray-600 mb-4">
               We work with organisations to:
             </p>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Assess workforce capability gaps
               </li>
-              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Align talent development with business strategy
               </li>
-              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
+              <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] lg:text-[20px]">
                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
                 Build future-ready teams for growth and scale
               </li>
             </ul>
-            <p className="md:text-[20px] text-[#131927] mt-4">
+            <p className="lg:text-[20px] text-[#131927] mt-4">
               Our advisory supports sustainable performance, not short-term fixes.
             </p>
           </div>
@@ -219,10 +415,11 @@ const TheProblem = () => {
   );
 };
 
+
 function ConsultingDifferenceSection() {
   return (
-    <section className="bg-[#E6FFE7] mt-[4rem] md:mt-[55rem] py-16 px-6 md:px-3">
-      <div className="max-w-7xl my-5 mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <section className="bg-[#E6FFE7] mt-[4rem] lg:mt-[55rem] py-16 px-6 md:px-3">
+      <div className="max-w-7xl my-5 mx-auto grid lg:grid-cols-2 gap-16 items-center">
         {/* Left Content */}
         <div>
           <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-20 font-roboto">
@@ -273,9 +470,9 @@ function ConsultingDifferenceSection() {
         </div>
 
         {/* Right Image */}
-        <div className="flex justify-center md:justify-end">
+        <div className="flex justify-center lg:justify-end">
           <img
-            src="/images/landing/oval.png"
+            src="/images/landing/landing-hero.png"
             alt="Green gradient circle"
             className="w-64 h-64 md:w-80 md:h-80 object-contain"
           />
