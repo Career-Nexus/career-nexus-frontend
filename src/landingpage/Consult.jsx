@@ -5,6 +5,13 @@ import { ComplianceMarqueeCarousel } from './Whoitsfor';
 import ConsultingPackage from './ConsultingPackage';
 
 
+const CALENDAR_LINK = "https://calendar.app.google/6QrJpg7HmC5aCgLT7";
+
+const openCalendar = () => {
+  window.open(CALENDAR_LINK, "_blank", "noopener,noreferrer");
+};
+
+
 export default function Hero() {
     return (
         <div className=''>
@@ -17,106 +24,6 @@ export default function Hero() {
         </div> 
     )
 }
-
-// function About() {
-//   return (
-//     <div>
-//       <div className="w-full bg-[#E8D0FF] pb-24 md:pb-52 relative" id="about">
-//         {/* Hero Section */}
-//         <div className="w-full min-h-[32rem] flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-20 pt-10 md:pt-16 gap-10 md:gap-0">
-          
-//           {/* Text Content */}
-//           <div className="w-full md:w-[641px] md:mr-5 lg:mr-10 flex flex-col gap-3 text-center md:text-left">
-//             <p className="font-sans hidden md:block font-normal text-[11px] sm:text-[12px] md:text-[20px] uppercase">
-//               CONSULTING SERVICES
-//             </p>
-
-//             <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[34px] leading-tight">
-//               Strategic career and workforce guidance for a changing world
-//             </h1>
-
-//             <p className="font-sans font-normal text-[14px] sm:text-[16px] md:text-[24px] mt-2">
-//               Career-Nexus delivers diagnostic, strategic, outcome-driven consulting
-//               that helps individuals and organizations make future-ready decisions in
-//               a complex global workforce.
-//             </p>
-
-//             <div className="flex justify-center md:justify-start mt-6">
-//               <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
-//                 Request A Consultation
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Image */}
-//           <div className="relative md:absolute md:top-0 md:right-0 flex justify-center w-full md:w-auto">
-//             <img
-//               src="/images/landing/handshake.png"
-//               alt="hero"
-//               className="w-[85%] sm:w-[70%] md:w-full max-w-sm md:max-w-md lg:max-w-lg"
-//             />
-//           </div>
-//         </div>
-//       </div>
-
-//       <TheProblem />
-//     </div>
-//   );
-// }
-
-// function About() {
-//   return (
-//     <div>
-//       <div className="w-full bg-[#E8D0FF] pb-24 md:pb-40 relative" id="about">
-//         {/* Hero Section */}
-//         <div className="w-full min-h-[32rem] flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-12 lg:px-20 pt-10 md:pt-14 gap-10 md:gap-6">
-          
-//           {/* Text Content */}
-//           <div className="w-full md:w-[560px] lg:w-[641px] md:mr-4 lg:mr-10 flex flex-col gap-4 text-center md:text-left">
-//             <p className="font-sans hidden md:block font-normal text-[14px] md:text-[16px] lg:text-[20px] uppercase">
-//               CONSULTING SERVICES
-//             </p>
-
-//             <h1 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[30px] lg:text-[34px] leading-snug">
-//               Strategic career and workforce guidance for a changing world
-//             </h1>
-
-//             <p className="font-sans font-normal text-[14px] sm:text-[16px] md:text-[18px] lg:text-[24px] mt-1 md:mt-2">
-//               Career-Nexus delivers diagnostic, strategic, outcome-driven consulting
-//               that helps individuals and organizations make future-ready decisions in
-//               a complex global workforce.
-//             </p>
-
-//             <div className="flex justify-center md:justify-start mt-5 md:mt-6">
-//               <button
-//                 onClick={() =>
-//                   document
-//                     .getElementById('consulting')
-//                     ?.scrollIntoView({ behavior: 'smooth' })
-//                 }
-//                 className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
-//               >
-//                 Request A Consultation
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Image */}
-//           <div className="relative md:absolute md:top-10 lg:top-0 md:right-6 lg:right-0 flex justify-center w-full md:w-auto">
-//             <img
-//               src="/images/landing/handshake.png"
-//               alt="hero"
-//               className="w-[85%] sm:w-[70%] md:w-[320px] lg:w-full max-w-sm md:max-w-md lg:max-w-lg"
-//             />
-//           </div>
-//         </div>
-//       </div>
-
-//       <TheProblem />
-//     </div>
-//   );
-// }
-
 
 function About() {
   return (
@@ -143,11 +50,7 @@ function About() {
 
             <div className="flex justify-center lg:justify-start mt-5 lg:mt-6">
               <button
-                onClick={() =>
-                  document
-                    .getElementById('consulting')
-                    ?.scrollIntoView({ behavior: 'smooth' })
-                }
+                onClick={openCalendar}
                 className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
               >
                 Request A Consultation
@@ -171,126 +74,6 @@ function About() {
   );
 }
 
-
-// const TheProblem = () => {
-//   return (
-//     <div className="bg-white mt-10 md:mt-0 w-full max-w-6xl mx-auto flex justify-center" id="about">
-//       <div className="bg-white p-6 md:p-4 shadow-lg mx-6 md:mx-20 rounded-2xl md:absolute md:mt-[-9rem]">
-//         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-18">
-          
-//           {/* Card 1 */}
-//           <div className="bg-white rounded-xl border p-3 md:p-10">
-//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
-//               For Individuals & Professionals
-//             </h3>
-//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
-//               We help professionals gain clarity on:
-//             </p>
-//             <ul className="space-y-3 text-sm">
-//               <li className="flex items-start gap-3 py-[10px] md:text-[20px] bg-[#E8D0FF80] rounded-sm">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Career positioning in competitive markets
-//               </li>
-//               <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Skills relevance and capability gaps
-//               </li>
-//               <li className="flex items-start py-[10px] md:text-[20px] bg-[#E8D0FF80] gap-3">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Transition strategies across roles, industries, or geographies
-//               </li>
-//             </ul>
-//             <p className="md:text-[20px] text-[#131927] mt-4">
-//               The focus is on direction, not guesswork.
-//             </p>
-//           </div>
-
-//           {/* Card 2 */}
-//           <div className="bg-white rounded-xl border p-3 md:p-10">
-//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
-//               Talent & Skills Development Support
-//             </h3>
-//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
-//               Career-Nexus helps organisations:
-//             </p>
-//             <ul className="space-y-3 text-sm">
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Identify critical skill needs
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Support employee development and retention
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Prepare teams for evolving market realities
-//               </li>
-//             </ul>
-//             <p className="md:text-[20px] text-[#131927] mt-4">
-//               This contributes to reduced attrition and stronger workforce resilience.
-//             </p>
-//           </div>
-
-//           {/* Card 3 */}
-//           <div className="bg-white rounded-xl border p-3 md:p-10">
-//             <h3 className="font-semibold text-xl md:text-3xl mb-4">
-//               Professional Growth & Market Alignment
-//             </h3>
-//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
-//               Our consulting supports:
-//             </p>
-//             <ul className="space-y-3 text-sm">
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Skills alignment with real market demand
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Career progression planning
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#DEFEDE80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#5DA05D] rounded-sm" />
-//                 Long-term relevance beyond job titles
-//               </li>
-//             </ul>
-//             <p className="md:text-[20px] text-[#131927] mt-4">
-//               Designed for professionals navigating non-linear career paths.
-//             </p>
-//           </div>
-
-//           {/* Card 4 */}
-//           <div className="bg-white rounded-xl border p-3 md:p-10">
-//             <h3 className="font-semiboldtext-xl md:text-3xl mb-4">
-//               For Organizations Workforce & Capability Advisory
-//             </h3>
-//             <p className="md:text-xl font-semibold text-gray-600 mb-4">
-//               We work with organisations to:
-//             </p>
-//             <ul className="space-y-3 text-sm">
-//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Assess workforce capability gaps
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Align talent development with business strategy
-//               </li>
-//               <li className="flex items-start gap-3 bg-[#E8D0FF80] py-[10px] md:text-[20px]">
-//                 <span className="w-1.5 h-6 bg-[#2A0D47] rounded-sm" />
-//                 Build future-ready teams for growth and scale
-//               </li>
-//             </ul>
-//             <p className="md:text-[20px] text-[#131927] mt-4">
-//               Our advisory supports sustainable performance, not short-term fixes.
-//             </p>
-//           </div>
-
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 const TheProblem = () => {
   return (
@@ -518,7 +301,7 @@ function EngagementOptions() {
 
         {/* CTA */}
         <div className="flex justify-center mt-12">
-          <button onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition">
+          <button onClick={openCalendar} className="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition">
             Request A Consultation
           </button>
         </div>
@@ -639,7 +422,7 @@ function PurpleCard() {
           <div className="flex flex-col md:flex-row gap-4">
             <button
               className="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
-              onClick={() => document.getElementById('consulting')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={openCalendar}
             >
               Request a Consultation
             </button>
