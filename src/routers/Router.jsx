@@ -109,7 +109,7 @@ const Router = () => {
   // Redirect root to appropriate page based on auth status
   const RootRedirect = () => {
     const isAuthenticated = authService.isAuthenticated()
-    return isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
+    return isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/landing" />
   }
   return (
     <BrowserRouter>

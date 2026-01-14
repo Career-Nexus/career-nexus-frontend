@@ -30,9 +30,14 @@ export default function Nav() {
           {/* <a href='/landing/pricing' className={`transition ${location.pathname === '/landing/pricing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Pricing</a> */}
           
         </div>
+        <div className="hidden md:flex gap-4">
+          <Link to="/login" className="hidden md:flex bg-[#5DA05D] px-3 py-2 rounded-lg text-white hover:bg-green-700 transition">
+            Login
+        </Link>
         <Link to="/signup" className="hidden md:flex bg-[#5DA05D] px-3 py-2 rounded-lg text-white hover:bg-green-700 transition">
             Sign Up
         </Link>
+        </div>
         {/* Mobile Hamburger */}
         <button
           className="md:hidden text-gray-700"
@@ -49,6 +54,13 @@ export default function Nav() {
           <a href='/landing/about'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/about' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>About</div></a>
           <a href='/landing/consult'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/consult' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Consult</div></a>
           {/* <a href='/landing/pricing'><div onClick={() => setIsOpen(false)} className={`border-b border-gray-300 w-full text-center py-2 transition ${location.pathname === '/landing/pricing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Pricing</div></a> */}
+          <Link
+            to="/login"
+            onClick={() => setIsOpen(false)}
+            className="bg-[#5DA05D] px-3 py-2 rounded-lg text-white"
+          >
+            Login
+          </Link>
           <Link
             to="/signup"
             onClick={() => setIsOpen(false)}
