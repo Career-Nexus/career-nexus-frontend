@@ -5,11 +5,34 @@ import { PrivacyPolicy } from "./PrivacyPolicy"
 import { TermsOfService } from "./TermsOfService"
 import ContactUs from "./ContactUs"
 import { Facebook, Instagram, Linkedins, X } from '../icons/icon'
+import { ActivityService } from "../api/ActivityServices"
+import { toast } from "react-toastify"
 export default function Footer() {
   const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false)
   const [isTermsOfServiceOpen, setIsTermsOfServiceOpen] = useState(false)
   const [isContactUsOpen, setIsContactUsOpen] = useState(false)
+  const [email, setEmail] = useState("")
 
+  //newsletter subscribe function
+  const handleSubscribe = async () => {
+    if (!email.trim()) {
+      toast.error("Please enter a valid email address")
+      return
+    }
+    try {
+      const response = await ActivityService.newsletterSubscribe(email)
+      if (response.success) {
+        console.log("Newsletter subscription successful", response.data)
+        toast.success("Subscribed to newsletter successfully!")
+        setEmail("") // Reset email input
+      } else {
+        toast.error(response.error || "Failed to subscribe to newsletter. Please try again.")
+      }
+    } catch (error) {
+      console.log("Newsletter subscription failed", error)
+      toast.error("Failed to subscribe to newsletter. Please try again.")
+    }
+  }
   const footerSections = [
     {
       title: "Services",
@@ -98,9 +121,16 @@ export default function Footer() {
               </a>
             </div>
             <h6 className="footer-title font-bold mt-8">Subscribe to our newsletter</h6>
-            <div className="lg:flex">
-              <input type="text" className="relative mt-4 w-full max-w-xs px-4 py-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]" placeholder="Enter your email" />
-              <button className="lg:absolute right-24 mt-5 px-4 py-2 lg:py-1 bg-[#5DA05D] text-white rounded-md hover:bg-green-600 transition-colors">Subscribe</button>
+            <div className="">
+              <input 
+                type="email" 
+                className="mt-4 w-full max-w-2xl px-4 py-2 rounded-md text-black border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5DA05D]" 
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSubscribe()}
+              />
+              <button onClick={handleSubscribe} className="mt-5 px-4 py-2 bg-[#5DA05D] text-white rounded-md hover:bg-[#4d8a4d] transition-colors">Subscribe</button>
             </div>
           </div>
         </div>

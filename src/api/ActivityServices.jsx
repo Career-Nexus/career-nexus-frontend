@@ -165,5 +165,18 @@ export const ActivityService = {
             console.log("Error occured when registering a lead",error)
             return { success: false, error };
         }
+    },
+    //landing page newsletter
+    async newsletterSubscribe(email) {
+        try {
+            const response = await api.post("/user/newsletter-subscribe/", { email });
+            if (response.data) {
+                console.log("Newsletter subscription successful", response.data);
+                return { success: true, data: response.data };
+            }
+        } catch (error) {
+            console.log("Could not subscribe to newsletter", error);
+            return { success: false, error: error.response?.data?.message || "Subscription failed" };
+        }
     }
 }

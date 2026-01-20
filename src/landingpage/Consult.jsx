@@ -1,28 +1,30 @@
 import React, { useState } from 'react'
-import { Handshake, Minus, Users, UserCircle } from "lucide-react";
-import { GrGroup } from "react-icons/gr";
 import { ComplianceMarqueeCarousel } from './Whoitsfor';
 import ConsultingPackage from './ConsultingPackage';
+import PartnerWIthUsModal from './PartnerWIthUsModal';
+import ConsultantDropdown from './ConsultantDropdown';
+import { consultants } from './GetStarted';
 
 
-const CALENDAR_LINK = "https://calendar.app.google/6QrJpg7HmC5aCgLT7";
+// const CALENDAR_LINK = "https://calendar.app.google/6QrJpg7HmC5aCgLT7";
 
-const openCalendar = () => {
-  window.open(CALENDAR_LINK, "_blank", "noopener,noreferrer");
-};
+// const openCalendar = () => {
+//   window.open(CALENDAR_LINK, "_blank", "noopener,noreferrer");
+// };
 
 
 export default function Hero() {
-    return (
-        <div className=''>
-          <About />
-          <ConsultingDifferenceSection />
-          <EngagementOptions />
-          <WhoWeWork />
-          <TrustSection />
-          <PurpleCard />
-        </div> 
-    )
+
+  return (
+    <div className=''>
+      <About />
+      <ConsultingDifferenceSection />
+      <EngagementOptions />
+      <WhoWeWork />
+      <TrustSection />
+      <PurpleCard />
+    </div>
+  )
 }
 
 function About() {
@@ -31,7 +33,7 @@ function About() {
       <div className="w-full bg-[#E8D0FF] pb-24 lg:pb-40 relative" id="about">
         {/* Hero Section */}
         <div className="w-full min-h-[32rem] flex flex-col lg:flex-row justify-between items-center px-4 sm:px-6 lg:px-12 xl:px-20 pt-10 lg:pt-14 gap-10 lg:gap-6">
-          
+
           {/* Text Content */}
           <div className="w-full lg:w-[560px] xl:w-[641px] lg:mr-4 xl:mr-10 flex flex-col gap-4 text-center lg:text-left">
             <p className="font-sans hidden lg:block font-normal text-[14px] lg:text-[16px] xl:text-[20px] uppercase">
@@ -49,12 +51,13 @@ function About() {
             </p>
 
             <div className="flex justify-center lg:justify-start mt-5 lg:mt-6">
-              <button
-                onClick={openCalendar}
-                className="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
-              >
-                Request A Consultation
-              </button>
+              <ConsultantDropdown
+                buttonLabel="Request A Consultation"
+                consultants={consultants}
+                // buttonClassName="text-white bg-[#5DA05D] border-2 py-2 px-10 rounded-lg"
+                buttonClassName="bg-[#2E1065] text-white px-6 py-3 rounded-lg shadow hover:opacity-90 transition"
+                dropdownWidth="md:w-96"
+              />
             </div>
           </div>
 
@@ -78,12 +81,12 @@ function About() {
 const TheProblem = () => {
   return (
     <div
-      className="bg-white mt-10 lg:mt-0 w-full max-w-6xl mx-auto flex justify-center"
+      className="bg-white mt-10 lg:mt-0 w-full flex justify-center"
       id="about"
     >
-      <div className="bg-white p-6 lg:p-4 shadow-lg mx-6 lg:mx-20 rounded-2xl lg:absolute lg:mt-[-9rem]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-18">
-          
+      <div className="bg-white p-6 lg:p-4 shadow-lg lg:mx-20 rounded-2xl lg:absolute lg:mt-[-9rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
           {/* Card 1 */}
           <div className="bg-white rounded-xl border p-3 lg:p-10">
             <h3 className="font-semibold text-xl lg:text-3xl mb-4">
@@ -201,7 +204,7 @@ const TheProblem = () => {
 
 function ConsultingDifferenceSection() {
   return (
-    <section className="bg-[#E6FFE7] mt-[4rem] lg:mt-[55rem] py-16 px-6 md:px-3">
+    <section className="bg-[#E6FFE7] mt-[4rem] lg:mt-[55rem] py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl my-5 mx-auto grid lg:grid-cols-2 gap-16 items-center">
         {/* Left Content */}
         <div>
@@ -257,7 +260,7 @@ function ConsultingDifferenceSection() {
           <img
             src="/images/landing/landing-hero.png"
             alt="Green gradient circle"
-            className="w-64 h-64 md:w-80 md:h-80 object-contain"
+            className="w-64 h-64 md:w-96 md:h-96 object-contain"
           />
         </div>
       </div>
@@ -269,7 +272,7 @@ function ConsultingDifferenceSection() {
 
 function EngagementOptions() {
   return (
-    <section className="w-full bg-[#E8D0FF] py-16 px-6">
+    <section className="w-full bg-[#E8D0FF] py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h2 className="text-center text-2xl md:text-[40px] font-bold text-gray-900 mb-12">
@@ -301,9 +304,13 @@ function EngagementOptions() {
 
         {/* CTA */}
         <div className="flex justify-center mt-12">
-          <button onClick={openCalendar} className="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition">
-            Request A Consultation
-          </button>
+          <ConsultantDropdown
+            buttonLabel="Request A Consultation"
+            consultants={consultants}
+            // buttonClassName="text-white bg-[#5DA05D] border-2 py-2 px-10 rounded-lg"
+            buttonClassName="bg-[#2A0D47] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-purple-800 transition"
+            dropdownWidth="md:w-96"
+          />
         </div>
       </div>
     </section>
@@ -331,7 +338,7 @@ function WhoWeWork() {
           Who we work with
           <span className="block text-semibold text-xs">Designed for people to build real careers</span>
         </h2>
-       
+
 
         {/* Cards */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -382,19 +389,9 @@ const TrustSection = () => {
   ];
 
   return (
-    <section className='md:px-4 mx-6 md:mx-16'>
-      
+    <section className='md:px-4 mx-6 md:mx-12 lg:mx-20'>
+
       <ComplianceMarqueeCarousel />
-      {/* <div className="flex flex-col gap-4 items-center">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="px-6 py-3 rounded-full font-bold text-xl md:text-[32px] border-2 border-gray-300 text-gray-800 bg-white shadow-sm"
-          >
-            {item}
-          </div>
-        ))}
-      </div> */}
       <div id='consulting'>
         <ConsultingPackage />
       </div>
@@ -406,7 +403,7 @@ function PurpleCard() {
   return (
     <div className="w-full flex justify-center mb-20">
       {/* Image wrapper */}
-      <div className="relative w-full max-w-6xl mx-2 md:mx-20">
+      <div className="relative w-full max-w-6xl mx-2 md:mx-12 lg:mx-20">
         <img
           src="/images/landing/Background.png"
           alt="landing"
@@ -418,19 +415,24 @@ function PurpleCard() {
           <h1 className="text-3xl font-bold mb-16">
             Start with clarity. Build with direction.
           </h1>
-          
+
           <div className="flex flex-col md:flex-row gap-4">
-            <button
+            {/* <button
               className="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
-              onClick={openCalendar}
+              onClick={() => setIsOpen(true)}
             >
               Request a Consultation
-            </button>
+            </button> */}
 
-            
+            <ConsultantDropdown
+            buttonLabel="Request A Consultation"
+            consultants={consultants}
+            buttonClassName="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
+            dropdownWidth="md:w-96"
+          />
           </div>
         </div>
       </div>
     </div>
-);
+  );
 }

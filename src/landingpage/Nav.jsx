@@ -24,9 +24,13 @@ export default function Nav() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-10 items-center">
-          <a href='/landing/home' className={`transition ${location.pathname === '/landing/home' || location.pathname === '/landing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</a>
-          <a href='/landing/about' className={`transition ${location.pathname === '/landing/about' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>About</a>
-          <a href='/landing/consult' className={`transition ${location.pathname === '/landing/consult' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Consult</a>
+          <a href='/landing/home' 
+            className={`transition ${location.pathname === '/landing/home' 
+            || location.pathname === '/landing/home/' || location.pathname === '/landing' 
+            || location.pathname === '/landing/' ? 'text-[#5DA05D] font-semibold' 
+            : 'text-gray-700 hover:text-[#5DA05D]'}`}>Home</a>
+          <a href='/landing/about' className={`transition ${location.pathname === '/landing/about' || location.pathname === '/landing/about/' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>About</a>
+          <a href='/landing/consult' className={`transition ${location.pathname === '/landing/consult' || location.pathname === '/landing/consult/' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Consult</a>
           {/* <a href='/landing/pricing' className={`transition ${location.pathname === '/landing/pricing' ? 'text-[#5DA05D] font-semibold' : 'text-gray-700 hover:text-[#5DA05D]'}`}>Pricing</a> */}
           
         </div>

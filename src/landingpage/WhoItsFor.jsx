@@ -80,18 +80,6 @@ function WhoCard() {
 const WhyTrustUs = () => {
   return (
     <div className='bg-white w-full mt-10' id='about'>
-      {/* <div>
-                <h1 className='font-sans md:text-2xl mb-3 text-center font-bold'>Why you can trust <span className='text-[#5DA05D]'>US</span></h1>
-                <p className='text-center text-lg'>We are building carefully, transparently, and responsibly.</p>
-            </div>
-            <div className='mt-10 flex flex-col items-center space-y-3 font-bold text-base md:text-lg font-roboto md:w-3/4 mx-auto'>
-                <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>🇬🇧 UK-registered company</p>
-                <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Global focus (UK, US, Canada, Australia, Africa)</p>
-                <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Industry-led mentorship</p>
-                <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Data privacy & platform integrity conscious </p>
-                <p className='text-center border border-[#CCCCCC] rounded-full px-5 py-1'>Built with advisors, mentors, and professionals</p>
-            </div> */}
-      {/* <ComplianceCarousel /> */}
       <ComplianceMarqueeCarousel />
     </div>
   )
@@ -155,7 +143,7 @@ export function ComplianceMarqueeCarousel() {
 
   return (
     <div className="w-full overflow-hidden py-6 md:py-8 flex flex-col items-center justify-center">
-      <div className="mb-6 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
+      <div className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto mb-16">
         <h1 className="font-sans text-xl md:text-4xl mb-3 font-bold">
           Why you can trust <span className="text-[#5DA05D]">US</span>
         </h1>

@@ -3,7 +3,7 @@ import { Check, Clock } from "lucide-react";
 export default function WhatsLiveAndComing() {
   return (
     <section className="w-full bg-white py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-6">
         {/* Title */}
         <h2 className="mb-12 text-center text-2xl font-semibold text-gray-900">
           What’s live and what’s coming

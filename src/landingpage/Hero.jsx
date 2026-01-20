@@ -5,7 +5,7 @@ export default function Hero() {
         <div className=''>
             <div className='w-full bg-[#EAFFEA] pb-32 md:pb-20 lg:pb-52 relative' id='home'>
                 {/* Hero Section */}
-                <div className='w-full min-h-auto md:min-h-[28rem] flex flex-col md:gap-6 lg:gap-10 md:flex-row justify-between items-center px-4 md:px-12 lg:px-20 pt-8 md:pt-16 lg:pt-20 space-y-8 md:space-y-0'>
+                <div className='w-full min-h-auto md:min-h-[28rem] flex flex-col md:gap-6 md:flex-row justify-between items-center px-4 md:px-12 lg:px-20 pt-8 md:pt-16 lg:pt-20 space-y-8 md:space-y-0'>
                     <div className='lg:w-2/3 lg:mr-10 flex flex-col gap-2 w-full'>
                         <p className="font-sans font-normal text-[12px] md:text-[16px] lg:text-[20px] leading-none tracking-normal uppercase align-middle">
                             Trusted by professionals, founders, and industry leaders
@@ -22,9 +22,12 @@ export default function Hero() {
                             <Link to="/signup"><button className='border border-[#5DA05D] text-[#5DA05D] px-3 md:px-4 py-2 rounded-lg text-sm md:text-base whitespace-nowrap'>Join as a mentor</button></Link>
                         </div>
                     </div>
-                    <div className='flex flex-col lg:px-4 w-full md:w-2/3 lg:w-1/3'>
-                        {/* <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg' /> */}
-                        <video 
+                    <div className='flex flex-col lg:px-4 w-full md:w-2/3 lg:w-1/2 rounded-lg'>
+                        <img src="/images/landing/LondonBridge1.PNG" alt="hero" 
+                        className='w-full rounded-lg max-w-xs md:max-w-sm lg:max-w-lg xl:max-w-xl h-[400px]'
+                        //style={{width: '100%', height: '400px', objectFit: 'cover'}}
+                        />
+                        {/* <video 
                             src="/images/landing/landing-hero.mp4" 
                             controls 
                             muted 
@@ -32,7 +35,7 @@ export default function Hero() {
                             loop
                             className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg rounded-lg shadow-lg'
                             style={{width: '100%', height: '400px', objectFit: 'cover'}}
-                        ></video>
+                        ></video> */}
                     </div>
                 </div>
             </div>
