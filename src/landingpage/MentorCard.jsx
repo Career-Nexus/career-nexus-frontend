@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function GetStarted() {
   return (
     <div className="w-full flex justify-center mb-10">
       {/* Image wrapper */}
-      <div className="relative w-full max-w-5xl mx-2 md:mx-20">
+      <div className="relative w-full max-w-7xl mx-2 md:mx-20">
         <img
           src="/images/landing/Background.png"
           alt="landing"
@@ -22,14 +23,15 @@ export default function GetStarted() {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4">
-            <button
-              className="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
-              onClick={() => (window.location.href = "#get-started")}
-            >
-              Join as a Mentor
-            </button>
 
-            
+            <Link to="/signup">
+              <button
+                className="text-[#2A0D47] bg-white py-2 px-10 rounded-lg"
+              >
+                Join as a Mentor
+              </button>
+            </Link>
+
           </div>
 
           <p className="text-xs mt-4">

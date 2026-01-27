@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import Nav from './Nav'
 import { Link } from 'react-router-dom'
+import PartnerWIthUsModal from './PartnerWIthUsModal'
+import ConsultantDropdown from './ConsultantDropdown'
+import { consultants } from './GetStarted'
 
 export default function About() {
     return (
@@ -20,9 +23,10 @@ export default function About() {
                             As work becomes increasingly non-linear, skills-driven, and location-agnostic, professionals and organisations need clearer pathways, not outdated assumptions.
                         </p>
                     </div>
-                    <div className='md:w-2/3 lg:w-1/3 flex flex-col px-4 ml-[-3.5rem]'>
-                        {/* <img src="/images/landing/landing-hero.png" alt="hero" className='w-full max-w-sm md:max-w-md lg:max-w-lg' /> */}
-                        <video
+                    <div className='md:w-2/3 lg:w-1/2 flex flex-col px-4 md:ml-[-3.5rem]'>
+                        <img src="/images/landing/LondonBridge2.PNG" alt="hero"
+                            className='w-full max-w-sm md:max-w-md lg:max-w-lg' />
+                        {/* <video
                             src="/images/landing/landing-hero.mp4"
                             controls
                             muted
@@ -30,7 +34,7 @@ export default function About() {
                             loop
                             className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-lg'
                             style={{ width: '100%', height: '400px', objectFit: 'cover' }}
-                        ></video>
+                        ></video> */}
                     </div>
                 </div>
             </div>
@@ -54,7 +58,7 @@ const Founder = () => {
             </div>
             <div className='w-full flex flex-col md:flex-row gap-10 md:gap-20 lg:gap-24 '>
                 <div className='w-full md:w-1/3 flex flex-col items-center justify-center text-center'>
-                    <img src="/images/landing/founder.png" alt="founder" className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg' />
+                    <img src="/images/landing/cnl-logo.png" alt="founder" className='w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg' />
                 </div>
                 <div className='w-full md:w-2/3 flex flex-col gap-4'>
                     <h2 className="font-roboto font-bold text-[20px] md:text-[25px] lg:text-[35px] leading-none tracking-normal align-middle">
@@ -163,7 +167,7 @@ const TrustAndCredibility = () => {
                     <img src="/images/landing/ellipse-green.png" alt="trust" className='w-full max-w-xs md:max-w-md lg:max-w-lg rounded-lg' />
                 </div>
             </div>
-            <div className="mx-6 md:mx-10 lg:mx-20 py-4 absolute mt-[-12rem] md:mt-[-13rem] lg:mt-[-15rem] max-w-md md:max-w-2xl lg:max-w-xl md:w-full bg-white rounded-2xl shadow-md p-6">
+            <div className="mx-6 md:mx-10 lg:mx-20 py-4 absolute mt-[-12rem] md:mt-[-13rem] max-w-md md:max-w-2xl lg:max-w-xl md:w-full bg-white rounded-2xl shadow-md p-6">
                 {/* Title */}
                 <h3 className="text-lg font-semibold text/compiler-gray-900 mb-5">
                     What Guides Career-Nexus
@@ -215,10 +219,10 @@ const Leadership = () => {
     ];
     return (
         <div>
-            <div className='px-6 md:px-10 lg:px-20 pt-[17rem] md:pt-[15rem] pb-10 bg-white'>
+            <div className='px-6 md:px-10 lg:px-20 pt-[17rem] pb-10 bg-white'>
                 <div className='w-full flex flex-col lg:flex-row lg:gap-10'>
                     <div className='w-full lg:w-2/3 lg:flex flex-col items-center justify-center text-center bg-[#E8D0FF] p-6 rounded-lg shadow-md'>
-                        <img src="/images/landing/ellipse-pink.png" alt="leader1" className='w-full max-w-sm md:max-w-xs lg:max-w-lg rounded-lg' />
+                        <img src="/images/landing/ellipse-pink.png" alt="leader1" className='w-full max-w-sm md:max-w-xs lg:max-w-lg rounded-lg p-5 lg:p-10' />
                         <p className='my-1'>This governance structure supports confidence among professionals, partners, and stakeholders.</p>
                     </div>
                     <div className='w-full flex flex-col items-center justify-center'>
@@ -272,14 +276,14 @@ const Reviews = () => {
             name: "JEREMAIH OGBONNA",
             role: "Co-founder/Chief Finance Officer, Career-nexus Ltd",
             content: "Career-Nexus recognises that careers today are no longer linear or location-bound. The platform provides the structure, insight, and exposure required to navigate modern work at a global level.",
-            comas: "“",
+            comas: "/images/landing/quote.png",
             image: "/images/landing/review1.png"
         },
         {
             name: "Dr. NOSIKE AGOKEI",
             role: "Board Chairman, Career-Nexus Ltd",
             content: "Career-Nexus is addressing one of the most critical challenges facing the global workforce today — the disconnect between education, skills, and real market opportunity.",
-            comas: "“",
+            comas: "/images/landing/quote.svg",
             image: "/images/landing/review2.png"
         }
     ];
@@ -290,16 +294,14 @@ const Reviews = () => {
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {reviews.map((review, index) => (
                     <div key={index} className="bg-[#F8FFF8] rounded-xl p-6 mb-4">
-                        <p className='font-bold text-5xl text-[#5DA05D]'>{review.comas}</p>
+                        <img src={review.comas} alt="quote" className='font-bold text-5xl text-[#5DA05D] mb-4' />
                         <p className="text-gray-900 font-medium">{review.content}</p>
-                        <div className="mt-4 flex gap-3 items-center">
-                            <div>
+                        {/* <div>
                                 <img src={review.image} alt="reviewer" />
-                            </div>
-                            <div>
-                                <p className="font-bold text-lg">{review.name}</p>
-                                <p className="text-gray-600">{review.role}</p>
-                            </div>
+                            </div> */}
+                        <div className="mt-4">
+                            <p className="font-bold text-lg">{review.name}</p>
+                            <p className="text-gray-600">{review.role}</p>
                         </div>
                     </div>
                 ))}
@@ -311,17 +313,17 @@ const Reviews = () => {
 
 const JoinUs = () => {
     return (
-        <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-10">
-            <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[450px] rounded-2xl overflow-hidden">
+        <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-10 relative z-0">
+            <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] rounded-2xl">
                 {/* Background Image */}
                 <img
                     src="/images/landing/rectangle.png"
                     alt="Join early access"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-2xl"
                 />
 
                 {/* Overlay Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
                     <h2 className="font-roboto font-bold text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] leading-tight text-white">
                         Join our early access community
                     </h2>
@@ -331,16 +333,17 @@ const JoinUs = () => {
                     </p>
 
                     {/* Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4 pointer-events-auto relative z-10">
                         <Link to="/signup"><button className="bg-white text-[#5DA05D] px-6 py-3 rounded-lg font-medium transition hover:bg-white/90">
                             Join Early Access
                         </button></Link>
-
-                        <Link to="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0Lm6SYbu3xyaB9OmwT9bO2ECy5RlmrRIjcS46mKinuDz9_hMW3PsCarJKcBt2MMivcGqFtJ-4n">
-                            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium transition hover:bg-white/10">
-                                Partner with Career-Nexus
-                            </button>
-                        </Link>
+                        <ConsultantDropdown
+                            buttonLabel="Partner With Career-Nexus"
+                            consultants={consultants}
+                            // buttonClassName="text-white bg-[#5DA05D] border-2 py-2 px-10 rounded-lg"
+                            buttonClassName="border border-white text-white px-6 py-3 rounded-lg font-medium transition hover:bg-white/10"
+                            dropdownWidth="md:w-96"
+                        />
                     </div>
 
                     <p className="mt-6 text-xs sm:text-sm text-white/70">

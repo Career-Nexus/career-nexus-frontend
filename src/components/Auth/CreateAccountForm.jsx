@@ -235,7 +235,7 @@ if (googleLoading) {
               {apiError.includes("email is already registered") && (
                 <span>
                   {" "}
-                  <Link to="/" className="text-[#5b9a68] hover:underline">
+                  <Link to="/login" className="text-[#5b9a68] hover:underline">
                     Click here to log in
                   </Link>
                 </span>
@@ -446,7 +446,7 @@ if (googleLoading) {
         <div className="text-center" style={{marginTop:"0.7rem"}}>
           <p className="text-sm text-gray-600">
             Already have an account?
-            <Link to="/" className="text-[#5b9a68] hover:underline ml-1">
+            <Link to="/login" className="text-[#5b9a68] hover:underline ml-1">
               Log in
             </Link>
           </p>

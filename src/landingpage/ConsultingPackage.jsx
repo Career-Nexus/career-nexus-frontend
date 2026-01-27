@@ -91,7 +91,7 @@ export default function ConsultingPackage() {
         Flexible and Cost-Effective <br />Consulting Packages "For Corporations"
       </h1>
 
-      <div className='md:flex gap-5 md:mx-20 mx-4' id='get-started'>
+      <div className='md:flex gap-5' id='get-started'>
         {items.map((item) => (
           <div
             key={item.id}

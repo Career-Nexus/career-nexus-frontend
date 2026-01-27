@@ -5,7 +5,11 @@ import { ImQuotesLeft } from "react-icons/im";
 const reviews = [
   {
     id: 1,
-    text: `I’ve had the pleasure of advising Career Nexus—an innovative workforce development organization dedicated to strengthening the UK economy by preparing young adults for meaningful and long-term career success. Their unique ecosystem connects employers, Mentors, Graduates and Job seekers to build a more inclusive and prepared workforce, and their impact on community development is clear. I’ve also known founder Samuel personally and can attest to his passion, vision, and commitment to driving positive outcomes for both employers and interns alike.`,
+    text: (
+      <>
+        I've had the pleasure of advising Career Nexus—an innovative workforce development organization dedicated to strengthening the UK economy by preparing young adults for meaningful and long-term career success. Their unique ecosystem connects employers, Mentors, Graduates and Job seekers to build a more inclusive and prepared workforce, and their impact on community development is clear. I've also known founder <strong>Samuel</strong> personally and can attest to his passion, vision, and commitment to driving positive outcomes for both employers and interns alike.
+      </>
+    ),
     name: "Khalid Hussain",
     role: "CEO, Swift BPO and Co-Founder, Business Owners Network – Birmingham",
     avatar: "/images/landing/khalid.png",
