@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { authService } from "../../../api/ApiServiceThree"
 import HeroSection from "../../../components/Auth/HeroSection"
+import MentorHero from "../../../components/Auth/MentorHero"
 import { LoadingIcon } from "../../../icons/icon"
 
 const MentorOtpVerification = () => {
@@ -124,7 +125,7 @@ const MentorOtpVerification = () => {
   return (
     <div className="grid grid-cols-12 min-h-screen">
       <div className="col-span-12 lg:col-span-7 hidden md:block ml-5">
-        <HeroSection />
+        <MentorHero />
       </div>
       <div className="col-span-12 lg:col-span-5 flex items-center justify-center py-8">
         <div className="bg-white rounded-lg p-8 max-w-md w-full">
