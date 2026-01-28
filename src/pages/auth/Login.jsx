@@ -194,11 +194,11 @@ useEffect(() => {
   }
 
   return (
-    <div className="grid grid-cols-12 pb-8 md:pb-0 md:max-h-[70vh] min-h-screen">
-      <div className="col-span-12 lg:col-span-7 hidden md:block ml-5">
+    <div className="grid grid-cols-12 pb-8 md:pb-0 h-screen overflow-hidden">
+      <div className="col-span-12 lg:col-span-6 hidden md:block">
         <HeroSection />
       </div>
-      <div className="col-span-12 lg:col-span-5 md:px-8 p-0 mb-0 md:max-h-[70vh]">
+      <div className="col-span-12 lg:col-span-6 md:px-8 p-0 mb-0 md:max-h-[70vh]">
         
         <div className="flex flex-col items-center justify-center min-h-screen bg-white px-12">
           

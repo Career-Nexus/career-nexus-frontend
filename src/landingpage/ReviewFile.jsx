@@ -24,7 +24,10 @@ const reviews = [
   },
   // {
   //   id: 3,
-  //   text: `Career-Nexus is responding to one of the defining challenges of the modern workforce: the widening gap between formal education, practical skills, and real economic opportunity. Their platform equips individuals to navigate complexity and remain competitive in a rapidly changing global economy.`,
+  //   text: `Career-Nexus is responding to one of the defining challenges of the modern workforce:
+  //   the widening gap between formal education, practical skills, and real economic opportunity. 
+  //    Their platform equips individuals to navigate complexity and remain competitive in a rapidly changing global economy. 
+  //    In this sense, Career-Nexus is not merely supporting career growth but helping to redefine how careers are built in the 21st century.`,
   //   name: "Simas Vysniauskas",
   //   role: "Sales Executive - Spendbase",
   //   avatar: "/images/landing/silmas.png",

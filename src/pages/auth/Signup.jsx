@@ -24,14 +24,14 @@ const Signup = () => {
   )
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="h-screen bg-white overflow-hidden">
       <div className="grid grid-cols-12 bg-white">
         {/* Left Column */}
-        <div className="col-span-12 lg:col-span-7 hidden md:block">
+        <div className="col-span-12 lg:col-span-6 hidden md:block">
           {activeTab ==='learner'? <HeroSection />:<MentorHero/>}
         </div>
         {/* Right Column */}
-        <div className="col-span-12 lg:col-span-5 py-6 bg-white w-full">
+        <div className="col-span-12 lg:col-span-6 py-6 bg-white w-full">
           <h1 className="text-2xl font-bold text-center mb-3 text-[#3a1c64]">
             Create Account
           </h1>

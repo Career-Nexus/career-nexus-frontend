@@ -587,9 +587,9 @@ export const MentorProfileSetup = () => {
                 <div className="sticky top-0 h-screen flex justify-center items-center bg-[#E6FFEB33]">
                     <div className="bg-[#E6FFEB33] rounded-lg w-full max-w-2xl">
                         <img
-                            src="/images/mentor-profile-img.png"
+                            src="/images/Pattern.png"
                             alt="Profile setup"
-                            className="w-full h-[600px] object-cover"
+                            className="w-full h-screen object-cover"
                         />
                     </div>
                 </div>
